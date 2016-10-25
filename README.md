@@ -12,9 +12,66 @@ The TestTrack system consists of the following components:
 * the [Chrome extension](https://github.com/Betterment/test_track_chrome_extension)
 
 ## Getting Started
-TODO
+
+### Requirements
+The list of requirements to configure a TestTrack server are:
+  * Ruby 2.2.3+
+  * Postgresql 9.4+
+
+### Installation
+1. `git clone https://github.com/Betterment/test_track`
+1. `bundle install`
+1. `bundle exec rake db:setup`
+1. `bundle exec rails server`
+
+At this point, you've got a working installation and can proceed to setting up the [Rails client](https://github.com/Betterment/test_track_rails_client) in order to create your first split.
+
+### Deployment
+TestTrack is designed to deploy as a conventional [12-factor](https://12factor.net/) application.
+
+Required environment variables:
+* `DATABASE_URL` -- the url to your Postgresql database server
+
+#### Configuration for JS Client
+In order to use the JS client, you will need to specify the set of hosts that will be making CORS requests to your TestTrack server. That can be set via the `WHITELIST_CORS_HOSTS` environment variable.
+
+```bash
+export WHITELIST_CORS_HOSTS=yoursite.example.org,othersite.example.org
+```
+
+#### Configuration for Chrome extension
+In order to use the TestTrack Chrome extension, you will need to set up the `BROWSER_EXTENSION_SHARED_SECRET` environment variable. [Details.](https://github.com/Betterment/test_track_chrome_extension#building-the-extension)
+
+## Managing your installation
+There are a few things that you will need to do in the TestTrack application:
+* Create `App`s -- client applications that will manage splits on your TestTrack server
+* Create `Admin`s -- users that can access the admin features of the TestTrack server
+* Manage splits using the admin features
+
+### Creating Apps
+In order to create spilts in your client applications, you will need to register that client application with your TestTrack server.
+
+```ruby
+> App.create!(name: "[myapp]", auth_secret: SecureRandom.urlsafe_base64(32)).auth_secret
+=> "[your new app password]"
+```
+
+This is the password that you should plug into your client application's `TEST_TRACK_API_URL`.
+
+### Creating Admins
+In order to access the admin features of the TestTrack server, you must create an `Admin` in your database.
+
+```ruby
+> Admin.create!(email: "myemail@example.org", password: "[something secret]")
+```
 
 ## Concepts
+
+## App
+A Rails application that manages Splits on the TestTrack server.
+
+## Admin
+A member of your team that administers the weightings of splits, deciding a the winning variant of a split, and uploading one-off visitor assignments.
 
 ## Visitor
 A person using your application.
