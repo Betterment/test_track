@@ -89,9 +89,3 @@ Variants are assigned pseudo-randomly to visitors based on their visitor IDs and
 
 ## IdentifierType
 A name for a customer identifier that is meaningful in your application, typically things that people sign up as, log in as.  They should be expressed in `snake_case` and conventionally are prefixed with the application name that the identifier is for, e.g. `myapp_user_id`, `myapp_lead_id`.
-
-## People using TestTrack
-TODO
-
-## Contributing
-TODO
