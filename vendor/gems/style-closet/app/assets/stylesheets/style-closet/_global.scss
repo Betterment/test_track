@@ -1,0 +1,26 @@
+*:focus {
+    outline: none;
+}
+
+a {
+    color: $bright-blue;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+        color: $blue;
+        text-decoration: none;
+    }
+}
+
+p strong {
+    font-weight: $font-bold;
+}
+
+.page-heading {
+    @extend %page-heading;
+}
+
+.warning {
+    @extend %warning;
+}

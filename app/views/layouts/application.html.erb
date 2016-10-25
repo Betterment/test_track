@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TestTrack Admin</title>
+  <%= favicon_link_tag '/favicon.ico' %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="<%= controller_name %> <%= action_name %> <%= yield :body_class %>">
+    <%= render 'layouts/header' %>
+    <%= yield :nav %>
+    <%= render 'layouts/flashes' unless flash.empty? %>
+
+    <div class="main-content">
+        <div class="container-fluid">
+            <%= yield %>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,172 @@
+@mixin column-width($column, $width) {
+    #{$column} {
+        width: $width;
+    }
+}
+
+@mixin column-format($column, $format) {
+    @if $format == 'text' {
+        #{$column} {
+            text-align: left;
+        }
+    }
+    @if $format == 'number' {
+        #{$column} {
+            text-align: right;
+        }
+    }
+
+    @if $format == 'editable' {
+        #{$column} {
+            text-align: center;
+        }
+    }
+}
+
+/*
+  mixin for generating a standard table
+*/
+@mixin standard-table($table-width, $widths...) {
+    margin-top: 35px;
+    width: $table-width;
+    border-collapse: separate;
+
+    td {
+        line-height: 1.3;
+    }
+
+    thead {
+        margin: 0 0 10px;
+
+        tr {
+            th {
+                @extend %column-header;
+                border-bottom: 1px solid $light-grey;
+            }
+        }
+    }
+
+    tbody tr {
+        &.table-group-divider {
+            background: $near-white;
+            border-bottom: 0;
+        }
+
+        .blank-table-row-title {
+            font-size: 1.8rem;
+            color: $near-black;
+            padding-top: 3rem;
+            padding-bottom: 2rem;
+            text-align: center;
+        }
+
+        .blank-table-row-body {
+            font-size: 1.6rem;
+            color: $darkest-grey;
+            text-align: center;
+            padding-bottom: 4.5rem;
+        }
+
+        td {
+            @extend %standard-row-section;
+            border-bottom: 1px solid $light-grey;
+
+            .sub-text {
+                @extend %sub-text;
+            }
+
+            .emphasized {
+                color: $near-black;
+                font-weight: $font-bold;
+            }
+
+            &.account {
+                div {
+                    margin: 0 0 4px;
+                }
+
+                .name {
+                    @extend %account-name;
+                }
+            }
+
+            &.table-group-label {
+                @extend %table-group-label;
+            }
+        }
+    }
+
+    tfoot tr td {
+        @extend %standard-row-section;
+        color: $near-black;
+        font-weight: $font-bold;
+    }
+
+    // define header and row widths
+    @for $i from 1 through length($widths) {
+        $var: "th:nth-child(#{$i}), td:nth-child(#{$i})";
+        @include column-width($var, nth($widths, $i));
+    }
+}
+
+/*
+  mixin for formatting simple table columns
+  accepted formats: 'text', 'number'
+*/
+@mixin standard-table-row-format($formats...) {
+    @for $i from 1 through length($formats) {
+        $var: "th:nth-child(#{$i}), td:nth-child(#{$i})";
+        @include column-format($var, nth($formats, $i));
+    }
+}
+
+%column-header {
+    @extend %h5;
+    padding: 0 5px 5px;
+}
+
+%standard-row-section {
+    position: relative;
+    padding: 15px 5px;
+    font-size: 16px;
+    color: $darkest-grey;
+}
+
+%sc-sortable-table-headers {
+    a {
+        &.asc, &.desc {
+            position: relative;
+
+            &:after {
+                position: absolute;
+                right: -0.75em;
+                top: 0;
+            }
+        }
+
+        &.asc {
+            @include pictogram("-", 110%, after)
+        }
+
+        &.desc {
+            @include pictogram("/", 110%, after)
+        }
+    }
+}
+
+.sc-sortable-table-headers {
+    @extend %sc-sortable-table-headers;
+}
+
+.sc-empty-table {
+    h4 {
+        text-align: center;
+        padding-top: 3rem;
+        padding-bottom: 2rem;
+    }
+
+    p {
+        text-align: center;
+        padding-bottom: 4.5rem;
+    }
+}

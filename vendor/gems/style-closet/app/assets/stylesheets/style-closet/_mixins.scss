@@ -1,0 +1,65 @@
+/*
+Better Mixins
+Style groups with power
+*/
+
+@mixin background-image-retina($file, $type: 'png', $width: 'auto', $height: 'auto', $path: $img-dir) {
+    background-image: url('#{$path}' + $file + '.' + $type);
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
+    only screen and (min--moz-device-pixel-ratio: 1.5),
+    only screen and (-o-min-device-pixel-ratio: 3/2),
+    only screen and (min-device-pixel-ratio: 1.5),
+    only screen and (min-resolution: 150dpi),
+    only screen and (min-resolution: 1.5dppx) {
+        background-image: url('#{$path}' + $file + '@2x.' + $type);
+    }
+}
+
+@mixin breakpoint($width, $measure: 'max-width') {
+    @media ($measure: $width) { @content; }
+}
+
+// Better centering. $direction options are vertical, horizontal, or all
+@mixin center($direction) {
+    position: absolute;
+
+    @if $direction == horizontal {
+        left: 50%;
+        @include transform(translateX(-50%));
+    }
+
+    @if $direction == vertical {
+        top: 50%;
+        @include transform(translateY(-50%));
+    }
+
+    @if $direction == all {
+        top: 50%;
+        left: 50%;
+        @include transform(translateX(-50%) translateY(-50%));
+    }
+}
+
+// Icons
+@mixin icon-font ($icon-size: 120%) {
+    // scss-lint:disable ImportantRule, VariableForProperty
+    font-family: 'ModernPictogramsPro' !important;
+    font-size: $icon-size;
+    line-height: 0.8;
+    text-transform: none;
+    text-decoration: none !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+}
+
+@mixin pictogram ($icon, $size: 120%, $position: 'before') {
+    &:#{$position} {
+        content: $icon;
+        @include icon-font($size);
+        line-height: 0.8;
+        @content;
+    }
+}

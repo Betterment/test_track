@@ -1,0 +1,10 @@
+<div class="flashes">
+  <% %w(alert notice error success).map { |type| [type, flash[type]] }.each do |key, value| %>
+    <% unless value.blank? %>
+        <%= content_tag(:div, :class => "alert alert-dismissable alert-#{key}") do %>
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+          <%= value %>
+        <% end %>
+    <% end %>
+  <% end %>
+</div>

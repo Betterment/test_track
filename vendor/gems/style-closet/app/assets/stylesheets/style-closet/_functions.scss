@@ -1,0 +1,4 @@
+// Define a function for getting things out of a multidimensional array.
+@function map-get-z($first, $second, $third) {
+    @return map-get(map-get($first, $second), $third);
+}

@@ -1,0 +1,20 @@
+<%
+  worker_count = Integer(ENV['PUMA_WORKER_COUNT'] || 0)
+  thread_count = Integer(ENV['PUMA_THREAD_COUNT'] || 5)
+%>
+default: &default
+  adapter: postgresql
+  encoding: unicode
+
+production: &env_var_config
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] %>
+  pool: <%= worker_count == 0 ? thread_count : worker_count * thread_count %>
+stage:
+  <<: *env_var_config
+test:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] || 'postgresql://localhost/test_track_test' %>
+development:
+  <<: *default
+  url: <%= ENV['DATABASE_URL'] || 'postgresql://localhost/test_track_development' %>

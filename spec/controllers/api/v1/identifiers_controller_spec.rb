@@ -1,0 +1,59 @@
+require 'rails_helper'
+
+RSpec.describe Api::V1::IdentifiersController, type: :controller do
+  describe "#create" do
+    let(:visitor) { FactoryGirl.create(:visitor) }
+    let(:identifier_type) { FactoryGirl.create(:identifier_type) }
+
+    let(:banana_split) { FactoryGirl.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }
+
+    it "responds with assigned variants for the visitor" do
+      FactoryGirl.create(:assignment,
+        visitor: visitor,
+        split: banana_split,
+        variant: "green",
+        context: "the_context",
+        mixpanel_result: "success")
+
+      post :create, visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123"
+
+      response_json['visitor'].tap do |visitor_json|
+        expect(visitor_json['id']).to eq visitor.id
+        expect(visitor_json['assignments'][0]['split_name']).to eq('banana')
+        expect(visitor_json['assignments'][0]['variant']).to eq('green')
+        expect(visitor_json['assignments'][0]['unsynced']).to eq(false)
+        expect(visitor_json['assignments'][0]['context']).to eq('the_context')
+      end
+    end
+
+    it "responds with mixpanel_failure_assignments for copied assignments" do
+      existing_visitor = FactoryGirl.create(:visitor)
+      FactoryGirl.create(:identifier, identifier_type: identifier_type, value: "123", visitor: existing_visitor)
+      FactoryGirl.create(:assignment,
+        visitor: visitor,
+        split: banana_split,
+        variant: "green",
+        context: "the_context",
+        mixpanel_result: "success")
+
+      post :create, visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123"
+
+      response_json['visitor'].tap do |visitor_json|
+        expect(visitor_json['id']).to eq existing_visitor.id
+        expect(visitor_json['assignments'][0]['split_name']).to eq('banana')
+        expect(visitor_json['assignments'][0]['variant']).to eq('green')
+        expect(visitor_json['assignments'][0]['unsynced']).to eq(true)
+        expect(visitor_json['assignments'][0]['context']).to eq('visitor_supersession')
+      end
+    end
+
+    it "responds with an error if given an invalid identifier_type" do
+      post :create, visitor_id: visitor.id, identifier_type: "Foobaloo", value: "123"
+
+      expect(response).to have_http_status :unprocessable_entity
+      expect(response_json).to eq(
+        "errors" => { "identifier_type" => ["does not exist"] }
+      )
+    end
+  end
+end

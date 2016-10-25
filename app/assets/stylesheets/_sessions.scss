@@ -1,0 +1,48 @@
+body.sessions {
+    background: $blue;
+
+    .top-bar {
+        border-bottom: 1px solid $blueberry;
+    }
+}
+
+section.sessions {
+    h1 {
+        margin-top: 100px;
+        margin-bottom: 25px;
+        text-align: center;
+        color: $white;
+    }
+
+    .new_performer {
+        width: 40%;
+        margin: auto;
+    }
+
+    label {
+      color: $white;
+    }
+
+    .login {
+      @extend .btn-default;
+      @extend .btn-block;
+      @extend .btn;
+      @extend .btn-lg;
+    }
+
+    .login-button-wrapper {
+      margin-top: 25px;
+      input {
+        width: 100%;
+        border: none;
+        background: $bright-blue;
+        color: $white;
+      }
+    }
+
+    p {
+      text-align: center;
+      margin: 25px 0;
+      color: $white;
+    }
+}

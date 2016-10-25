@@ -1,0 +1,57 @@
+/*
+Better Layout Definitions - variables for grid, z-indexes, and viewports
+*/
+
+// Sizes and padding
+$app-width: 1200px !default;
+$border-box-sizing: false !default;
+$corner-radius: 3px !default;
+
+// Grid math. Showing my work:
+// Setting up the base site width. Eventually we should deprecate this in favor of $max-width
+$max-width: $app-width;
+
+// Our original grid is 12 columns of 54px + 11 gutters of 30px.
+// Therefore the proportion of gutter:column is 30/54 or 5/9
+$gutter-proportion: 5 / 9;
+
+// For column size x and max-width y you can express the formula as:
+//      12x + 11x * (5/9) = y
+
+// If you solve for x you get: x = 9y/163
+$column: (9 * $max-width) / 163;
+
+// Then we use our original $gutter-proportion to get $gutter.
+$gutter: $column * $gutter-proportion;
+
+// And you said in 7th grade you'd never use algebra.
+
+// grid definitions
+$grid-column: percentage($column / $app-width); // 54px col in 978px grid
+$grid-gutter: percentage($gutter / $app-width); // 30px gutter in 978px grid
+
+// app component sizes
+$header-height:     70px;
+$fine-print:        10px;
+$flash-height:      43px;
+$logged-out-min-width: 400px;
+
+// z-indexes
+$modal-z-index:        100000;
+$loader-z-index:       18000;
+$tooltip-z-index:      15000; //qtip tooltips hardcoded at 15000
+$user-menu-z-index:    $tooltip-z-index - 1;
+$notification-z-index: $user-menu-z-index - 1;
+$flash-z-index:        $notification-z-index - 1;
+$flyover-z-index:      $flash-z-index - 1;
+$nav-z-index:          $flyover-z-index - 1;
+$ribbon-z-index:       $nav-z-index - 1;
+
+// viewport breakpoints
+$tinyish: 340px !default;
+$smallish: 500px !default;
+$small-plus: 675px !default;
+$mediumish: 780px !default;
+$largeish: 900px !default;
+$hugeish: 1120px !default;
+$giant: 1280px !default;

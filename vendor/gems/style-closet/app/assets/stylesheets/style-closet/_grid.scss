@@ -1,0 +1,22 @@
+// Betterment Grid System. This uses Neat (bourbon.io) with some custom generated classes
+// and mixins from previous 978.gs grid system.
+
+// Duct tape neat grid into existing 978gs classes and mixins we use
+
+@for $i from 1 through $grid-columns {
+    .col#{$i} {
+        @include span-columns($i of $grid-columns);
+    }
+}
+
+// Helper for centered grid columns
+@mixin center-columns($span) {
+    @include span-columns($span, block-collapse);
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+
+    &:last-child {
+        margin-right: auto;
+    }
+}

@@ -1,0 +1,54 @@
+%page-heading {
+    font-size: 1.875em;
+    font-weight: $font-regular;
+    color: $blueberry;
+    margin-top: 45px;
+    margin-bottom: 45px;
+    padding: 0;
+}
+
+%secondary-heading {
+    font-size: 1.5em;
+    font-weight: $font-regular;
+    color: $near-black;
+}
+
+%takeover-heading {
+    font-size: 2.25em;
+    font-weight: $font-light;
+    color: $near-black;
+}
+
+
+%large-dark-grey {
+    font-size: 1.125em;
+    color: $dark-grey;
+    font-weight: $font-regular;
+}
+
+%large-bright-blue {
+    font-size: 1.125em;
+    color: $bright-blue;
+    font-weight: $font-regular;
+}
+
+%sub-text {
+    font-size: 0.875em;
+    color: $darker-grey;
+    padding-top: 5px;
+}
+
+%account-name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 240px;
+    overflow-x: hidden;
+}
+
+%table-group-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    color: $near-black;
+    font-weight: $font-bold;
+    padding: 6px 5px 2px;
+}

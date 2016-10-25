@@ -1,0 +1,17 @@
+.header-with-rule-and-action {
+    @extend %clear-fix;
+    border-bottom: 2px solid $bright-blue;
+    padding: 0.625em 0;
+
+    @include display(flex);
+    align-items: baseline;
+
+    h1, h2, h3, h4, h5 {
+        @include flex(1 0 auto);
+        border: 0;
+    }
+
+    a {
+        @include flex(0 0 auto);
+    }
+}

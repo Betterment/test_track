@@ -1,0 +1,70 @@
+/*
+Better Color Definitions - main color palette, tickers, alternates, and derivatives
+*/
+
+// Brand core colors
+$blue:                            #17406B;
+$blueberry:                       #225b8c;
+$bright-blue:                     #1689e5;
+$light-blue:                      #90caf9;
+$slate-grey:                      #354355;
+
+// for use on b2b sites: institutional, 401k
+$b2b-blue:                        $blueberry;
+
+// Accent and graph colors
+$green:                           #7fb800;
+$dark-green:                      #035d0e !default;
+$orange:                          #fb7c00;
+$red:                             #ff3d00;
+$deep-red:                        #ba1117 !default;
+$purple:                          #942a89;
+$teal:                            #009999 !default;
+$yellow:                          #ffb400;
+
+// Greys
+$white:                           #ffffff;
+$near-white:                      #f9f9f9;
+$light-grey:                      #dddddd;
+$medium-grey:                     #999999;
+$dark-grey:                       #686868;
+$near-black:                      #333333;
+$black:                           #000000;
+
+
+// Deprecated Greys
+$darkest-grey:                    $dark-grey;
+$darker-grey:                     $medium-grey;
+$medium-dark-grey:                $medium-grey;
+$medium-light-grey:               $light-grey;
+$lighter-grey:                    $light-grey;
+$lightest-grey:                   $near-white;
+
+
+// ticker colors
+$vti:                             #bce577;
+$ive:                             #96d363;
+$iws:                             #74b503;
+$iwn:                             #50891e;
+$vea:                             #035d0e;
+$vwo:                             #0c3911;
+$shv:                             #e0edf9;
+$vtip:                            #add6ff;
+$agg:                             #70b8ff;
+$lqd:                             #1f8fff;
+$bndx:                            #005cb8;
+$vwob:                            #003366;
+
+// Derivative colors
+$darkest-blue:                    saturate(darken($blue, 5), 5);
+// Derivative colors
+$light-green:                     lighten($green, 20);
+$light-orange:                    saturate(lighten($orange, 25), 20);
+$light-red:                       lighten($red, 40);
+$bright-blue-light:               lighten($bright-blue, 25%);
+$drag-drop-confirmation:          lighten($light-green, 35);
+$upload-error-background:         lighten($red, 45);
+
+// Deprecated, be explicit when using RGBA
+$drop-shadow:                     rgba($black, 0.3);
+$white-one-tenth-opacity:         rgba($white, 0.10);

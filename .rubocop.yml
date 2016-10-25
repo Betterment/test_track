@@ -1,0 +1,101 @@
+# See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+# To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+
+require:
+  - ruby_spec_helpers/rubocop
+
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+    - 'vendor/**/*'
+    - 'frontend/**/*'
+    - 'build/**/*'
+  RunRailsCops: true
+  DisplayStyleGuide: true
+  DisplayCopNames: true
+
+Metrics/ClassLength:
+  Max: 250
+
+Metrics/ModuleLength:
+  Max: 250
+
+Metrics/AbcSize:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/LineLength:
+  Max: 140
+
+Metrics/MethodLength:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/AmbiguousOperator:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/AmbiguousRegexpLiteral:
+  Exclude:
+    - 'spec/**/*'
+
+Style/Documentation:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+Style/SymbolProc:
+  Enabled: false
+
+Style/CaseIndentation:
+  IndentOneStep: true
+
+Style/LambdaCall:
+  Exclude:
+    - 'app/views/**/*.jbuilder'
+
+Style/MissingElse:
+  Enabled: true
+  EnforcedStyle: case
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/AlignParameters:
+  Enabled: false
+
+Style/ClosingParenthesisIndentation:
+  Enabled: false
+
+Style/MultilineOperationIndentation:
+  EnforcedStyle: indented
+
+Style/PredicateName:
+  NamePrefix:
+    - is_
+  NamePrefixBlacklist:
+    - is_
+
+Style/Lambda:
+  Enabled: false
+
+Rails/FindEach:
+  Enabled: false
+
+Style/GuardClause:
+  Enabled: false

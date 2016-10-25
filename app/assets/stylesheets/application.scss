@@ -1,0 +1,119 @@
+$asset-pipeline: true; //pull font urls correctly
+@import "style-closet";
+@import "bootstrap";
+@import "header";
+@import "sessions";
+
+body {
+  background: $near-white;
+  font-family: $primary-font-stack;
+  padding-bottom: 10%;
+
+  h1 {
+    font-weight: $font-light;
+    font-size: 36px;
+    color: $near-black;
+  }
+
+  h2 {
+    font-size: 13px;
+    font-weight: $font-bold;
+    text-transform: uppercase;
+    color: $near-black;
+    margin: 20px 0px;
+  }
+}
+
+.main-content {
+  max-width: $app-width;
+  margin: auto;
+}
+
+.alert-notice {
+  @extend .alert-success;
+}
+
+.alert-error, .alert-alert {
+  @extend .alert-danger;
+}
+
+table {
+  @extend .table;
+  @extend .table-hover;
+  &.borderless {
+    td {
+      border-top: none;
+      padding-top: 4px;
+      padding-bottom: 4px;
+
+    }
+    tbody + tbody {
+      border-top: none;
+    }
+  }
+
+  th {
+    font-weight: bold;
+  }
+}
+
+h1.page-title {
+  margin: 40px 0px;
+}
+
+ol li {
+  margin-left: 20px;
+  list-style-type: decimal;
+}
+
+.emphasis {
+  font-style: italic;
+}
+
+.split-decision {
+  .flag {
+    font-size: 24px;
+    vertical-align: -4px;
+  }
+}
+
+.card {
+  border-radius: $corner-radius;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  background: $white;
+  border: 0;
+  margin-bottom: 25px;
+  $card-padding: 25px;
+  $thin-card-padding: 8px;
+
+  .common-top {
+    border-bottom: 1px solid $light-grey;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .top {
+    @extend .common-top;
+    padding: $card-padding;
+
+  }
+
+  .thin-top {
+    @extend .common-top;
+    padding: $thin-card-padding;
+  }
+
+  .bottom {
+    margin-top: 20px;
+
+    &.full {
+      float: none;
+      width: auto;
+      padding-bottom: 20px;
+    }
+  }
+
+  .action-form {
+    padding: $card-padding;
+  }
+}

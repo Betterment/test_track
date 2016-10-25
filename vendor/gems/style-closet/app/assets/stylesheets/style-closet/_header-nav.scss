@@ -1,0 +1,194 @@
+.sc-header {
+    @extend %sc-typography;
+    @include display(flex);
+    @include align-items(center);
+    @extend %box-sizing;
+    padding: 0 1.5em;
+
+    &.fill-bg {
+        background-color: $blue;
+    }
+
+    &.knockout-bg {
+        background-color: transparent;
+    }
+
+    &.advisor-bg {
+        background-color: $slate-grey;
+    }
+
+    .logo, .menu-items, .user-options, .menu-actions {
+        @include flex(0 0 auto);
+        height: 70px;
+    }
+
+    .menu-group {
+        @include display(inline-flex);
+        list-style-type: none;
+        height: 100%;
+
+        > li {
+            position: relative;
+            @include flex(0 1 auto);
+            display: inline-block;
+            height: 100%;
+
+            > a {
+                padding: calc((70px - 1em) / 2) 1.5em;
+                display: inline-block;
+                height: 100%;
+                line-height: 1.6rem;
+            }
+        }
+    }
+
+
+    .logo {
+        overflow: hidden;
+        margin-right: 2em;
+
+        a {
+            display: inline-block;
+            padding: 26px 0;
+        }
+
+        &.shrinkable {
+            @include breakpoint($giant) {
+                margin-right: 1em;
+
+                a {
+                    width: 24px;
+                }
+            }
+        }
+
+        svg {
+            display: block;
+            width: 130px;
+            height: 18px;
+            fill: $white;
+        }
+
+        figcaption {
+            @extend %hide-text;
+            height: 1px;
+            margin-top: -1px;
+        }
+    }
+
+    .menu-item {
+        font-size: 1.2rem;
+        @extend %small-caps;
+        font-weight: $font-heavy;
+        color: $white;
+        display: inline-block;
+        height: 100%;
+
+        &:hover, &.active {
+            color: $light-blue;
+        }
+    }
+
+    .menu-actions {
+        margin-left: auto;
+        @include display(inline-flex);
+        @include align-items(center);
+    }
+
+    .menu-action {
+        @include flex(0 1 auto);
+        margin-left: 1em;
+        @extend %button;
+        @extend %button-small;
+
+        &:not(:last-child) {
+            margin-right: 0;
+        }
+
+        &.log-in {
+            @extend %button-secondary-knockout;
+            @extend %button-small;
+
+        }
+
+        &.sign-up {
+            @extend %button-priority;
+            @extend %button-small;
+        }
+    }
+
+    .user-options {
+        margin-left: auto;
+        margin-right: -1.5em;
+    }
+
+    .user-option {
+        color: $white;
+        font-size: 1.5rem;
+        font-weight: $font-bold;
+
+
+        &:hover, &.active {
+            color: $light-blue;
+        }
+
+        &.icon {
+            padding: 26px 1em 24px;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                stroke: $white;
+                fill: $white;
+            }
+
+            &:hover svg, &.active svg {
+                stroke: $light-blue;
+                fill: $light-blue;
+            }
+        }
+    }
+
+
+    .dropdown > a {
+        @include pictogram('\201D', 175%, after) {
+            line-height: 0;
+            vertical-align: middle;
+            margin-left: 0.5em;
+        }
+    }
+
+    .hover-menu {
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        margin-top: -5px;
+        @include transition(all 0.25s linear);
+        position: absolute;
+        top: 67px;
+        background-color: $white;
+        border-top: 3px solid $bright-blue;
+        padding: 0.5em 0;
+        box-shadow: 0 3px 15px rgba($black, 0.1);
+
+        .dropdown-item {
+            display: block;
+            padding: 1em 1.5em;
+            @extend %small-caps;
+            color: $dark-grey;
+            font-size: 0.75em;
+            white-space: nowrap;
+
+            &:hover {
+                color: $bright-blue;
+            }
+        }
+    }
+
+    .dropdown:hover > .hover-menu {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        margin-top: 0;
+    }
+}
