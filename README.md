@@ -1,6 +1,6 @@
 # TestTrack
 
-[![Build Status](https://magnum.travis-ci.com/Betterment/test_track.svg?token=sNaLMCvTggR3ihbnQ2GE&branch=master)](https://magnum.travis-ci.com/Betterment/test_track)
+[![Build Status](https://travis-ci.org/Betterment/test_track.svg?branch=master)](https://travis-ci.org/Betterment/test_track)
 
 TestTrack is an open-source split-testing and feature-toggling system written in Ruby on Rails.
 
