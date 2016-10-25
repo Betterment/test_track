@@ -49,7 +49,7 @@ There are a few things that you will need to do in the TestTrack application:
 * Manage splits using the admin features
 
 ### Creating Apps
-In order to create spilts in your client applications, you will need to register that client application with your TestTrack server.
+In order to create spilts in your client applications, you will need to register that client application with your TestTrack server. Run the following in a rails console.
 
 ```ruby
 > App.create!(name: "[myapp]", auth_secret: SecureRandom.urlsafe_base64(32)).auth_secret
@@ -59,7 +59,7 @@ In order to create spilts in your client applications, you will need to register
 This is the password that you should plug into your client application's `TEST_TRACK_API_URL`.
 
 ### Creating Admins
-In order to access the admin features of the TestTrack server, you must create an `Admin` in your database.
+In order to access the admin features of the TestTrack server, you must create an `Admin` in your database. Run the following in a rails console.
 
 ```ruby
 > Admin.create!(email: "myemail@example.org", password: "[something secret]")
