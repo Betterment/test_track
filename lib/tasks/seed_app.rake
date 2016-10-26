@@ -7,7 +7,7 @@ task :seed_app, [:app_name] do |_, opts|
     next
   end
 
-  existing_apps = File.exists?(seed_app_filename) ? YAML.load_file(seed_app_filename) : {}
+  existing_apps = File.exist?(seed_app_filename) ? YAML.load_file(seed_app_filename) : {}
   auth_secret = "#{app_name}_development_#{SecureRandom.urlsafe_base64(32)}"
 
   existing_apps[app_name] = auth_secret
