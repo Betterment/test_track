@@ -122,7 +122,7 @@ A name for a customer identifier that is meaningful in your application, typical
 
 ## How to Contribute
 
-We encourage contributions of all sizes! Everything from typo fixes to entirely new features are fair game, as long as it will benefit the majority of test_track users.
+We would love for you to contribute! Anything that benefits the majority of `test_track` users—from a documentation fix to an entirely new feature—is encouraged.
 
 Before diving in, [check our issue tracker](/Betterment/test_track_rails_client/issues) and consider creating a new issue to get early feedback on your proposed change.
 
