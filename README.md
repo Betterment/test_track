@@ -84,8 +84,9 @@ having uncommitted changes on your local checkout. That way it's easier
 to contribute to TestTrack, and stay on the latest version of the open
 source product.
 
-You can use a configuration management tool like `boxen` to install
-TestTrack and inject a custom `seed_apps.yml` file for your team.
+You can use a configuration management tool like
+[`boxen`](https://github.com/boxen/our-boxen) to install TestTrack and
+inject a custom `seed_apps.yml` file for your team.
 
 ### Creating Admins
 In order to access the admin features of the TestTrack server, you must create an `Admin` in your database. Run the following in a rails console.
