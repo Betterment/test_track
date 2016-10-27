@@ -124,7 +124,7 @@ A name for a customer identifier that is meaningful in your application, typical
 
 We would love for you to contribute! Anything that benefits the majority of `test_track` users—from a documentation fix to an entirely new feature—is encouraged.
 
-Before diving in, [check our issue tracker](/Betterment/test_track_rails_client/issues) and consider creating a new issue to get early feedback on your proposed change.
+Before diving in, [check our issue tracker](/Betterment/test_track/issues) and consider creating a new issue to get early feedback on your proposed change.
 
 ### Suggested Workflow
 
