@@ -20,3 +20,4 @@
 /spec/error_screenshots/
 .idea
 /.powenv
+/db/seed_apps.yml

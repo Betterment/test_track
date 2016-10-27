@@ -58,6 +58,36 @@ In order to create spilts in your client applications, you will need to register
 
 This is the password that you should plug into your client application's `TEST_TRACK_API_URL`.
 
+#### Seeding Apps For Local Development
+At Betterment, we run TestTrack in every environment, including our
+laptops, which enables engineers to override splits with the Chrome
+extension while they code.
+
+TestTrack provides a Rake task to make it easier to set up apps that
+automatically get reloaded whenever you recreate your TestTrack
+database. If you want to add a rails app called `widget_maker` to
+TestTrack, run:
+
+```shell
+rake seed_app[widget_maker]
+```
+
+This will do three things:
+* Find or create a file called `db/seed_apps.yml`
+* Find or create an entry in it for your app name and set a randomly
+  generated `auth_secret`
+* Run `rake db:seed`, which reloads your seed apps into the database
+
+Note that `db/seed_apps.yml` is `.gitignore`d so you can run TestTrack
+locally without having a private copy of the `test_track` repository or
+having uncommitted changes on your local checkout. That way it's easier
+to contribute to TestTrack, and stay on the latest version of the open
+source product.
+
+You can use a configuration management tool like
+[boxen](https://github.com/boxen/our-boxen) to install TestTrack and
+inject a custom `seed_apps.yml` file for your team.
+
 ### Creating Admins
 In order to access the admin features of the TestTrack server, you must create an `Admin` in your database. Run the following in a rails console.
 
