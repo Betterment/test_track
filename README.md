@@ -85,7 +85,7 @@ to contribute to TestTrack, and stay on the latest version of the open
 source product.
 
 You can use a configuration management tool like
-[`boxen`](https://github.com/boxen/our-boxen) to install TestTrack and
+[boxen](https://github.com/boxen/our-boxen) to install TestTrack and
 inject a custom `seed_apps.yml` file for your team.
 
 ### Creating Admins
