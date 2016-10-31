@@ -4,6 +4,12 @@
 
 TestTrack is an open-source split-testing and feature-toggling system written in Ruby on Rails.
 
+Betterment introduced TestTrack as an open source product at the Rails at Scale meetup in NYC on October 25, 2016.
+
+Check out [the Rails at Scale talk](https://www.youtube.com/watch?v=mRGSwzUrCCo) for some background on why we built it and some of the key design decisions behind TestTrack:
+
+[![Rails @ Scale Talk](https://img.youtube.com/vi/mRGSwzUrCCo/0.jpg)](https://www.youtube.com/watch?v=mRGSwzUrCCo)
+
 The TestTrack system consists of the following components:
 
 * the server (this repository)
