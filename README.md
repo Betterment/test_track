@@ -8,9 +8,9 @@ TestTrack is an open-source split-testing and feature-toggling system written in
 
 * Uses a stateful server to provide consistent experiences for customers across devices, and allow for bulk assignment overrides.
 * Rich client libraries available for multiple platforms optimized to minimize time-to-glass and gracefully degrade if the server is unavailable.
-* Designed to streamline developer and PM workflow - focussing on designing and running your tests, not the plumbing, and reducing incidence of implementation mistakes that can hurt your data.
+* Designed to streamline developer and PM workflow - focusing on designing and running your tests, not the plumbing, and reducing incidence of implementation mistakes that can hurt your data.
 * Provides an optional Chrome extension to allow your team to interactively override their split assignments.
-* TestTrack is not an analysis tool. It focusses on fast, trustworthy, and robust split assignment and identity management, leaving analysis to the great tools that already exist, and those that are yet to come.
+* TestTrack is not an analysis tool. It focuses on fast, trustworthy, and robust split assignment and identity management, leaving analysis to the great tools that already exist, and those that are yet to come.
 
 Check out [the Rails at Scale talk](https://www.youtube.com/watch?v=mRGSwzUrCCo) for some background on why we built it and some of the key design decisions behind TestTrack:
 
