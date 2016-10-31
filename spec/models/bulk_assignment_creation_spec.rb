@@ -176,11 +176,44 @@ RSpec.describe BulkAssignmentCreation do
       expect(previous_assignments.find_by(variant: "yes").bulk_assignment).to be_nil
     end
 
-    it "assigns the specified population to the same variant" do
-      bulk_assign_create = subject.tap(&:save)
+    context 'when variant is specified' do
+      it "assigns the specified population to the same variant" do
+        bulk_assign_create = subject.tap(&:save)
 
-      expect(bulk_assign_create.variant).to eq "no"
-      expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
+        expect(bulk_assign_create.variant).to eq "no"
+        expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
+      end
+    end
+
+    context 'when variant is left blank' do
+      let(:create_params) do
+        {
+          identifiers_listing: ids_csv,
+          identifier_type_id: identifier_type.id,
+          variant: nil,
+          reason: "because i felt like it",
+          split: split,
+          admin: admin,
+          force_identifier_creation: '1'
+        }
+      end
+      let(:ids_csv) { ((0..10).map(&:to_s) + ["22", "5092", "1bc12fa6-6c5b-47a4-b500-82b4e271520f"]).join(',') }
+
+      before do
+        (0..10).each do |i|
+          visitor = FactoryGirl.create(:visitor)
+          FactoryGirl.create(:identifier, visitor: visitor, identifier_type_id: identifier_type.id, value: i.to_s)
+        end
+      end
+
+      it 'creates real assignments' do
+        bulk_assign_create = subject.tap(&:save)
+
+        bulk_assign_create.bulk_assignment.assignments.each do |a|
+          expected_variant = VariantCalculator.new(visitor_id: a.visitor_id, split: subject.split).variant
+          expect(a.variant).to eq expected_variant
+        end
+      end
     end
 
     it "creates new Visitors and Identifiers for unidentified ids" do
