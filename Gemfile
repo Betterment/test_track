@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.2.7'
+gem 'rails', '>= 4.2.7', '< 5'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -23,7 +23,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'puma', '~> 2.14'
-gem 'nokogiri', '~> 1.6.6.2'
+gem 'nokogiri'
 
 gem 'responders'
 
@@ -35,7 +35,7 @@ gem 'le'
 
 gem 'newrelic_rpm'
 
-gem 'devise'
+gem 'devise', '>= 3.5.4', '< 4'
 gem 'omniauth-saml'
 
 gem 'simple_form'
