@@ -32,18 +32,18 @@ The list of requirements to configure a TestTrack server are:
 
 ### Installation
 
-## Option 1: Deploy to heroku:
+#### Option 1: Deploy to heroku:
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-## Option 2: Deploy to your machine:
+#### Option 2: Deploy to your machine:
 
 1. `git clone https://github.com/Betterment/test_track`
 1. `bundle install`
 1. `bundle exec rake db:setup`
 1. `bundle exec rails server`
 
-## Either way:
+#### Either way:
 
 At this point, you've got a working installation and can proceed to setting up the [Rails client](https://github.com/Betterment/test_track_rails_client) in order to create your first split.
 
