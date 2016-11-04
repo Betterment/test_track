@@ -1,6 +1,7 @@
 # TestTrack
 
 [![Build Status](https://travis-ci.org/Betterment/test_track.svg?branch=master)](https://travis-ci.org/Betterment/test_track)
+[![Slack Status](https://testtrack-slackin.herokuapp.com/badge.svg)](https://testtrack-slackin.herokuapp.com)
 
 TestTrack is an open-source split-testing and feature-toggling system written in Ruby on Rails.
 
