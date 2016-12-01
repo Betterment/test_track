@@ -1,6 +1,6 @@
 class Admin::SplitsController < AuthenticatedAdminController
   def index
-    @splits = Split.active
+    @splits = Split.active.order(:name)
   end
 
   def show
