@@ -6,7 +6,9 @@ class Admin::DecisionsController < AuthenticatedAdminController
 
   def create
     @split = Split.find params[:split_id]
-    @decision = @split.create_decision!(create_params)
+    Split.transaction do # FIXME: This makes sure this controller either succeeds or fails atomically until we can async the work
+      @decision = @split.create_decision!(create_params)
+    end
     flash[:success] = "Reassigned #{@decision.count} visitors to #{@decision.variant}"
     redirect_to admin_split_path(@split)
   end
