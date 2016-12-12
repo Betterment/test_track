@@ -32,9 +32,9 @@ class Decision
   end
 
   def reassign_existing_assignments
-    transaction do
-      bulk_assignment.save!
-      BulkReassignment.create!(assignments: existing_assignments, bulk_assignment: bulk_assignment)
+    bulk_assignment.save!
+    existing_assignments.find_in_batches do |subset|
+      BulkReassignment.create!(assignments: subset, bulk_assignment: bulk_assignment)
     end
   end
 
