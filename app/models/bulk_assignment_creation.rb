@@ -7,7 +7,7 @@ class BulkAssignmentCreation
 
   validates :identifiers_listing, presence: true, allow_blank: false
   validates :identifier_type_id, presence: true, allow_blank: false
-  validates :variant, presence: true, allow_blank: false
+  validates :variant, presence: true, allow_blank: true
   validates :reason, presence: true, allow_blank: false, length: { minimum: 5, message: "must provide a valid reason for bulk assignment" }
 
   validate :most_identifiers_must_exist
@@ -19,7 +19,7 @@ class BulkAssignmentCreation
 
     Assignment.transaction do
       bulk_assignment.save!
-      BulkReassignment.create!(assignments: existing_assignments, bulk_assignment: bulk_assignment)
+      BulkReassignment.create!(assignments: existing_assignments, bulk_assignment: bulk_assignment) if variant
       assignment_creations.each(&:save!)
     end
     true
@@ -67,12 +67,20 @@ class BulkAssignmentCreation
 
   def assignment_creations
     @assignment_creations ||= unassigned_identifiers.map do |identifier|
-      ArbitraryAssignmentCreation.new(
-        visitor_id: identifier.visitor_id,
-        split_name: split.name,
-        variant: variant,
-        bulk_assignment_id: bulk_assignment.id
-      )
+      if variant.present?
+        ArbitraryAssignmentCreation.new(
+          visitor_id: identifier.visitor_id,
+          split_name: split.name,
+          variant: variant,
+          bulk_assignment_id: bulk_assignment.id
+        )
+      else
+        DeterministicAssignmentCreation.new(
+          visitor_id: identifier.visitor_id,
+          split_name: split.name,
+          bulk_assignment_id: bulk_assignment.id
+        )
+      end
     end
   end
 

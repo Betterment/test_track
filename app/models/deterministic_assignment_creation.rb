@@ -8,6 +8,7 @@ class DeterministicAssignmentCreation
     @split_name = params[:split_name]
     @mixpanel_result = params[:mixpanel_result]
     @context = params[:context]
+    @bulk_assignment_id = params[:bulk_assignment_id]
     raise "Deterministic assignments must not specify a variant." if params[:variant]
   end
 
@@ -21,7 +22,8 @@ class DeterministicAssignmentCreation
       split_name: split_name,
       variant: variant,
       mixpanel_result: mixpanel_result,
-      context: context)
+      context: context,
+      bulk_assignment_id: bulk_assignment_id)
   end
 
   def variant

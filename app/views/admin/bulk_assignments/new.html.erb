@@ -28,7 +28,7 @@
         <%= f.input :identifier_type_id, wrapper_html: { class: "col-sm-4" }, label: 'Identified By', collection: identifier_types, label_method: :name, value_method: :id, include_blank: true %>
     </div>
     <div class="row">
-        <%= f.input :variant, wrapper_html: { class: "col-sm-4" }, label: 'To Variant', collection: @split.variants, include_blank: true %>
+        <%= f.input :variant, wrapper_html: { class: "col-sm-4" }, label: 'To Variant (if left blank, will assign as if the visitor experienced the split, and will not overwrite existing assignments)', collection: @split.variants, include_blank: true %>
     </div>
     <div class="row">
         <%= f.input :reason, placeholder: "e.g. Turn FeatureX on", wrapper_html: { class: "col-sm-6" } %>
