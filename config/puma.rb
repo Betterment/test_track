@@ -11,8 +11,6 @@ else
   thread_count = Integer(ENV.fetch('PUMA_THREAD_COUNT'))
   threads thread_count, thread_count
   bind 'unix:///var/run/puma/testtrack.sock'
-  daemonize true
-  pidfile '/var/run/puma/testtrack.pid'
 end
 
 preload_app!
