@@ -16,6 +16,4 @@ COPY . .
 
 RUN bundle install --binstubs
 
-EXPOSE 3000
-
-# CMD rails s -p 3000
+CMD puma -C config/puma.rb
