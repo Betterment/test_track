@@ -45,6 +45,10 @@ gem 'attribute_normalizer', '~> 1.2.0'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'style_closet', path: 'vendor/gems/style-closet'
 
+gem 'foreman'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+
 group :development, :test do
   gem 'simplecov', require: false
   gem 'pry-rails'
