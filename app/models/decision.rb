@@ -19,7 +19,7 @@ class Decision
   end
 
   def count
-    raise "count unavailable for unsaved Decision" unless bulk_assignment
+    raise "count unavailable for unsaved Decision" unless bulk_assignment.persisted?
     bulk_assignment.assignments.count
   end
 

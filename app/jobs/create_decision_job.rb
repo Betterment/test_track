@@ -1,5 +1,5 @@
 class CreateDecisionJob < ActiveJob::Base
-  def perform(split, params)
-    split.create_decision!(params)
+  def perform(split, attrs)
+    split.create_decision!(attrs)
   end
 end
