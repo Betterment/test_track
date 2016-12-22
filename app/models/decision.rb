@@ -9,8 +9,6 @@ class Decision
 
   validate :variant_belongs_to_split
 
-  delegate :transaction, to: BulkAssignment
-
   def save!
     raise errors.full_messages.to_sentence unless valid?
 
@@ -21,7 +19,7 @@ class Decision
   end
 
   def count
-    raise "count unavailable for unsaved Decision" unless bulk_assignment
+    raise "count unavailable for unsaved Decision" unless bulk_assignment.persisted?
     bulk_assignment.assignments.count
   end
 

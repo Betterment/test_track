@@ -35,5 +35,7 @@ module TestTrack
     config.log_tags = [:host, :uuid]
 
     config.cache_store = :memory_store
+
+    config.active_job.queue_adapter = :delayed_job
   end
 end

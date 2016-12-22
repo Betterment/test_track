@@ -5,21 +5,15 @@ class Admin::DecisionsController < AuthenticatedAdminController
   end
 
   def create
-    @split = Split.find params[:split_id]
-    Split.transaction do # FIXME: This makes sure this controller either succeeds or fails atomically until we can async the work
-      @decision = @split.create_decision!(create_params)
-    end
-    flash[:success] = "Reassigned #{@decision.count} visitors to #{@decision.variant}"
-    redirect_to admin_split_path(@split)
+    split = Split.find params[:split_id]
+    CreateDecisionJob.perform_later(split, variant: target_variant, admin: current_admin)
+    flash[:success] = "Queued decision to reassign all visitors to #{target_variant}"
+    redirect_to admin_split_path(split)
   end
 
   private
 
-  def create_params
-    create_form_params.merge(admin: current_admin, split: @split)
-  end
-
-  def create_form_params
-    params.require(:decision).permit(:variant)
+  def target_variant
+    params.require(:decision).permit(:variant).fetch(:variant)
   end
 end
