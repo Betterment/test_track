@@ -9,8 +9,6 @@ class Decision
 
   validate :variant_belongs_to_split
 
-  delegate :transaction, to: BulkAssignment
-
   def save!
     raise errors.full_messages.to_sentence unless valid?
 

@@ -36,6 +36,12 @@ RSpec.describe 'split decision flow' do
     end
 
     expect(split_page).to be_displayed
+    expect(split_page).to have_content "Queued decision"
+
+    Delayed::Worker.new.work_off
+
+    split_page.load split_id: split.id
+    expect(split_page).to be_displayed
 
     expect(Assignment.where(variant: "hammer_time").count).to eq 0
     expect(Assignment.where(variant: "touch_this").count).to eq 5
