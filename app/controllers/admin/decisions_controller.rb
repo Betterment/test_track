@@ -5,20 +5,13 @@ class Admin::DecisionsController < AuthenticatedAdminController
   end
 
   def create
+    split = Split.find params[:split_id]
     CreateDecisionJob.perform_later(split, variant: target_variant, admin: current_admin)
-    flash[:success] = "Queued decision to reassign #{affected_assignments_count} visitors to #{target_variant}"
+    flash[:success] = "Queued decision to reassign all visitors to #{target_variant}"
     redirect_to admin_split_path(split)
   end
 
   private
-
-  def affected_assignments_count
-    @affected_assignments_count ||= split.assignments.where.not(variant: target_variant).count
-  end
-
-  def split
-    @split ||= Split.find params[:split_id]
-  end
 
   def target_variant
     params.require(:decision).permit(:variant).fetch(:variant)
