@@ -44,6 +44,10 @@ The list of requirements to configure a TestTrack server are:
 1. `bundle exec rake db:setup`
 1. `bundle exec rails server`
 
+#### Option 3: Deploy with Docker
+1. `cp .env.dist .env`
+1. `docker-compose up`
+
 #### Either way:
 
 At this point, you've got a working installation and can proceed to setting up the [Rails client](https://github.com/Betterment/test_track_rails_client) in order to create your first split.
