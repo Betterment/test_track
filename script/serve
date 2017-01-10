@@ -1,0 +1,7 @@
+#!/bin/sh
+
+echo "Checking for installed dependencies"
+bundle check || bundle install --binstubs
+
+echo "Starting Puma"
+bin/puma -C config/puma.rb

@@ -10,10 +10,4 @@ RUN mkdir -p $INSTALL_PATH
 
 WORKDIR $INSTALL_PATH
 
-COPY Gemfile Gemfile.lock ./
-
-COPY vendor $INSTALL_PATH/vendor
-
-RUN bundle install --binstubs
-
-CMD puma -C config/puma.rb
+ENV BUNDLE_PATH /bundle
