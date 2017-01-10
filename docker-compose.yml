@@ -2,18 +2,23 @@ version: '2'
 
 services:
   db:
+    restart: 'always'
     image: 'postgres:9.5'
     ports:
       - '5432:5432'
     volumes:
       - 'db:/var/lib/postgresql/data'
   app:
+    restart: 'always'
     depends_on:
       - 'db'
     build: .
     ports:
       - '3000:3000'
-    env_file: '.env'
+    volumes:
+      - '.:/test_track'
+    environment:
+      - DATABASE_URL=postgresql://postgres@db/test_track_development
 
 volumes:
   db:

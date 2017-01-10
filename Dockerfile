@@ -12,7 +12,7 @@ WORKDIR $INSTALL_PATH
 
 COPY Gemfile Gemfile.lock ./
 
-COPY . .
+COPY vendor $INSTALL_PATH/vendor
 
 RUN bundle install --binstubs
 
