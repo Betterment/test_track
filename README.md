@@ -45,7 +45,6 @@ The list of requirements to configure a TestTrack server are:
 1. `bundle exec rails server`
 
 #### Option 3: Deploy with Docker
-1. `cp .env.dist .env`
 1. `docker-compose up`
 
 #### Either way:
