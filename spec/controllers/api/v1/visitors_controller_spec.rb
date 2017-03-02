@@ -45,7 +45,6 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
             "context" => "context_a"
           )
         )
-
         expect(response_json["assignments"]).to include(
           hash_including(
             "split_name" => "two",
