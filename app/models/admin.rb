@@ -3,7 +3,7 @@ class Admin < ActiveRecord::Base
 
   class << self
     def from_saml(auth)
-      lookup_admin(email: auth["uid"], full_name: auth["info"]["name"], provider: "SAML")
+      lookup_admin(email: auth["uid"].downcase, full_name: auth["info"]["name"], provider: "SAML")
     end
 
     private
