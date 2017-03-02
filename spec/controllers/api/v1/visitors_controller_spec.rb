@@ -36,18 +36,32 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
 
         expect(response).to have_http_status :ok
         expect(response_json["id"]).to eq(visitor.id)
-        expect(response_json["assignments"][0]["split_name"]).to eq("one")
-        expect(response_json["assignments"][0]["variant"]).to eq("control")
-        expect(response_json["assignments"][0]["unsynced"]).to eq(false)
-        expect(response_json["assignments"][0]["context"]).to eq("context_a")
-        expect(response_json["assignments"][1]["split_name"]).to eq("two")
-        expect(response_json["assignments"][1]["variant"]).to eq("treatment")
-        expect(response_json["assignments"][1]["unsynced"]).to eq(false)
-        expect(response_json["assignments"][1]["context"]).to eq("context_b")
-        expect(response_json["assignments"][2]["split_name"]).to eq("allow_signup")
-        expect(response_json["assignments"][2]["variant"]).to eq("true")
-        expect(response_json["assignments"][2]["unsynced"]).to eq(true)
-        expect(response_json["assignments"][2]["context"]).to eq("context_c")
+        expect(response_json["assignments"].length).to eq 3
+        expect(response_json["assignments"]).to include(
+          hash_including(
+            "split_name" => "one",
+            "variant" => "control",
+            "unsynced" => false,
+            "context" => "context_a"
+          )
+        )
+
+        expect(response_json["assignments"]).to include(
+          hash_including(
+            "split_name" => "two",
+            "variant" => "treatment",
+            "unsynced" => false,
+            "context" => "context_b"
+          )
+        )
+        expect(response_json["assignments"]).to include(
+          hash_including(
+            "split_name" => "allow_signup",
+            "variant" => "true",
+            "unsynced" => true,
+            "context" => "context_c"
+          )
+        )
       end
 
       it "only queries once per table (visitor, assignment, and split)" do
