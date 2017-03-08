@@ -26,7 +26,7 @@ class BulkAssignmentCreation
   end
 
   def save!
-    save || raise(ActiveRecord::RecordNotValid)
+    save || raise(ActiveRecord::RecordInvalid, self)
   end
 
   def self.create(params)
