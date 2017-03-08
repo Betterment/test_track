@@ -39,7 +39,8 @@ RSpec.describe 'bulk assign flow' do
     bulk_assign_to_hammer_time
 
     expect(split_page).to be_displayed
-    expect(split_page.population_count.text).to eq "4"
+
+    Delayed::Worker.new.work_off
 
     expect(Assignment.count).to eq 4
     expect(BulkAssignment.count).to eq 1

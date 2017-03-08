@@ -25,6 +25,10 @@ class BulkAssignmentCreation
     true
   end
 
+  def save!
+    save || raise(ActiveRecord::RecordInvalid, self)
+  end
+
   def self.create(params)
     new(params).tap(&:save)
   end
@@ -36,11 +40,6 @@ class BulkAssignmentCreation
   def new_identifier_creation_ratio
     return 0 unless total_identifiers_to_assign_count > 0
     @new_identifier_creation_ratio ||= 1 - (existing_identifiers_count.to_f / total_identifiers_to_assign_count)
-  end
-
-  def count
-    raise "count unavailable for unsaved BulkAssignmentCreation" unless bulk_assignment.persisted?
-    bulk_assignment.reload.assignments.count
   end
 
   def new_identifier_creation_ratio_above_warning_threshold?
