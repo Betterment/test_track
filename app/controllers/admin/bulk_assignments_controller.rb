@@ -7,13 +7,14 @@ class Admin::BulkAssignmentsController < AuthenticatedAdminController
   def create
     @split = Split.find params[:split_id]
     @bulk_assignment_creation = BulkAssignmentCreation.new(create_params)
-    persist_assignments
+    enqueue_assignments
   end
 
   private
 
-  def persist_assignments
-    if @bulk_assignment_creation.save
+  def enqueue_assignments
+    if @bulk_assignment_creation.valid?
+      BulkAssignmentJob.perform_later(create_params)
       flash[:success] = success_message
       redirect_to admin_split_path(@split)
     else
@@ -24,7 +25,7 @@ class Admin::BulkAssignmentsController < AuthenticatedAdminController
 
   def success_message
     result = @bulk_assignment_creation
-    "Assigned #{result.count} visitor(s) to #{@split.name}:#{result.variant} because #{result.reason}"
+    "Enqueued job to assign visitors to #{@split.name}:#{result.variant} because #{result.reason}"
   end
 
   def create_params

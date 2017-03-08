@@ -97,10 +97,6 @@ RSpec.describe BulkAssignmentCreation do
     expect(subject.send(:ids_to_assign)).to match_array %w(5092 22 1bc12fa6-6c5b-47a4-b500-82b4e271520f)
   end
 
-  it "raises if count is read before persisting" do
-    expect { subject.count }.to raise_error("count unavailable for unsaved BulkAssignmentCreation")
-  end
-
   describe "#save" do
     let(:current_assignment) { Assignment.find_by!(visitor: visitor, split: split) }
 
