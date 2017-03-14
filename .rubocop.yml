@@ -12,9 +12,11 @@ AllCops:
     - 'vendor/**/*'
     - 'frontend/**/*'
     - 'build/**/*'
-  RunRailsCops: true
   DisplayStyleGuide: true
   DisplayCopNames: true
+
+Rails:
+  Enabled: true
 
 Metrics/ClassLength:
   Max: 250
@@ -98,4 +100,7 @@ Rails/FindEach:
   Enabled: false
 
 Style/GuardClause:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
   Enabled: false
