@@ -21,7 +21,8 @@ class DeterministicAssignmentCreation
       split_name: split_name,
       variant: variant,
       mixpanel_result: mixpanel_result,
-      context: context)
+      context: context
+    )
   end
 
   def variant

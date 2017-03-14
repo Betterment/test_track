@@ -25,7 +25,11 @@ class Assignment < ActiveRecord::Base
   def unsynced?
     mixpanel_result.nil? || mixpanel_result == 'failure'
   end
-  alias_method :unsynced, :unsynced?
+  alias unsynced unsynced?
+
+  def self.to_hash
+    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
+  end
 
   private
 
@@ -43,9 +47,5 @@ class Assignment < ActiveRecord::Base
   def variant_must_exist
     return unless split
     errors.add(:variant, "must be specified in split's current variations") unless split.has_variant?(variant)
-  end
-
-  def self.to_hash
-    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
   end
 end

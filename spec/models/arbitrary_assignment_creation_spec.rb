@@ -59,7 +59,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
       context "bulk assigned assignment" do
         let(:bulk_assignment) { FactoryGirl.create(:bulk_assignment, split: split, variant: "variant1") }
         let!(:existing_assignment) do
-          FactoryGirl.create(:assignment,
+          FactoryGirl.create(
+            :assignment,
             visitor: visitor,
             split: split,
             variant: "variant1",
@@ -83,7 +84,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
       context "organic assignment" do
         let!(:existing_assignment) do
-          FactoryGirl.create(:assignment,
+          FactoryGirl.create(
+            :assignment,
             visitor: visitor,
             split: split,
             variant: "variant1",
@@ -156,7 +158,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
       it "does not override an existing assignment's mixpanel_result with nil mixpanel_result" do
         visitor = FactoryGirl.create(:visitor, id: params[:visitor_id])
-        existing_assignment = FactoryGirl.create(:assignment,
+        existing_assignment = FactoryGirl.create(
+          :assignment,
           visitor: visitor,
           split: split,
           variant: "variant1",
@@ -171,7 +174,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
       it "overrides an existing assignment's mixpanel_result with a non-nil mixpanel_result" do
         visitor = FactoryGirl.create(:visitor, id: params[:visitor_id])
-        existing_assignment = FactoryGirl.create(:assignment,
+        existing_assignment = FactoryGirl.create(
+          :assignment,
           visitor: visitor,
           split: split,
           variant: "variant1",
@@ -186,7 +190,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
       it "overrides an existing assignment's mixpanel_result when switching variants" do
         visitor = FactoryGirl.create(:visitor, id: params[:visitor_id])
-        existing_assignment = FactoryGirl.create(:assignment,
+        existing_assignment = FactoryGirl.create(
+          :assignment,
           visitor: visitor,
           split: split,
           variant: "variant2",

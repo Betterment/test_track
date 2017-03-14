@@ -4,7 +4,8 @@ module LoginHelper
       uid: email,
       info: {
         name: 'name'
-      })
+      }
+    )
   end
 
   def login

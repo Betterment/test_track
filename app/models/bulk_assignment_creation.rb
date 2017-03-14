@@ -3,7 +3,7 @@ class BulkAssignmentCreation
 
   attr_accessor :identifiers_listing, :identifier_type_id, :variant, :reason, :split, :admin
   attr_reader :force_identifier_creation
-  alias_method :force_identifier_creation?, :force_identifier_creation
+  alias force_identifier_creation? force_identifier_creation
 
   validates :identifiers_listing, presence: true, allow_blank: false
   validates :identifier_type_id, presence: true, allow_blank: false
@@ -62,7 +62,7 @@ class BulkAssignmentCreation
   private
 
   attr_reader :identifiers_fetched
-  alias_method :identifiers_fetched?, :identifiers_fetched
+  alias identifiers_fetched? identifiers_fetched
 
   def assignment_creations
     @assignment_creations ||= unassigned_identifiers.map do |identifier|

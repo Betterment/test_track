@@ -47,22 +47,24 @@ RSpec.describe BulkAssignmentCreation do
           "1\
            2\
            3\
-           4")
+           4"
+        )
         expect_valid_and_is_1_2_3_4(
           "\
            1\
            2\
            3\
            4\
-           ")
+           "
+        )
       end
 
       it "rejects blank" do
-        expect(subject_with_csv_string "").not_to be_valid
+        expect(subject_with_csv_string("")).not_to be_valid
       end
 
       it "accepts lightly malformed csv" do
-        expect(subject_with_csv_string "1,2,3,,").to be_valid
+        expect(subject_with_csv_string("1,2,3,,")).to be_valid
       end
 
       it "allows arbitrary string identifiers" do
@@ -72,10 +74,10 @@ RSpec.describe BulkAssignmentCreation do
       end
 
       it "allows numeric" do
-        expect(subject_with_csv_string "1").to be_valid
-        expect(subject_with_csv_string "1,2,3,4").to be_valid
-        expect(subject_with_csv_string "1 2 3 4").to be_valid
-        expect(subject_with_csv_string "1\t2\t3\t6").to be_valid
+        expect(subject_with_csv_string("1")).to be_valid
+        expect(subject_with_csv_string("1,2,3,4")).to be_valid
+        expect(subject_with_csv_string("1 2 3 4")).to be_valid
+        expect(subject_with_csv_string("1\t2\t3\t6")).to be_valid
       end
     end
 
@@ -84,12 +86,12 @@ RSpec.describe BulkAssignmentCreation do
     end
 
     specify "reason is long enough and not blank" do
-      expect(subject_with_reason "short").to be_valid
-      expect(subject_with_reason "thats the way we do it").to be_valid
+      expect(subject_with_reason("short")).to be_valid
+      expect(subject_with_reason("thats the way we do it")).to be_valid
 
-      expect(subject_with_reason nil).not_to be_valid
-      expect(subject_with_reason "").not_to be_valid
-      expect(subject_with_reason "       ").not_to be_valid
+      expect(subject_with_reason(nil)).not_to be_valid
+      expect(subject_with_reason("")).not_to be_valid
+      expect(subject_with_reason("       ")).not_to be_valid
     end
   end
 
