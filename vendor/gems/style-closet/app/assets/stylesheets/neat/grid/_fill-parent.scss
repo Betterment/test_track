@@ -13,7 +13,7 @@
 ///     box-sizing: border-box;
 ///   }
 
-@mixin fill-parent() {
+@mixin neat-fill-parent() {
   width: 100%;
 
   @if $border-box-sizing == false {

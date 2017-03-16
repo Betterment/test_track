@@ -50,7 +50,7 @@
 ///     margin-right: 0;
 ///   }
 
-@mixin span-columns($span: $columns of $container-columns, $display: block) {
+@mixin neat-span-columns($span: $columns of $container-columns, $display: block) {
   $columns: nth($span, 1);
   $container-columns: container-span($span);
 

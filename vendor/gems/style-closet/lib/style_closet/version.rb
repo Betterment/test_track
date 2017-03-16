@@ -1,3 +1,3 @@
 module StyleCloset
-  VERSION = "1.6.17"
+  VERSION = "1.12.2"
 end

@@ -1,0 +1,19 @@
+.sc-DeadEnd {
+    text-align: center;
+
+    &-mainImage svg {
+        max-width: 10rem;
+        fill: $yellow;
+        stroke: $yellow;
+    }
+
+    &-mainImage,
+    &-description,
+    h1 {
+        margin-bottom: sc-spacing('l');
+    }
+
+    p {
+        margin-bottom: sc-spacing('m');
+    }
+}

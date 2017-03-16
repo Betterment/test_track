@@ -31,7 +31,7 @@
 ///     clear: left;
 ///   }
 
-@mixin omega($query: block, $direction: default) {
+@mixin neat-omega($query: block, $direction: default) {
   $table: belongs-to(table, $query);
   $auto: belongs-to(auto, $query);
 

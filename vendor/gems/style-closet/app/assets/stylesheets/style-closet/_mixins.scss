@@ -18,8 +18,13 @@ Style groups with power
     }
 }
 
-@mixin breakpoint($width, $measure: 'max-width') {
-    @media ($measure: $width) { @content; }
+@mixin breakpoint($args...) {
+    // see neat docs for syntax: http://thoughtbot.github.io/neat-docs/latest/#media
+    @include media($args...) { @content; }
+}
+
+@mixin max-breakpoint($width) {
+    @include media(max-width $width) { @content; }
 }
 
 // Better centering. $direction options are vertical, horizontal, or all

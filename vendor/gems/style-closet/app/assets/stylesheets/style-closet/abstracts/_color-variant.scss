@@ -1,0 +1,23 @@
+@mixin accent-color-variant($property: background-color, $colors: $accent-color-names) {
+    @each $color in $colors {
+        &--#{$color} {
+            #{$property}: map-get($accent-colors, $color);
+        }
+    }
+}
+
+@mixin core-color-variant($property: background-color, $colors: $core-color-names) {
+    @each $color in $colors {
+        &--#{$color} {
+            #{$property}: map-get($core-colors, $color);
+        }
+    }
+}
+
+@mixin grey-color-variant($property: background-color, $colors: $grey-color-names) {
+    @each $color in $colors {
+        &--#{$color} {
+            #{$property}: map-get($grey-colors, $color);
+        }
+    }
+}

@@ -1,0 +1,36 @@
+$sc-spacing: (
+    breakpoints: (),
+    spacers: (
+        'xxs': 0.4rem,
+        'xs': 0.8rem,
+        's': 1.6rem,
+        'm': 2.4rem,
+        'l': 3.2rem,
+        'xl': 6.4rem,
+        'xxl': 9.6rem
+    )
+);
+
+$sc-spacing-breakpoints: map-get($sc-spacing, 'breakpoints');
+$sc-spacers: map-get($sc-spacing, 'spacers');
+$sc-spacer-keys: map-keys($sc-spacers);
+
+@function contains($list, $item) {
+    @if index($list, $item) { @return true; }
+    @return false;
+}
+
+@function sc-spacing($key) {
+    @if contains($sc-spacer-keys, $key + '') {
+        @return map-get($sc-spacers, $key + '');
+    }
+    @error 'Style Closet Spacing Error: ' + $key + ' is an invalid spacer. You must use one of the following values when calling sc-spacing: ' + $sc-spacer-keys;
+}
+
+$sc-spacing--xxs: sc-spacing('xxs');
+$sc-spacing--xs: sc-spacing('xs');
+$sc-spacing--s: sc-spacing('s');
+$sc-spacing--m: sc-spacing('m');
+$sc-spacing--l: sc-spacing('l');
+$sc-spacing--xl: sc-spacing('xl');
+$sc-spacing--xxl: sc-spacing('xxl');

@@ -11,12 +11,23 @@
 
 // Helper for centered grid columns
 @mixin center-columns($span) {
-    @include span-columns($span, block-collapse);
-    margin-left: auto;
-    margin-right: auto;
-    float: none;
-
-    &:last-child {
+    @if $use-flex-grid == true {
+        // we can just do this logically, since we have no child funny-business
+        @include span-columns($span);
+        margin-left: auto;
         margin-right: auto;
+    } @else {
+        @include span-columns($span, block-collapse);
+        margin-left: auto;
+        margin-right: auto;
+        float: none;
+
+        &:last-child {
+            margin-right: auto;
+        }
     }
+}
+
+@function _sc-grid-width($n) {
+    @return $n * $column + ($n - 1) * $gutter;
 }

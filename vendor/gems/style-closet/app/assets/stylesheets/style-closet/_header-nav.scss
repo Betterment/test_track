@@ -53,7 +53,7 @@
         }
 
         &.shrinkable {
-            @include breakpoint($giant) {
+            @include max-breakpoint($giant) {
                 margin-right: 1em;
 
                 a {

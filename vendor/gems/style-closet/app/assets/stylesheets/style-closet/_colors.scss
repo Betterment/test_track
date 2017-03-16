@@ -8,9 +8,20 @@ $blueberry:                       #225b8c;
 $bright-blue:                     #1689e5;
 $light-blue:                      #90caf9;
 $slate-grey:                      #354355;
+$core-colors: (
+    'blue': $blue,
+    'blueberry': $blueberry,
+    'bright-blue': $bright-blue,
+    'light-blue': $light-blue,
+    'slate-grey': $slate-grey
+);
+$core-color-names: map-keys($core-colors);
 
 // for use on b2b sites: institutional, 401k
 $b2b-blue:                        $blueberry;
+
+// For advised users
+$advised-color: $slate-grey;
 
 // Accent and graph colors
 $green:                           #7fb800;
@@ -22,6 +33,18 @@ $purple:                          #942a89;
 $teal:                            #009999 !default;
 $yellow:                          #ffb400;
 
+$accent-colors: (
+    'green': $green,
+    'dark-green': $dark-green,
+    'orange': $orange,
+    'red': $red,
+    'deep-red': $deep-red,
+    'purple': $purple,
+    'teal': $teal,
+    'yellow': $yellow
+);
+$accent-color-names: map-keys($accent-colors);
+
 // Greys
 $white:                           #ffffff;
 $near-white:                      #f9f9f9;
@@ -30,7 +53,16 @@ $medium-grey:                     #999999;
 $dark-grey:                       #686868;
 $near-black:                      #333333;
 $black:                           #000000;
-
+$grey-colors: (
+    'white': $white,
+    'near-white': $near-white,
+    'light-grey': $light-grey,
+    'medium-grey': $medium-grey,
+    'dark-grey': $dark-grey,
+    'near-black': $near-black,
+    'black': $black
+);
+$grey-color-names: map-keys($grey-colors);
 
 // Deprecated Greys
 $darkest-grey:                    $dark-grey;

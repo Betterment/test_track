@@ -1,0 +1,111 @@
+@mixin generate-sc-spacing-margin-column-classes($name: null, $prefix: null) {
+    $name-token: '';
+    @if ($name) {
+        $name-token: '-' + $name;
+    }
+
+    $prefix-token: '';
+    @if ($prefix) {
+        $prefix-token: $prefix + '-';
+    }
+
+    @each $spacer-key in $sc-spacer-keys {
+        $modifier: $spacer-key;
+
+        .#{$prefix-token}m#{$name-token}--#{$modifier} {
+            margin: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-t#{$name-token}--#{$modifier} {
+            margin-top: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-r#{$name-token}--#{$modifier} {
+            margin-right: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-b#{$name-token}--#{$modifier} {
+            margin-bottom: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-l#{$name-token}--#{$modifier} {
+            margin-left: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-v#{$name-token}--#{$modifier} {
+            margin-top: sc-spacing($spacer-key);
+            margin-bottom: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}m-h#{$name-token}--#{$modifier} {
+            margin-left: sc-spacing($spacer-key);
+            margin-right: sc-spacing($spacer-key);
+        }
+    }
+}
+
+@mixin generate-sc-spacing-padding-column-classes($name: null, $prefix: null) {
+    $name-token: '';
+    @if ($name) {
+        $name-token: '-' + $name;
+    }
+
+    $prefix-token: '';
+    @if ($prefix) {
+        $prefix-token: $prefix + '-';
+    }
+
+    @each $spacer-key in $sc-spacer-keys {
+        $modifier: $spacer-key;
+
+        .#{$prefix-token}p#{$name-token}--#{$modifier} {
+            padding: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-t#{$name-token}--#{$modifier} {
+            padding-top: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-r#{$name-token}--#{$modifier} {
+            padding-right: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-b#{$name-token}--#{$modifier} {
+            padding-bottom: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-l#{$name-token}--#{$modifier} {
+            padding-left: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-v#{$name-token}--#{$modifier} {
+            padding-top: sc-spacing($spacer-key);
+            padding-bottom: sc-spacing($spacer-key);
+        }
+
+        .#{$prefix-token}p-h#{$name-token}--#{$modifier} {
+            padding-left: sc-spacing($spacer-key);
+            padding-right: sc-spacing($spacer-key);
+        }
+    }
+}
+
+@mixin generate-sc-spacing-margin-classes($prefix: null) {
+    @include generate-sc-spacing-margin-column-classes($prefix: $prefix);
+
+    @each $breakpoint-name, $breakpoint-media-query in $sc-spacing-breakpoints {
+        @media #{$breakpoint-media-query} {
+            @include generate-sc-spacing-margin-column-classes($name: $breakpoint-name, $prefix: $prefix);
+        }
+    }
+}
+
+@mixin generate-sc-spacing-padding-classes($prefix: null) {
+    @include generate-sc-spacing-padding-column-classes($prefix: $prefix);
+
+    @each $breakpoint-name, $breakpoint-media-query in $sc-spacing-breakpoints {
+        @media #{$breakpoint-media-query} {
+            @include generate-sc-spacing-padding-column-classes($name: $breakpoint-name, $prefix: $prefix);
+        }
+    }
+}

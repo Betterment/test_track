@@ -16,11 +16,3 @@ a {
 p strong {
     font-weight: $font-bold;
 }
-
-.page-heading {
-    @extend %page-heading;
-}
-
-.warning {
-    @extend %warning;
-}

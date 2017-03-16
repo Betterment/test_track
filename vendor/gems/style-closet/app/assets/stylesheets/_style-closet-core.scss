@@ -10,12 +10,12 @@ Y88b.      888             888               888    888 888                     
       "888 888    888  888 888 88888888      888    888 888 888  888 "Y8888b. 88888888 888
 Y88b  d88P Y88b.  Y88b 888 888 Y8b.          Y88b  d88P 888 Y88..88P      X88 Y8b.     Y88b.
  "Y8888P"   "Y888  "Y88888 888  "Y8888        "Y8888P"  888  "Y88P"   88888P'  "Y8888   "Y888
-                       888
-                  Y8b d88P
-                   "Y88P"
+                       888                                                 __   __   __   ___
+                  Y8b d88P                                                /  ` /  \ |__) |__
+                   "Y88P"                                                 \__, \__/ |  \ |___
 
-Here you'll find a repository of definitions, placeholders, mixins to be included in all
-Betterment projects. Consistency FTW.
+This file only includes core Style Closet functionality.
+You can include components a-la-carte after including this file.
 
 */
 
@@ -51,24 +51,3 @@ Betterment projects. Consistency FTW.
 @import "style-closet/abstracts/color-variant";
 @import "style-closet/abstracts/sizing";
 @import "style-closet/abstracts/spacing";
-
-
-// Style Closet components. Add new components to this list.
-@import "style-closet/tables";
-@import "style-closet/warnings";
-@import "style-closet/forms";
-@import "style-closet/main";
-@import "style-closet/progress";
-@import "style-closet/headings";
-@import "style-closet/info_card";
-@import "style-closet/header-nav";
-@import "style-closet/flashes";
-@import "style-closet/links";
-@import "style-closet/logos";
-@import "style-closet/takeover-header";
-@import "style-closet/takeover-footer";
-@import "style-closet/simple-header";
-@import "style-closet/images";
-@import "style-closet/dead-end";
-
-// Items we're planning on deprecating.
