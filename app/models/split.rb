@@ -19,6 +19,10 @@ class Split < ActiveRecord::Base
 
   scope :active, -> { where(finished_at: nil) }
 
+  def has_test_synopsis?
+    hypothesis.present? || context.present?
+  end
+
   def has_variant?(variant)
     registry.key?(variant.to_s)
   end

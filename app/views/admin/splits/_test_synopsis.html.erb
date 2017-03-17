@@ -1,14 +1,31 @@
 <article class="card">
-  <h2 class="top">Test Synopsis</h2>
+  <div class="ArticleHeader">
+    <h2 class="top">Test Synopsis</h2>
+
+    <% unless @split.has_test_synopsis? %>
+      <%= link_to "Add synopsis", edit_admin_split_context_path(@split), class: 'button sc-m-r--s' %>
+    <% end %>
+  </div>
+
+  <% if @split.has_test_synopsis? %>
     <table class="borderless bottom">
         <tr>
             <td>Hypothesis</td>
             <td><%= split.hypothesis %></td>
-            <td><%= link_to "Edit", edit_admin_split_context_path(@split), class: 'button u-button' %></td>
+            <td><%= link_to "Edit", edit_admin_split_context_path(@split) %></td>
         </tr>
         <tr>
             <td>Context</td>
             <td><%= split.context %></td>
         </tr>
     </table>
+  <% else %>
+      <div class="EmptyTable sc-p--l">
+        <p>
+          <strong>Add a synopsis of your test.</strong>
+          <br>
+          You'll want to add this information so that other teams and CX know what to expect from the test that you're running.
+        </p>
+      </div>
+  <% end %>
 </div>
