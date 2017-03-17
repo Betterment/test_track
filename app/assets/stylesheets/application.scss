@@ -3,7 +3,31 @@ $asset-pipeline: true; //pull font urls correctly
 @import "bootstrap";
 @import "header";
 @import "sessions";
-@import "layout";
+
+body {
+  background: $near-white;
+  font-family: $primary-font-stack;
+  padding-bottom: 10%;
+
+  h1 {
+    font-weight: $font-light;
+    font-size: 36px;
+    color: $near-black;
+  }
+
+  h2 {
+    font-size: 13px;
+    font-weight: $font-bold;
+    text-transform: uppercase;
+    color: $near-black;
+    margin: 20px 0px;
+  }
+}
+
+.main-content {
+  max-width: $app-width;
+  margin: auto;
+}
 
 .alert-notice {
   @extend .alert-success;
