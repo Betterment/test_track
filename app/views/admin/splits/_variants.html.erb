@@ -1,0 +1,35 @@
+<article class="card">
+    <h2 class="top">Variants</h2>
+    <table class="borderless bottom variants-table">
+        <thead>
+            <th>Name</th>
+            <th>Weight</th>
+            <th>Assignee count</th>
+        </thead>
+        <tbody>
+            <% split.variant_details.each do |variant_detail| %>
+                <tr>
+                    <td><%= variant_detail.variant %></td>
+                    <td><%= variant_detail.weight %>%</td>
+                    <td>
+                        <%= variant_detail.assignment_count %>
+                        <% if variant_detail.retirable? %>
+                            (<%= link_to "Retire variant", admin_split_variant_retirement_path(split, variant_detail.variant),
+                                class: "retire-variant-link",
+                                method: :post,
+                                data: { confirm: <<-EOF } %>)
+You're redistributing #{variant_detail.variant} assignees to the other variants according to their weights.
+Do you wish to proceed?
+EOF
+                        <% end %>
+                    </td>
+                </tr>
+            <% end %>
+            <tr>
+                <td>&nbsp;</td>
+                <td>(<%= link_to "Change Weights", new_admin_split_split_config_path(split), class: 'change-weights-link' %>)</td>
+                <td>&nbsp;</td>
+            </tr>
+        </tbody>
+    </table>
+</article>
