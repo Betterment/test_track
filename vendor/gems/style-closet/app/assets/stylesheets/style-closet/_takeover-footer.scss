@@ -1,0 +1,29 @@
+$sc-takeover-footer-min-height: sc-spacing('xl');
+
+.sc-TakeoverFooter {
+    @include display(flex);
+    @include flex-direction(column);
+    min-height: $sc-takeover-footer-min-height;
+    margin-top: sc-spacing('l');
+
+    @include sc-breakpoint('small-plus') {
+        margin-top: sc-spacing('xl');
+    }
+
+    &-content {
+        @include display(inline-flex);
+        @include justify-content(flex-end);
+        @include align-items(center);
+        border-top: solid 1px $light-grey;
+        float: none;
+        padding-top: sc-spacing('m');
+
+        @include sc-breakpoint('small-plus') {
+            padding-top: sc-spacing('l');
+        }
+    }
+
+    &-ctaBack {
+        @include flex-grow(1);
+    }
+}

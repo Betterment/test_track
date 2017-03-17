@@ -1,43 +1,59 @@
 RSpec.shared_examples "a Betterment application" do
   context "views" do
-    it "doesn't call raw" do
-      result = `cd "#{Rails.root}" && find app/views | xargs ack -l "(?<![a-zA-Z_-])raw(?![a-zA-Z_-])" | sort | uniq`
-      fail <<-EOF unless result.blank?
-`raw` was called in the following files.
-Consider rewriting to avoid using `raw` or move into a view helper.
+    subject { check_view_files_for(pattern) }
 
-#{result}
-      EOF
+    def check_view_files_for(pattern)
+      result = []
+      Dir["#{Rails.root}/app/views/**/*"].each do |file|
+        next unless File.file?(file)
+        File.open(file, 'r:utf-8') do |f|
+          f.each_line do |line|
+            result << file if line.match(pattern)
+          end
+        end
+      end
+      result
     end
 
-    it "doesn't call html_safe" do
-      result = `cd "#{Rails.root}" && find app/views | xargs ack -l "(?<![a-zA-Z_-])html_safe(?![a-zA-Z_-])" | sort | uniq`
-      fail <<-EOF unless result.blank?
-`html_safe` was called in the following files.
-Consider rewriting to avoid using `html_safe` or move into a view helper.
+    def error_text(pattern_text)
+      <<-ERROR_MESSAGE
+      `#{pattern_text}` was called in the following files.
+      Consider rewriting to avoid using `#{pattern_text}` or move into a view helper.
 
-#{result}
-      EOF
+      #{subject.join("\n")}
+      ERROR_MESSAGE
     end
 
-    it "doesn't call safe_concat" do
-      result = `cd "#{Rails.root}" && find app/views | xargs ack -l "(?<![a-zA-Z_-])safe_concat(?![a-zA-Z_-])" | sort | uniq`
-      fail <<-EOF unless result.blank?
-`safe_concat` was called in the following files.
-Consider rewriting to avoid using `safe_concat` or move into a view helper.
+    context "when pattern matching for raw" do
+      let(:pattern) { /(?<![a-zA-Z_-])raw(?![a-zA-Z_-])/ }
 
-#{result}
-      EOF
+      it "doesn't call raw" do
+        expect(subject).to be_empty, error_text('raw')
+      end
     end
 
-    it "doesn't use <%==" do
-      result = `cd "#{Rails.root}" && find app/views | xargs ack -l "<%==" | sort | uniq`
-      fail <<-EOF unless result.blank?
-`<%==` was used in the following files:
-Consider rewriting to avoid using `<%==`.
+    context "when pattern matching for html_safe" do
+      let(:pattern) { /(?<![a-zA-Z_-])html_safe(?![a-zA-Z_-])/ }
 
-#{result}
-      EOF
+      it "doesn't call html_safe" do
+        expect(subject).to be_empty, error_text('html_safe')
+      end
+    end
+
+    context "when pattern matching for safe_concat" do
+      let(:pattern) { /(?<![a-zA-Z_-])safe_concat(?![a-zA-Z_-])/ }
+
+      it "doesn't call safe_concat" do
+        expect(subject).to be_empty, error_text('safe_concat')
+      end
+    end
+
+    context "when pattern matching for <%==" do
+      let(:pattern) { Regexp.new("<%==") }
+
+      it "doesn't use <%==" do
+        expect(subject).to be_empty, error_text('<%==')
+      end
     end
   end
 end

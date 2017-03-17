@@ -15,7 +15,7 @@ Common style groups for clearing, sizing, centering, etc.
 
 %wrapper {
     @extend %clear-fix;
-    @include outer-container($app-width);
+    max-width: $max-width;
     padding: 0 $grid-gutter;
     margin: 0 auto;
     overflow: visible;

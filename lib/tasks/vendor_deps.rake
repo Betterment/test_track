@@ -10,6 +10,10 @@ namespace :test_track do
         rm_r(Dir.glob('.*') - %w(. ..))
         rm_r Dir.glob('*.md')
         rm_r %w(
+          Dockerfile
+          docker-compose.yml
+          docker-compose-dev.yml
+          docker-sync.yml
           Gemfile
           Gemfile.lock
           _config.yml

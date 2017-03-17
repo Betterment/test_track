@@ -20,6 +20,12 @@ RSpec::Matchers.define :become_true do |expected|
 
 end
 
+RSpec::Matchers.define :equal_time do |expected|
+  match do |subject|
+    expect(subject).to be_within(0.000_001.second).of(expected)
+  end
+end
+
 SnapshotInfo = Struct.new(:name, :variation, :file)
 
 class RSpec::Core::ExampleGroup

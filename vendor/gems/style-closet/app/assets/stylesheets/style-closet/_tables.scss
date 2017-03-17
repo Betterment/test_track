@@ -10,7 +10,8 @@
             text-align: left;
         }
     }
-    @if $format == 'number' {
+
+    @if $format == 'action-links' or $format == 'number' {
         #{$column} {
             text-align: right;
         }
@@ -159,14 +160,18 @@
 }
 
 .sc-empty-table {
-    h4 {
+    td, td * {
         text-align: center;
+    }
+
+    h4 {
         padding-top: 3rem;
         padding-bottom: 2rem;
+        @include center-columns(8);
     }
 
     p {
-        text-align: center;
         padding-bottom: 4.5rem;
+        @include center-columns(8);
     }
 }

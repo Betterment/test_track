@@ -1,0 +1,64 @@
+$sidebar-layout-sidebar-width: 30%;
+
+.sc-SidebarLayout {
+    @include display(flex);
+    @include flex-direction(column);
+
+    @include breakpoint($small-plus) {
+        @include flex-direction(row);
+    }
+
+    &-content,
+    &-sidebar {
+        padding-top: sc-spacing('m');
+        padding-bottom: sc-spacing('m');
+    }
+
+    &-content {
+        @include breakpoint($small-plus) {
+            @include flex-grow(1);
+
+            padding-top: sc-spacing('l');
+            padding-right: sc-spacing('l');
+            padding-bottom: sc-spacing('l');
+        }
+    }
+
+    &-sidebar {
+        @include grey-color-variant(background-color);
+        @include flex-grow(1);
+
+        box-sizing: content-box;
+        padding-left: sc-spacing('s');
+        padding-right: sc-spacing('s');
+        margin-left: -1 * sc-spacing('s');
+        margin-right: -1 * sc-spacing('s');
+
+        @include breakpoint($smallish) {
+            padding-left: sc-spacing('l');
+            padding-right: sc-spacing('l');
+            margin-left: -1 * sc-spacing('l');
+            margin-right: -1 * sc-spacing('l');
+        }
+
+        @include breakpoint($small-plus) {
+            @include flex-basis($sidebar-layout-sidebar-width);
+            @include flex-grow(0);
+
+            padding-top: sc-spacing('l');
+            padding-right: sc-spacing('l');
+            padding-bottom: sc-spacing('l');
+            margin-left: 0;
+            min-width: $sidebar-layout-sidebar-width;
+        }
+
+        @include breakpoint($max-width + rem-to-px(2 * sc-spacing('l'))) {
+            // This provides us with the full bleed sidebar color at large sizes.
+            // It mirrors the padding we give the body, footer and header.
+            // We provide a negative margin to counteract that padding, then a matching
+            // padding so that the content stays in the correct place
+            padding-right: calc(50vw - #{$max-width / 2});
+            margin-right: calc(-1 * (50vw - #{$max-width / 2}));
+        }
+    }
+}

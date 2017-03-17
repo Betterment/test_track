@@ -4,6 +4,7 @@ Better Layout Definitions - variables for grid, z-indexes, and viewports
 
 // Sizes and padding
 $app-width: 1200px !default;
+$app-min-width: 320px !default;
 $border-box-sizing: false !default;
 $corner-radius: 3px !default;
 
@@ -55,3 +56,19 @@ $mediumish: 780px !default;
 $largeish: 900px !default;
 $hugeish: 1120px !default;
 $giant: 1280px !default;
+
+$sc-breakpoints: (
+    'tinyish': $tinyish,
+    'smallish': $smallish,
+    'small-plus': $small-plus,
+    'mediumish': $mediumish,
+    'largeish': $largeish,
+    'hugeish': $hugeish,
+    'giant': $giant
+);
+
+@mixin sc-breakpoint($name) {
+    @media (min-width: map-get($sc-breakpoints, $name)) {
+        @content
+    }
+};

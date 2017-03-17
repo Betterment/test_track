@@ -1,8 +1,15 @@
+%base-icon-properties {
+    stroke-width: 3px;
+    overflow: visible;
+    fill: $bright-blue;
+    stroke: $bright-blue;
+}
+
 %outlined-icon-properties {
     stroke-linecap: round;
     stroke-linejoin: round;
     stroke-miterlimit: 10;
-    stroke-width: 3;
+    stroke-width: inherit;
     fill: none;
     stroke: inherit;
 }
@@ -18,6 +25,8 @@
 $svg-elements: 'path, circle, ellipse, rect, line, polyline, polygon';
 
 .sc-outline-svg {
+    @extend %base-icon-properties;
+
     #{$svg-elements} {
         @extend %outlined-icon-properties;
     }
@@ -28,6 +37,8 @@ $svg-elements: 'path, circle, ellipse, rect, line, polyline, polygon';
 }
 
 .sc-fill-svg {
+    @extend %base-icon-properties;
+
     #{$svg-elements} {
         @extend %filled-icon-properties;
     }

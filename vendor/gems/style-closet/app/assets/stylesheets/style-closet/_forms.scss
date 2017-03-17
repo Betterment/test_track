@@ -13,6 +13,8 @@ $input-focus-animation: 0.15s;
         box-sizing: border-box;
         border: 1px solid $light-grey;
         border-radius: $corner-radius;
+        background: $white;
+        max-width: 25em;
     }
 
     &.active .input-wrapper {
@@ -617,6 +619,9 @@ $input-focus-animation: 0.15s;
     }
 }
 
+$radio-option-font-size: 1.6rem;
+$button-group-padding: 1.4rem 2.5rem;
+
 .input-radio {
     position: relative;
     box-sizing: border-box;
@@ -626,7 +631,7 @@ $input-focus-animation: 0.15s;
     @extend %base-validation-label;
     @extend %base-hint-label;
 
-    @include breakpoint($small-plus) {
+    @include max-breakpoint($small-plus) {
         .radio-options {
             float: none;
 
@@ -661,7 +666,7 @@ $input-focus-animation: 0.15s;
         line-height: 1.3em;
         margin-bottom: 15px;
         padding-left: 32px;
-        font-size: 18px;
+        font-size: $radio-option-font-size;
         box-sizing: border-box;
     }
 
@@ -683,9 +688,9 @@ $input-focus-animation: 0.15s;
 
             label {
                 margin: 0;
-                color: $bright-blue;
-                font-size: 1.15em;
-                font-weight: $font-bold;
+                color: $dark-grey;
+                font-size: $radio-option-font-size;
+                font-weight: $font-regular;
                 cursor: pointer;
             }
 
@@ -733,7 +738,6 @@ $input-focus-animation: 0.15s;
     }
 
     &.button-group {
-
         .radio-options {
             margin-top: 0;
 
@@ -741,7 +745,7 @@ $input-focus-animation: 0.15s;
                 display: block;
                 float: left;
                 margin-bottom: 0;
-                padding: 0.875em 1.563em;
+                padding: $button-group-padding;
                 width: auto;
                 background-color: $white;
                 color: $bright-blue;
@@ -765,6 +769,8 @@ $input-focus-animation: 0.15s;
 
                 label {
                     line-height: 1;
+                    font-weight: $font-bold;
+                    color: $bright-blue;
                 }
 
                 &.selected {
@@ -772,6 +778,32 @@ $input-focus-animation: 0.15s;
 
                     label {
                         color: $white;
+                    }
+                }
+
+                &.action-menu-item {
+                    padding: 0;
+
+                    &.selected {
+                        a {
+                            color: $white;
+
+                            &:hover {
+                                color: $white;
+                            }
+                        }
+                    }
+
+                    a {
+                        line-height: 1;
+                        display: block;
+                        font-size: $radio-option-font-size;
+                        font-weight: $font-bold;
+                        padding: $button-group-padding;
+
+                        &:hover {
+                            color: $bright-blue;
+                        }
                     }
                 }
             }

@@ -3,10 +3,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'fileutils'
 
-ENV["SCREENSHOT_DIR"] ||= Time.now.to_i.to_s
-capybara_wait_time = (ENV['CAPYBARA_WAIT_TIME'] || 10).to_i
-driver = (ENV["DRIVER"] || "webkit").to_sym
-webkit_debug = (!ENV["WEBKIT_DEBUG"].nil? && ENV["WEBKIT_DEBUG"] == "true") ? true : false
+driver = ENV.fetch("DRIVER", "webkit").to_sym
 
 case driver
   when :webkit
@@ -14,15 +11,12 @@ case driver
       browser = Capybara::Webkit::Browser.new(Capybara::Webkit::Connection.new).tap do |browser|
         browser.ignore_ssl_errors
       end
-      driver = Capybara::Webkit::Driver.new(app, browser: browser)
-      driver.enable_logging if webkit_debug
-      driver
+      Capybara::Webkit::Driver.new(app, browser: browser)
     end
   when :poltergeist
     require 'capybara/poltergeist'
     Capybara.register_driver :poltergeist do |app|
-      driver = Capybara::Poltergeist::Driver.new(app, js_errors: false, phantomjs_logger: Logger.new('/dev/null'))
-      driver
+      Capybara::Poltergeist::Driver.new(app, js_errors: false, phantomjs_logger: Logger.new('/dev/null'), timeout: 60)
     end
   else
     Capybara.register_driver driver do |app|
@@ -35,12 +29,22 @@ Capybara.configure do |config|
   config.exact_options = true
   config.ignore_hidden_elements = true
   config.visible_text_only = true
-  config.default_wait_time = capybara_wait_time
   config.default_driver = driver
   config.javascript_driver = driver
+
+  capybara_wait_time = ENV.fetch('CAPYBARA_WAIT_TIME', 10).to_i
+  if config.respond_to? :default_max_wait_time=
+    config.default_max_wait_time = capybara_wait_time
+  else
+    config.default_wait_time = capybara_wait_time
+  end
 end
 
 module CapybaraScreenshotHelpers
+  def self.screenshot_directory
+    @screenshot_directory ||= Rails.root.join("spec", "error_screenshots", ENV.fetch("SCREENSHOT_DIR", Time.now.to_i.to_s))
+  end
+
   def screenshot(filename)
     options = {}
     case Capybara.current_driver
@@ -55,23 +59,10 @@ module CapybaraScreenshotHelpers
 
   private
 
-  def screenshot_name(example)
-    "#{example.metadata[:full_description]}.png".gsub(/\ /, "_")
-  end
-
   def screenshot_on_error(example)
-    if !example.exception.nil?
-      dirname = "spec/error_screenshots/#{ENV["SCREENSHOT_DIR"]}"
-      FileUtils.mkdir_p(dirname) unless File.directory?(dirname)
-      screenshot "#{dirname}/#{screenshot_name(example)}"
-    end
-  end
-
-  def print_console_messages
-    if page.driver.respond_to?(:errors_messages)
-      p page.driver.error_messages unless page.driver.error_messages.empty?
-      # uncomment for ALL console messages, not just console.error
-      # p page.driver.console_messages unless page.driver.console_messages.empty?
+    if example.exception.present?
+      filename = "#{example.metadata[:full_description]}.png".gsub(/\ /, "_")
+      screenshot "#{CapybaraScreenshotHelpers.screenshot_directory}/#{filename}"
     end
   end
 end
@@ -80,16 +71,12 @@ RSpec.configure do |config|
   config.include CapybaraScreenshotHelpers, type: :feature
 
   config.after(:each, type: :feature) do |example|
-    if example.exception && page.driver.respond_to?(:console_messages)
-      puts page.driver.console_messages.find_all { |message| !message.to_s.include? 'mixpanel' }
-      puts page.driver.error_messages.find_all { |message| !message.to_s.include? 'mixpanel' }
-    end
     screenshot_on_error example
     Capybara.reset_sessions!
   end
 
   config.after(:suite) do
-    error_screenshot_directory = "spec/error_screenshots/#{ENV["SCREENSHOT_DIR"]}"
+    error_screenshot_directory = CapybaraScreenshotHelpers.screenshot_directory
     puts "\nError screenshots saved to: #{error_screenshot_directory}" if File.directory?("#{error_screenshot_directory}")
 
     # remove any paperclip attachments
