@@ -3,7 +3,7 @@
     <h2 class="top">Test Synopsis</h2>
 
     <% unless @split.has_test_synopsis? %>
-    <%= link_to "Add synopsis", edit_admin_split_context_path(@split), class: 'button sc-m-r--s' %>
+    <%= link_to "Add synopsis", edit_admin_split_assignment_context_path(@split), class: 'button sc-m-r--s' %>
     <% end %>
   </div>
 
@@ -12,11 +12,11 @@
       <tr>
         <td>Hypothesis</td>
         <td><%= split.hypothesis %></td>
-        <td><%= link_to "Edit", edit_admin_split_context_path(@split) %></td>
+        <td><%= link_to "Edit", edit_admin_split_assignment_context_path(@split) %></td>
       </tr>
       <tr>
         <td>Assignment Context</td>
-        <td><%= split.context %></td>
+        <td><%= split.assignment_context %></td>
       </tr>
     </table>
   <% else %>
