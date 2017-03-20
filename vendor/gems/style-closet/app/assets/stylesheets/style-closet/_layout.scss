@@ -7,6 +7,7 @@ $app-width: 1200px !default;
 $app-min-width: 320px !default;
 $border-box-sizing: false !default;
 $corner-radius: 3px !default;
+$border-style: 1px solid $light-grey;
 
 // Grid math. Showing my work:
 // Setting up the base site width. Eventually we should deprecate this in favor of $max-width

@@ -14,7 +14,7 @@ $sc-takeover-footer-min-height: sc-spacing('xl');
         @include display(inline-flex);
         @include justify-content(flex-end);
         @include align-items(center);
-        border-top: solid 1px $light-grey;
+        border-top: $border-style;
         float: none;
         padding-top: sc-spacing('m');
 

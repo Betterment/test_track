@@ -1,0 +1,35 @@
+.sc-Icon {
+    @include svg-color-rule(fill);
+    @include svg-color-rule(stroke);
+
+    display: inline-block;
+    width: sc-spacing('l');
+    height: sc-spacing('l');
+
+    @each $size, $value in $sc-spacers {
+        &--#{$size} {
+            width: $value;
+            height: $value;
+
+            svg {
+                width: $value;
+                height: $value;
+            }
+        }
+    }
+
+    &--speedometer {
+        svg {
+            position: relative;
+            top: 0.5rem;
+        }
+    }
+
+    &--fill {
+        @extend %base-icon-properties;
+
+        #{$svg-elements} {
+            @extend %filled-icon-properties;
+        }
+    }
+}
