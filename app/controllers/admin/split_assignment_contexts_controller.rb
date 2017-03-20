@@ -1,4 +1,4 @@
-class Admin::SplitContextsController < AuthenticatedAdminController
+class Admin::SplitAssignmentContextsController < AuthenticatedAdminController
   def edit
     @split = Split.find params[:split_id]
   end

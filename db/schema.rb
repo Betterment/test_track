@@ -141,13 +141,13 @@ ActiveRecord::Schema.define(version: 20170317155628) do
 
   create_table "splits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.uuid     "owner_app_id", null: false
+    t.uuid     "owner_app_id",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "finished_at"
-    t.json     "registry",     null: false
+    t.json     "registry",           null: false
     t.text     "hypothesis"
-    t.text     "context"
+    t.text     "assignment_context"
   end
 
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree
