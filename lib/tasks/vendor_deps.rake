@@ -37,7 +37,6 @@ namespace :test_track do
             _accordions.scss
             _agreements.scss
             _dashboard-header.scss
-            _layouts.scss
             _modals.scss
             _progress-bar.scss
             _success.scss
@@ -46,7 +45,7 @@ namespace :test_track do
           ), force: true
         end
         `sed -E -i.sedbak '/font-(museo|pictograms)/d' app/assets/stylesheets/style-closet/_typography.scss`
-        removals = %w(accordions agreements dashboard-header layouts modals progress-bar success takeovers to-deprecate)
+        removals = %w(accordions agreements dashboard-header modals progress-bar success takeovers to-deprecate)
         `sed -E -i.sedbak '/#{removals.join('|')}/d' app/assets/stylesheets/_style-closet.scss`
         `sed -E -i.sedbak '/license/d' style-closet.gemspec`
         rm_r Dir.glob('**/*.sedbak')

@@ -19,6 +19,9 @@ Betterment projects. Consistency FTW.
 
 */
 
+// BMT colors
+@import "style-closet/colors";
+
 // BMT layout variables
 @import "style-closet/layout";
 
@@ -36,7 +39,6 @@ Betterment projects. Consistency FTW.
 @import "style-closet/functions";
 
 // BMT core helpers
-@import "style-closet/colors";
 @import "style-closet/typography";
 @import "style-closet/mixins";
 @import "style-closet/flex-grid-mixins";
@@ -49,9 +51,13 @@ Betterment projects. Consistency FTW.
 @import "style-closet/buttons";
 
 @import "style-closet/abstracts/color-variant";
+@import "style-closet/abstracts/color-rule";
 @import "style-closet/abstracts/sizing";
 @import "style-closet/abstracts/spacing";
 
+@import "style-closet/layouts/site-layout";
+@import "style-closet/layouts/content-layout";
+@import "style-closet/layouts/sidebar-layout";
 
 // Style Closet components. Add new components to this list.
 @import "style-closet/tables";
@@ -62,6 +68,8 @@ Betterment projects. Consistency FTW.
 @import "style-closet/headings";
 @import "style-closet/info_card";
 @import "style-closet/header-nav";
+@import "style-closet/layouts";
+@import "style-closet/icons";
 @import "style-closet/flashes";
 @import "style-closet/links";
 @import "style-closet/logos";

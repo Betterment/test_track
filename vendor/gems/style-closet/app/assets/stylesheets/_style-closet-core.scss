@@ -19,6 +19,9 @@ You can include components a-la-carte after including this file.
 
 */
 
+// BMT colors
+@import "style-closet/colors";
+
 // BMT layout variables
 @import "style-closet/layout";
 
@@ -36,7 +39,6 @@ You can include components a-la-carte after including this file.
 @import "style-closet/functions";
 
 // BMT core helpers
-@import "style-closet/colors";
 @import "style-closet/typography";
 @import "style-closet/mixins";
 @import "style-closet/flex-grid-mixins";
