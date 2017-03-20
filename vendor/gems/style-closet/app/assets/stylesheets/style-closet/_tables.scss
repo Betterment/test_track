@@ -42,7 +42,7 @@
         tr {
             th {
                 @extend %column-header;
-                border-bottom: 1px solid $light-grey;
+                border-bottom: $border-style;
             }
         }
     }
@@ -70,7 +70,7 @@
 
         td {
             @extend %standard-row-section;
-            border-bottom: 1px solid $light-grey;
+            border-bottom: $border-style;
 
             .sub-text {
                 @extend %sub-text;

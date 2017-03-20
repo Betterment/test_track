@@ -14,7 +14,7 @@ PATH
 PATH
   remote: vendor/gems/style-closet
   specs:
-    style_closet (1.12.2)
+    style_closet (1.12.3)
       bourbon (= 4.2)
       neat (= 1.7.2)
 

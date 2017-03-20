@@ -11,7 +11,7 @@ $input-focus-animation: 0.15s;
     .input-wrapper {
         position: relative;
         box-sizing: border-box;
-        border: 1px solid $light-grey;
+        border: $border-style;
         border-radius: $corner-radius;
         background: $white;
         max-width: 25em;
@@ -222,7 +222,7 @@ $input-focus-animation: 0.15s;
         left: -1px;
         max-height: 18.75em;
         overflow-y: auto;
-        border: 1px solid $light-grey;
+        border: $border-style;
         border-radius: $corner-radius;
         color: $bright-blue;
         background-color: $white;
@@ -502,7 +502,7 @@ $input-focus-animation: 0.15s;
 
             &:after {
                 content: '';
-                border-bottom: 1px solid $light-grey;
+                border-bottom: $border-style;
                 display: block;
                 margin-left: -0.625em;
                 margin-top: 0.5em;
@@ -546,7 +546,7 @@ $input-focus-animation: 0.15s;
 
             &:after {
                 content: '';
-                border-bottom: 1px solid $light-grey;
+                border-bottom: $border-style;
                 display: block;
                 margin-left: -0.625em;
                 margin-top: 0.5em;
@@ -582,7 +582,7 @@ $input-focus-animation: 0.15s;
             text-align: center;
 
             border-radius: 0;
-            border: 1px solid $light-grey;
+            border: $border-style;
             border-width: 0 1px 1px 0;
 
             &:nth-child(7n+7) {
@@ -823,7 +823,7 @@ $button-group-padding: 1.4rem 2.5rem;
     width: 1em;
     height: 1em;
     border-radius: 50%;
-    border: 1px solid $light-grey;
+    border: $border-style;
 
     span {
         position: absolute;

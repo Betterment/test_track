@@ -1,0 +1,57 @@
+.sc-simple-layout {
+    @extend %sc-typography;
+    @extend %box-sizing;
+
+    position: relative;
+    @include display(flex);
+
+    width: $app-width;
+    margin: 0 auto;
+
+    > .sidebar {
+        @include flex(0 1 300px);
+        margin-right: 70px;
+    }
+
+    > .content {
+        @include flex(1 1 auto);
+    }
+}
+
+.sc-compound-layout {
+    $right-sidebar-width: 400px;
+
+    @extend %sc-typography;
+    @extend %box-sizing;
+
+    @include display(flex);
+
+    width: 100%;
+    min-height: 100%;
+
+    > .content {
+        @include flex(0 0 auto);
+        width: calc(#{$app-width} - #{$right-sidebar-width});
+        padding: 0 25px;
+    }
+
+    > .right-sidebar {
+        background: $near-white;
+        width: $right-sidebar-width;
+        padding: 0 50px;
+        @include flex(0 0 auto);
+    }
+
+    &:before {
+        content: '';
+        @include flex(1 0 auto);
+        display: block;
+    }
+
+    &:after {
+        content: '';
+        background: $near-white;
+        @include flex(1 0 auto);
+        display: block;
+    }
+}
