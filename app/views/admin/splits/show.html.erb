@@ -1,12 +1,12 @@
 <div class="row">
-    <section>
-        <h1 class="page-title">Split: <%= @split.name %></h1>
-    </section>
+  <section>
+    <h1 class="page-title">Split: <%= @split.name %></h1>
+  </section>
 </div>
 <div class="row">
-    <section>
-      <%= render partial: "details", locals: { split: @split } %>
-      <%= render partial: "test_synopsis", locals: { split: @split } %>
-      <%= render partial: "variants", locals: { split: @split } %>
-    </section>
+  <section>
+    <%= render partial: "details", locals: { split: @split } %>
+    <%= render partial: "test_synopsis", locals: { split: @split } %>
+    <%= render partial: "variants", locals: { split: @split } %>
+  </section>
 </div>
