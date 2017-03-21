@@ -1,26 +1,26 @@
 <div class="row">
-    <section>
-        <h1>Reassign Visitors to <%= @split.name %></h1>
-    </section>
+  <section>
+    <h1>Reassign Visitors to <%= @split.name %></h1>
+  </section>
 </div>
 
 <div class="row">
 <%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path) do |f| %>
+  <div class="row">
+    <%= f.input :identifiers_listing, as: :text, label: 'Ids To Assign', wrapper_html: { class: "col-sm-8" }, :input_html => {:rows => 10} %>
+  </div>
+  <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>
     <div class="row">
-        <%= f.input :identifiers_listing, as: :text, label: 'Ids To Assign', wrapper_html: { class: "col-sm-8" }, :input_html => {:rows => 10} %>
-    </div>
-    <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>
-    <div class="row">
-        <div class="form-group has-error col-sm-6" id="identifier_creation_warning">
-            <div class="help-block has-error">
-            <%= percentage @bulk_assignment_creation.new_identifier_creation_ratio %>
-            (<%= @bulk_assignment_creation.new_identifier_count %> of <%= @bulk_assignment_creation.total_identifiers_to_assign_count %>)
-            of the identifiers provided will be <em>created</em> as part of this operation.
-            That's unusual. Please verify that you selected the correct <strong>Identified By</strong> below
-            and double-check that the IDs listed above are correct.
-            Do you still wish to proceed?
-            </div>
+      <div class="form-group has-error col-sm-6" id="identifier_creation_warning">
+        <div class="help-block has-error">
+          <%= percentage @bulk_assignment_creation.new_identifier_creation_ratio %>
+          (<%= @bulk_assignment_creation.new_identifier_count %> of <%= @bulk_assignment_creation.total_identifiers_to_assign_count %>)
+          of the identifiers provided will be <em>created</em> as part of this operation.
+          That's unusual. Please verify that you selected the correct <strong>Identified By</strong> below
+          and double-check that the IDs listed above are correct.
+          Do you still wish to proceed?
         </div>
+      </div>
         <%= f.input :force_identifier_creation, as: :boolean, label: 'YES', wrapper_html: { class: "col-sm-2 has-error" } %>
     </div>
     <% end %>
