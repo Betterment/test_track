@@ -160,8 +160,13 @@ ActiveRecord::Schema.define(version: 20170330145712) do
   create_table "variant_details", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "split_id",     null: false
     t.string   "variant",      null: false
+<<<<<<< HEAD
     t.string   "display_name", null: false
     t.text     "description",  null: false
+=======
+    t.string   "display_name"
+    t.text     "description"
+>>>>>>> Add variant_details table and edit form
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
