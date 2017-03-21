@@ -129,24 +129,6 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe "#variant_details" do
-    it "returns an array of frozen VariantDetails" do
-      split = FactoryGirl.create(:split, registry: { control: 40, treatment: 60 })
-
-      variant_details = split.variant_details
-
-      expect(variant_details.size).to eq 2
-
-      expect(variant_details.first.variant).to eq "control"
-      expect(variant_details.first.weight).to eq 40
-      expect(variant_details.first).to be_frozen
-
-      expect(variant_details.second.variant).to eq "treatment"
-      expect(variant_details.second.weight).to eq 60
-      expect(variant_details.second).to be_frozen
-    end
-  end
-
   describe "#assignment_count_for_variant" do
     it "returns count of given variant" do
       FactoryGirl.create(:assignment, split: subject, variant: "treatment")

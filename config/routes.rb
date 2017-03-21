@@ -55,6 +55,7 @@ Rails.application.routes.draw do
       resources :variants, only: [] do
         resource :retirement, only: [:create], controller: 'variant_retirements'
       end
+      resources :variant_details, only: [:edit, :update]
     end
   end
 end

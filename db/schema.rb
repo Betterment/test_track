@@ -12,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20170317155628) do
-
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -155,6 +154,18 @@ ActiveRecord::Schema.define(version: 20170317155628) do
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree
   add_index "splits", ["owner_app_id"], name: "index_splits_on_owner_app_id", using: :btree
 
+  create_table "variant_details", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "split_id",     null: false
+    t.string   "variant",      null: false
+    t.string   "display_name"
+    t.text     "description"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "variant_details", ["split_id", "variant"], name: "index_variant_details_on_split_id_and_variant", unique: true, using: :btree
+  add_index "variant_details", ["split_id"], name: "index_variant_details_on_split_id", using: :btree
+
   create_table "visitor_supersessions", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "superseded_visitor_id",  null: false
     t.uuid     "superseding_visitor_id", null: false
@@ -184,6 +195,7 @@ ActiveRecord::Schema.define(version: 20170317155628) do
   add_foreign_key "previous_assignments", "visitor_supersessions"
   add_foreign_key "previous_split_registries", "splits"
   add_foreign_key "splits", "apps", column: "owner_app_id"
+  add_foreign_key "variant_details", "splits"
   add_foreign_key "visitor_supersessions", "visitors", column: "superseded_visitor_id"
   add_foreign_key "visitor_supersessions", "visitors", column: "superseding_visitor_id"
 end
