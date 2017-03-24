@@ -1,18 +1,18 @@
 <article class="card">
   <div class="ArticleHeader">
-    <h2 class="top">Test Synopsis</h2>
+    <h2 class="top">Test Overview</h2>
 
-    <% unless @split.has_test_synopsis? %>
-    <%= link_to "Add synopsis", edit_admin_split_assignment_context_path(@split), class: 'button sc-m-r--s' %>
+    <% unless @split.has_details? %>
+    <%= link_to "Add Details", edit_admin_split_detail_path(@split), class: 'button sc-m-r--s' %>
     <% end %>
   </div>
 
-  <% if @split.has_test_synopsis? %>
+  <% if @split.has_details? %>
     <table class="borderless bottom">
       <tr>
         <td>Hypothesis</td>
         <td><%= split.hypothesis %></td>
-        <td><%= link_to "Edit", edit_admin_split_assignment_context_path(@split) %></td>
+        <td><%= link_to "Edit", edit_admin_split_detail_path(@split) %></td>
       </tr>
       <tr>
         <td>Assignment Context</td>
