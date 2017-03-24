@@ -1,4 +1,4 @@
-class Admin::SplitAssignmentContextsController < AuthenticatedAdminController
+class Admin::SplitDetailsController < AuthenticatedAdminController
   def edit
     @split = Split.find params[:split_id]
   end
@@ -16,6 +16,6 @@ class Admin::SplitAssignmentContextsController < AuthenticatedAdminController
   private
 
   def split_context_params
-    params.require(:split).permit(:hypothesis, :assignment_context)
+    params.require(:split).permit(:hypothesis, :assignment_criteria, :description, :squad_owner)
   end
 end
