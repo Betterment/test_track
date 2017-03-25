@@ -29,7 +29,7 @@
     <div class="InfoCard-row">
       <%= f.input :identifier_type_id, label: 'Identified By', collection: identifier_types, label_method: :name, value_method: :id, include_blank: true %>
     </div>
-    <div class="InfoCard-row">
+    <div class="InfoCard-row VariantOptions">
       <%= f.input :variant, label: "To Variant", include_blank: false, collection: @split.variants, as: :radio_buttons %>
     </div>
     <div class="InfoCard-row">

@@ -16,7 +16,7 @@ RSpec.describe 'admin can change weights for split variants' do
     expect(split_page).to be_displayed
     expect(split_page.variants_table).to have_content "red 100% 0 blue 0% 0"
 
-    split_page.variants_table.change_weights.click
+    split_page.change_weights.click
 
     expect(split_config_new_page).to be_displayed
 

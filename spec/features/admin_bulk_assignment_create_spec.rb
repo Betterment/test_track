@@ -29,7 +29,7 @@ RSpec.describe 'bulk assign flow' do
     bulk_assignment_page.create_form.tap do |form|
       form.identifiers_listing.set identifiers_listing
       form.identifier_type.select identifier_type
-      form.variant.select 'hammer_time'
+      form.variant_options.choose 'hammer_time'
       form.reason.set "this is a test. a what? a test. a what? a test. oh a test."
       form.submit_button.click
     end

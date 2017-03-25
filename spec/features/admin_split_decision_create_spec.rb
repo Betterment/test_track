@@ -31,7 +31,7 @@ RSpec.describe 'split decision flow' do
     expect(split_decision_page).to be_displayed
 
     split_decision_page.create_form.tap do |form|
-      form.variant.select 'touch_this'
+      form.variant_options.choose 'touch_this'
       form.submit_button.click
     end
 

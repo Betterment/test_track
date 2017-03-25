@@ -21,7 +21,7 @@
       <tr>
         <td>Status</td>
         <td class="Status-<%= @split.finished? ? 'finished' : 'active' %>"><%= @split.finished? ? 'Finished' : 'Active' %><span class="sc-p--s">🏁</span></td>
-        <td><%= link_to "Edit", new_admin_split_decision_path(@split) %></td>
+        <td><%= link_to "Edit", new_admin_split_decision_path(@split), class: 'split-decision' %></td>
       </tr>
       <tr>
         <td>App</td>
