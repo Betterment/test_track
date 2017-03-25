@@ -3,11 +3,13 @@ $asset-pipeline: true; //pull font urls correctly
 @import "bootstrap";
 
 @import "typography/base";
+@import "typography/utilities";
 
 @import "components/tables";
 @import "components/card";
 @import "components/header";
 
+@import "pages/decisions";
 @import "pages/sessions";
 
 .alert-notice {
@@ -16,20 +18,4 @@ $asset-pipeline: true; //pull font urls correctly
 
 .alert-error, .alert-alert {
   @extend .alert-danger;
-}
-
-ol li {
-  margin-left: 20px;
-  list-style-type: decimal;
-}
-
-.emphasis {
-  font-style: italic;
-}
-
-.split-decision {
-  .flag {
-    font-size: 24px;
-    vertical-align: -4px;
-  }
 }
