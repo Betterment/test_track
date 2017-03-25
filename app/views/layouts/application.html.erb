@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TestTrack Admin</title>
-  <%= favicon_link_tag '/favicon.ico' %>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <title>Test Track Admin</title>
   <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=0">
+  <%= favicon_link_tag '/favicon.ico' %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
 </head>
-<body class="<%= controller_name %> <%= action_name %> <%= yield :body_class %>">
-  <%= render 'layouts/header' %>
-  <%= yield :nav %>
-  <%= render 'layouts/flashes' unless flash.empty? %>
-
-  <div class="main-content">
-    <div class="container-fluid">
-      <%= yield %>
+<body class="<%= body_css_classes %>">
+  <div class="sc-SiteLayout">
+    <div class="sc-SiteLayout-header sc-SiteLayout-header--blue">
+      <div class="sc-SiteLayout-container">
+        <% if content_for?(:header) %>
+          <%= yield(:header) %>
+        <% else %>
+          <%= render "shared/header" %>
+        <% end %>
+      </div>
     </div>
+
+    <section class="sc-SiteLayout-section">
+      <div class="sc-SiteLayout-container sc-ContentLayout">
+        <%= render 'layouts/flashes' unless flash.empty? %>
+        <%= yield %>
+      </div>
+    </section>
   </div>
 </body>
 </html>

@@ -1,14 +1,17 @@
-<h1 class="page-title">Split: <%= @split_creation.name %></h1>
-<%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
-  <% f.simple_fields_for :weighting_registry do |ff| %>
-    <div class="bg-danger">
-      <%= f.error :weighting_registry %>
-    </div>
-    <% @split_creation.weighting_registry.each do |variant, weight| %>
-      <div class="row">
-        <%= ff.input variant, as: :integer, input_html: { value: weight, class: "weight-input" }, wrapper_html: { class: "col-sm-6" } %>
-      </div>
+<div class="TakeoverText">
+  <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split_creation.name %></h1>
+</div>
+
+<div class="InfoCard sc-m-v--l">
+  <%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
+    <% f.simple_fields_for :weighting_registry do |ff| %>
+      <div class="bg-danger"><%= f.error :weighting_registry %></div>
+
+      <% @split_creation.weighting_registry.each do |variant, weight| %>
+        <%= ff.input variant, as: :integer, input_html: { value: weight, class: "weight-input" } %>
+      <% end %>
+
+      <%= render "shared/form_footer", f: f, submit_text: "Edit", submit_disable_with_text: "Changing..." %>
+    <% end %>
   <% end %>
-  <%= f.button :submit, "Change Weights", class: "btn-default btn-lg", data: { disable_with: "Changing..." } %>
-  <% end %>
-<% end %>
+</div>

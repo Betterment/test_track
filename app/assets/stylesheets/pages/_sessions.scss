@@ -1,0 +1,15 @@
+.AdminSessions {
+  background: $blue;
+
+  .sc-SiteLayout-header {
+    border-bottom: 1px solid $blueberry;
+  }
+
+  .LoginForm {
+    text-align: center;
+
+    &-title {
+      color: $white;
+    }
+  }
+}

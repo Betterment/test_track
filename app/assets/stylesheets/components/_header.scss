@@ -1,0 +1,9 @@
+.sc-TakeoverHeader-multiple-cta {
+  @include display(flex);
+
+  a {
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    color: $white;
+  }
+}
