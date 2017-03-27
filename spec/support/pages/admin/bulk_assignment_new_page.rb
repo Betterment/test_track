@@ -10,11 +10,10 @@ class AdminBulkAssignmentNewPage < SitePrism::Page
     element :reason, "input#bulk_assignment_creation_reason"
     element :force, "input#bulk_assignment_creation_force_identifier_creation"
 
-    element :variant_options, ".VariantOptions"
-    def select(text)
-      variant_options.find('label.radio_buttons', text: text).click
+    element :variant_options, ".radio-options"
+    def choose_variant_option(text)
+      variant_options.find("input[value=#{text}]").click
     end
-
     element :submit_button, "input[name=commit]"
   end
 end

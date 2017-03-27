@@ -5,7 +5,7 @@
 <div class="InfoCard">
   <%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path) do |f| %>
     <div class="InfoCard-row">
-      <%= f.input :identifiers_listing, as: :text, label: 'Ids To Assign', :input_html => {:rows => 10} %>
+      <%= f.input :identifiers_listing, as: :text, label: 'IDs To Assign', :input_html => {:rows => 10} %>
     </div>
 
     <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>

@@ -11,7 +11,7 @@
     </ol>
 
     <div class="InfoCard-row sc-m-t--m">
-      <strong class="">Current Population: <%= @split.assignments.count %></strong>
+      <strong>Current Population: <%= @split.assignments.count %></strong>
     </div>
     <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
 
