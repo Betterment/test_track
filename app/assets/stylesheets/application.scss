@@ -6,11 +6,10 @@ $asset-pipeline: true; //pull font urls correctly
 @import "typography/utilities";
 
 @import "components/tables";
+@import "components/inputs";
 @import "components/card";
+@import "components/explanation_list";
 @import "components/header";
-
-@import "pages/decisions";
-@import "pages/sessions";
 
 .alert-notice {
   @extend .alert-success;

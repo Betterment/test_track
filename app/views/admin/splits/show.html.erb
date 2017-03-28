@@ -2,7 +2,7 @@
   <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split.name %></h1>
 </div>
 
-<article class="InfoCard InfoCard-half-width sc-m-v--l">
+<article class="InfoCard InfoCard--constrained sc-m-v--l">
   <div class="InfoCard-titleContainer">
     <h4>Test details</h4>
   </div>
@@ -20,7 +20,7 @@
       </tr>
       <tr>
         <td>Status</td>
-        <td class="Status-<%= @split.finished? ? 'finished' : 'active' %>"><%= @split.finished? ? 'Finished' : 'Active' %><span class="sc-p--s">🏁</span></td>
+        <td class="u-status--<%= @split.finished? ? 'finished' : 'active' %>"><%= @split.finished? ? 'Finished' : 'Active' %><span class="sc-p--s">🏁</span></td>
         <td><%= link_to "Edit", new_admin_split_decision_path(@split), class: 'split-decision' %></td>
       </tr>
       <tr>

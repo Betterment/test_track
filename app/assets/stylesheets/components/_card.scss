@@ -1,20 +1,12 @@
 .InfoCard {
   background: $white;
-  @include span-columns(12);
-
-  &-half-width {
-    @include span-columns(6);
-  }
 
   &-divider {
     background-color: $black;
     border-bottom: 1px solid $black;
   }
 
-  .Status {
-    &-active {
-      color: $green;
-    }
+  &--constrained {
+    max-width: $app_width / 2;
   }
 }
-

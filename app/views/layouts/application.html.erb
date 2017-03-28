@@ -10,7 +10,7 @@
 </head>
 <body class="<%= body_css_classes %>">
   <div class="sc-SiteLayout">
-    <div class="sc-SiteLayout-header sc-SiteLayout-header--blue">
+    <header class="sc-SiteLayout-header sc-SiteLayout-header--blue">
       <div class="sc-SiteLayout-container">
         <% if content_for?(:header) %>
           <%= yield(:header) %>
@@ -18,7 +18,7 @@
           <%= render "shared/header" %>
         <% end %>
       </div>
-    </div>
+    </header>
 
     <section class="sc-SiteLayout-section">
       <div class="sc-SiteLayout-container sc-ContentLayout">
