@@ -19,8 +19,8 @@ class Split < ActiveRecord::Base
 
   scope :active, -> { where(finished_at: nil) }
 
-  def has_test_synopsis?
-    hypothesis.present? || assignment_context.present?
+  def has_details?
+    %w(hypothesis assignment_criteria description squad_owner).any? { |attr| send(attr).present? }
   end
 
   def has_variant?(variant)

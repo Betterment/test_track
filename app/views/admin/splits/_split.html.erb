@@ -1,15 +1,15 @@
 <tr>
-    <td>
-        <%= split.name %>
-    </td>
-    <td>
-        <%= render partial: 'split_registry', locals: { registry: split.registry } %>
-    </td>
-    <td>
-        <%= split.owner_app.name %>
-    </td>
-    <td>
-        <%= link_to "", admin_split_path(split), class: "glyphicon glyphicon-chevron-right" %>
-    </td>
+  <td>
+    <%= split.name %>
+  </td>
+  <td>
+    <%= render partial: 'split_registry', locals: { registry: split.registry } %>
+  </td>
+  <td>
+    <%= split.owner_app.name %>
+  </td>
+  <td>
+    <%= link_to "", admin_split_path(split), class: "glyphicon glyphicon-chevron-right" %>
+  </td>
 </tr>
 

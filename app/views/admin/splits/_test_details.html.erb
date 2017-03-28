@@ -3,28 +3,40 @@
     <h2 class="top">Test Overview</h2>
 
     <% unless @split.has_details? %>
-    <%= link_to "Add Details", edit_admin_split_detail_path(@split), class: 'button sc-m-r--s' %>
+    <%= link_to "Add Details", edit_admin_split_details_path(@split), class: 'button sc-m-r--s' %>
     <% end %>
   </div>
 
   <% if @split.has_details? %>
     <table class="borderless bottom">
       <tr>
-        <td>Hypothesis</td>
-        <td><%= split.hypothesis %></td>
-        <td><%= link_to "Edit", edit_admin_split_detail_path(@split) %></td>
+        <td>Squad Owner</td>
+        <td><%= split.squad_owner %></td>
+        <td><%= link_to "Edit", edit_admin_split_details_path(@split) %></td>
       </tr>
       <tr>
-        <td>Assignment Context</td>
-        <td><%= split.assignment_context %></td>
+        <td>Description</td>
+        <td><%= split.description %></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Hypothesis</td>
+        <td><%= split.hypothesis %></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Assignment Criteria</td>
+        <td><%= split.assignment_criteria %></td>
       </tr>
     </table>
   <% else %>
     <div class="EmptyTable sc-p--l">
       <p>
-        <strong>Add a synopsis of your test.</strong>
+        <strong>Add metadata to your test</strong>
         <br>
-        You'll want to add this information so that other teams and CX know what to expect from the test that you're running.
+        This information is used to help CX determine what a user is seeing.
+        <br>
+        It is also required in order to utilize the Test Track Analytics App.
       </p>
     </div>
   <% end %>
