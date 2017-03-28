@@ -15,7 +15,9 @@ Rails.application.routes.draw do
       resource :identifier, only: :create
 
       match 'visitors/:id', to: '/api/v1/cors#allow', via: :options
-      resources :visitors, only: :show
+      resources :visitors, only: :show do
+        resources :variant_details, only: :index
+      end
 
       resources :identifier_types, only: [], param: :name do
         resources :identifiers, only: [], param: :value do
