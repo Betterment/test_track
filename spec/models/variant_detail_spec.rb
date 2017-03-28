@@ -5,7 +5,7 @@ RSpec.describe VariantDetail do
 
   describe '#valid?' do
     context 'with a variant that exists' do
-      subject { described_class.new(split: split, variant: 'true') }
+      subject { FactoryGirl.build(:variant_detail, split: split, variant: 'true') }
 
       it 'returns true' do
         expect(subject.valid?).to eq true
@@ -13,7 +13,7 @@ RSpec.describe VariantDetail do
     end
 
     context 'with a variant that does not exist' do
-      subject { described_class.new(split: split, variant: 'duck') }
+      subject { FactoryGirl.build(:variant_detail, split: split, variant: 'duck') }
 
       it 'returns false' do
         expect(subject.valid?).to eq false

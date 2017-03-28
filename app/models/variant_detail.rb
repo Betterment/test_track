@@ -2,6 +2,7 @@ class VariantDetail < ActiveRecord::Base
   belongs_to :split
 
   validate :variant_must_exist, on: :create
+  validates :display_name, :description, presence: true
 
   def display_name
     super || variant

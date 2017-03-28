@@ -1,8 +1,10 @@
+<% content_for :page_title, "Split Details: #{@split.name}" %>
+
 <div class="TakeoverText">
   <h1 class="TakeoverText-title">Details for variant: <%= @variant_detail.variant %></h1>
 </div>
 
-<div class="form-container sc-m-t--l"%>
+<div class="InfoCard"%>
   <%= simple_form_for @variant_detail, url: admin_split_variant_detail_path(@split, @variant_detail.variant), method: :put do |f| %>
     <%= f.error :base %>
     <%= f.input :display_name %>

@@ -10,6 +10,7 @@
         <th>Name</th>
         <th>Weight</th>
         <th>Assignee Count</th>
+        <th></th>
       </thead>
       <tbody>
         <% @split.variant_details.each do |variant_detail| %>
@@ -28,6 +29,7 @@
                         EOF
               <% end %>
             </td>
+            <td><%= link_to 'edit', edit_admin_split_variant_detail_path(@split, variant_detail.variant) %></td>
           </tr>
         <% end %>
       </tbody>
