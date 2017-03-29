@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220150705) do
+ActiveRecord::Schema.define(version: 20170317155628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,11 +141,15 @@ ActiveRecord::Schema.define(version: 20161220150705) do
 
   create_table "splits", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "name"
-    t.uuid     "owner_app_id", null: false
+    t.uuid     "owner_app_id",        null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "finished_at"
-    t.json     "registry",     null: false
+    t.json     "registry",            null: false
+    t.text     "hypothesis"
+    t.text     "assignment_criteria"
+    t.text     "description"
+    t.string   "owner"
   end
 
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree

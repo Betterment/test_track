@@ -22,7 +22,7 @@ RSpec.describe 'bulk assign flow' do
     expect(split_page).to be_displayed
     expect(split_page.population_count.text).to eq "0"
 
-    split_page.update_assignments.click
+    split_page.upload_new_assignments.click
 
     expect(bulk_assignment_page).to be_displayed
 

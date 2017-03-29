@@ -6,6 +6,12 @@
     border-bottom: 1px solid $black;
   }
 
+  &-header {
+    @include display(flex);
+    @include align-items(center);
+    @include justify-content(space-between);
+  }
+
   &--constrained {
     max-width: $app_width / 2;
   }

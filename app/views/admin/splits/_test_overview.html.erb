@@ -1,0 +1,43 @@
+<article class="InfoCard TestOverview sc-m-v--l">
+  <div class="InfoCard-header">
+    <h4>Test Overview</h4>
+
+    <% if @split.has_details? %>
+      <%= link_to "Edit", edit_admin_split_details_path(@split), class: 'edit-details-link' %>
+    <% else %>
+      <%= link_to "Add Details", edit_admin_split_details_path(@split), class: 'add-details-link button sc-m-r--s' %>
+    <% end %>
+  </div>
+
+  <hr class="InfoCard-divider">
+  <% if @split.has_details? %>
+    <table class="BasicTable borderless bottom">
+      <tr>
+        <td>Squad Owner</td>
+        <td><%= split.owner %></td>
+      </tr>
+      <tr>
+        <td>Description</td>
+        <td><%= split.description %></td>
+      </tr>
+      <tr>
+        <td>Hypothesis</td>
+        <td><%= split.hypothesis %></td>
+      </tr>
+      <tr>
+        <td>Assignment Criteria</td>
+        <td><%= split.assignment_criteria %></td>
+      </tr>
+    </table>
+  <% else %>
+    <div class="EmptyTable EmptyTable--centered sc-p--l">
+      <p>
+        <strong>Add metadata to your test</strong>
+        <br>
+        This information is used to help CX determine what a user is seeing.
+        <br>
+        It is also required in order to utilize the Test Track Analytics App.
+      </p>
+    </div>
+  <% end %>
+</article>
