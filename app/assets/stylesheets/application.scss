@@ -9,7 +9,6 @@ $asset-pipeline: true; //pull font urls correctly
 @import "components/inputs";
 @import "components/card";
 @import "components/explanation_list";
-@import "components/header";
 
 .alert-notice {
   @extend .alert-success;

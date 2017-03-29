@@ -8,9 +8,10 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
 </head>
+
 <body class="<%= body_css_classes %>">
   <div class="sc-SiteLayout">
-    <header class="sc-SiteLayout-header sc-SiteLayout-header--blue">
+    <div class="sc-SiteLayout-header sc-SiteLayout-header--blue">
       <div class="sc-SiteLayout-container">
         <% if content_for?(:header) %>
           <%= yield(:header) %>
@@ -18,7 +19,7 @@
           <%= render "shared/header" %>
         <% end %>
       </div>
-    </header>
+    </div>
 
     <section class="sc-SiteLayout-section">
       <div class="sc-SiteLayout-container sc-ContentLayout">
