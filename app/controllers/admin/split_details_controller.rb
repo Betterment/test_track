@@ -5,7 +5,7 @@ class Admin::SplitDetailsController < AuthenticatedAdminController
 
   def update
     @split = Split.find params[:split_id]
-    if @split.update!(split_context_params)
+    if @split.update(split_context_params)
       flash[:success] = "Successfully updated split test details."
       redirect_to admin_split_path(@split)
     else

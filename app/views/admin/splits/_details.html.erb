@@ -7,7 +7,7 @@
       <td>Population Size</td>
       <td>
         <span class='population'><%= split.assignments.count %></span>
-        <span>(<%= link_to "Upload New Assignments", new_admin_split_bulk_assignment_path(split) %>)</span>
+        <span>(<%= link_to "Upload New Assignments", new_admin_split_bulk_assignment_path(split), class: 'upload-new-assignments-link' %>)</span>
       </td>
     </tr>
     <tr>
@@ -27,7 +27,7 @@
       <td>
         <div class="split-decision">
           <span class="flag">🏁</span>
-          <%= link_to "Decide Split", new_admin_split_decision_path(split) %>
+          <%= link_to "Decide Split", new_admin_split_decision_path(split), class: 'decide-split-link' %>
         </div>
       </td>
     </tr>
