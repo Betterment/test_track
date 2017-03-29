@@ -1,0 +1,15 @@
+.BasicTable {
+  @include standard-table(100%, 40%, 25%);
+  max-width: $app-width;
+  margin-top: 0;
+
+  thead tr th {
+    text-transform: capitalize;
+  }
+}
+
+.EmptyTable {
+  &--centered {
+    text-align: center;
+  }
+}

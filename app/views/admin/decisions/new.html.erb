@@ -1,39 +1,20 @@
-<div class="row">
-  <section>
-    <h2>Decide '<%= @split.name %>'</h2>
-  </section>
+<div class="TakeoverText">
+  <h1 class="TakeoverText-title sc-m-v--l">Decide '<%= @split.name %>'</h1>
 </div>
 
-<div class="row">
+<div class="InfoCard">
   <%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
-    <div class="row">
-      <div class="form-group col-sm-8">
-        <p>Deciding this split in favor of a variant will have two immediate consequences:</p>
-        <ol>
-          <li>This split will be re-weighted so that all <span class="emphasis">future</span> assignments will be to the variant specified.</li>
-          <li>All visitors currently assigned to any other variant in this split will be <span class="emphasis">re-assigned</span> to the variant specified.</li>
-        </ol>
-      </div>
+    <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
+    <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
+      <li>This split will be re-weighted so that all <span class="u-emphasis">future</span> assignments will be to the variant specified.</li>
+      <li>All visitors currently assigned to any other variant in this split will be <span class="u-emphasis">re-assigned</span> to the variant specified.</li>
+    </ol>
+
+    <div class="InfoCard-row sc-m-t--m">
+      <strong>Current Population: <%= @split.assignments.count %></strong>
     </div>
-    <div class="row">
-      <div class="input select optional admin_split_decision_variant col-sm-6">
-        <label class="select optional control-label" for="current_population">Current Population: <%= @split.assignments.count %></label>
-      </div>
-    </div>
-    <div class="row">
-      <%= f.input :variant, wrapper_html: { class: "col-sm-4" }, label: 'Target Variant', collection: @split.variants, include_blank: false %>
-      <span></span>
-    </div>
-    <div class="row search-button-wrapper">
-      <div class="col-sm-12">
-        <%=
-        f.button :submit, "Decide Split", class: "btn-lg btn-default search-button",
-        data: {
-          disable_with: "Saving your Split Decision...",
-          confirm: "\nYou are deciding '#{@split.name}'.\nDo you wish to proceed?"
-        }
-        %>
-      </div>
-    </div>
+    <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
+
+    <%= render "shared/form_footer", f: f, submit_text: "Decide Split", submit_disable_with_text: "Saving your Split Decision...", confirm_text: "\nYou are deciding '#{@split.name}'.\nDo you wish to proceed?" %>
   <% end %>
 </div>

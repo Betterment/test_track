@@ -1,12 +1,7 @@
-<div class="row">
-  <section>
-    <h1 class="page-title">Split: <%= @split.name %></h1>
-  </section>
+<div class="TakeoverText">
+  <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split.name %></h1>
 </div>
-<div class="row">
-  <section>
-    <%= render partial: "details", locals: { split: @split } %>
-    <%= render partial: "test_overview", locals: { split: @split } %>
-    <%= render partial: "variants", locals: { split: @split } %>
-  </section>
-</div>
+
+<%= render partial: "details", locals: { split: @split } %>
+<%= render partial: "test_overview", locals: { split: @split } %>
+<%= render partial: "variants", locals: { split: @split } %>

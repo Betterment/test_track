@@ -1,34 +1,14 @@
 $asset-pipeline: true; //pull font urls correctly
 @import "style-closet";
 @import "bootstrap";
-@import "header";
-@import "sessions";
-@import "card";
 
-body {
-  background: $near-white;
-  font-family: $primary-font-stack;
-  padding-bottom: 10%;
+@import "typography/base";
+@import "typography/utilities";
 
-  h1 {
-    font-weight: $font-light;
-    font-size: 36px;
-    color: $near-black;
-  }
-
-  h2 {
-    font-size: 13px;
-    font-weight: $font-bold;
-    text-transform: uppercase;
-    color: $near-black;
-    margin: 20px 0px;
-  }
-}
-
-.main-content {
-  max-width: $app-width;
-  margin: auto;
-}
+@import "components/tables";
+@import "components/inputs";
+@import "components/card";
+@import "components/explanation_list";
 
 .alert-notice {
   @extend .alert-success;
@@ -36,44 +16,4 @@ body {
 
 .alert-error, .alert-alert {
   @extend .alert-danger;
-}
-
-table {
-  @extend .table;
-  @extend .table-hover;
-  &.borderless {
-    td {
-      border-top: none;
-      padding-top: 4px;
-      padding-bottom: 4px;
-
-    }
-    tbody + tbody {
-      border-top: none;
-    }
-  }
-
-  th {
-    font-weight: bold;
-  }
-}
-
-h1.page-title {
-  margin: 40px 0px;
-}
-
-ol li {
-  margin-left: 20px;
-  list-style-type: decimal;
-}
-
-.emphasis {
-  font-style: italic;
-}
-
-.split-decision {
-  .flag {
-    font-size: 24px;
-    vertical-align: -4px;
-  }
 }

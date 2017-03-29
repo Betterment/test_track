@@ -1,35 +1,36 @@
-<article class="card">
-  <div class="ArticleHeader">
-    <h2 class="top">Details</h2>
+<article class="InfoCard InfoCard--constrained sc-m-v--l">
+  <div class="InfoCard-titleContainer">
+    <h4>Test details</h4>
   </div>
-  <table class="borderless bottom">
-    <tr class="population-row">
-      <td>Population Size</td>
-      <td>
-        <span class='population'><%= split.assignments.count %></span>
-        <span>(<%= link_to "Upload New Assignments", new_admin_split_bulk_assignment_path(split), class: 'upload-new-assignments-link' %>)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>Created At</td>
-      <td><%= split.created_at %></td>
-    </tr>
-    <tr>
-      <td>Finished?</td>
-      <td><%= split.finished? %></td>
-    </tr>
-    <tr>
-      <td>Owner App</td>
-      <td><%= split.owner_app.name %></td>
-    </tr>
-    <tr>
-      <td>&nbsp;</td>
-      <td>
-        <div class="split-decision">
-          <span class="flag">🏁</span>
-          <%= link_to "Decide Split", new_admin_split_decision_path(split), class: 'decide-split-link' %>
-        </div>
-      </td>
-    </tr>
-  </table>
+  <hr class="InfoCard-divider">
+  <div class="InfoCard-description">
+    <table class="BasicTable">
+      <tr class="population-row">
+        <td>Population Size</td>
+        <td>
+          <span class='population'><%= @split.assignments.count %></span>
+        </td>
+        <td>
+          <span><%= link_to "Edit", new_admin_split_bulk_assignment_path(@split), class: 'upload-new-assignments-link' %></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <td class="u-status--<%= @split.finished? ? 'finished' : 'active' %>"><%= @split.finished? ? 'Finished' : 'Active' %><span class="sc-p--s">🏁</span></td>
+        <td><%= link_to "Edit", new_admin_split_decision_path(@split), class: 'decide-split-link' %></td>
+      </tr>
+      <tr>
+        <td>App</td>
+        <td><%= @split.owner_app.name.capitalize %></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Creation</td>
+        <td>
+          <span><%= @split.created_at %></span>
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </div>
 </article>

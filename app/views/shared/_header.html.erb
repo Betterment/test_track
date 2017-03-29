@@ -1,0 +1,13 @@
+<header class="sc-TakeoverHeader">
+  <div class="sc-TakeoverHeader-content">
+    <figure class="sc-TakeoverHeader-logoContainer sc-p--xs">
+      <%= link_to(image_tag('ttlogo.png', size: "47x47"), admin_root_url) %>
+    </figure>
+  </div>
+  <% if signed_in? %>
+    <div class="sc-TakeoverHeader-cta">
+      <%= link_to 'Splits', admin_root_path, class: "sc-p--s u-white-link" %>
+      <%= link_to 'Log out', destroy_admin_session_path, method: :delete, class: "sc-p--s u-white-link" %>
+    </div>
+  <% end %>
+</header>

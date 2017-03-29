@@ -1,0 +1,6 @@
+body {
+  @include sc-responsive-typography;
+  background: $near-white;
+  font-family: $primary-font-stack;
+  min-width: $app-min-width;
+}

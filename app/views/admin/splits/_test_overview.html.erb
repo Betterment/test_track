@@ -1,28 +1,28 @@
-<article class="TestOverview card">
-  <div class="ArticleHeader">
-    <h2 class="top">Test Overview</h2>
+<article class="InfoCard TestOverview sc-m-v--l">
+  <div class="InfoCard-header">
+    <h4>Test Overview</h4>
 
-    <% unless @split.has_details? %>
+    <% if @split.has_details? %>
+      <%= link_to "Edit", edit_admin_split_details_path(@split), class: 'edit-details-link' %>
+    <% else %>
       <%= link_to "Add Details", edit_admin_split_details_path(@split), class: 'add-details-link button sc-m-r--s' %>
     <% end %>
   </div>
 
+  <hr class="InfoCard-divider">
   <% if @split.has_details? %>
     <table class="BasicTable borderless bottom">
       <tr>
         <td>Squad Owner</td>
         <td><%= split.owner %></td>
-        <td><%= link_to "Edit", edit_admin_split_details_path(@split) %></td>
       </tr>
       <tr>
         <td>Description</td>
         <td><%= split.description %></td>
-        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>Hypothesis</td>
         <td><%= split.hypothesis %></td>
-        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>Assignment Criteria</td>
@@ -30,7 +30,7 @@
       </tr>
     </table>
   <% else %>
-    <div class="EmptyTable sc-p--l">
+    <div class="EmptyTable EmptyTable--centered sc-p--l">
       <p>
         <strong>Add metadata to your test</strong>
         <br>
@@ -40,4 +40,4 @@
       </p>
     </div>
   <% end %>
-</div>
+</article>
