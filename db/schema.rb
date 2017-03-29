@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20170317155628) do
     t.text     "hypothesis"
     t.text     "assignment_criteria"
     t.text     "description"
-    t.string   "squad_owner"
+    t.string   "owner"
   end
 
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree

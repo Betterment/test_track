@@ -3,6 +3,6 @@ class AddDetailsToSplits < ActiveRecord::Migration
     add_column :splits, :hypothesis, :text, null: true
     add_column :splits, :assignment_criteria, :text, null: true
     add_column :splits, :description, :text, null: true
-    add_column :splits, :squad_owner, :string, null: true
+    add_column :splits, :owner, :string, null: true
   end
 end

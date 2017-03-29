@@ -16,6 +16,6 @@ class Admin::SplitDetailsController < AuthenticatedAdminController
   private
 
   def split_context_params
-    params.require(:split).permit(:hypothesis, :assignment_criteria, :description, :squad_owner)
+    params.require(:split).permit(:hypothesis, :assignment_criteria, :description, :owner)
   end
 end

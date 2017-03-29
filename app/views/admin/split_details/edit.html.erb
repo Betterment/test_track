@@ -6,7 +6,7 @@
   <div class="form-container sc-m-t--l sc-p--s"%>
     <%= simple_form_for @split, url: admin_split_details_path, method: :put do |f| %>
       <%= f.error :base %>
-      <%= f.input :squad_owner, label: "Squad Name" %>
+      <%= f.input :owner, label: "Squad Name" %>
 
       <%= f.input :description, hint: "Example: Users often get confused during the account creation process when reaching step 2, 'Personal Details'. We are testing two different versions of this page that aim to clear up that confusion." %>
 
