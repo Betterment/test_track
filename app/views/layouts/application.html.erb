@@ -9,9 +9,9 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
 </head>
 
-<body class="<%= body_css_classes %>">
+<body class="<%= site_layout_body_css_classes %>">
   <div class="sc-SiteLayout">
-    <div class="sc-SiteLayout-header sc-SiteLayout-header--blue">
+    <div class="<%= site_layout_header_classes %>">
       <div class="sc-SiteLayout-container">
         <% if content_for?(:header) %>
           <%= yield(:header) %>
@@ -21,8 +21,8 @@
       </div>
     </div>
 
-    <section class="sc-SiteLayout-section">
-      <div class="sc-SiteLayout-container sc-ContentLayout">
+    <section class="<%= site_layout_section_classes %>">
+      <div class="<%= content_layout_classes %> <%= site_layout_container_classes %>">
         <%= render 'layouts/flashes' unless flash.empty? %>
         <%= yield %>
       </div>
