@@ -2,13 +2,13 @@
   <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split_creation.name %></h1>
 </div>
 
-<div class="InfoCard sc-m-v--l">
+<div class="InfoCard">
   <%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
     <% f.simple_fields_for :weighting_registry do |ff| %>
-      <div class="bg-danger"><%= f.error :weighting_registry %></div>
-
+      <%= f.error_notification %>
+      <%= f.error :weighting_registry %>
       <% @split_creation.weighting_registry.each do |variant, weight| %>
-        <%= ff.input variant, as: :integer, input_html: { value: weight, class: "weight-input" } %>
+        <%= ff.input variant, as: :percent, input_html: { value: weight, class: "weight-input" } %>
       <% end %>
 
       <%= render "shared/form_footer", f: f, submit_text: "Edit", submit_disable_with_text: "Changing..." %>

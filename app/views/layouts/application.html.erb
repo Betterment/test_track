@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Test Track Admin</title>
+  <title><%= page_title %></title>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=0">
   <%= favicon_link_tag '/favicon.ico' %>
@@ -21,9 +21,9 @@
       </div>
     </div>
 
-    <section class="<%= site_layout_section_classes %>">
-      <div class="<%= content_layout_classes %> <%= site_layout_container_classes %>">
-        <%= render 'layouts/flashes' unless flash.empty? %>
+    <section class="sc-SiteLayout-section">
+      <div class="sc-ContentLayout sc-ContentLayout--constrained <%= site_layout_container_classes %>">
+        <%= render 'shared/flash' unless flash.empty? %>
         <%= yield %>
       </div>
     </section>

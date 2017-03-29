@@ -5,44 +5,20 @@ SimpleForm.setup do |config|
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :default, class: :input,
-    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
-    ## Extensions enabled by default
-    # Any of these extensions can be disabled for a
-    # given input by passing: `f.input EXTENSION_NAME => false`.
-    # You can make any of these extensions optional by
-    # renaming `b.use` to `b.optional`.
-
-    # Determines whether to use HTML5 (:email, :url, ...)
-    # and required attributes
+  config.wrappers :default, tag: :div, class: 'input-text', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
     b.use :html5
-
-    # Calculates placeholders automatically from I18n
-    # You can also pass a string as f.input placeholder: "Placeholder"
-    b.use :placeholder
-
-    ## Optional extensions
-    # They are disabled unless you pass `f.input EXTENSION_NAME => :lookup`
-    # to the input. If so, they will retrieve the values from the model
-    # if any exists. If you want to enable the lookup for any of those
-    # extensions by default, you can change `b.optional` to `b.use`.
-
-    # Calculates maxlength from length validations for string inputs
-    b.optional :maxlength
-
-    # Calculates pattern from format validations for string inputs
-    b.optional :pattern
-
-    # Calculates min and max from length validations for numeric inputs
-    b.optional :min_max
-
-    # Calculates readonly automatically from readonly attributes
     b.optional :readonly
 
-    ## Inputs
-    b.use :label_input
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
-    b.use :error, wrap_with: { tag: :span, class: :error }
+    b.use :label, class: 'regular'
+    b.use :placeholder
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+    end
+    b.use :hint, wrap_with: { tag: :label, class: 'hint' }
+
+    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do
+    end
   end
 
   # The default wrapper to be used by the FormBuilder.
@@ -52,7 +28,7 @@ SimpleForm.setup do |config|
   # Defaults to :nested for bootstrap config.
   #   inline: input + label
   #   nested: label > input
-  config.boolean_style = :nested
+  config.boolean_style = :inline
 
   # Default class for buttons
   config.button_class = 'btn'
@@ -60,13 +36,13 @@ SimpleForm.setup do |config|
   # Method used to tidy up errors. Specify any Rails Array method.
   # :first lists the first message for each field.
   # Use :to_sentence to list all errors for each field.
-  config.error_method = :to_sentence
+  # config.error_method = :first
 
   # Default tag used for error notification helper.
   config.error_notification_tag = :div
 
   # CSS class to add for error notification helper.
-  config.error_notification_class = 'alert alert-error'
+  config.error_notification_class = 'error_notification'
 
   # ID to add for error notification helper.
   # config.error_notification_id = nil
@@ -92,13 +68,14 @@ SimpleForm.setup do |config|
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  # config.label_text = lambda { |label, required| "#{required} #{label}" }
+  config.label_text = lambda { |label, required, explicit_label| "#{} #{label}" }
 
   # You can define the class to use on all labels. Default is nil.
-  config.label_class = 'control-label'
+  # config.label_class = nil
 
-  # You can define the class to use on all forms. Default is simple_form.
-  # config.form_class = :simple_form
+  # You can define the default class to be used on forms. Can be overriden
+  # with `html: { :class }`. Defaulting to none.
+  # config.default_form_class = nil
 
   # You can define which elements should obtain additional classes
   # config.generate_additional_classes_for = [:wrapper, :label, :input]
@@ -125,6 +102,10 @@ SimpleForm.setup do |config|
   # type as key and the wrapper that will be used for all inputs with specified type.
   # config.wrapper_mappings = { string: :prepend }
 
+  # Namespaces where SimpleForm should look for custom input classes that
+  # override default inputs.
+  # config.custom_inputs_namespaces << "CustomInputs"
+
   # Default priority for time_zone inputs.
   # config.time_zone_priority = nil
 
@@ -142,4 +123,169 @@ SimpleForm.setup do |config|
 
   # Default class for inputs
   # config.input_class = nil
+
+  # Define the default class of the input wrapper of the boolean input.
+  config.boolean_label_class = 'checkbox'
+
+  # Defines if the default input wrapper class should be included in radio
+  # collection wrappers.
+  # config.include_default_input_wrapper_class = true
+
+  # Defines which i18n scope will be used in Simple Form.
+  # config.i18n_scope = 'simple_form'
+  config.wrappers :percent, tag: :div, class: 'input-percent', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+      component.use :symbol, wrap_with: { tag: :div, class: 'symbol' }
+    end
+
+    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do
+    end
+  end
+
+  dropdown = ->(b) {
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :selected, wrap_with: { tag: :div, class: 'display-selected' }
+      component.use :display_dropdown, wrap_with: { tag: :div, class: 'select-options', html: { tabindex: 0 } }
+      component.use :input
+    end
+    b.use :hint, wrap_with: { tag: :label, class: 'hint' }
+  }
+
+  config.wrappers :dropdown, tag: :div, class: 'input-select', error_class: 'not-valid', html: { data: { behavior: 'dropdown' } } do |b|
+    dropdown.call(b)
+  end
+
+  config.wrappers :grouped_dropdown, tag: :div, class: 'grouped-input-select', error_class: 'not-valid', html: { data: { behavior: 'dropdown' } } do |b|
+    dropdown.call(b)
+  end
+
+  radio_group = ->(b) {
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+    end
+    b.use :hint, wrap_with: { tag: :label, class: 'hint' }
+  }
+
+  config.wrappers :descriptive_radio_buttons, tag: :div, class: 'input-radio top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
+    radio_group.call(b)
+  end
+
+  config.wrappers :radio_buttons, tag: :div, class: 'input-radio top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
+    radio_group.call(b)
+  end
+
+  config.wrappers :button_group, tag: :div, class: 'input-radio button-group top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
+    radio_group.call(b)
+  end
+
+  config.wrappers :check_boxes, tag: :div, class: 'input-check-boxes top-label', error_class: 'not-valid', item_wrapper_tag: :div do |b|
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+    end
+  end
+
+  check_box_select = ->(b) {
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :selected, wrap_with: { tag: :div, class: 'display-selected' }
+      component.use :input
+    end
+  }
+
+  config.wrappers :check_box_select, tag: :div, class: 'input-select-checkboxes', html: { data: { behavior: 'dropdown', multi_select: 'true' } } do |b|
+    check_box_select.call(b)
+  end
+
+  config.wrappers :grouped_check_box_select, tag: :div, class: 'input-select-checkboxes grouped', html: { data: { behavior: 'dropdown', multi_select: 'true' } } do |b|
+    check_box_select.call(b)
+  end
+
+  config.wrappers :radio_button_table_cell, tag: :div, error_class: 'not-valid' do |b|
+    b.use :html5
+    b.optional :readonly
+
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+    end
+  end
+
+  config.wrappers :boolean, tag: :div, class: 'input-check', error_class: 'not-valid' do |b|
+    b.use :html5
+    b.optional :readonly
+
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+      component.use :label, class: 'regular'
+    end
+  end
+
+  config.wrappers :datepicker, tag: :div, class: 'input-datepicker', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
+    b.use :html5
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+      component.optional :calendar_icon
+    end
+    b.use :pikaday_script
+  end
+
+  config.wrappers :date_string, tag: :div, class: 'input-date input-text', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
+    b.use :html5
+    b.optional :readonly
+
+    b.use :label, class: 'regular'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.wrapper tag: :div, class: 'input-wrapper' do |component|
+      component.use :input
+    end
+
+    b.use :date_script
+  end
+
+  config.wrapper_mappings = {
+    select: :dropdown,
+    grouped_select: :grouped_dropdown,
+    check_box_select: :check_box_select,
+    grouped_check_box_select: :grouped_check_box_select,
+    radio_buttons: :radio_buttons,
+    radio_button_table_cell: :radio_button_table_cell,
+    descriptive_radio_buttons: :descriptive_radio_buttons,
+    button_group: :button_group,
+    check_boxes: :check_boxes,
+    boolean: :boolean,
+    datepicker: :datepicker,
+    percent: :percent,
+    date_string: :date_string,
+  }
 end

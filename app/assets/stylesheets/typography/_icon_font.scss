@@ -1,0 +1,29 @@
+$icon-close: "\e901";
+$icon-checkmark: "\ea10";
+$icon-chevron-thin-down: "\e900";
+
+@font-face {
+  font-family: 'icomoon';
+  src: font-url('icomoon.eot?gameo7');
+  src: font-url('icomoon.eot?gameo7#iefix') format('embedded-opentype'),
+    font-url('icomoon.ttf?gameo7') format('truetype'),
+    font-url('icomoon.woff?gameo7') format('woff'),
+    font-url('icomoon.svg?gameo7#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin icomoon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

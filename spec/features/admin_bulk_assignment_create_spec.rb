@@ -29,7 +29,7 @@ RSpec.describe 'bulk assign flow' do
     bulk_assignment_page.create_form.tap do |form|
       form.identifiers_listing.set identifiers_listing
       form.identifier_type.select identifier_type
-      form.choose_variant_option 'hammer_time'
+      form.variant_options.select 'hammer_time'
       form.reason.set "this is a test. a what? a test. a what? a test. oh a test."
       form.submit_button.click
     end
@@ -79,7 +79,7 @@ RSpec.describe 'bulk assign flow' do
       EOF
     )
 
-    bulk_assignment_page.create_form.force.click
+    bulk_assignment_page.create_form.force_creation_checkbox.click
     bulk_assignment_page.create_form.submit_button.click
 
     expect(split_page).to be_displayed
