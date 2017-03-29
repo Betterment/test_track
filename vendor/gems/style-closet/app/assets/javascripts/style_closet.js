@@ -1,1 +1,1 @@
-//= require_tree .
+//= require ./style_closet/
