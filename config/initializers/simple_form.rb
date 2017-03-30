@@ -68,7 +68,7 @@ SimpleForm.setup do |config|
   # config.item_wrapper_class = nil
 
   # How the label text should be generated altogether with the required text.
-  config.label_text = lambda { |label, required, explicit_label| "#{} #{label}" }
+  config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
 
   # You can define the class to use on all labels. Default is nil.
   # config.label_class = nil
@@ -184,15 +184,7 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: :label, class: 'hint' }
   }
 
-  config.wrappers :descriptive_radio_buttons, tag: :div, class: 'input-radio top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
-    radio_group.call(b)
-  end
-
   config.wrappers :radio_buttons, tag: :div, class: 'input-radio top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
-    radio_group.call(b)
-  end
-
-  config.wrappers :button_group, tag: :div, class: 'input-radio button-group top-label', error_class: 'not-valid', html: { tabindex: 0, data: { behavior: 'radio' } } do |b|
     radio_group.call(b)
   end
 
@@ -203,35 +195,6 @@ SimpleForm.setup do |config|
     b.use :label, class: 'regular'
     b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
 
-    b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :input
-    end
-  end
-
-  check_box_select = ->(b) {
-    b.use :html5
-    b.optional :readonly
-
-    b.use :label, class: 'regular'
-    b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :selected, wrap_with: { tag: :div, class: 'display-selected' }
-      component.use :input
-    end
-  }
-
-  config.wrappers :check_box_select, tag: :div, class: 'input-select-checkboxes', html: { data: { behavior: 'dropdown', multi_select: 'true' } } do |b|
-    check_box_select.call(b)
-  end
-
-  config.wrappers :grouped_check_box_select, tag: :div, class: 'input-select-checkboxes grouped', html: { data: { behavior: 'dropdown', multi_select: 'true' } } do |b|
-    check_box_select.call(b)
-  end
-
-  config.wrappers :radio_button_table_cell, tag: :div, error_class: 'not-valid' do |b|
-    b.use :html5
-    b.optional :readonly
-
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
       component.use :input
     end
@@ -248,44 +211,11 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :datepicker, tag: :div, class: 'input-datepicker', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
-    b.use :html5
-
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
-    b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :input
-      component.optional :calendar_icon
-    end
-    b.use :pikaday_script
-  end
-
-  config.wrappers :date_string, tag: :div, class: 'input-date input-text', error_class: 'not-valid', html: { data: { behavior: 'input' } } do |b|
-    b.use :html5
-    b.optional :readonly
-
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
-    b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :input
-    end
-
-    b.use :date_script
-  end
-
   config.wrapper_mappings = {
     select: :dropdown,
-    grouped_select: :grouped_dropdown,
-    check_box_select: :check_box_select,
-    grouped_check_box_select: :grouped_check_box_select,
     radio_buttons: :radio_buttons,
-    radio_button_table_cell: :radio_button_table_cell,
-    descriptive_radio_buttons: :descriptive_radio_buttons,
-    button_group: :button_group,
     check_boxes: :check_boxes,
     boolean: :boolean,
-    datepicker: :datepicker,
-    percent: :percent,
-    date_string: :date_string,
+    percent: :percent
   }
 end
