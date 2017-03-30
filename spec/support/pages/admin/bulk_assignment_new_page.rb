@@ -19,7 +19,7 @@ class AdminBulkAssignmentNewPage < SitePrism::Page
       end
     end
 
-    section :variant_options, ".VariantOptions" do
+    section :variant_options, ".fs-VariantOptions" do
       element :options, ' .radio-options'
       def select(text)
         options.find('li', text: text).click

@@ -26,7 +26,7 @@
     <div class="IdentifierTypeSelection sc-m-v--s">
       <%= f.input :identifier_type_id, label: 'Identified By', collection: identifier_types, label_method: :name, value_method: :id, include_blank: true %>
     </div>
-    <div class="VariantOptions">
+    <div class="fs-VariantOptions">
       <%= f.input :variant, label: "To Variant", include_blank: false, collection: @split.variants, as: :radio_buttons %>
     </div>
     <%= f.input :reason, placeholder: "e.g. Turn FeatureX on" %>

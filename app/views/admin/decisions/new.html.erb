@@ -13,7 +13,7 @@
     <div class="InfoCard-row sc-m-t--m">
       <strong>Current Population: <%= @split.assignments.count %></strong>
     </div>
-    <div class="VariantOptions">
+    <div class="fs-VariantOptions">
       <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
     </div>
 
