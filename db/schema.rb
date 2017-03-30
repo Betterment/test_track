@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317155628) do
+ActiveRecord::Schema.define(version: 20170330145712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,8 @@ ActiveRecord::Schema.define(version: 20170317155628) do
     t.text     "assignment_criteria"
     t.text     "description"
     t.string   "owner"
+    t.string   "location"
+    t.integer  "platform"
   end
 
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree

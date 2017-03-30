@@ -1,21 +1,21 @@
 class Admin::SplitDetailsController < AuthenticatedAdminController
-  def edit
-    @split = Split.find params[:split_id]
+  def new
+    @split_detail = SplitDetail.new split_detail_create_params
   end
 
-  def update
-    @split = Split.find params[:split_id]
-    if @split.update(split_context_params)
+  def create
+    @split_detail = SplitDetail.new split_detail_create_params
+    if @split_detail.save
       flash[:success] = "Successfully updated split test details."
-      redirect_to admin_split_path(@split)
+      redirect_to admin_split_path(@split_detail.split)
     else
-      render :edit
+      render :new
     end
   end
 
   private
 
-  def split_context_params
-    params.require(:split).permit(:hypothesis, :assignment_criteria, :description, :owner)
+  def split_detail_create_params
+    params.fetch(:split_detail, {}).permit(:hypothesis, :assignment_criteria, :description, :owner, :location, :platform).merge(split: Split.find(params[:split_id])) # rubocop:disable Metrics/LineLength
   end
 end
