@@ -3,6 +3,7 @@ class SplitDetail
 
   attr_accessor :split, :hypothesis, :assignment_criteria, :description, :owner, :location, :platform
   validates :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, presence: true
+  validates :platform, inclusion: { in: %w(mobile desktop) }
 
   def initialize(params)
     raise 'A split is required to create split details' unless params[:split].present?
