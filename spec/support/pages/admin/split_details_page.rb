@@ -1,5 +1,5 @@
 class AdminSplitDetailsPage < SitePrism::Page
-  set_url "/admin/splits/{split_id}/details/new"
+  set_url "/admin/splits/{split_id}/details/edit"
 
   section :form, '.new_split_detail' do
     element :owner, "input[name='split_detail[owner]']"

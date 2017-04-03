@@ -3,9 +3,9 @@
     <h4>Test Overview</h4>
 
     <% if split.has_details? %>
-      <%= link_to "Edit", new_admin_split_details_path(split), class: 'edit-details-link' %>
+      <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-details-link' %>
     <% else %>
-      <%= link_to "Add Details", new_admin_split_details_path(split), class: 'add-details-link button sc-m-r--s' %>
+      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'add-details-link button sc-m-r--s' %>
     <% end %>
   </div>
 

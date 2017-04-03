@@ -3,7 +3,7 @@
 </div>
 
 <div class="InfoCard">
-  <%= simple_form_for @split_detail, url: admin_split_details_path do |f| %>
+  <%= simple_form_for @split_detail, url: admin_split_details_path, method: :put do |f| %>
     <%= f.error :base %>
     <%= f.input :owner, label: "Squad Name" %>
     <%= f.input :platform, collection: Split.platforms.keys %>
