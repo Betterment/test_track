@@ -1,3 +1,22 @@
-.input-select {
+.input-search .display-selected:after,
+.input-select .display-selected:after,
+.input-select-checkboxes .display-selected:after,
+.grouped-input-select .display-selected:after,
+.native-select:after {
+  @include icomoon;
+  content: $icon-chevron-thin-down;
+  font-size: 2.5rem;
+  bottom: 0.25em;
+  right: 0.5em;
+}
+
+.input-check {
   padding-top: 0;
+
+  input[type="checkbox"] + label.regular:before {
+    @include icomoon;
+    content: $icon-checkmark;
+    font-size: 107.5%;
+    padding: 0.04em 0 0 0.04em;
+  }
 }

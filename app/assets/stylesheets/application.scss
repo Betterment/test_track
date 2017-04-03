@@ -1,19 +1,13 @@
 $asset-pipeline: true; //pull font urls correctly
 @import "style-closet";
-@import "bootstrap";
+
+@import "icon_font";
 
 @import "typography/base";
 @import "typography/utilities";
 
+@import "components/flash";
 @import "components/tables";
 @import "components/inputs";
 @import "components/card";
 @import "components/explanation_list";
-
-.alert-notice {
-  @extend .alert-success;
-}
-
-.alert-error, .alert-alert {
-  @extend .alert-danger;
-}

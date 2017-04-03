@@ -41,8 +41,6 @@ gem 'omniauth-saml'
 gem 'simple_form'
 
 gem 'attribute_normalizer', '~> 1.2.0'
-
-gem 'bootstrap-sass', '~> 3.1.1'
 gem 'style_closet', path: 'vendor/gems/style-closet'
 
 gem 'foreman'
