@@ -1,22 +1,22 @@
+<% content_for :site_layout_body_color, 'white' %>
+
 <div class="TakeoverText">
   <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split_creation.name %></h1>
 </div>
 
-<div class="InfoCard">
-  <%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
-    <% f.simple_fields_for :weighting_registry do |ff| %>
+<%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
+  <% f.simple_fields_for :weighting_registry do |ff| %>
 
-      <% if @split_creation.errors.include? :weighting_registry %>
-        <div class="sc-flash sc-m-b--s error">
-          <%= @split_creation.errors.full_messages_for(:weighting_registry).join(', ') %>
-        </div>
-      <% end %>
-
-      <% @split_creation.weighting_registry.each do |variant, weight| %>
-        <%= ff.input variant, as: :percent, input_html: { value: weight, class: "weight-input" } %>
-      <% end %>
-
-      <%= render "shared/form_footer", f: f, submit_text: "Edit", submit_disable_with_text: "Changing..." %>
+    <% if @split_creation.errors.include? :weighting_registry %>
+      <div class="sc-flash sc-m-b--s error">
+        <%= @split_creation.errors.full_messages_for(:weighting_registry).join(', ') %>
+      </div>
     <% end %>
+
+    <% @split_creation.weighting_registry.each do |variant, weight| %>
+      <%= ff.input variant, as: :percent, input_html: { value: weight, class: "weight-input" } %>
+    <% end %>
+
+    <%= render "shared/form_footer", f: f, submit_text: "Edit", submit_disable_with_text: "Changing..." %>
   <% end %>
-</div>
+<% end %>

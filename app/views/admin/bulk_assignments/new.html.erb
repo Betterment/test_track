@@ -1,36 +1,36 @@
+<% content_for :site_layout_body_color, 'white' %>
+
 <div class="TakeoverText">
   <h1 class="TakeoverText-title sc-m-v--l">Reassign Visitors to <%= @split.name %></h1>
 </div>
 
-<div class="InfoCard">
-  <%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path) do |f| %>
-    <%= f.input :identifiers_listing, as: :text, label: 'IDs To Assign', :input_html => {:rows => 10} %>
+<%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path) do |f| %>
+  <%= f.input :identifiers_listing, as: :text, label: 'IDs To Assign', :input_html => {:rows => 10} %>
 
-    <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>
-      <div id="identifier_creation_warning">
-        <p>
-          <%= percentage @bulk_assignment_creation.new_identifier_creation_ratio %>
-          (<%= @bulk_assignment_creation.new_identifier_count %> of <%= @bulk_assignment_creation.total_identifiers_to_assign_count %>)
-          of the identifiers provided will be <em>created</em> as part of this operation.
-          <br>
-          That's unusual. Please verify that you selected the correct <strong>Identified By</strong> below
-          and double-check that the IDs listed above are correct.
-          Do you still wish to proceed?
-        </p>
+  <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>
+    <div id="identifier_creation_warning">
+      <p>
+        <%= percentage @bulk_assignment_creation.new_identifier_creation_ratio %>
+        (<%= @bulk_assignment_creation.new_identifier_count %> of <%= @bulk_assignment_creation.total_identifiers_to_assign_count %>)
+        of the identifiers provided will be <em>created</em> as part of this operation.
         <br>
-      </div>
-      <div class="sc-m-l--s">
-        <%= f.input :force_identifier_creation, as: :boolean, label: 'YES', wrapper_html: { class: "has-error" } %>
-      </div>
-    <% end %>
-    <div class="IdentifierTypeSelection sc-m-v--s">
-      <%= f.input :identifier_type_id, label: 'Identified By', collection: identifier_types, label_method: :name, value_method: :id, include_blank: true %>
+        That's unusual. Please verify that you selected the correct <strong>Identified By</strong> below
+        and double-check that the IDs listed above are correct.
+        Do you still wish to proceed?
+      </p>
+      <br>
     </div>
-    <div class="fs-VariantOptions">
-      <%= f.input :variant, label: "To Variant", include_blank: false, collection: @split.variants, as: :radio_buttons %>
+    <div class="sc-m-l--s">
+      <%= f.input :force_identifier_creation, as: :boolean, label: 'YES', wrapper_html: { class: "has-error" } %>
     </div>
-    <%= f.input :reason, placeholder: "e.g. Turn FeatureX on" %>
-
-    <%= render "shared/form_footer", f: f, submit_text: "Assign To Split", submit_disable_with_text: "Assigning..." %>
   <% end %>
-</div>
+  <div class="IdentifierTypeSelection sc-m-v--s">
+    <%= f.input :identifier_type_id, label: 'Identified By', collection: identifier_types, label_method: :name, value_method: :id, include_blank: true %>
+  </div>
+  <div class="fs-VariantOptions">
+    <%= f.input :variant, label: "To Variant", include_blank: false, collection: @split.variants, as: :radio_buttons %>
+  </div>
+  <%= f.input :reason, placeholder: "e.g. Turn FeatureX on" %>
+
+  <%= render "shared/form_footer", f: f, submit_text: "Assign To Split", submit_disable_with_text: "Assigning..." %>
+<% end %>

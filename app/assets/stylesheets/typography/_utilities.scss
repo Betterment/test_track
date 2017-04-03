@@ -15,5 +15,9 @@
 .u-white-link {
   font-size: 1.4rem;
   text-transform: uppercase;
+  font-weight: 900;
   color: $white;
+  &:hover {
+    color: $light-blue;
+  }
 }

@@ -9,20 +9,14 @@ module ApplicationLayoutHelper
     classes.join ' '
   end
 
-  def site_layout_section_classes
-    classes = ['sc-SiteLayout-section']
-    classes << "sc-SiteLayout-section--#{site_layout_body_color}" unless site_layout_body_color == 'white'
+  def site_layout_wrapper_classes
+    classes = ['sc-SiteLayout']
+    classes << "sc-SiteLayout--#{site_layout_body_color}"
     classes.join ' '
   end
 
   def site_layout_container_classes
     classes = ['sc-SiteLayout-container']
-    classes.join ' '
-  end
-
-  def content_layout_classes
-    classes = ['sc-ContentLayout sc-ContentLayout--constrained']
-    classes << 'sc-ContentLayout--centered' if site_layout_content_layout == 'centered'
     classes.join ' '
   end
 
@@ -39,7 +33,7 @@ module ApplicationLayoutHelper
   end
 
   def site_layout_body_color
-    content_for(:site_layout_body_color) || 'white'
+    content_for(:site_layout_body_color) || 'nearWhite'
   end
 
   def site_layout_body_css_classes

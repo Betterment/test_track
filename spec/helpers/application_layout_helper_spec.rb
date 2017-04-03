@@ -25,35 +25,24 @@ RSpec.describe ApplicationLayoutHelper, type: :helper do
   end
 
   describe '#site_layout_body_color' do
-    it 'defaults to white' do
-      expect(helper.site_layout_body_color).to eq 'white'
+    it 'defaults to near white' do
+      expect(helper.site_layout_body_color).to eq 'nearWhite'
     end
 
     it 'accepts a custom color' do
-      helper.content_for :site_layout_body_color, 'near-white'
-      expect(helper.site_layout_body_color).to eq 'near-white'
+      helper.content_for :site_layout_body_color, 'white'
+      expect(helper.site_layout_body_color).to eq 'white'
     end
   end
 
-  describe '#site_layout_section_classes' do
+  describe '#site_layout_wrapper_classes' do
     it 'returns descendant class and color modifier class' do
-      expect(helper.site_layout_section_classes).to eq 'sc-SiteLayout-section'
+      expect(helper.site_layout_wrapper_classes).to eq 'sc-SiteLayout sc-SiteLayout--nearWhite'
     end
 
     it 'returns descendant class and color modifier class' do
-      helper.content_for :site_layout_body_color, 'near-white'
-      expect(helper.site_layout_section_classes).to eq 'sc-SiteLayout-section sc-SiteLayout-section--near-white'
-    end
-  end
-
-  describe '#content_layout_classes' do
-    it 'returns content layout classes' do
-      expect(helper.content_layout_classes).to eq 'sc-ContentLayout sc-ContentLayout--constrained'
-    end
-
-    it 'applies centered class when needed' do
-      helper.content_for :site_content_layout, 'centered'
-      expect(helper.content_layout_classes).to eq 'sc-ContentLayout sc-ContentLayout--constrained sc-ContentLayout--centered'
+      helper.content_for :site_layout_body_color, 'blue'
+      expect(helper.site_layout_wrapper_classes).to eq 'sc-SiteLayout sc-SiteLayout--blue'
     end
   end
 
