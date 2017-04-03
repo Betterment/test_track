@@ -1,4 +1,4 @@
-class Admin::VariantDetailsController < ApplicationController
+class Admin::VariantDetailsController < AuthenticatedAdminController
   def edit
     @split = Split.find(params[:split_id])
     @variant_detail = @split.variant_details.find_or_initialize_by(variant: params[:id])
