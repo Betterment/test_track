@@ -1,7 +1,8 @@
 $asset-pipeline: true; //pull font urls correctly
 @import "style-closet";
 
-@import "typography/icon_font";
+@import "icon_font";
+
 @import "typography/base";
 @import "typography/utilities";
 
