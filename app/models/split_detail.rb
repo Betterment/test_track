@@ -1,58 +1,25 @@
 class SplitDetail
   include ActiveModel::Model
+  include DelegateAttribute
 
-  attr_accessor :split, :hypothesis, :assignment_criteria, :description, :owner, :location, :platform
+  attr_accessor :split
+  delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
+
   validates :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, presence: true
   validates :platform, inclusion: { in: %w(mobile desktop) }
 
   def initialize(params)
     raise 'A split is required to create split details' unless params[:split].present?
+    self.split = params.delete(:split)
     super
   end
 
   def save
     if valid?
-      update_split!
+      split.save!
       true
     else
       false
     end
-  end
-
-  def assignment_criteria
-    @assignment_criteria ||= split.assignment_criteria
-  end
-
-  def description
-    @description ||= split.description
-  end
-
-  def hypothesis
-    @hypothesis ||= split.hypothesis
-  end
-
-  def owner
-    @owner ||= split.owner
-  end
-
-  def platform
-    @platform ||= split.platform
-  end
-
-  def location
-    @location ||= split.location
-  end
-
-  private
-
-  def update_split!
-    split.update!(
-      hypothesis: hypothesis,
-      assignment_criteria: assignment_criteria,
-      description: description,
-      owner: owner,
-      location: location,
-      platform: platform
-    )
   end
 end
