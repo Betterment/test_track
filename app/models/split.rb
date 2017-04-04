@@ -4,6 +4,7 @@ class Split < ActiveRecord::Base
   has_many :previous_split_registries
   has_many :assignments
   has_many :bulk_assignments
+  has_many :variant_details
 
   validates :name, presence: true, uniqueness: true
   validates :registry, presence: true
@@ -31,12 +32,6 @@ class Split < ActiveRecord::Base
 
   def variants
     registry ? registry.keys : []
-  end
-
-  def variant_details
-    variants.map do |variant|
-      VariantDetail.new(self, variant).freeze
-    end
   end
 
   def variant_weight(variant)

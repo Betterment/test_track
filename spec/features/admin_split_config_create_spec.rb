@@ -14,7 +14,7 @@ RSpec.describe 'admin can change weights for split variants' do
   it 'allows admins to change the weights of a split' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
-    expect(split_page.variants_table).to have_content "red 100% 0 blue 0% 0"
+    expect(split_page.variants_table).to have_content "red 100% 0 edit blue 0% 0 edit"
 
     split_page.change_weights.click
 
@@ -31,12 +31,13 @@ RSpec.describe 'admin can change weights for split variants' do
     # testing that we don't allow decimals, i.e. it truncates the inputs
     split_config_new_page.create_form.tap do |form|
       new_weights = %w(49.6 50.4)
+
       form.weight_inputs.each_with_index do |input, i|
         input.set new_weights[i]
       end
       form.submit_button.click
     end
-    expect(split_config_new_page).to have_content "all weights must be integers"
+    expect(split_config_new_page).to have_content "must contain weights that sum to 100% (got 99)"
 
     split_config_new_page.create_form.tap do |form|
       new_weights = %w(50 50)
@@ -45,6 +46,6 @@ RSpec.describe 'admin can change weights for split variants' do
       end
       form.submit_button.click
     end
-    expect(split_page.variants_table).to have_content "red 50% 0 blue 50% 0"
+    expect(split_page.variants_table).to have_content "red 50% 0 edit blue 50% 0 edit"
   end
 end

@@ -1,0 +1,10 @@
+.sc-flash {
+  .close {
+    margin-bottom: 1rem;
+  }
+  .Icon-close:after {
+    @include icomoon;
+    content: $icon-close;
+    font-size: 2.5rem;
+  }
+}
