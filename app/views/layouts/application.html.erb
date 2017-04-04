@@ -10,7 +10,7 @@
 </head>
 
 <body class="<%= site_layout_body_css_classes %>">
-  <div class="<%= site_layout_wrapper_classes %>">
+  <div class="sc-SiteLayout">
     <div class="<%= site_layout_header_classes %>">
       <div class="sc-SiteLayout-container">
         <% if content_for?(:header) %>
@@ -22,9 +22,11 @@
     </div>
 
     <section class="sc-SiteLayout-section">
-      <div class="sc-ContentLayout sc-ContentLayout--constrained <%= site_layout_container_classes %>">
+      <div class="sc-SiteLayout-container sc-SiteLayout-container--extraLeftPadding">
         <%= render 'shared/flash' unless flash.empty? %>
-        <%= yield %>
+        <div class="sc-p-v--m">
+          <%= yield %>
+        </div>
       </div>
     </section>
   </div>

@@ -24,25 +24,25 @@ RSpec.describe ApplicationLayoutHelper, type: :helper do
     end
   end
 
-  describe '#site_layout_body_color' do
+  describe '#body_layout_body_color' do
     it 'defaults to near white' do
-      expect(helper.site_layout_body_color).to eq 'nearWhite'
+      expect(helper.body_layout_body_color).to eq 'nearWhite'
     end
 
     it 'accepts a custom color' do
-      helper.content_for :site_layout_body_color, 'white'
-      expect(helper.site_layout_body_color).to eq 'white'
+      helper.content_for :body_layout_body_color, 'white'
+      expect(helper.body_layout_body_color).to eq 'white'
     end
   end
 
-  describe '#site_layout_wrapper_classes' do
+  describe '#body_layout_body_color_class' do
     it 'returns descendant class and color modifier class' do
-      expect(helper.site_layout_wrapper_classes).to eq 'sc-SiteLayout sc-SiteLayout--nearWhite'
+      expect(helper.body_layout_body_color_class).to eq 'Body--nearWhite'
     end
 
     it 'returns descendant class and color modifier class' do
-      helper.content_for :site_layout_body_color, 'blue'
-      expect(helper.site_layout_wrapper_classes).to eq 'sc-SiteLayout sc-SiteLayout--blue'
+      helper.content_for :body_layout_body_color, 'blue'
+      expect(helper.body_layout_body_color_class).to eq 'Body--blue'
     end
   end
 
