@@ -20,8 +20,10 @@ class Split < ActiveRecord::Base
 
   scope :active, -> { where(finished_at: nil) }
 
+  enum platform: [:mobile, :desktop]
+
   def has_details?
-    %w(hypothesis assignment_criteria description owner).any? { |attr| public_send(attr).present? }
+    %w(hypothesis assignment_criteria description owner location platform).any? { |attr| public_send(attr).present? }
   end
 
   def has_variant?(variant)

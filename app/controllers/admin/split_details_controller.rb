@@ -1,13 +1,14 @@
 class Admin::SplitDetailsController < AuthenticatedAdminController
   def edit
-    @split = Split.find params[:split_id]
+    @split_detail = SplitDetail.new split_detail_params.merge(split: Split.find(params[:split_id]))
   end
 
   def update
-    @split = Split.find params[:split_id]
-    if @split.update(split_context_params)
+    @split_detail = SplitDetail.new split_detail_params.merge(split: Split.find(params[:split_id]))
+
+    if @split_detail.save
       flash[:success] = "Successfully updated split test details."
-      redirect_to admin_split_path(@split)
+      redirect_to admin_split_path(@split_detail.split)
     else
       render :edit
     end
@@ -15,7 +16,7 @@ class Admin::SplitDetailsController < AuthenticatedAdminController
 
   private
 
-  def split_context_params
-    params.require(:split).permit(:hypothesis, :assignment_criteria, :description, :owner)
+  def split_detail_params
+    params.fetch(:split_detail, {}).permit(:hypothesis, :assignment_criteria, :description, :owner, :location, :platform)
   end
 end

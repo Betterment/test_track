@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317155628) do
+ActiveRecord::Schema.define(version: 20170330145712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,6 +150,8 @@ ActiveRecord::Schema.define(version: 20170317155628) do
     t.text     "assignment_criteria"
     t.text     "description"
     t.string   "owner"
+    t.string   "location"
+    t.integer  "platform"
   end
 
   add_index "splits", ["name"], name: "index_splits_on_name", unique: true, using: :btree
@@ -158,8 +160,8 @@ ActiveRecord::Schema.define(version: 20170317155628) do
   create_table "variant_details", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "split_id",     null: false
     t.string   "variant",      null: false
-    t.string   "display_name"
-    t.text     "description"
+    t.string   "display_name", null: false
+    t.text     "description",  null: false
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
