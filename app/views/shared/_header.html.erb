@@ -3,6 +3,9 @@
     <figure class="sc-TakeoverHeader-logoContainer sc-p--xs">
       <%= link_to(image_tag('ttlogo.png', size: "47x47"), admin_root_url) %>
     </figure>
+    <div class="sc-TakeoverHeader-title">
+      <%= page_title %>
+    </div>
   </div>
   <% if signed_in? %>
     <div class="sc-TakeoverHeader-cta">

@@ -1,14 +1,16 @@
-class VariantDetail
-  attr_reader :split, :variant, :weight, :assignment_count
+class VariantDetail < ActiveRecord::Base
+  belongs_to :split
 
-  def initialize(split, variant)
-    @split = split
-    @variant = variant
-    @weight = split.variant_weight(variant)
-    @assignment_count = split.assignment_count_for_variant(variant)
+  validate :variant_must_exist
+  validates :display_name, :description, presence: true
+
+  def display_name
+    super || variant
   end
 
-  def retirable?
-    weight == 0 && assignment_count > 0
+  private
+
+  def variant_must_exist
+    errors.add(:base, "Variant does not exist: #{variant}") unless split.has_variant?(variant)
   end
 end

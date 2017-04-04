@@ -4,6 +4,6 @@ class Admin::SplitsController < AuthenticatedAdminController
   end
 
   def show
-    @split = Split.find params[:id]
+    @split = SplitPresenter.new(Split.find(params[:id]))
   end
 end
