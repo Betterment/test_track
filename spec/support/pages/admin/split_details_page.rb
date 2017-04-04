@@ -8,9 +8,11 @@ class AdminSplitDetailsPage < SitePrism::Page
     element :assignment_criteria, "textarea[name='split_detail[assignment_criteria]']"
     element :location, "input[name='split_detail[location]']"
 
-    element :platform_options, ".split_detail_platform select"
+    element :current_platform, '.split_detail_platform .display-selected'
+    element :platform_dropdown, '.split_detail_platform .select-options ul'
     def select_platform(text)
-      platform_options.find("option[value=#{text}]").select_option
+      current_platform.click
+      platform_dropdown.find('li', text: text).click
     end
 
     element :submit_button, 'input[type=submit]'
