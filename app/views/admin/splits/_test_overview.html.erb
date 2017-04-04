@@ -2,19 +2,27 @@
   <div class="InfoCard-header">
     <h4>Test Overview</h4>
 
-    <% if @split.has_details? %>
-      <%= link_to "Edit", edit_admin_split_details_path(@split), class: 'edit-details-link' %>
+    <% if split.has_details? %>
+      <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-details-link' %>
     <% else %>
-      <%= link_to "Add Details", edit_admin_split_details_path(@split), class: 'add-details-link button sc-m-r--s' %>
+      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'add-details-link button sc-m-r--s' %>
     <% end %>
   </div>
 
   <hr class="InfoCard-divider">
-  <% if @split.has_details? %>
+  <% if split.has_details? %>
     <table class="BasicTable borderless bottom">
       <tr>
         <td>Squad Owner</td>
         <td><%= split.owner %></td>
+      </tr>
+      <tr>
+        <td>Platform</td>
+        <td><%= split.platform %></td>
+      </tr>
+      <tr>
+        <td>Location</td>
+        <td><%= split.location %></td>
       </tr>
       <tr>
         <td>Description</td>

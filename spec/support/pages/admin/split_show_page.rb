@@ -4,6 +4,9 @@ class AdminSplitShowPage < SitePrism::Page
   element :population_count, "tr.population-row span.population"
 
   element :variants_table, ".fs-VariantsTable"
+  sections :variants, ".fs-VariantsTable tbody tr" do
+    element :edit_link, 'td:nth-of-type(4) a'
+  end
 
   element :change_weights, ".change-weights-link"
   element :retire_variant, ".retire-variant-link"
