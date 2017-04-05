@@ -34,6 +34,7 @@ describe Api::V1::AssignmentDetailsController, type: :request do
 
       response_json.first.tap do |assignment|
         expect(assignment['split_location']).to eq 'Home page'
+        expect(assignment['split_name']).to eq 'excellent_feature'
         expect(assignment['variant_name']).to eq 'Awesome feature is on'
         expect(assignment['variant_description']).to eq 'This awesome feature makes cool stuff happen.'
         expect(assignment['assigned_at']).to eq '2017-04-05T14:00:00Z'
