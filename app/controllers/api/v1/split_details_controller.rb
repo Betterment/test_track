@@ -1,11 +1,9 @@
-class Api::V1::SplitDetailsController < UnauthenticatedApiController
-  include CorsSupport
-
+class Api::V1::SplitDetailsController < AuthenticatedApiController
   def show
     if split.present?
       @split_detail = SplitDetail.new(split: split)
     else
-      render json: { error: "Split not found" }, status: :unprocessable_entity
+      render json: { error: "Split not found" }, status: :not_found
     end
   end
 
