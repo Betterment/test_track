@@ -9,7 +9,7 @@ class Api::V1::SplitConfigsController < AuthenticatedApiController
   end
 
   def destroy
-    split = Split.find_by!(name: params[:id])
+    split = current_app.splits.find_by!(name: params[:id])
     split.update!(finished_at: Time.zone.now) unless split.finished?
     head :no_content
   end
