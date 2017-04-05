@@ -14,6 +14,7 @@ class Assignment < ActiveRecord::Base
   validate :variant_must_exist
 
   scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
+  scope :by_recency, -> { order(created_at: :desc) }
 
   normalize_attributes :mixpanel_result
 
