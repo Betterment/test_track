@@ -3,7 +3,7 @@ class SplitDetail
   include DelegateAttribute
 
   attr_accessor :split
-  delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
+  delegate_attribute :name, :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
 
   validates :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, presence: true
   validates :platform, inclusion: { in: %w(mobile desktop) }
