@@ -1,22 +1,23 @@
+<% content_for :body_layout_body_color, 'white' %>
+<% content_for :page_title, "Split Details: #{@split.name}" %>
+
 <div class="TakeoverText">
   <h1 class="TakeoverText-title sc-m-v--l">Decide '<%= @split.name %>'</h1>
 </div>
 
-<div class="InfoCard">
-  <%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
-    <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
-    <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
-      <li>This split will be re-weighted so that all <span class="u-emphasis">future</span> assignments will be to the variant specified.</li>
-      <li>All visitors currently assigned to any other variant in this split will be <span class="u-emphasis">re-assigned</span> to the variant specified.</li>
-    </ol>
+<%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
+  <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
+  <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
+    <li>This split will be re-weighted so that all <span class="u-emphasis">future</span> assignments will be to the variant specified.</li>
+    <li>All visitors currently assigned to any other variant in this split will be <span class="u-emphasis">re-assigned</span> to the variant specified.</li>
+  </ol>
 
-    <div class="InfoCard-row sc-m-t--m">
-      <strong>Current Population: <%= @split.assignments.count %></strong>
-    </div>
-    <div class="fs-VariantOptions">
-      <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
-    </div>
+  <div class="sc-m-t--m">
+    <strong>Current Population: <%= @split.assignments.count %></strong>
+  </div>
+  <div class="fs-VariantOptions">
+    <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
+  </div>
 
-    <%= render "shared/form_footer", f: f, submit_text: "Decide Split", submit_disable_with_text: "Saving your Split Decision...", confirm_text: "\nYou are deciding '#{@split.name}'.\nDo you wish to proceed?" %>
-  <% end %>
-</div>
+  <%= render "shared/form_footer", f: f, submit_text: "Decide Split", submit_disable_with_text: "Saving your Split Decision...", confirm_text: "\nYou are deciding '#{@split.name}'.\nDo you wish to proceed?" %>
+<% end %>

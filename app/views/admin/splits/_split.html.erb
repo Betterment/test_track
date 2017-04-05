@@ -3,10 +3,10 @@
     <%= split.name %>
   </td>
   <td>
-    <%= render partial: 'split_registry', locals: { registry: split.registry } %>
+    <%= split.owner_app.name.capitalize %>
   </td>
   <td>
-    <%= split.owner_app.name %>
+    <%= split.created_at.to_s(:slashed_full_date) %>
   </td>
   <td>
     <%= link_to "View", admin_split_path(split) %>

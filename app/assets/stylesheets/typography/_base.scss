@@ -1,6 +1,16 @@
 body {
   @include sc-responsive-typography;
-  background: $near-white;
   font-family: $primary-font-stack;
   min-width: $app-min-width;
 }
+
+.Body {
+  &--nearWhite {
+    background: $near-white;
+  }
+  &--white {
+    background: $white;
+  }
+}
+
+$font-medium: 400;

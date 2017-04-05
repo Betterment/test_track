@@ -9,23 +9,6 @@ module ApplicationLayoutHelper
     classes.join ' '
   end
 
-  def site_layout_section_classes
-    classes = ['sc-SiteLayout-section']
-    classes << "sc-SiteLayout-section--#{site_layout_body_color}" unless site_layout_body_color == 'white'
-    classes.join ' '
-  end
-
-  def site_layout_container_classes
-    classes = ['sc-SiteLayout-container']
-    classes.join ' '
-  end
-
-  def content_layout_classes
-    classes = ['sc-ContentLayout sc-ContentLayout--constrained']
-    classes << 'sc-ContentLayout--centered' if site_layout_content_layout == 'centered'
-    classes.join ' '
-  end
-
   def site_layout_content_layout
     content_for(:site_content_layout) || 'base'
   end
@@ -38,12 +21,16 @@ module ApplicationLayoutHelper
     'blue'
   end
 
-  def site_layout_body_color
-    content_for(:site_layout_body_color) || 'white'
+  def body_layout_body_color
+    content_for(:body_layout_body_color) || 'nearWhite'
+  end
+
+  def body_layout_body_color_class
+    "Body--#{body_layout_body_color}"
   end
 
   def site_layout_body_css_classes
-    [controller_action_css_class, controller_css_class].join(' ')
+    [controller_action_css_class, controller_css_class, body_layout_body_color_class].join(' ')
   end
 
   def controller_css_class
