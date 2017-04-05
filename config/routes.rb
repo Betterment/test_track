@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
       match 'visitors/:id', to: '/api/v1/cors#allow', via: :options
       resources :visitors, only: :show do
-        resources :variant_details, only: :index
+        resources :assignment_details, only: :index
       end
 
       resources :identifier_types, only: [], param: :name do
