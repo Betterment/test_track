@@ -38,7 +38,6 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
       get "/api/v1/split_details/i_am_not_a_real_split"
 
       expect(response).to have_http_status :not_found
-      expect(response_json['error']).to eq "Split not found"
     end
   end
 end
