@@ -6,7 +6,7 @@
 <footer class="sc-TakeoverFooter">
   <div class="sc-TakeoverFooter-content">
     <% if local_assigns.has_key? :back_path %>
-      <%= trackable_link_to back_text, back_path, class: 'sc-TakeoverFooter-ctaBack sc-Link sc-Link--arrowLeft ft-backButton', event_data: back_track_params.merge(name: 'BackButton') %>
+      <%= link_to back_text, back_path, class: 'sc-TakeoverFooter-ctaBack sc-Link sc-Link--arrowLeft ft-backButton', event_data: back_track_params.merge(name: 'BackButton') %>
     <% end %>
     <% if local_assigns.has_key? :f %>
       <% if local_assigns.has_key? :confirm_text %>

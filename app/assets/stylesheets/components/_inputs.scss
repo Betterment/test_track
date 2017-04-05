@@ -20,3 +20,7 @@
     padding: 0.04em 0 0 0.04em;
   }
 }
+
+.input-text input, .input-number input, .input-email input, .input-password input, .input-money input, .input-cents input, .input-percent input, .input-search input, .input-datepicker input, .input-file input, .input-text textarea, .input-number textarea, .input-email textarea, .input-password textarea, .input-money textarea, .input-cents textarea, .input-percent textarea, .input-search textarea, .input-datepicker textarea, .input-file textarea {
+  font-weight: $font-medium;
+}
