@@ -28,6 +28,9 @@ Rails.application.routes.draw do
       resource :assignment_override, only: :create
 
       # Server-side authenticated endpoints
+      match 'split_details/:id', to: '/api/v1/cors#allow', via: :options
+      resources :split_details, only: :show, controller: 'split_details'
+
       resources :split_configs, only: [:create, :destroy]
       resource :identifier_type, only: :create
     end
