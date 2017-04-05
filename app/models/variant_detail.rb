@@ -8,10 +8,6 @@ class VariantDetail < ActiveRecord::Base
     super || variant
   end
 
-  def description
-    super || "#{split.name} = #{variant}"
-  end
-
   private
 
   def variant_must_exist
