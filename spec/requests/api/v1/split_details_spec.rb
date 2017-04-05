@@ -39,9 +39,9 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
     end
 
     it "blows up if split id is incorrect" do
-      expect {
+      expect do
         get "/api/v1/split_details/i_am_not_a_real_split"
-      }.to raise_exception ActiveRecord::RecordNotFound
+      end.to raise_exception ActiveRecord::RecordNotFound
     end
   end
 end
