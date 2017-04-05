@@ -5,7 +5,7 @@ class AuthenticatedApiController < UnauthenticatedApiController
   attr_reader :current_app
 
   def authenticate
-    authenticate_with_http_basic do |app_name, auth_secret|
+    authenticate_or_request_with_http_basic do |app_name, auth_secret|
       app = App.find_by(name: app_name)
       if app && ActiveSupport::SecurityUtils.secure_compare(app.auth_secret, auth_secret)
         @current_app = app
