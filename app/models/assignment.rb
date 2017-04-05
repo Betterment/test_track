@@ -20,7 +20,7 @@ class Assignment < ActiveRecord::Base
   delegate :name, to: :split, prefix: true
 
   def variant_detail
-    variant_details.select { |d| d.variant == variant }.first
+    @variant_detail ||= variant_details.select { |d| d.variant == variant }.first
   end
 
   def create_previous_assignment!(now)
