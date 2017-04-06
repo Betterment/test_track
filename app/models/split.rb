@@ -23,7 +23,7 @@ class Split < ActiveRecord::Base
   enum platform: [:mobile, :desktop]
 
   def detail
-    SplitDetail.new(split: self)
+    @detail ||= SplitDetail.new(split: self)
   end
 
   def has_details?
