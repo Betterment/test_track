@@ -1,4 +1,5 @@
 class Split < ActiveRecord::Base
+  attr_reader :split_detail
   belongs_to :owner_app, required: true, class_name: "App"
 
   has_many :previous_split_registries
@@ -21,6 +22,10 @@ class Split < ActiveRecord::Base
   scope :active, -> { where(finished_at: nil) }
 
   enum platform: [:mobile, :desktop]
+
+  def detail
+    SplitDetail.new(split: self)
+  end
 
   def has_details?
     %w(hypothesis assignment_criteria description owner location platform).any? { |attr| public_send(attr).present? }
