@@ -22,6 +22,10 @@ class Split < ActiveRecord::Base
 
   enum platform: [:mobile, :desktop]
 
+  def detail
+    @detail ||= SplitDetail.new(split: self)
+  end
+
   def has_details?
     %w(hypothesis assignment_criteria description owner location platform).any? { |attr| public_send(attr).present? }
   end
