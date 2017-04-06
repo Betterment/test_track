@@ -1,5 +1,4 @@
 class Split < ActiveRecord::Base
-  attr_reader :split_detail
   belongs_to :owner_app, required: true, class_name: "App"
 
   has_many :previous_split_registries
