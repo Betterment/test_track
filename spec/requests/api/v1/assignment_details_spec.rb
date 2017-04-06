@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 describe Api::V1::AssignmentDetailsController, type: :request do
+  let(:default_app) { FactoryGirl.create(:app, name: 'default_app', auth_secret: '6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOf') }
   let(:split) { FactoryGirl.create(:split, name: 'excellent_feature', registry: { enabled: 50, disabled: 50 }, location: 'Home page') }
 
   let!(:variant_detail) do
@@ -24,7 +25,9 @@ describe Api::V1::AssignmentDetailsController, type: :request do
     )
   end
 
-  let(:response_json) { JSON.parse(response.body) }
+  before do
+    http_authenticate username: default_app.name, password: default_app.auth_secret
+  end
 
   describe 'GET /api/v1/visitors/:id/assignment_details' do
     it 'renders a list of assignment details for the user' do
