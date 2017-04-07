@@ -21,7 +21,10 @@ class Assignment < ActiveRecord::Base
   delegate :name, to: :split, prefix: true
 
   def variant_detail
-    @variant_detail ||= _variant_detail
+    @variant_detail ||= begin
+      detail = variant_details.select { |d| d.variant == variant }.first
+      detail || VariantDetail.new(split: split, variant: variant)
+    end
   end
 
   def create_previous_assignment!(now)
@@ -53,9 +56,5 @@ class Assignment < ActiveRecord::Base
   def variant_must_exist
     return unless split
     errors.add(:variant, "must be specified in split's current variations") unless split.has_variant?(variant)
-  end
-
-  def _variant_detail
-    variant_details.select { |d| d.variant == variant }.first || VariantDetail.new(split: split, variant: variant)
   end
 end
