@@ -7,16 +7,25 @@ class Assignment < ActiveRecord::Base
   belongs_to :visitor_supersession, required: false
 
   has_many :previous_assignments
+  has_many :variant_details, through: :split
 
   validates :variant, presence: true
   validates :mixpanel_result, inclusion: { in: %w(success failure) }, allow_nil: true
   validate :variant_must_exist
 
   scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
+  scope :by_recency, -> { order(created_at: :desc) }
 
   normalize_attributes :mixpanel_result
 
   delegate :name, to: :split, prefix: true
+
+  def variant_detail
+    @variant_detail ||= begin
+      detail = variant_details.select { |d| d.variant == variant }.first
+      detail || VariantDetail.new(split: split, variant: variant)
+    end
+  end
 
   def create_previous_assignment!(now)
     previous_assignments.create!(previous_assignment_params.merge(updated_at: now, superseded_at: now))

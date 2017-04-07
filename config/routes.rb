@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       resources :identifier_types, only: [], param: :name do
         resources :identifiers, only: [], param: :value do
           resource :visitor, only: :show, controller: 'identifier_visitors'
+          resource :visitor_detail, only: :show
         end
       end
 
