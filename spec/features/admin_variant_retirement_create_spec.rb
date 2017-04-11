@@ -17,11 +17,11 @@ RSpec.describe 'admin can retire a variant for a split' do
   it 'allows admins to retire a variant' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
-    expect(split_page.variants_table).to have_content "blue 0% 8 (Retire variant)"
+    expect(split_page.variants_table).to have_content "blue 0%(8) (Retire variant)"
 
     split_page.retire_variant.click
 
-    expect(split_page.variants_table).to have_content "blue 0% 0"
+    expect(split_page.variants_table).to have_content "blue 0%(0)"
     expect(split_page.variants_table).not_to have_content "Retire variant"
   end
 end

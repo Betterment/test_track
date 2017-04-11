@@ -25,5 +25,7 @@ RSpec.describe 'admin can edit variant details' do
 
     expect(split_page).to be_displayed
     expect(split_page).to have_content 'Details for enabled have been saved'
+    expect(split_page.variants.first.name).to have_content "Variant name"
+    expect(split_page.variants.first.description).to have_content "Super great variant"
   end
 end
