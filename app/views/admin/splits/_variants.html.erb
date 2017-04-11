@@ -5,20 +5,19 @@
   </div>
   <hr class="InfoCard-divider">
   <div class="InfoCard-description">
-    <table class="fs-VariantsTable BasicTable">
+    <table class="fs-VariantsTable DescriptionTable">
       <thead>
         <th>Name</th>
-        <th>Weight</th>
-        <th>Assignee Count</th>
+        <th>Description</th>
+        <th>Weight (Assignee Count)</th>
         <th></th>
       </thead>
       <tbody>
         <% split.variant_details.each do |variant_detail| %>
           <tr>
-            <td><%= variant_detail.variant %></td>
-            <td><%= variant_detail.weight %>%</td>
-            <td>
-              <%= variant_detail.assignment_count %>
+            <td><%= variant_detail.display_name %></td>
+            <td><%= variant_detail.description %></td>
+            <td><%= variant_detail.weight %>%(<%= variant_detail.assignment_count %>)
               <% if variant_detail.retirable? %>
               (<%= link_to "Retire variant", admin_split_variant_retirement_path(split, variant_detail.variant),
                 class: "retire-variant-link",
