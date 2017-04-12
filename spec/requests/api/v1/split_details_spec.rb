@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V1::SplitDetailsController, type: :request do
   describe 'GET /api/v1/split_details/:id' do
     let(:default_app) { FactoryGirl.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOf" }
-    let(:split_with_no_details) { FactoryGirl.create :split, name: "fantastic_split" }
+    let(:split_with_no_details) { FactoryGirl.create :split, registry: { hammer: 99, nail: 1 }, name: "fantastic_split" }
     let(:split_with_details) { FactoryGirl.create :split, registry: { enabled: 99, disabled: 1 }, name: "fantastic_split_with_information", platform: 'mobile', description: 'Greatest Split', assignment_criteria: "Must love problem solvers", hypothesis: 'Will solve all problems', location: 'Everywhere', owner: 'Me' } # rubocop:disable Metrics/LineLength
 
     let!(:variant_detail_a) do
@@ -40,7 +40,16 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
         "platform" => nil,
         "description" => nil,
         "owner" => nil,
-        "variant_details" => []
+        "variant_details" => [
+          {
+            "name" => "hammer",
+            "description" => nil
+          },
+          {
+            "name" => "nail",
+            "description" => nil
+          }
+        ]
       )
     end
 
