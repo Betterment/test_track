@@ -8,6 +8,18 @@ class VariantDetail < ActiveRecord::Base
     super || variant
   end
 
+  def weight
+    @weight ||= split.variant_weight(variant)
+  end
+
+  def assignment_count
+    @assignment_count ||= split.assignment_count_for_variant(variant)
+  end
+
+  def retirable?
+    weight == 0 && assignment_count > 0
+  end
+
   private
 
   def variant_must_exist
