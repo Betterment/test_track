@@ -2,7 +2,7 @@
 <% content_for :page_title, "Split Details: #{@split_detail.split.name}" %>
 
 <div class="TakeoverText">
-  <h1 class="TakeoverText-title">Context and outcomes</h1>
+  <h1 class="TakeoverText-title sc-m-v--l">Context and outcomes</h1>
 </div>
 
 <%= simple_form_for @split_detail, url: admin_split_details_path, method: :put do |f| %>
@@ -17,5 +17,5 @@
 
   <%= f.input :assignment_criteria, as: :text, hint: "Example: Assigned when any user enters the first step of the signup flow. Mobile users are not affected." %>
 
-  <%= render "shared/form_footer", f: f, back_path: admin_split_path(@split_detail.split.id), submit_text: "Update Details", submit_disable_with_text: "Updating Split...", submit_disable_with_text: "Assigning..." %>
+  <%= render "shared/form_footer", f: f, back_path: admin_split_path(@split_detail.split.id), submit_text: "Update Details", submit_disable_with_text: "Updating Split..." %>
 <% end %>
