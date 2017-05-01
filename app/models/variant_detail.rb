@@ -1,8 +1,12 @@
 class VariantDetail < ActiveRecord::Base
   belongs_to :split
 
+  has_attached_file :screenshot
+
   validate :variant_must_exist
   validates :display_name, :description, presence: true
+  validates_with AttachmentSizeValidator, attributes: :screenshot, less_than: TestTrack::AttachmentSettings.max_size
+  validates_with AttachmentContentTypeValidator, attributes: :screenshot, content_type: ['image/png', 'image/jpeg', 'image/gif']
 
   def display_name
     super || variant

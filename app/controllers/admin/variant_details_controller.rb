@@ -19,6 +19,6 @@ class Admin::VariantDetailsController < AuthenticatedAdminController
   private
 
   def update_params
-    params.require(:variant_detail).permit(:display_name, :description)
+    params.require(:variant_detail).permit(:display_name, :description, :screenshot)
   end
 end

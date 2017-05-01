@@ -21,7 +21,8 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
         split: split_with_details,
         variant: 'disabled',
         display_name: 'fantastic_split_with_information is off',
-        description: 'This feature makes nothing happen.'
+        description: 'This feature makes nothing happen.',
+        screenshot_file_name: 'screenshot.jpg'
       )
     end
 
@@ -56,25 +57,27 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
     it "responds with details if the split has details" do
       get "/api/v1/split_details/#{split_with_details.name}"
 
-      expect(response_json).to eq(
+      expect(response_json).to include(
         "name" => split_with_details.name,
         "hypothesis" => split_with_details.hypothesis,
         "location" => split_with_details.location,
         "assignment_criteria" => split_with_details.assignment_criteria,
         "platform" => split_with_details.platform,
         "description" => split_with_details.description,
-        "owner" => split_with_details.owner,
-        "variant_details" => [
-          {
-            "name" => "fantastic_split_with_information is on",
-            "description" => 'This awesome feature makes cool stuff happen.'
-          },
-          {
-            "name" => "fantastic_split_with_information is off",
-            "description" => "This feature makes nothing happen."
-          }
-        ]
+        "owner" => split_with_details.owner
       )
+
+      expect(response_json['variant_details'][0]).to eq(
+        "name" => "fantastic_split_with_information is on",
+        "description" => 'This awesome feature makes cool stuff happen.'
+      )
+
+      expect(response_json['variant_details'][1]).to include(
+        "name" => "fantastic_split_with_information is off",
+        "description" => "This feature makes nothing happen."
+      )
+
+      expect(response_json['variant_details'][1]['screenshot_url']).to include 'screenshot.jpg'
     end
 
     it "blows up if split id is incorrect" do

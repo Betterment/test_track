@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330145712) do
+ActiveRecord::Schema.define(version: 20170501180350) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -158,12 +158,16 @@ ActiveRecord::Schema.define(version: 20170330145712) do
   add_index "splits", ["owner_app_id"], name: "index_splits_on_owner_app_id", using: :btree
 
   create_table "variant_details", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.uuid     "split_id",     null: false
-    t.string   "variant",      null: false
-    t.string   "display_name", null: false
-    t.text     "description",  null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.uuid     "split_id",                null: false
+    t.string   "variant",                 null: false
+    t.string   "display_name"
+    t.text     "description"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "screenshot_file_name"
+    t.string   "screenshot_content_type"
+    t.integer  "screenshot_file_size"
+    t.datetime "screenshot_updated_at"
   end
 
   add_index "variant_details", ["split_id", "variant"], name: "index_variant_details_on_split_id_and_variant", unique: true, using: :btree
