@@ -25,7 +25,15 @@ module TestTrack
     private
 
     def s3_enabled?
-      storage_strategy == 's3' && s3_settings_valid?
+      unless instance_variable_defined?(:@s3_enabled)
+        if storage_strategy == 's3' && !s3_settings_valid?
+          Rails.logger.error 'S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, and S3_ATTACHMENT_BUCKET are required for S3 storage.'
+        end
+
+        @s3_enabled = storage_strategy == 's3' && s3_settings_valid?
+      end
+
+      @s3_enabled
     end
 
     def local_enabled?
