@@ -6,7 +6,7 @@ RSpec.describe 'admin can edit variant details' do
 
   let!(:split) { FactoryGirl.create(:split, name: 'great_feature', registry: { enabled: 100 }) }
 
-  let(:variant_screenshot) { Rails.root.join('spec/uploads/ttlogo.png') }
+  let(:variant_screenshot) { Rails.root.join('spec/support/uploads/ttlogo.png') }
 
   before do
     login
@@ -30,5 +30,8 @@ RSpec.describe 'admin can edit variant details' do
     expect(split_page).to have_content 'Details for enabled have been saved'
     expect(split_page.variants.first.name).to have_content "Variant name"
     expect(split_page.variants.first.description).to have_content "Super great variant"
+
+    split_page.variants.first.edit_link.click
+    expect(variant_page.form.current_screenshot).to have_content 'ttlogo.png'
   end
 end
