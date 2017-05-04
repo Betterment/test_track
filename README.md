@@ -130,6 +130,8 @@ Variants can be associated with metadata to describe their effects in human-read
   - `S3_ATTACHMENT_PERMISSIONS` (optional, defaults to `private`; see [AWS canned ACLs](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl))
   - `S3_ATTACHMENT_PATH` (optional, defaults to `:class/:attachment/:id_partition/:style/:filename`)
 
+For more on how paths are constructed, see the [paperclip documentation](https://github.com/thoughtbot/paperclip).
+
 ## Concepts
 
 ### App
