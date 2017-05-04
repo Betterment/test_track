@@ -117,6 +117,19 @@ In order to access the admin features of the TestTrack server, you must create a
 > Admin.create!(email: "myemail@example.org", password: "[something secret]")
 ```
 
+### Enabling attachments
+Variants can be associated with metadata to describe their effects in human-readable terms. To enable variant screenshots, you'll need some additional configuration in environment variables.
+
+- To store uploads on the local file system, set `ATTACHMENT_STORAGE` to `local`, and:
+  - `LOCAL_UPLOAD_PATH` (optional, defaults to `:rails_root/public/system/:class/:attachment/:id_partition/:style/:filename`)
+- To store uploads in S3, set `ATTACHMENT_STORAGE` to `s3`, and:
+  - `S3_ACCESS_KEY_ID` (required)
+  - `S3_SECRET_ACCESS_KEY` (required)
+  - `S3_ATTACHMENT_BUCKET` (required)
+  - `S3_REGION` (optional, defaults to us-east-1)
+  - `S3_ATTACHMENT_PERMISSIONS` (optional, defaults to `private`; see [AWS canned ACLs](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl))
+  - `S3_ATTACHMENT_PATH` (optional, defaults to `:class/:attachment/:id_partition/:style/:filename`)
+
 ## Concepts
 
 ### App
