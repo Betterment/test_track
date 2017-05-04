@@ -1,0 +1,5 @@
+.dockerignore
+Dockerfile
+.byebug_history
+/log/*
+/tmp/*

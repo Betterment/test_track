@@ -1,0 +1,33 @@
+version: '2'
+
+services:
+  db:
+    restart: 'always'
+    image: 'postgres:9.5'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'db:/var/lib/postgresql/data'
+
+  app:
+    restart: 'always'
+    depends_on:
+      - 'db'
+    build: .
+    ports:
+      - '3000:3000'
+    volumes:
+      - '.:/test_track'
+    volumes_from:
+      - bundler_cache
+    command: ./script/serve
+    environment:
+      - DATABASE_URL=postgresql://postgres@db/test_track_development
+
+  bundler_cache:
+    image: busybox
+    volumes:
+      - /bundle
+
+volumes:
+  db:
