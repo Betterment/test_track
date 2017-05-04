@@ -48,7 +48,8 @@ RSpec.configure do |config|
     OmniAuth.config.mock_auth[:saml] = nil
   end
 
-  config.after(:suite) do
-    FileUtils.rm_r(Rails.root.join('tmp/test_uploads'))
+  config.before(:suite) do
+    upload_dir = Rails.root.join('tmp/test_uploads')
+    FileUtils.rm_r(upload_dir) if File.exist?(upload_dir)
   end
 end
