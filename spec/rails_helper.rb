@@ -9,6 +9,8 @@ require 'ruby_spec_helpers/capybara_configuration'
 require 'ruby_spec_helpers/site_prism_configuration'
 require 'ruby_spec_helpers/rspec_configuration'
 
+require 'fileutils'
+
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
@@ -44,5 +46,10 @@ RSpec.configure do |config|
   OmniAuth.config.test_mode = true
   config.before do
     OmniAuth.config.mock_auth[:saml] = nil
+  end
+
+  config.before(:suite) do
+    upload_dir = Rails.root.join('tmp/test_uploads')
+    FileUtils.rm_r(upload_dir) if File.exist?(upload_dir)
   end
 end
