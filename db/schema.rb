@@ -160,8 +160,8 @@ ActiveRecord::Schema.define(version: 20170501180350) do
   create_table "variant_details", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "split_id",                null: false
     t.string   "variant",                 null: false
-    t.string   "display_name"
-    t.text     "description"
+    t.string   "display_name",            null: false
+    t.text     "description",             null: false
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.string   "screenshot_file_name"
