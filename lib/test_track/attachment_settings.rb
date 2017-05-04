@@ -27,7 +27,7 @@ module TestTrack
     def s3_enabled?
       unless instance_variable_defined?(:@s3_enabled)
         if storage_strategy == 's3' && !s3_settings_valid?
-          Rails.logger.error 'S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY, and S3_ATTACHMENT_BUCKET are required for S3 storage.'
+          Rails.logger.error 'AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, and S3_ATTACHMENT_BUCKET are required for S3 storage.'
         end
 
         @s3_enabled = storage_strategy == 's3' && s3_settings_valid?
@@ -52,11 +52,11 @@ module TestTrack
       {
         storage: :s3,
         s3_credentials: {
-          access_key_id: ENV['S3_ACCESS_KEY_ID'],
-          secret_access_key: ENV['S3_SECRET_ACCESS_KEY']
+          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
+          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
         },
         bucket: ENV['S3_ATTACHMENT_BUCKET'],
-        s3_region: ENV['S3_REGION'] || 'us-east-1',
+        s3_region: ENV['AWS_REGION'] || 'us-east-1',
         s3_permissions: ENV['S3_ATTACHMENT_PERMISSIONS'] || 'private',
         path: ENV['S3_ATTACHMENT_PATH'] || ':class/:attachment/:id_partition/:style/:filename'
       }
@@ -64,7 +64,7 @@ module TestTrack
     # rubocop:enable Metrics/MethodLength
 
     def s3_settings_valid?
-      ENV['S3_ACCESS_KEY_ID'].present? && ENV['S3_SECRET_ACCESS_KEY'].present? && ENV['S3_ATTACHMENT_BUCKET'].present?
+      ENV['AWS_ACCESS_KEY_ID'].present? && ENV['AWS_SECRET_ACCESS_KEY'].present? && ENV['S3_ATTACHMENT_BUCKET'].present?
     end
 
     def storage_strategy

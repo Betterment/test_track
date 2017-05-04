@@ -123,10 +123,10 @@ Variants can be associated with metadata to describe their effects in human-read
 - To store uploads on the local file system, set `ATTACHMENT_STORAGE` to `local`, and:
   - `LOCAL_UPLOAD_PATH` (optional, defaults to `:rails_root/public/system/:class/:attachment/:id_partition/:style/:filename`)
 - To store uploads in S3, set `ATTACHMENT_STORAGE` to `s3`, and:
-  - `S3_ACCESS_KEY_ID` (required)
-  - `S3_SECRET_ACCESS_KEY` (required)
+  - `AWS_ACCESS_KEY_ID` (required)
+  - `AWS_SECRET_ACCESS_KEY` (required)
+  - `AWS_REGION` (optional, defaults to us-east-1)
   - `S3_ATTACHMENT_BUCKET` (required)
-  - `S3_REGION` (optional, defaults to us-east-1)
   - `S3_ATTACHMENT_PERMISSIONS` (optional, defaults to `private`; see [AWS canned ACLs](http://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl))
   - `S3_ATTACHMENT_PATH` (optional, defaults to `:class/:attachment/:id_partition/:style/:filename`)
 
