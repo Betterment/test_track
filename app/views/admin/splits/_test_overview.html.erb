@@ -1,6 +1,6 @@
-<article class="InfoCard TestOverview sc-m-v--l">
+<article class="InfoCard fs-SplitOverview sc-m-v--l">
   <div class="InfoCard-header">
-    <h4>Test Overview</h4>
+    <h4>Split Overview</h4>
 
     <% if split.has_details? %>
       <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-details-link' %>
@@ -40,7 +40,7 @@
   <% else %>
     <div class="EmptyTable EmptyTable--centered sc-p--l">
       <p>
-        <strong>Add metadata to your test</strong>
+        <strong>Is this split a test? Add metadata about it.</strong>
         <br>
         This information is used to explain the context of what a user is experiencing.
       </p>

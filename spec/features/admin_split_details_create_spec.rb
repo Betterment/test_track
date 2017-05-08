@@ -20,7 +20,7 @@ RSpec.describe 'admin can add details to a split' do
   it 'allows admins to add details to a split' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
-    expect(split_page.test_overview).to have_content "Add metadata to your test"
+    expect(split_page.test_overview).to have_content "Is this split a test? Add metadata about it."
 
     split_page.add_details.click
     expect(split_details_page).to be_displayed

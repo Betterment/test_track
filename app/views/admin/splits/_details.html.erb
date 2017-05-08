@@ -1,6 +1,7 @@
 <article class="InfoCard InfoCard--constrained sc-m-v--l">
-  <div class="InfoCard-titleContainer">
-    <h4>Test details</h4>
+  <div class="InfoCard-header">
+    <h4>Split Details</h4>
+    <%= link_to "Decide Split", new_admin_split_decision_path(@split), class: 'decide-split-link button' %>
   </div>
   <hr class="InfoCard-divider">
   <div class="InfoCard-description">
@@ -17,7 +18,7 @@
       <tr>
         <td>Status</td>
         <td class="u-status--<%= @split.finished? ? 'finished' : 'active' %>"><%= @split.finished? ? 'Finished' : 'Active' %><span class="sc-p--s">🏁</span></td>
-        <td><%= link_to "Edit", new_admin_split_decision_path(@split), class: 'decide-split-link' %></td>
+        <td>&nbsp;</td>
       </tr>
       <tr>
         <td>App</td>
