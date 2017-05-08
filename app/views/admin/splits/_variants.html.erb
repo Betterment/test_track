@@ -17,17 +17,7 @@
           <tr>
             <td><%= variant_detail.display_name %></td>
             <td><%= variant_detail.description %></td>
-            <td><%= variant_detail.weight %>%(<%= variant_detail.assignment_count %>)
-              <% if variant_detail.retirable? %>
-              (<%= link_to "Retire variant", admin_split_variant_retirement_path(split, variant_detail.variant),
-                class: "retire-variant-link",
-                        method: :post,
-                        data: { confirm: <<-EOF } %>)
-                          You're redistributing #{variant_detail.variant} assignees to the other variants according to their weights.
-                          Do you wish to proceed?
-                        EOF
-              <% end %>
-            </td>
+            <td><%= variant_detail.weight %>%(<%= variant_detail.assignment_count %>)</td>
             <td><%= link_to 'edit', edit_admin_split_variant_detail_path(split, variant_detail.variant) %></td>
           </tr>
         <% end %>
