@@ -32,6 +32,7 @@ RSpec.describe 'admin can retire a variant for a split' do
     expect(split_page.variants_table).to have_content "blue 0%(0)"
 
     split_page.edit_variant("blue")
-    expect(split_page.variants_table).not_to have_content "Retire variant"
+    expect(variant_page).to be_displayed
+    expect(variant_page).not_to have_content "Retire variant"
   end
 end

@@ -20,9 +20,7 @@
       <% if @variant_detail.retirable? %>
         <%= link_to "Retire variant", admin_split_variant_retirement_path(@split, @variant_detail.variant), class: "retire-variant-link button secondary",
           method: :post,
-          data: { confirm: <<-EOF } %>
-          You're redistributing #{@variant_detail.variant} assignees to the other variants according to their weights. Do you wish to proceed?
-          EOF
+          data: { confirm: "You're redistributing #{@variant_detail.variant} assignees to the other variants according to their weights. Do you wish to proceed?" } %>
       <% end %>
       <%= f.submit 'Continue', data: { disable_with: 'Updating variant...' }, class: 'u-button ft-confirmButton' %>
     </div>
