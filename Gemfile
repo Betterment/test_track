@@ -38,7 +38,7 @@ gem 'newrelic_rpm', '~> 3.14'
 gem 'devise', '>= 3.5.4', '< 4'
 gem 'omniauth-saml'
 
-gem 'simple_form'
+gem 'simple_form', '~> 3.5.0'
 
 gem 'paperclip', '~> 5.0.0'
 gem 'aws-sdk', '~> 2.3.0'
@@ -53,7 +53,7 @@ gem 'delayed_job_active_record'
 gem 'json', '~> 1.8.6'
 
 group :development, :test do
-  gem 'simplecov', require: false
+  gem 'simplecov', '~> 0.15.1', require: false
   gem 'pry-rails'
   gem 'pry-remote'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -307,14 +307,14 @@ GEM
       websocket (~> 1.0)
     shoulda-matchers (2.8.0)
       activesupport (>= 3.0.0)
-    simple_form (3.2.0)
-      actionpack (~> 4.0)
-      activemodel (~> 4.0)
-    simplecov (0.10.0)
+    simple_form (3.5.0)
+      actionpack (> 4, < 5.2)
+      activemodel (> 4, < 5.2)
+    simplecov (0.15.1)
       docile (~> 1.1.0)
-      json (~> 1.8)
+      json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
-    simplecov-html (0.10.0)
+    simplecov-html (0.10.2)
     site_prism (2.9)
       addressable (>= 2.3.3, < 3.0)
       capybara (>= 2.1, < 3.0)
@@ -416,8 +416,8 @@ DEPENDENCIES
   sdoc (~> 0.4.0)
   selenium-webdriver
   shoulda-matchers
-  simple_form
-  simplecov
+  simple_form (~> 3.5.0)
+  simplecov (~> 0.15.1)
   site_prism
   style_closet!
   therubyracer (~> 0.12.3)
