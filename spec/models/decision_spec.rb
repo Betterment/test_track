@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Decision do
   let(:split_registry) { { off: 0, slow: 25, very_slow: 25, excruciatingly_slow: 50 }.stringify_keys }
-  let(:split) { FactoryGirl.create :split, name: "garbage_smasher_speed", registry: split_registry }
-  let(:admin) { FactoryGirl.create :admin }
+  let(:split) { FactoryBot.create :split, name: "garbage_smasher_speed", registry: split_registry }
+  let(:admin) { FactoryBot.create :admin }
 
-  let(:off_assignments) { FactoryGirl.create_list(:assignment, 1, split: split, variant: "off") }
+  let(:off_assignments) { FactoryBot.create_list(:assignment, 1, split: split, variant: "off") }
   let(:on_assignments) do
-    FactoryGirl.create_list(:assignment, 1, split: split, variant: "slow")
-               .concat(FactoryGirl.create_list(:assignment, 1, split: split, variant: "very_slow"))
-               .concat(FactoryGirl.create_list(:assignment, 2, split: split, variant: "excruciatingly_slow"))
+    FactoryBot.create_list(:assignment, 1, split: split, variant: "slow")
+              .concat(FactoryBot.create_list(:assignment, 1, split: split, variant: "very_slow"))
+              .concat(FactoryBot.create_list(:assignment, 2, split: split, variant: "excruciatingly_slow"))
   end
 
   def assignments_of_split

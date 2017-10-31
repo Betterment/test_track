@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe BulkReassignment do
-  let(:visitor_supersession) { FactoryGirl.create(:visitor_supersession) }
-  let(:old_bulk_assignment) { FactoryGirl.create(:bulk_assignment) }
-  let(:split) { FactoryGirl.create(:split, registry: { foo: 50, bar: 50 }) }
+  let(:visitor_supersession) { FactoryBot.create(:visitor_supersession) }
+  let(:old_bulk_assignment) { FactoryBot.create(:bulk_assignment) }
+  let(:split) { FactoryBot.create(:split, registry: { foo: 50, bar: 50 }) }
   let(:assignment_attrs) do
     {
       split: split,
@@ -17,10 +17,10 @@ RSpec.describe BulkReassignment do
       updated_at: 7.minutes.ago
     }
   end
-  let!(:assignments) { FactoryGirl.create_list(:assignment, 2, assignment_attrs) }
+  let!(:assignments) { FactoryBot.create_list(:assignment, 2, assignment_attrs) }
   let(:assignment) { assignments.first }
-  let!(:other_assignment) { FactoryGirl.create(:assignment, assignment_attrs) }
-  let(:bulk_assignment) { FactoryGirl.create(:bulk_assignment, split: split, variant: :bar, created_at: 5.minutes.ago) }
+  let!(:other_assignment) { FactoryBot.create(:assignment, assignment_attrs) }
+  let(:bulk_assignment) { FactoryBot.create(:bulk_assignment, split: split, variant: :bar, created_at: 5.minutes.ago) }
   let!(:old_updated_at) { assignment.updated_at }
 
   it "reassigns multiple chosen assignments based on relation" do

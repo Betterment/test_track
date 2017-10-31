@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Assignment, type: :model do
-  let(:split) { FactoryGirl.create :split }
-  subject { FactoryGirl.create :assignment, split: split }
+  let(:split) { FactoryBot.create :split }
+  subject { FactoryBot.create :assignment, split: split }
 
   describe "variant" do
     it "validates presence of variant" do
@@ -71,10 +71,10 @@ RSpec.describe Assignment, type: :model do
 
   describe ".to_hash" do
     it "is a hash of the split names to the variants" do
-      split1 = FactoryGirl.create(:split, name: "split1")
-      split2 = FactoryGirl.create(:split, name: "split2")
-      FactoryGirl.create(:assignment, split: split1, variant: :hammer_time)
-      FactoryGirl.create(:assignment, split: split2, variant: :touch_this)
+      split1 = FactoryBot.create(:split, name: "split1")
+      split2 = FactoryBot.create(:split, name: "split2")
+      FactoryBot.create(:assignment, split: split1, variant: :hammer_time)
+      FactoryBot.create(:assignment, split: split2, variant: :touch_this)
 
       expect(described_class.to_hash).to eq(split1: :hammer_time, split2: :touch_this)
     end
@@ -82,9 +82,9 @@ RSpec.describe Assignment, type: :model do
 
   describe ".unsynced_to_mixpanel" do
     it "returns assignments that were not a mixpanel success" do
-      FactoryGirl.create(:assignment, mixpanel_result: "success")
-      mixpanel_failure = FactoryGirl.create(:assignment, mixpanel_result: "failure")
-      mixpanel_nil = FactoryGirl.create(:assignment, mixpanel_result: nil)
+      FactoryBot.create(:assignment, mixpanel_result: "success")
+      mixpanel_failure = FactoryBot.create(:assignment, mixpanel_result: "failure")
+      mixpanel_nil = FactoryBot.create(:assignment, mixpanel_result: nil)
 
       expect(described_class.unsynced_to_mixpanel.count).to eq 2
       expect(described_class.unsynced_to_mixpanel).to include(mixpanel_failure, mixpanel_nil)

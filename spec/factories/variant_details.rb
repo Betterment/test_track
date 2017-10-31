@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :variant_detail do
     split
     variant { split.variants.first }

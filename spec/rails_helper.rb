@@ -53,3 +53,18 @@ RSpec.configure do |config|
     FileUtils.rm_r(upload_dir) if File.exist?(upload_dir)
   end
 end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+
+  config.before(:suite) do
+    FactoryBot.find_definitions
+  end
+end

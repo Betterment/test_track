@@ -33,11 +33,7 @@ Capybara.configure do |config|
   config.javascript_driver = driver
 
   capybara_wait_time = ENV.fetch('CAPYBARA_WAIT_TIME', 10).to_i
-  if config.respond_to? :default_max_wait_time=
-    config.default_max_wait_time = capybara_wait_time
-  else
-    config.default_wait_time = capybara_wait_time
-  end
+  config.default_max_wait_time = capybara_wait_time
 end
 
 module CapybaraScreenshotHelpers

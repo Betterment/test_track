@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
   describe "#create" do
-    let!(:visitor) { FactoryGirl.create :visitor }
-    let(:split) { FactoryGirl.create(:split, registry: { control: 50, treatment: 50 }) }
+    let!(:visitor) { FactoryBot.create :visitor }
+    let(:split) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }
 
     let(:create_params) do
       {
@@ -59,7 +59,7 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
         end
 
         it "overrides an assignment if one already exists" do
-          FactoryGirl.create(:assignment, visitor: visitor, split: split, variant: "control")
+          FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
 
           expect do
             post :create, create_params

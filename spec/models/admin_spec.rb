@@ -15,7 +15,7 @@ RSpec.describe Admin, type: :model do
     end
 
     it "allows the user to log in despite casing" do
-      FactoryGirl.create :admin, email: "herman@example.com"
+      FactoryBot.create :admin, email: "herman@example.com"
       expect do
         admin = Admin.from_saml(
           OmniAuth::AuthHash.new(
@@ -33,7 +33,7 @@ RSpec.describe Admin, type: :model do
     end
 
     it "sets the full name on the user and saves it" do
-      existing_admin = FactoryGirl.create(:admin, email: "herman@example.com")
+      existing_admin = FactoryBot.create(:admin, email: "herman@example.com")
 
       expect(Admin.from_saml(auth).id).to eq existing_admin.id
       expect(existing_admin.reload.full_name).to eq "Herman Miller"

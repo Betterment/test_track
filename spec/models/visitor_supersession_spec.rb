@@ -1,28 +1,28 @@
 require 'rails_helper'
 
 RSpec.describe VisitorSupersession do
-  let(:visitor) { FactoryGirl.create(:visitor) }
+  let(:visitor) { FactoryBot.create(:visitor) }
 
-  let(:existing_identifier) { FactoryGirl.create(:identifier) }
+  let(:existing_identifier) { FactoryBot.create(:identifier) }
   let(:existing_visitor) { existing_identifier.visitor }
 
-  let(:banana_split) { FactoryGirl.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }
-  let(:torque_split) { FactoryGirl.create(:split, name: :torque, registry: { front: 40, rear: 60 }) }
+  let(:banana_split) { FactoryBot.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }
+  let(:torque_split) { FactoryBot.create(:split, name: :torque, registry: { front: 40, rear: 60 }) }
 
   describe "#save!" do
     before do
-      FactoryGirl.create(:assignment,
+      FactoryBot.create(:assignment,
         visitor: visitor,
         split: banana_split,
         variant: "green",
         context: "context1")
-      FactoryGirl.create(:assignment,
+      FactoryBot.create(:assignment,
         visitor: existing_visitor,
         split: banana_split,
         variant: "squishy",
         mixpanel_result: "success",
         context: "context2")
-      FactoryGirl.create(:assignment,
+      FactoryBot.create(:assignment,
         visitor: visitor,
         split: torque_split,
         variant: "rear",

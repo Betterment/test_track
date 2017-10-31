@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Split, type: :model do
-  subject { FactoryGirl.create(:split, registry: { treatment: 100 }) }
+  subject { FactoryBot.create(:split, registry: { treatment: 100 }) }
 
   it "validates presence of registry" do
     expect(subject).to validate_presence_of(:registry)
@@ -131,7 +131,7 @@ RSpec.describe Split, type: :model do
 
   describe "#assignment_count_for_variant" do
     it "returns count of given variant" do
-      FactoryGirl.create(:assignment, split: subject, variant: "treatment")
+      FactoryBot.create(:assignment, split: subject, variant: "treatment")
 
       expect(subject.assignment_count_for_variant("treatment")).to eq(1)
       expect(subject.assignment_count_for_variant("control")).to eq(0)
