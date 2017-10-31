@@ -60,11 +60,3 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
-
-RSpec.configure do |config|
-  config.include FactoryBot::Syntax::Methods
-
-  config.before(:suite) do
-    FactoryBot.find_definitions
-  end
-end
