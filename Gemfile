@@ -58,7 +58,7 @@ group :development, :test do
   gem 'pry-remote'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.7.1'
   gem 'rubocop'
 
   gem 'dotenv-rails'
