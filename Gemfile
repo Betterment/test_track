@@ -5,13 +5,13 @@ gem 'rails', '>= 4.2.10', '< 5'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0.6'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', '~> 0.12.3', platforms: :ruby
+gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -33,12 +33,12 @@ gem 'airbrake', '4.1.0'
 
 gem 'le'
 
-gem 'newrelic_rpm', '~> 3.14'
+gem 'newrelic_rpm'
 
 gem 'devise', '>= 3.5.4', '< 4'
 gem 'omniauth-saml'
 
-gem 'simple_form', '~> 3.5.0'
+gem 'simple_form'
 
 gem 'paperclip', '~> 5.0.0'
 gem 'aws-sdk', '~> 2.3.0'
@@ -50,15 +50,13 @@ gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
-gem 'json', '~> 1.8.6'
-
 group :development, :test do
-  gem 'simplecov', '~> 0.15.1', require: false
+  gem 'simplecov', require: false
   gem 'pry-rails'
   gem 'pry-remote'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'rspec-rails', '~> 3.7.1'
+  gem 'rspec-rails'
   gem 'rubocop'
 
   gem 'dotenv-rails'
