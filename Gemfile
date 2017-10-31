@@ -50,6 +50,8 @@ gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
+gem 'json', '~> 1.8.6'
+
 group :development, :test do
   gem 'simplecov', require: false
   gem 'pry-rails'
