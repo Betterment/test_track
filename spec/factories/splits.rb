@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :split do
     sequence(:name) { |i| "split_#{i}" }
     association :owner_app, factory: :app

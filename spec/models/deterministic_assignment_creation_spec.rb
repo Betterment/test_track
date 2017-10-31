@@ -14,7 +14,7 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
     }
   end
 
-  let!(:split) { FactoryGirl.create(:split, name: "split", registry: { variant1: 61, variant2: 1, variant3: 38 }) }
+  let!(:split) { FactoryBot.create(:split, name: "split", registry: { variant1: 61, variant2: 1, variant3: 38 }) }
 
   describe "#initialize" do
     it "blows up when a variant is provided" do
@@ -56,7 +56,7 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
     end
 
     it "recreates with the previously assigned variant if already assigned" do
-      FactoryGirl.create(:assignment, split: split, visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), variant: "variant3")
+      FactoryBot.create(:assignment, split: split, visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), variant: "variant3")
 
       subject.save!
 

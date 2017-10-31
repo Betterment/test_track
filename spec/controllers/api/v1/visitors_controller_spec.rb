@@ -2,28 +2,28 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::VisitorsController, type: :controller do
   describe "#show" do
-    let(:visitor) { FactoryGirl.create :visitor }
+    let(:visitor) { FactoryBot.create :visitor }
 
-    let(:split_1) { FactoryGirl.create(:split, name: "one", registry: { "control": 50, "treatment": 50 }) }
-    let(:split_2) { FactoryGirl.create(:split, name: "two", registry: { "control": 50, "treatment": 50 }) }
+    let(:split_1) { FactoryBot.create(:split, name: "one", registry: { "control": 50, "treatment": 50 }) }
+    let(:split_2) { FactoryBot.create(:split, name: "two", registry: { "control": 50, "treatment": 50 }) }
 
-    let(:allow_signup) { FactoryGirl.create(:split, name: "allow_signup", registry: { true: 50, false: 50 }) }
+    let(:allow_signup) { FactoryBot.create(:split, name: "allow_signup", registry: { true: 50, false: 50 }) }
 
     context "with multiple assignments" do
       before do
-        FactoryGirl.create(:assignment,
+        FactoryBot.create(:assignment,
           visitor: visitor,
           split: split_1,
           variant: "control",
           context: "context_a",
           mixpanel_result: "success")
-        FactoryGirl.create(:assignment,
+        FactoryBot.create(:assignment,
           visitor: visitor,
           split: split_2,
           variant: "treatment",
           context: "context_b",
           mixpanel_result: "success")
-        FactoryGirl.create(:assignment,
+        FactoryBot.create(:assignment,
           visitor: visitor,
           split: allow_signup,
           variant: :true,

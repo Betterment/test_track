@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe BulkAssignmentCreation do
-  let(:split) { FactoryGirl.create :split, name: "crying_in_baseball", registry: { yes: 20, no: 80 } }
-  let!(:identifier_type) { FactoryGirl.create :identifier_type }
+  let(:split) { FactoryBot.create :split, name: "crying_in_baseball", registry: { yes: 20, no: 80 } }
+  let!(:identifier_type) { FactoryBot.create :identifier_type }
 
-  let!(:visitor) { FactoryGirl.create(:visitor) }
-  let!(:identifier) { FactoryGirl.create(:identifier, visitor: visitor, identifier_type_id: identifier_type.id, value: "22") }
-  let!(:assignment) { FactoryGirl.create(:assignment, visitor: visitor, split: split, variant: "yes", context: "original_context") }
+  let!(:visitor) { FactoryBot.create(:visitor) }
+  let!(:identifier) { FactoryBot.create(:identifier, visitor: visitor, identifier_type_id: identifier_type.id, value: "22") }
+  let!(:assignment) { FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "yes", context: "original_context") }
 
-  let(:admin) { FactoryGirl.create :admin }
+  let(:admin) { FactoryBot.create :admin }
 
   let(:ids_csv) { ["22", "5092", "1bc12fa6-6c5b-47a4-b500-82b4e271520f"].join(',') }
 

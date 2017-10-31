@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe VariantCalculator do
   let(:params) { { visitor_id: fake_visitor_id, split: split } }
 
-  let(:split) { FactoryGirl.create(:split, name: 'blue_button', registry: { 'true' => 60, 'false' => 40 }) }
+  let(:split) { FactoryBot.create(:split, name: 'blue_button', registry: { 'true' => 60, 'false' => 40 }) }
 
   let(:fake_visitor_id) { "00000000-0000-0000-0000-000000000000" }
 
@@ -93,7 +93,7 @@ RSpec.describe VariantCalculator do
       end
 
       let(:split) do
-        FactoryGirl.create(:split, name: 'logo_size', registry: registry)
+        FactoryBot.create(:split, name: 'logo_size', registry: registry)
       end
 
       it "returns the first variant with non-zero weight from bucket 0" do

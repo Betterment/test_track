@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
   describe "#create" do
-    let!(:visitor) { FactoryGirl.create(:visitor, id: "7ab083a5-d532-4bd6-912f-aa7e887450da") }
-    let(:split) { FactoryGirl.create(:split, name: "my_split", registry: { control: 47, treatment: 1, zombie_apocalypse: 52 }) }
+    let!(:visitor) { FactoryBot.create(:visitor, id: "7ab083a5-d532-4bd6-912f-aa7e887450da") }
+    let(:split) { FactoryBot.create(:split, name: "my_split", registry: { control: 47, treatment: 1, zombie_apocalypse: 52 }) }
 
     let(:create_params) do
       {
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
     end
 
     it "noops if a conflicting assignment already exists" do
-      FactoryGirl.create(:assignment, visitor: visitor, split: split, variant: "control")
+      FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
 
       expect do
         post :create, create_params

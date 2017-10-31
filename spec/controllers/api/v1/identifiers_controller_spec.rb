@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Api::V1::IdentifiersController, type: :controller do
   describe "#create" do
-    let(:visitor) { FactoryGirl.create(:visitor) }
-    let(:identifier_type) { FactoryGirl.create(:identifier_type) }
+    let(:visitor) { FactoryBot.create(:visitor) }
+    let(:identifier_type) { FactoryBot.create(:identifier_type) }
 
-    let(:banana_split) { FactoryGirl.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }
+    let(:banana_split) { FactoryBot.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }
 
     it "responds with assigned variants for the visitor" do
-      FactoryGirl.create(:assignment,
+      FactoryBot.create(:assignment,
         visitor: visitor,
         split: banana_split,
         variant: "green",
@@ -27,9 +27,9 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
     end
 
     it "responds with mixpanel_failure_assignments for copied assignments" do
-      existing_visitor = FactoryGirl.create(:visitor)
-      FactoryGirl.create(:identifier, identifier_type: identifier_type, value: "123", visitor: existing_visitor)
-      FactoryGirl.create(:assignment,
+      existing_visitor = FactoryBot.create(:visitor)
+      FactoryBot.create(:identifier, identifier_type: identifier_type, value: "123", visitor: existing_visitor)
+      FactoryBot.create(:assignment,
         visitor: visitor,
         split: banana_split,
         variant: "green",

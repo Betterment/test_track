@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe VariantRetirement do
-  let(:admin) { FactoryGirl.create :admin }
-  let(:split) { FactoryGirl.create :split, name: "color", registry: { red: 50, blue: 0, yellow: 50 } }
+  let(:admin) { FactoryBot.create :admin }
+  let(:split) { FactoryBot.create :split, name: "color", registry: { red: 50, blue: 0, yellow: 50 } }
 
   let(:params) do
     {
@@ -17,13 +17,13 @@ RSpec.describe VariantRetirement do
   describe "#save!" do
     before do
       allow(SecureRandom).to receive(:random_number).and_return(25, 75, 25, 75)
-      FactoryGirl.create(:assignment, split: split, variant: :red)
-      FactoryGirl.create(:assignment, split: split, variant: :yellow)
+      FactoryBot.create(:assignment, split: split, variant: :red)
+      FactoryBot.create(:assignment, split: split, variant: :yellow)
     end
 
     context "assignments exist to be retired" do
       before do
-        FactoryGirl.create_list(:assignment, 4, split: split, variant: :blue)
+        FactoryBot.create_list(:assignment, 4, split: split, variant: :blue)
       end
 
       it "creates one bulk assignment per active variant" do

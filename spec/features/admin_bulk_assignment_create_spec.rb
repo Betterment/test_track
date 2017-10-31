@@ -5,11 +5,11 @@ RSpec.describe 'bulk assign flow' do
   let(:bulk_assignment_page) { app.admin_bulk_assignment_new_page }
   let(:user_id_values) { %w(4 8 15 16 23) }
 
-  let!(:split) { FactoryGirl.create :split }
-  let!(:id_type_user_ids) { FactoryGirl.create :identifier_type, name: "user_ids" }
-  let!(:id_type_emails) { FactoryGirl.create :identifier_type, name: "emails" }
+  let!(:split) { FactoryBot.create :split }
+  let!(:id_type_user_ids) { FactoryBot.create :identifier_type, name: "user_ids" }
+  let!(:id_type_emails) { FactoryBot.create :identifier_type, name: "emails" }
   let!(:existing_identifiers) do
-    user_id_values.map { |user_id| FactoryGirl.create(:identifier, value: user_id, identifier_type: id_type_user_ids) }
+    user_id_values.map { |user_id| FactoryBot.create(:identifier, value: user_id, identifier_type: id_type_user_ids) }
   end
 
   before do

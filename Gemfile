@@ -66,7 +66,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
 
-  gem 'factory_girl_rails'
+  gem 'factory_bot'
 
   gem 'ruby_spec_helpers', path: 'vendor/gems/ruby_spec_helpers'
 end
