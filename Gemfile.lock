@@ -59,9 +59,9 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     addressable (2.4.0)
-    airbrake (4.1.0)
-      builder
-      multi_json
+    airbrake (7.1.0)
+      airbrake-ruby (~> 2.5)
+    airbrake-ruby (2.6.2)
     arel (7.1.4)
     ast (2.3.0)
     attribute_normalizer (1.2.0)
@@ -388,7 +388,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  airbrake (= 4.1.0)
+  airbrake
   attribute_normalizer (~> 1.2.0)
   aws-sdk (~> 2.3.0)
   byebug

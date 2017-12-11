@@ -34,5 +34,7 @@ module TestTrack
     config.cache_store = :memory_store
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.action_controller.raise_on_unfiltered_parameters = true
   end
 end

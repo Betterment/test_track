@@ -29,7 +29,7 @@ gem 'responders'
 
 gem 'rack-timeout'
 
-gem 'airbrake', '4.1.0'
+gem 'airbrake'
 
 gem 'le'
 
