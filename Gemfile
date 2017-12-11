@@ -35,7 +35,7 @@ gem 'le'
 
 gem 'newrelic_rpm'
 
-gem 'devise', '>= 3.5.4', '< 4'
+gem 'devise'
 gem 'omniauth-saml'
 
 gem 'simple_form'
