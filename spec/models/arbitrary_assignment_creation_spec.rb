@@ -26,7 +26,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
     it "finds existing visitor when there is a visitor creation race conditon" do
       visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
-      error = ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint", PG::UniqueViolation.new)
+      error = ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
       allow(Visitor).to receive(:find_or_create_by!).and_raise(error)
 
       expect { subject.save! }
@@ -115,7 +115,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         # simulate race condition
         FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant1", mixpanel_result: nil)
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint", PG::UniqueViolation.new)
+        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
       end
 
       expect { subject.save! }
@@ -134,7 +134,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         # simulate race condition
         FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant2")
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint", PG::UniqueViolation.new)
+        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
       end
 
       expect { subject.save! }
