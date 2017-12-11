@@ -32,7 +32,7 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
       end
 
       it "responds with all assigned variants" do
-        get :show, id: visitor.id
+        get :show, params: { id: visitor.id }
 
         expect(response).to have_http_status :ok
         expect(response_json["id"]).to eq(visitor.id)
@@ -64,12 +64,12 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
       end
 
       it "only queries once per table (visitor, assignment, and split)" do
-        expect { get :show, id: visitor.id }.to make_database_queries(count: 3)
+        expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 3)
       end
     end
 
     it "responds with empty assignments if visitor has no assignments" do
-      get :show, id: visitor.id
+      get :show, params: { id: visitor.id }
       expect(response).to have_http_status :ok
       expect(response_json).to eq(
         "id" => visitor.id,
@@ -78,7 +78,7 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
     end
 
     it "echoes back the provided visitor id if visitor doesn't exist" do
-      get :show, id: "ffffffff-ffff-ffff-ffff-ffffffffffff"
+      get :show, params: { id: "ffffffff-ffff-ffff-ffff-ffffffffffff" }
 
       expect(response).to have_http_status :ok
       expect(response_json).to eq(

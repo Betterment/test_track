@@ -16,7 +16,7 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
 
     it "creates an assignment if none already exists" do
       expect do
-        post :create, create_params
+        post :create, params: create_params
       end.to change { Assignment.count }.by(1)
 
       expect(response).to have_http_status :no_content
@@ -33,14 +33,14 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
       FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
 
       expect do
-        post :create, create_params
+        post :create, params: create_params
       end.not_to change { PreviousAssignment.count }
 
       expect(response).to have_http_status :no_content
     end
 
     it "allows a request without a mixpanel_result" do
-      post :create, create_params.except(:mixpanel_result)
+      post :create, params: create_params.except(:mixpanel_result)
 
       expect(response).to have_http_status :no_content
 
