@@ -115,7 +115,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         # simulate race condition
         FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant1", mixpanel_result: nil)
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
+        raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
 
       expect { subject.save! }
@@ -134,7 +134,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         # simulate race condition
         FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant2")
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
+        raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
 
       expect { subject.save! }

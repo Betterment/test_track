@@ -140,7 +140,7 @@ RSpec.describe IdentifierClaim do
       allow(Identifier).to receive(:find_by).and_return nil
       allow(Identifier).to receive(:create!) do
         allow(Identifier).to receive(:find_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
+        raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
 
       claim = nil
