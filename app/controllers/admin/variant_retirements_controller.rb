@@ -7,7 +7,7 @@ class Admin::VariantRetirementsController < AuthenticatedAdminController
 
   def create_params
     params.permit(:split_id, :variant_id).tap do |params|
-      params.merge!(retiring_variant: params[:variant_id]).except!(:variant_id)
+      params[:retiring_variant] = params.delete(:variant_id)
     end
   end
 end
