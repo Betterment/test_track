@@ -21,7 +21,7 @@ class SplitCreation
   end
 
   def weighting_registry=(registry)
-    @weighting_registry = registry.each_with_object({}) { |(variant_name, weight), r| r[variant_name.to_s] = weight }
+    @weighting_registry = registry.to_h.stringify_keys
   end
 
   def split

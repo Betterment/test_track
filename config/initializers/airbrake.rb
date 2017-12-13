@@ -6,3 +6,15 @@ if ENV['AIRBRAKE_API_KEY'].present?
     config.secure  = config.port == 443
   end
 end
+
+module RailsFiveAirbrakeWorkaround
+  private
+
+  # Monkey-patching to work around usage of `ActionController::Parameters#to_hash`
+  # https://github.com/airbrake/airbrake/blob/v4.3.8/lib/airbrake/rails/controller_methods.rb#L21
+  def to_hash(params)
+    params.to_unsafe_hash
+  end
+end
+
+ActionController::Base.prepend RailsFiveAirbrakeWorkaround

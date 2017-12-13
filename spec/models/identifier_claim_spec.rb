@@ -123,7 +123,7 @@ RSpec.describe IdentifierClaim do
 
     it "finds existing visitor when there is a visitor creation race condition" do
       visitor
-      error = ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint", PG::UniqueViolation.new)
+      error = ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
       allow(Visitor).to receive(:find_or_create_by!).and_raise(error)
 
       claim = nil
@@ -140,7 +140,7 @@ RSpec.describe IdentifierClaim do
       allow(Identifier).to receive(:find_by).and_return nil
       allow(Identifier).to receive(:create!) do
         allow(Identifier).to receive(:find_by).and_call_original
-        raise ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint", PG::UniqueViolation.new)
+        raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
 
       claim = nil

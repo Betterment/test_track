@@ -18,13 +18,13 @@ RSpec.describe Assignment, type: :model do
 
   describe "split" do
     it "validates presence of split_id" do
-      expect(subject).to validate_presence_of(:split)
+      expect(subject).to validate_presence_of(:split).with_message(:required)
     end
   end
 
   describe "visitor" do
     it "validates presence of visitor_id" do
-      expect(subject).to validate_presence_of(:visitor)
+      expect(subject).to validate_presence_of(:visitor).with_message(:required)
     end
   end
 

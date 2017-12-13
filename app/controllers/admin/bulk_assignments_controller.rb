@@ -14,7 +14,7 @@ class Admin::BulkAssignmentsController < AuthenticatedAdminController
 
   def enqueue_assignments
     if @bulk_assignment_creation.valid?
-      BulkAssignmentJob.perform_later(create_params)
+      BulkAssignmentJob.perform_later(create_params.to_h)
       flash[:success] = success_message
       redirect_to admin_split_path(@split)
     else

@@ -10,7 +10,7 @@ RSpec.describe Api::V1::IdentifierVisitorsController, type: :controller do
     let!(:identifier) { FactoryBot.create(:identifier, identifier_type: identifier_type, value: "1234", visitor: assignment.visitor) }
 
     it "responds with a visitor" do
-      get :show, identifier_type_name: "clown_id", identifier_value: "1234"
+      get :show, params: { identifier_type_name: "clown_id", identifier_value: "1234" }
 
       expect(response).to have_http_status :ok
       expect(response_json['id']).to eq assignment.visitor.id
@@ -23,7 +23,7 @@ RSpec.describe Api::V1::IdentifierVisitorsController, type: :controller do
     it "responds with an empty assignments list for visitor with no assignments" do
       identifier = FactoryBot.create(:identifier, identifier_type: identifier_type, value: "5678")
 
-      get :show, identifier_type_name: "clown_id", identifier_value: "5678"
+      get :show, params: { identifier_type_name: "clown_id", identifier_value: "5678" }
 
       expect(response).to have_http_status :ok
       expect(response_json['id']).to eq identifier.visitor.id

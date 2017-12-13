@@ -15,7 +15,7 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
         context: "the_context",
         mixpanel_result: "success")
 
-      post :create, visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123"
+      post :create, params: { visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123" }
 
       response_json['visitor'].tap do |visitor_json|
         expect(visitor_json['id']).to eq visitor.id
@@ -36,7 +36,7 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
         context: "the_context",
         mixpanel_result: "success")
 
-      post :create, visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123"
+      post :create, params: { visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123" }
 
       response_json['visitor'].tap do |visitor_json|
         expect(visitor_json['id']).to eq existing_visitor.id
@@ -48,7 +48,7 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
     end
 
     it "responds with an error if given an invalid identifier_type" do
-      post :create, visitor_id: visitor.id, identifier_type: "Foobaloo", value: "123"
+      post :create, params: { visitor_id: visitor.id, identifier_type: "Foobaloo", value: "123" }
 
       expect(response).to have_http_status :unprocessable_entity
       expect(response_json).to eq(

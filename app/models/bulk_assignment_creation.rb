@@ -56,7 +56,7 @@ class BulkAssignmentCreation
   end
 
   def force_identifier_creation=(value)
-    @force_identifier_creation = ActiveRecord::Type::Boolean.new.type_cast_from_user(value)
+    @force_identifier_creation = ActiveRecord::Type::Boolean.new.cast(value)
   end
 
   private

@@ -29,13 +29,12 @@ module TestTrack
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     config.log_tags = [:host, :uuid]
 
     config.cache_store = :memory_store
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.action_controller.raise_on_unfiltered_parameters = true
   end
 end

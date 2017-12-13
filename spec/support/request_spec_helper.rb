@@ -15,16 +15,16 @@ module RequestSpecHelper
   end
 
   # HACK: overriding the built-in request methods in order to provide some default header values
-  # the set of methods was snatched from here. this will have to be updated for rails 5
-  # https://github.com/rails/rails/blob/4-2-stable/actionpack/lib/action_dispatch/testing/integration.rb
+  # the set of methods was snatched from here.
+  # https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_dispatch/testing/integration.rb
   %w(
     get post patch put head delete
     xml_http_request xhr get_via_redirect post_via_redirect
   ).each do |method|
-    define_method(method) do |path, params = nil, headers_or_env = nil|
-      headers_or_env ||= {}
-      headers_or_env = headers_or_env.merge(default_headers_or_env)
-      super(path, params, headers_or_env)
+    define_method(method) do |path, opts = {}|
+      opts[:headers] ||= {}
+      opts[:headers] = opts[:headers].merge(default_headers_or_env)
+      super(path, opts)
     end
   end
 end

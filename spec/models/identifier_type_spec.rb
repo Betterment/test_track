@@ -19,7 +19,7 @@ RSpec.describe IdentifierType, type: :model do
 
   describe "#owner_app" do
     it "validates presence of owner_app" do
-      expect(subject).to validate_presence_of(:owner_app)
+      expect(subject).to validate_presence_of(:owner_app).with_message(:required)
     end
   end
 end
