@@ -1,4 +1,6 @@
 class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
+  skip_before_action :verify_authenticity_token, only: [:saml]
+
   def saml
     verify_admin Admin.from_saml(request.env["omniauth.auth"])
   end
