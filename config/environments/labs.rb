@@ -71,5 +71,6 @@ Rails.application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = :info
 
-  config.logger = ActiveSupport::TaggedLogging.new(Le.new(ENV['LOGENTRIES_TOKEN'])) if ENV['LOGENTRIES_TOKEN'].present?
+  # Use a different logger for distributed setups.
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 end

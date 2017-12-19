@@ -51,9 +51,6 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
 
-  # Use a different logger for distributed setups.
-  # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
-
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
@@ -77,5 +74,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.logger = ActiveSupport::TaggedLogging.new(Le.new(ENV['LOGENTRIES_TOKEN'])) if ENV['LOGENTRIES_TOKEN'].present?
+  # Use a different logger for distributed setups.
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 end
