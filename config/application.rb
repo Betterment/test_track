@@ -36,5 +36,12 @@ module TestTrack
     config.active_job.queue_adapter = :delayed_job
 
     config.action_controller.raise_on_unfiltered_parameters = true
+
+    if ENV["SEMANTIC_LOGGER_ENABLED"].present?
+      require 'rails_semantic_logger'
+
+      config.rails_semantic_logger.add_file_appender = false
+      config.semantic_logger.add_appender(io: $stdout, formatter: :json)
+    end
   end
 end
