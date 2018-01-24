@@ -33,6 +33,8 @@ gem 'airbrake', '~> 4.3.2'
 
 gem 'newrelic_rpm'
 
+gem 'rails_semantic_logger', require: false
+
 gem 'devise'
 gem 'omniauth-saml'
 

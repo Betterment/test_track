@@ -182,7 +182,7 @@ GEM
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
     minitest (5.10.3)
-    multi_json (1.12.2)
+    multi_json (1.13.1)
     multipart-post (2.0.0)
     neat (1.7.2)
       bourbon (>= 4.0)
@@ -247,6 +247,9 @@ GEM
       nokogiri (>= 1.6)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
+    rails_semantic_logger (4.1.3)
+      rails (>= 4.0)
+      semantic_logger (~> 4.1)
     railties (5.0.6)
       actionpack (= 5.0.6)
       activesupport (= 5.0.6)
@@ -315,6 +318,8 @@ GEM
     selenium-webdriver (3.6.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
+    semantic_logger (4.2.0)
+      concurrent-ruby (~> 1.0)
     shoulda-matchers (3.1.2)
       activesupport (>= 4.0.0)
     simple_form (3.5.0)
@@ -413,6 +418,7 @@ DEPENDENCIES
   puma (~> 2.14)
   rack-timeout
   rails (~> 5.0.0)
+  rails_semantic_logger
   responders
   rspec-rails
   rubocop
