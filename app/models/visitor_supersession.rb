@@ -24,7 +24,7 @@ class VisitorSupersession < ActiveRecord::Base
     end
   rescue ActiveRecord::RecordNotUnique, PG::UniqueViolation # rubocop:disable Lint/HandleExceptions
     # the goal here is to make sure that any splits that the old visitor had
-    # that the new visitor doesn't have are carried over to the new visitor.
+    # (that the new visitor doesn't have) are carried over to the new visitor.
     # so, if there is a conflict here, we can safely ignore it.
   end
 end
