@@ -1,8 +1,6 @@
 class DeterministicAssignmentCreation
   attr_reader :visitor_id, :split_name, :bulk_assignment_id, :mixpanel_result, :context
 
-  delegate :save!, :assignment, to: :arbitrary_assignment_creation
-
   def initialize(params)
     @visitor_id = params[:visitor_id]
     @split_name = params[:split_name]
