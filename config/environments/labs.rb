@@ -71,6 +71,7 @@ Rails.application.configure do
   # Set to :debug to see everything in the log.
   config.log_level = :info
 
-  # Use a different logger for distributed setups.
-  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  if ENV["SEMANTIC_LOGGER_ENABLED"].blank?
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  end
 end
