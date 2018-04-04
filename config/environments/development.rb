@@ -38,6 +38,8 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 end
 
 ENV['WHITELIST_CORS_HOSTS'] ||= %w(.dev).join(',')

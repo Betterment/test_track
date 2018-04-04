@@ -74,6 +74,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Use a different logger for distributed setups.
-  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  if ENV["SEMANTIC_LOGGER_ENABLED"].blank?
+    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
+  end
 end
