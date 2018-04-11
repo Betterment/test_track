@@ -5,7 +5,7 @@ require 'timeout'
 RSpec::Matchers.define :become_true do |expected|
 
   match do |block|
-    end_time = Time.now + Capybara.default_wait_time.seconds 
+    end_time = Time.now + Capybara.default_max_wait_time.seconds
     loop do
       break if Time.now > end_time
       value = block.call
@@ -29,7 +29,6 @@ end
 SnapshotInfo = Struct.new(:name, :variation, :file)
 
 class RSpec::Core::ExampleGroup
-
   def snapshot(name = :default, variation = :desktop)
     tmp = Tempfile.new([variation, '.png'])
     tmp.close
@@ -40,7 +39,6 @@ class RSpec::Core::ExampleGroup
 
     SnapshotInfo.new(name, variation, tmp)
   end
-
 end
 
 RSpec.configure do |config|
@@ -89,7 +87,6 @@ RSpec::Matchers.define :look_correct do
       new_path = tmpfile_path
     end
 
-
     if File.exists?(existing_path)
       prog = 'compare'
       args = '-verbose -metric RMSE -highlight-color Red'
@@ -128,15 +125,15 @@ RSpec::Matchers.define :look_correct do
   failure_message do |snapshot_info|
     path = snapshot_path(snapshot_info)
 
-<<-COMMANDS
-expected that '#{snapshot_info.name}' screenshot for #{snapshot_info.variation} would look correct
+    <<~COMMANDS
+      expected that '#{snapshot_info.name}' screenshot for #{snapshot_info.variation} would look correct
 
-Show screenshot diffs:
-  $ open #{dirname}/DIFF_#{path} #{dirname}/CHANGED_#{path} #{dirname}/#{path}
+      Show screenshot diffs:
+        $ open #{dirname}/DIFF_#{path} #{dirname}/CHANGED_#{path} #{dirname}/#{path}
 
-Approve changed screenshot:
-  $ mv #{dirname}/CHANGED_#{path} #{dirname}/#{path}
-COMMANDS
+      Approve changed screenshot:
+        $ mv #{dirname}/CHANGED_#{path} #{dirname}/#{path}
+    COMMANDS
   end
 
   def dirname

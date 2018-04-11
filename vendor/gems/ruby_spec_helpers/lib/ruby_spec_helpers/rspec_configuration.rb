@@ -1,4 +1,7 @@
 require 'rspec/retry'
+require 'rspec/collection_matchers'
+require 'ruby_spec_helpers/file_pattern_spec_helper'
+require 'rspec_junit_formatter'
 
 ENV["TAGS"] ||= ""
 
@@ -23,7 +26,6 @@ RSpec.configure do |config|
   # show exception that triggers a retry if verbose_retry is set to true
   config.display_try_failure_messages = true
 
-
   # Filter by tags
   ENV["TAGS"].split(",").each do |tag|
     config.filter_run_excluding tag[1..-1].to_sym if tag.start_with? "~"
@@ -31,4 +33,11 @@ RSpec.configure do |config|
   end
 
   config.include Rails.application.routes.url_helpers
+  config.include FilePatternSpecHelper
+end
+
+# As of 07-18-2017 there is no configuration exposed for this
+# See https://github.com/rspec/rspec-support/issues/252
+if RSpec::Support.const_defined?("ObjectFormatter") && RSpec::Support::ObjectFormatter.respond_to?(:default_instance)
+  RSpec::Support::ObjectFormatter.default_instance.max_formatted_output_length = 10_000
 end
