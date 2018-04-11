@@ -15,9 +15,9 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
     end
 
     it "creates an assignment if none already exists" do
-      expect do
+      expect {
         post :create, params: create_params
-      end.to change { Assignment.count }.by(1)
+      }.to change { Assignment.count }.by(1)
 
       expect(response).to have_http_status :no_content
 
@@ -32,9 +32,9 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
     it "noops if a conflicting assignment already exists" do
       FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
 
-      expect do
+      expect {
         post :create, params: create_params
-      end.not_to change { PreviousAssignment.count }
+      }.not_to change { PreviousAssignment.count }
 
       expect(response).to have_http_status :no_content
     end

@@ -1,6 +1,6 @@
 class VisitorSupersession < ActiveRecord::Base
-  belongs_to :superseded_visitor, class_name: "Visitor"
-  belongs_to :superseding_visitor, class_name: "Visitor"
+  belongs_to :superseded_visitor, class_name: "Visitor", inverse_of: false
+  belongs_to :superseding_visitor, class_name: "Visitor", inverse_of: false
 
   after_create :merge_assignments!
 

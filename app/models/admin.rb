@@ -1,5 +1,5 @@
 class Admin < ActiveRecord::Base
-  has_many :bulk_assignments
+  has_many :bulk_assignments, dependent: :nullify
 
   class << self
     def from_saml(auth)
@@ -11,7 +11,7 @@ class Admin < ActiveRecord::Base
     def lookup_admin(opts)
       admin = admin_by_email(opts.delete(:email))
 
-      admin.update_attributes!(opts) if admin
+      admin&.update!(opts)
 
       admin
     end
@@ -21,7 +21,7 @@ class Admin < ActiveRecord::Base
     end
 
     def devise_args
-      [:trackable, :lockable, :timeoutable].tap do |a|
+      %i(trackable lockable timeoutable).tap do |a|
         if ENV['SAML_ISSUER'].present?
           a.concat [:omniauthable, { omniauth_providers: [:saml] }]
         else

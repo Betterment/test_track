@@ -1,10 +1,10 @@
 class Split < ActiveRecord::Base
-  belongs_to :owner_app, required: true, class_name: "App"
+  belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
-  has_many :previous_split_registries
-  has_many :assignments
-  has_many :bulk_assignments
-  has_many :variant_details
+  has_many :previous_split_registries, dependent: :nullify
+  has_many :assignments, dependent: :nullify
+  has_many :bulk_assignments, dependent: :nullify
+  has_many :variant_details, dependent: :nullify
 
   validates :name, presence: true, uniqueness: true
   validates :registry, presence: true
@@ -20,7 +20,7 @@ class Split < ActiveRecord::Base
 
   scope :active, -> { where(finished_at: nil) }
 
-  enum platform: [:mobile, :desktop]
+  enum platform: %i(mobile desktop)
 
   def detail
     @detail ||= SplitDetail.new(split: self)
@@ -92,12 +92,12 @@ class Split < ActiveRecord::Base
   end
 
   def registry_weights_must_sum_to_100
-    sum = registry && registry.values.sum
+    sum = registry && registry.values.sum # rubocop:disable Style/SafeNavigation
     errors.add(:registry, "must contain weights that sum to 100% (got #{sum})") unless sum == 100
   end
 
   def registry_weights_must_be_integers
-    return unless registry.present?
+    return if registry.blank?
     return unless @registry_before_type_cast.values.any? { |w| w.to_i.to_s != w.to_s }
     errors.add(:registry, "all weights must be integers")
   end
@@ -123,7 +123,7 @@ class Split < ActiveRecord::Base
   end
 
   def dasherized_name
-    name && name.to_s.dasherize
+    name && name.to_s.dasherize # rubocop:disable Style/SafeNavigation
   end
 
   def cast_registry

@@ -22,7 +22,7 @@ class Api::System::StatusesController < UnauthenticatedApiController
   def database_healthy?(model_class = ActiveRecord::Base)
     model_class.connection.execute("select 1")
     true
-  rescue
+  rescue StandardError
     false
   end
 end

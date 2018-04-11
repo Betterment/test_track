@@ -38,7 +38,7 @@ class BulkAssignmentCreation
   end
 
   def new_identifier_creation_ratio
-    return 0 unless total_identifiers_to_assign_count > 0
+    return 0 unless total_identifiers_to_assign_count.positive?
     @new_identifier_creation_ratio ||= 1 - (existing_identifiers_count.to_f / total_identifiers_to_assign_count)
   end
 
@@ -52,7 +52,7 @@ class BulkAssignmentCreation
   end
 
   def total_identifiers_to_assign_count
-    ids_to_assign.nil? || ids_to_assign.empty? ? 0 : ids_to_assign.size
+    ids_to_assign.blank? ? 0 : ids_to_assign.size
   end
 
   def force_identifier_creation=(value)
@@ -76,7 +76,7 @@ class BulkAssignmentCreation
   end
 
   def identifier_type
-    @identifier_type ||= IdentifierType.find_by_id(identifier_type_id)
+    @identifier_type ||= IdentifierType.find_by(id: identifier_type_id)
   end
 
   def existing_assignments

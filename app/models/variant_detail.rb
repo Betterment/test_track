@@ -21,7 +21,7 @@ class VariantDetail < ActiveRecord::Base
   end
 
   def retirable?
-    weight == 0 && assignment_count > 0
+    weight.zero? && assignment_count.positive?
   end
 
   private

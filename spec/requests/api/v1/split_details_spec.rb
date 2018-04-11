@@ -55,7 +55,7 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
           variant: 'disabled',
           display_name: 'fantastic_split_with_information is off',
           description: 'This feature makes nothing happen.',
-          screenshot: File.open(Rails.root.join('spec/support/uploads/ttlogo.png'))
+          screenshot: File.open(Rails.root.join('spec', 'support', 'uploads', 'ttlogo.png'))
         )
       end
 
@@ -87,9 +87,9 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
     end
 
     it "blows up if split id is incorrect" do
-      expect do
+      expect {
         get "/api/v1/split_details/i_am_not_a_real_split"
-      end.to raise_exception ActiveRecord::RecordNotFound
+      }.to raise_exception ActiveRecord::RecordNotFound
     end
   end
 end

@@ -14,7 +14,7 @@ class VisitorLookup
   end
 
   def identifier
-    @identifer ||= _identifier
+    @identifier ||= _identifier
   end
 
   def _identifier
