@@ -89,6 +89,9 @@ Rails/ApplicationRecord:
 Rails/Delegate:
   EnforceForPrefixed: false
 
+Rails/FilePath:
+  Enabled: false
+
 Rails/FindEach:
   Enabled: false
 
