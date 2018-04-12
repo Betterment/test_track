@@ -15,7 +15,7 @@ class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def verify_admin(admin)
     @admin = admin
 
-    if @admin && @admin.persisted?
+    if @admin&.persisted?
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: @admin.provider if @admin.active_for_authentication?
       sign_in_and_redirect @admin, event: :authentication
     else

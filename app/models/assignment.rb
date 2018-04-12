@@ -6,7 +6,7 @@ class Assignment < ActiveRecord::Base
   belongs_to :bulk_assignment, required: false
   belongs_to :visitor_supersession, required: false
 
-  has_many :previous_assignments
+  has_many :previous_assignments, dependent: :nullify
   has_many :variant_details, through: :split
 
   validates :variant, presence: true

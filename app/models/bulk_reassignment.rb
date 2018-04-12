@@ -26,7 +26,7 @@ class BulkReassignment
 
   delegate :connection, :transaction, to: BulkAssignment
 
-  def insert_previous_assignments # rubocop:disable Metrics/MethodLength
+  def insert_previous_assignments
     connection.execute(<<-SQL)
       INSERT INTO previous_assignments (
         variant,

@@ -240,7 +240,7 @@ RSpec.describe BulkAssignmentCreation do
     end
 
     it "maintains the individually_overridden dirty flag across bulk assignments" do
-      assignment.update_attributes(individually_overridden: true, context: "individually_overridden")
+      assignment.update(individually_overridden: true, context: "individually_overridden")
 
       subject.save
 

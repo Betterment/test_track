@@ -1,24 +1,13 @@
 RSpec.shared_examples "a Betterment application" do
   context "views" do
-    subject { check_view_files_for(pattern) }
-
-    def check_view_files_for(pattern)
-      result = []
-      Dir["#{Rails.root}/app/views/**/*"].each do |file|
-        next unless File.file?(file)
-        File.open(file, 'r:utf-8') do |f|
-          f.each_line do |line|
-            result << file if line.match(pattern)
-          end
-        end
-      end
-      result
-    end
+    subject { check_files_for_pattern(files, pattern) }
+    let(:files) { Rails.root.join('app', 'views', '**', '*') }
 
     def error_text(pattern_text)
       <<-ERROR_MESSAGE
       `#{pattern_text}` was called in the following files.
       Consider rewriting to avoid using `#{pattern_text}` or move into a view helper.
+      See more info here: https://betterconfluence.atlassian.net/wiki/display/BetterEng/Unsafe+HTML+rendering
 
       #{subject.join("\n")}
       ERROR_MESSAGE

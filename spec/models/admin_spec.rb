@@ -6,17 +6,17 @@ RSpec.describe Admin, type: :model do
     let(:auth) { OmniAuth::AuthHash.new(uid: "herman@example.com", info: info) }
 
     it "creates a user if one does not exist" do
-      expect do
+      expect {
         admin = Admin.from_saml(auth)
         expect(admin.full_name).to eq "Herman Miller"
         expect(admin.email).to eq "herman@example.com"
         expect(admin.provider).to eq "SAML"
-      end.to change { Admin.count }.by(1)
+      }.to change { Admin.count }.by(1)
     end
 
     it "allows the user to log in despite casing" do
       FactoryBot.create :admin, email: "herman@example.com"
-      expect do
+      expect {
         admin = Admin.from_saml(
           OmniAuth::AuthHash.new(
             uid: "Herman@example.com",
@@ -29,7 +29,7 @@ RSpec.describe Admin, type: :model do
         expect(admin.full_name).to eq "Herman Miller"
         expect(admin.email).to eq "herman@example.com"
         expect(admin.provider).to eq "SAML"
-      end.not_to change { Admin.count }
+      }.not_to change { Admin.count }
     end
 
     it "sets the full name on the user and saves it" do

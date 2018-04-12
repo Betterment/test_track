@@ -8,8 +8,8 @@ RSpec.describe Decision do
   let(:off_assignments) { FactoryBot.create_list(:assignment, 1, split: split, variant: "off") }
   let(:on_assignments) do
     FactoryBot.create_list(:assignment, 1, split: split, variant: "slow")
-              .concat(FactoryBot.create_list(:assignment, 1, split: split, variant: "very_slow"))
-              .concat(FactoryBot.create_list(:assignment, 2, split: split, variant: "excruciatingly_slow"))
+      .concat(FactoryBot.create_list(:assignment, 1, split: split, variant: "very_slow"))
+      .concat(FactoryBot.create_list(:assignment, 2, split: split, variant: "excruciatingly_slow"))
   end
 
   def assignments_of_split

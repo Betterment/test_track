@@ -127,10 +127,9 @@ RSpec.describe IdentifierClaim do
       allow(Visitor).to receive(:find_or_create_by!).and_raise(error)
 
       claim = nil
-      expect do
+      expect {
         claim = IdentifierClaim.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
-      end
-        .to change { Visitor.count }.by(0)
+      }.to change { Visitor.count }.by(0)
 
       expect(claim.identifier.visitor).to eq visitor
     end
@@ -144,10 +143,9 @@ RSpec.describe IdentifierClaim do
       end
 
       claim = nil
-      expect do
+      expect {
         claim = IdentifierClaim.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
-      end
-        .not_to change { Identifier.count }
+      }.not_to change { Identifier.count }
 
       expect(claim.value).to eq "123"
     end

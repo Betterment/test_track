@@ -41,7 +41,7 @@ class VariantRetirement
   end
 
   def sorted_active_variants
-    @sorted_active_variants ||= split.variants.select { |v| split.variant_weight(v) > 0 }.sort
+    @sorted_active_variants ||= split.variants.select { |v| split.variant_weight(v).positive? }.sort
   end
 
   def random_active_variant

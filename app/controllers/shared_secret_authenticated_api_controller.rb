@@ -8,7 +8,7 @@ class SharedSecretAuthenticatedApiController < UnauthenticatedApiController
   private
 
   def authenticate
-    raise("#{SHARED_SECRET_ENV_VAR} not configured on TestTrack server!") unless shared_secret.present?
+    raise("#{SHARED_SECRET_ENV_VAR} not configured on TestTrack server!") if shared_secret.blank?
 
     authenticate_or_request_with_http_basic do |_username, candidate_shared_secret|
       ActiveSupport::SecurityUtils.secure_compare(shared_secret, candidate_shared_secret)

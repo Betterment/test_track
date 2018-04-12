@@ -17,17 +17,17 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
 
     it "raises when there is no BROWSER_EXTENSION_SHARED_SECRET" do
       with_env BROWSER_EXTENSION_SHARED_SECRET: nil do
-        expect do
+        expect {
           post :create, params: create_params
-        end.to raise_error(/BROWSER_EXTENSION_SHARED_SECRET/)
+        }.to raise_error(/BROWSER_EXTENSION_SHARED_SECRET/)
       end
     end
 
     it "raises when there is an empty BROWSER_EXTENSION_SHARED_SECRET" do
       with_env BROWSER_EXTENSION_SHARED_SECRET: '' do
-        expect do
+        expect {
           post :create, params: create_params
-        end.to raise_error(/BROWSER_EXTENSION_SHARED_SECRET/)
+        }.to raise_error(/BROWSER_EXTENSION_SHARED_SECRET/)
       end
     end
 
@@ -44,9 +44,9 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
         end
 
         it "creates an assignment if none already exists" do
-          expect do
+          expect {
             post :create, params: create_params
-          end.to change { Assignment.count }.by(1)
+          }.to change { Assignment.count }.by(1)
 
           expect(response).to have_http_status :no_content
 
@@ -61,9 +61,9 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
         it "overrides an assignment if one already exists" do
           FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
 
-          expect do
+          expect {
             post :create, params: create_params
-          end.to change { PreviousAssignment.count }.by(1)
+          }.to change { PreviousAssignment.count }.by(1)
 
           expect(response).to have_http_status :no_content
         end
@@ -84,17 +84,17 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
 
       it "returns unauthorized and doesn't create an assignment with the wrong password" do
         http_authenticate username: "doesn't matter", auth_secret: "the worst password"
-        expect do
+        expect {
           post :create, params: create_params
-        end.not_to change { Assignment.count }
+        }.not_to change { Assignment.count }
 
         expect(response).to have_http_status :unauthorized
       end
 
       it "returns unauthorized and doesn't create an assignment with no password" do
-        expect do
+        expect {
           post :create, params: create_params
-        end.not_to change { Assignment.count }
+        }.not_to change { Assignment.count }
 
         expect(response).to have_http_status :unauthorized
       end

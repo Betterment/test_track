@@ -2,7 +2,7 @@ desc "Create a new seed app including a random auth_secret for local development
 task :seed_app, [:app_name] do |_, opts|
   seed_app_filename = Rails.root.join('db/seed_apps.yml')
   app_name = opts[:app_name]
-  unless app_name.present?
+  if app_name.blank?
     puts "You must provide an app_name argument, e.g. rake seed_app[my_fantastic_app]"
     next
   end

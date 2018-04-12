@@ -1,5 +1,5 @@
 class IdentifierType < ActiveRecord::Base
-  belongs_to :owner_app, required: true, class_name: 'App'
+  belongs_to :owner_app, required: true, class_name: 'App', inverse_of: :identifier_types
 
   validates :name, presence: true, uniqueness: true
 
