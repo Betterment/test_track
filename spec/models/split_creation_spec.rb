@@ -12,7 +12,13 @@ RSpec.describe SplitCreation do
   it 'creates a new split config for a new name' do
     expect(Split.find_by(name: "amazing")).to be_falsey
     SplitCreation.create(app: default_app, name: "amazing", weighting_registry: { awesome: 100 })
-    expect(Split.find_by(name: "amazing")).to be_truthy
+    expect(Split.find_by(name: "amazing", feature_gate: false)).to be_truthy
+  end
+
+  it 'creates feature gates when name ends in _enabled' do
+    expect(Split.find_by(name: "foo_enabled")).to be_falsey
+    SplitCreation.create(app: default_app, name: "foo_enabled", weighting_registry: { awesome: 100 })
+    expect(Split.find_by(name: "foo_enabled", feature_gate: true)).to be_truthy
   end
 
   it 'updates existing split config for a known name' do
