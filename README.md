@@ -188,7 +188,7 @@ split. This means that every time a visitor experiences a split, they
 will be deterministically (pseudorandomly) assigned to a variant based
 on their visitor ID and the name of the split. This will provide the
 customer with a stable variant given a constant split weighting, but
-probablistically increase the size of the population experiencing the
+probablistically increase the percentage of visitors experiencing the
 the `true` variant as the split weightings are increased via the admin
 panel, giving an admin full control over the feature's release.
 
