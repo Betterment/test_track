@@ -176,7 +176,7 @@ visitor's previous assignments win.
 As of TestTrack version 1.2, splits with names ending in the `_enabled`
 suffix will be treated as feature gates. Feature gates differ from
 experiments in that they are not intended to be used for analysis, and
-therefor it is not important that the user remain in the same variant
+therefore it is not important that the user remain in the same variant
 throughout the entire split lifecycle. Feature gates are meant to be
 slow-rolled (incrementally increasing the percentage of customers
 experiencing the new feature), released en masse, or instantly rolled
