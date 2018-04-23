@@ -154,6 +154,44 @@ One the values that a given visitor will be assigned for a split, e.g. `true` or
 ### Weighting
 Variants are assigned pseudo-randomly to visitors based on their visitor IDs and the weightings for the variants.  Weightings describe the probability of a visitor being assigned to a given variant in integer percentages.  All the variant weightings for a given split must sum to 100, though variants may have a weighting of 0.
 
+### Experiment
+
+Experiments are the standard flavor of splits in TestTrack. They are
+intended to be used for A/B testing, and the TestTrack server records
+visitors' experienced variants so that those visitors will continue to
+experience the same variant regardless of subsequent changes to the
+weightings of those variants via the admin interface.
+
+Storing the variant a visitor experienced for an experiment also allows
+TestTrack to provide a consistent UX to a customer who experienced a
+new-to-them experiment before logging in on a new device, only to be
+recognized as an existing visitor upon sign-in.  TestTrack will merge
+all variant assignments from the anonymous visitor into the
+authenticated visitor at sign-in as long as the authenticated visitor
+doesn't have conflicting assignments.  In that case, the authenticated
+visitor's previous assignments win.
+
+### Feature Gate
+
+As of TestTrack version 1.2, splits with names ending in the `_enabled`
+suffix will be treated as feature gates. Feature gates differ from
+experiments in that they are not intended to be used for analysis, and
+therefore it is not important that the user remain in the same variant
+throughout the entire split lifecycle. Feature gates are meant to be
+slow-rolled (incrementally increasing the percentage of customers
+experiencing the new feature), released en masse, or instantly rolled
+back.
+
+To facilitate these smooth transitions and rapid toggles, the TestTrack
+server will not record variant assignments when a visitor experiences a
+split. This means that every time a visitor experiences a split, they
+will be deterministically (pseudorandomly) assigned to a variant based
+on their visitor ID and the name of the split. This will provide the
+customer with a stable variant given a constant split weighting, but
+probablistically increase the percentage of visitors experiencing the
+the `true` variant as the split weightings are increased via the admin
+panel, giving an admin full control over the feature's release.
+
 ### IdentifierType
 A name for a customer identifier that is meaningful in your application, typically things that people sign up as, log in as.  They should be expressed in `snake_case` and conventionally are prefixed with the application name that the identifier is for, e.g. `myapp_user_id`, `myapp_lead_id`.
 

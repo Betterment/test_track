@@ -22,7 +22,7 @@
           method: :post,
           data: { confirm: "You're redistributing #{@variant_detail.variant} assignees to the other variants according to their weights. Do you wish to proceed?" } %>
       <% end %>
-      <%= f.submit 'Continue', data: { disable_with: 'Updating variant...' }, class: 'u-button ft-confirmButton' %>
+      <%= f.submit 'Save', data: { disable_with: 'Updating variant...' }, class: 'u-button ft-confirmButton' %>
     </div>
   </div>
 <% end %>

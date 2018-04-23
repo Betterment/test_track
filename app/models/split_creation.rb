@@ -25,7 +25,11 @@ class SplitCreation
   end
 
   def split
-    @split ||= app.splits.create_with(registry: merged_registry).find_or_initialize_by(name: name)
+    @split ||= app.splits.create_with(registry: merged_registry, feature_gate: feature_gate?).find_or_initialize_by(name: name)
+  end
+
+  def feature_gate?
+    name.end_with?("_enabled")
   end
 
   private

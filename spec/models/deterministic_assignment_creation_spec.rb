@@ -70,6 +70,18 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
       expect(ArbitraryAssignmentCreation).to have_received(:create!)
         .with(hash_including(context: "the_context"))
     end
+
+    context "with a feature gate" do
+      let!(:split) do
+        FactoryBot.create(:split, name: "split", registry: { variant1: 61, variant2: 1, variant3: 38 }, feature_gate: true)
+      end
+
+      it "skips creating for feature gates" do
+        subject.save!
+
+        expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
+      end
+    end
   end
 
   describe "#variant_calculator" do

@@ -5,6 +5,22 @@
   <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split_creation.name %></h1>
 </div>
 
+<% if @split_creation.feature_gate? %>
+  <p>
+  This split is a feature gate. Changing weights will immediately change
+  behavior of visitors who do not have an explicit assignment, even if they've
+  already experienced a specific variant of this split. This is usually
+  desirable for slow-rolling features.
+  </p>
+<% else %>
+  <p>
+  This split is an experiment. Changing weights will have no immediate effect
+  on the behavior of visitors who have already experienced a variant of this
+  split. Experiments rarely benefit from changing weightings unless you are
+  performing analysis over a date range.
+  </p>
+<% end %>
+
 <%= simple_form_for(@split_creation, url: admin_split_split_config_path) do |f| %>
   <% f.simple_fields_for :weighting_registry do |ff| %>
 
@@ -18,6 +34,6 @@
       <%= ff.input variant, as: :percent, input_html: { value: weight, class: "weight-input" } %>
     <% end %>
 
-    <%= render "shared/form_footer", f: f, submit_text: "Edit", submit_disable_with_text: "Changing..." %>
+    <%= render "shared/form_footer", f: f, submit_text: "Save", submit_disable_with_text: "Changing..." %>
   <% end %>
 <% end %>

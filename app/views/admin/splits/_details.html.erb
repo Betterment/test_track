@@ -9,7 +9,9 @@
       <tr class="population-row">
         <td>Population Size</td>
         <td>
-          <span class='population'><%= @split.assignments.count %></span>
+          <span class='population'>
+            <%= @split.assignments.count %><% if @split.feature_gate? %>* [<a href="#gate_population">feature gate</a>]<% end %>
+          </span>
         </td>
         <td>
           <span><%= link_to "Edit", new_admin_split_bulk_assignment_path(@split), class: 'upload-new-assignments-link' %></span>
@@ -33,5 +35,11 @@
         <td>&nbsp;</td>
       </tr>
     </table>
+    <% if @split.feature_gate? %>
+      <p>
+      <a id="gate_population"></a>
+      * Feature gates no longer track assignment events and population reflects only visitors assigned to specific variants via the chrome extension or admin tool.
+      </p>
+    <% end %>
   </div>
 </article>
