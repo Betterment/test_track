@@ -50,6 +50,8 @@ gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
+gem 'with_transactional_lock'
+
 group :development, :test do
   gem 'simplecov', require: false
   gem 'pry-rails'
@@ -57,7 +59,7 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rspec-rails'
-  gem 'rubocop'
+  gem 'rubocop-betterment'
 
   gem 'dotenv-rails'
 

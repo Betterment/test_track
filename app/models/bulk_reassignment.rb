@@ -7,7 +7,7 @@ class BulkReassignment
 
   def save
     return false unless valid?
-    transaction do
+    with_transactional_lock('bulk_reassignment') do
       insert_previous_assignments
       update_assignments
     end
@@ -24,7 +24,7 @@ class BulkReassignment
 
   private
 
-  delegate :connection, :transaction, to: BulkAssignment
+  delegate :connection, :with_transactional_lock, to: BulkAssignment
 
   def insert_previous_assignments
     connection.execute(<<-SQL)

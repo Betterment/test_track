@@ -123,7 +123,7 @@ class Split < ActiveRecord::Base
   end
 
   def dasherized_name
-    name && name.to_s.dasherize # rubocop:disable Style/SafeNavigation
+    name && name.to_s.dasherize
   end
 
   def cast_registry
