@@ -7,7 +7,7 @@ class BulkReassignment
 
   def save
     return false unless valid?
-    transaction do
+    ActiveRecord::Base.with_transactional_lock('bulk_reassignment') do
       insert_previous_assignments
       update_assignments
     end
