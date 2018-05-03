@@ -11,7 +11,7 @@ require 'ruby_spec_helpers/rspec_configuration'
 
 require 'fileutils'
 
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
 
@@ -49,7 +49,7 @@ RSpec.configure do |config|
   end
 
   config.before(:suite) do
-    upload_dir = Rails.root.join('tmp/test_uploads')
+    upload_dir = Rails.root.join('tmp', 'test_uploads')
     FileUtils.rm_r(upload_dir) if File.exist?(upload_dir)
   end
 end

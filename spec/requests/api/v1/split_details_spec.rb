@@ -55,7 +55,7 @@ RSpec.describe Api::V1::SplitDetailsController, type: :request do
           variant: 'disabled',
           display_name: 'fantastic_split_with_information is off',
           description: 'This feature makes nothing happen.',
-          screenshot: File.open(Rails.root.join('spec/support/uploads/ttlogo.png'))
+          screenshot: File.open(Rails.root.join('spec', 'support', 'uploads', 'ttlogo.png'))
         )
       end
 
