@@ -80,11 +80,11 @@ class Split < ActiveRecord::Base
   end
 
   def name_must_not_include_new
-    errors[:name] << "'new' is too vague. Use absolute time if needed e.g. 'summary_redesign_late_2015'" if name_contains_new?
+    errors[:name] << "should not contain the ambiguous word 'new'. If expressing timing, refer to absolute time like 'late_2015'. If expressing creation use 'create'." if name_contains_new?
   end
 
   def name_must_not_end_with_test
-    errors[:name] << "'test' is redundant.  All splits are testable." if name_ends_with_test?
+    errors[:name] << "should not end with 'test', as it is redundant. All splits are testable." if name_ends_with_test?
   end
 
   def variants_must_be_snake_case
