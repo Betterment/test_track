@@ -76,19 +76,21 @@ class Split < ActiveRecord::Base
   private
 
   def name_must_be_snake_case
-    errors[:name] << "must be snake_case: #{name.inspect}" if name_not_underscored?
+    errors.add(:name, "must be snake_case: #{name.inspect}") if name_not_underscored?
   end
 
   def name_must_not_include_new
-    errors[:name] << "should not contain the ambiguous word 'new'. If expressing timing, refer to absolute time like 'late_2015'. If expressing creation use 'create'." if name_contains_new?
+    errors.add(:name, <<-ERROR_MESSAGE) if name_contains_new?
+      should not contain the ambiguous word 'new'. If expressing timing, refer to absolute time like 'late_2015'. If expressing creation use 'create'.
+    ERROR_MESSAGE
   end
 
   def name_must_not_end_with_test
-    errors[:name] << "should not end with 'test', as it is redundant. All splits are testable." if name_ends_with_test?
+    errors.add(:name, "should not end with 'test', as it is redundant. All splits are testable.") if name_ends_with_test?
   end
 
   def variants_must_be_snake_case
-    errors[:registry] << "all variants must be snake_case: #{variants.inspect}" if variants_not_underscored?
+    errors.add(:registry, "all variants must be snake_case: #{variants.inspect}") if variants_not_underscored?
   end
 
   def registry_weights_must_sum_to_100
