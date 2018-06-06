@@ -94,7 +94,7 @@ class Split < ActiveRecord::Base
   end
 
   def registry_weights_must_sum_to_100
-    sum = registry && registry.values.sum # rubocop:disable Style/SafeNavigation
+    sum = registry && registry.values.sum
     errors.add(:registry, "must contain weights that sum to 100% (got #{sum})") unless sum == 100
   end
 

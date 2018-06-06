@@ -71,12 +71,12 @@ RSpec.describe Assignment, type: :model do
 
   describe ".to_hash" do
     it "is a hash of the split names to the variants" do
-      split1 = FactoryBot.create(:split, name: "split1")
-      split2 = FactoryBot.create(:split, name: "split2")
-      FactoryBot.create(:assignment, split: split1, variant: :hammer_time)
-      FactoryBot.create(:assignment, split: split2, variant: :touch_this)
+      split_1 = FactoryBot.create(:split, name: "split_1")
+      split_2 = FactoryBot.create(:split, name: "split_2")
+      FactoryBot.create(:assignment, split: split_1, variant: :hammer_time)
+      FactoryBot.create(:assignment, split: split_2, variant: :touch_this)
 
-      expect(described_class.to_hash).to eq(split1: :hammer_time, split2: :touch_this)
+      expect(described_class.to_hash).to eq(split_1: :hammer_time, split_2: :touch_this)
     end
   end
 
