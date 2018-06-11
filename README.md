@@ -132,6 +132,20 @@ Variants can be associated with metadata to describe their effects in human-read
 
 For more on how paths are constructed, see the [paperclip documentation](https://github.com/thoughtbot/paperclip).
 
+## Advanced topics
+
+### Feature Gate Experience Sampling Weight
+
+Feature gates report to your analytics provider differently relative to experiments. Where an experiment is assigned once per visitor and the assignment is recorded on the server for later reuse, a feature gate assignment is recalculated on the client side at each interaction. As a result, the analytics provider receives a different kind of event - `feature_gate_experienced` instead of `split_assigned`. These experience events are much higher velocity than assignment events because they occur each time a customer or backend codepath encounters the feature gate.
+
+While this experience event information is valuable to developers who are evaluating the number of customers who have experienced a feature, for example during a slow feature rollout to establish confidence that error rate remains low, there is little value in having comprehensive records. Sampling a fraction of customer interactions provides the same signal developers need at much lower cost.
+
+To switch to a sampling strategy, set the `EXPERIENCE_SAMPLING_WEIGHT` env var to a non-negative integer value as follows:
+
+* The default is `1`, which means that every experience event will be reported to analytics
+* To disable reporting of feature gate assignments altogether, set it to `0`
+* A value of `10` tells clients to report experience events to analytics probablistically one out of ten times. Conformant (>= v4) TestTrack clients will then reduce their reporting rate accordingly across all feature gates.
+
 ## Concepts
 
 ### App

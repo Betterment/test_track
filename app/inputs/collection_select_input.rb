@@ -75,7 +75,7 @@ class CollectionSelectInput < SimpleForm::Inputs::CollectionSelectInput
   end
 
   def collection_methods
-    @_collection_methods ||= detect_collection_methods
+    @_collection_methods ||= detect_collection_methods # rubocop:disable Naming/MemoizedInstanceVariableName
   end
 
   def extract_label(option)

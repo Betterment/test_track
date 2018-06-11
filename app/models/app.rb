@@ -10,7 +10,7 @@ class App < ActiveRecord::Base
   private
 
   def auth_secret_must_be_sufficiently_strong
-    return if auth_secret && auth_secret.size >= 43 # rubocop:disable Style/SafeNavigation
+    return if auth_secret && auth_secret.size >= 43
     errors.add(:auth_secret, "must be at least 32-bytes, Base64 encoded")
   end
 end

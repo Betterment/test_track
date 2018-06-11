@@ -33,6 +33,10 @@ Rails.application.routes.draw do
       resources :split_configs, only: [:create, :destroy]
       resource :identifier_type, only: :create
     end
+
+    namespace :v2 do
+      resource :split_registry, only: :show
+    end
   end
 
   if ENV['SAML_ISSUER'].present?
