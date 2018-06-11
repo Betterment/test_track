@@ -36,7 +36,7 @@ RSpec.describe SplitRegistry do
       end
 
       it "returns 1 with no env var" do
-        with_env EXPERIENCE_SAMPLININGG_WEIGHT: nil do
+        with_env EXPERIENCE_SAMPLING_WEIGHT: nil do
           expect(subject.experience_sampling_weight).to eq 1
         end
       end
