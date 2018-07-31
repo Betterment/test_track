@@ -9,3 +9,11 @@ if Rails.env.development?
     end
   end
 end
+
+test_track_app = App.find_or_create_by!(name: 'TestTrack') do |app|
+  app.auth_secret = SecureRandom.urlsafe_base64(32)
+end
+
+IdentifierType.find_or_create_by!(name: 'app_id') do |identifier_type|
+  identifier_type.owner_app = test_track_app
+end
