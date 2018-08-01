@@ -1,6 +1,7 @@
 class AddTestTrackAppAndAppId < ActiveRecord::Migration[5.0]
   class App < ActiveRecord::Base; end
   class IdentifierType < ActiveRecord::Base; end
+  
   def up
     test_track_app = App.find_or_create_by!(name: 'TestTrack') do |app|
       app.auth_secret = SecureRandom.urlsafe_base64(32)
