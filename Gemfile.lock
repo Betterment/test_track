@@ -188,7 +188,7 @@ GEM
       sass (>= 3.3)
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
-    newrelic_rpm (4.5.0.337)
+    newrelic_rpm (5.3.0.346)
     nio4r (2.1.0)
     nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
@@ -450,4 +450,4 @@ DEPENDENCIES
   with_transactional_lock
 
 BUNDLED WITH
-   1.16.2
+   1.16.4
