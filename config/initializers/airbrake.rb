@@ -5,10 +5,10 @@ if ENV['AIRBRAKE_API_KEY'].present?
 
     if ENV['AIRBRAKE_HOST'].present?
       config.host = begin
-        port = ENV['AIRBRAKE_PORT'].presence&.to_i
-        host = URI::parse(ENV['AIRBRAKE_HOST']).host
+        host_uri = URI::parse(ENV['AIRBRAKE_HOST'])
+        port = ENV['AIRBRAKE_PORT'].presence&.to_i || host_uri.port
         uri_builder = port == 443 ? URI::HTTPS : URI::HTTPS
-        uri_builder.build(host: ENV['AIRBRAKE_HOST'], port: port).to_s
+        uri_builder.build(host: host_uri.host, port: port).to_s
       end
     end
   end
