@@ -303,7 +303,7 @@ GEM
     rubocop-betterment (1.3.0)
       rubocop (= 0.56)
     ruby-progressbar (1.9.0)
-    ruby-saml (1.5.0)
+    ruby-saml (1.9.0)
       nokogiri (>= 1.5.10)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
