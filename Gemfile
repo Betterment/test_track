@@ -32,6 +32,7 @@ gem 'rack-timeout'
 gem 'airbrake', '~> 7.3.5'
 
 gem 'newrelic_rpm'
+gem 'ddtrace'
 
 gem 'rails_semantic_logger', require: false
 
