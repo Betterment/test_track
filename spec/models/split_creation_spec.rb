@@ -32,6 +32,15 @@ RSpec.describe SplitCreation do
     expect(weather.registry.symbolize_keys).to eq rain: 0, snow: 0, clear_skies: 100, hurricane: 0
   end
 
+  it 'reenables a finished split' do
+    bad_weather_create.save
+    Split.find_by!(name: "weather").update!(finished_at: Time.zone.now)
+    good_weather_create.save
+
+    weather = Split.find_by(name: "weather")
+    expect(weather.finished_at).to be_nil
+  end
+
   it 'delegates validation errors to split' do
     split_creation = SplitCreation.new(app: default_app, name: "bad_test", weighting_registry: { badBadBad: 100 })
     expect(split_creation.save).to eq false

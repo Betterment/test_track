@@ -7,6 +7,7 @@ class SplitCreation
   validate :split_must_be_valid
 
   def save
+    split.finished_at = nil
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?
     split.save
