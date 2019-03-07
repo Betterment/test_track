@@ -34,7 +34,7 @@ RSpec.describe SplitCreation do
 
   it 'reenables a finished split' do
     bad_weather_create.save
-    Split.find_by!(name: "weather").update(finished_at: Time.zone.now)
+    Split.find_by!(name: "weather").update!(finished_at: Time.zone.now)
     good_weather_create.save
 
     weather = Split.find_by(name: "weather")
