@@ -1,13 +1,13 @@
 class SplitCreation
   include ActiveModel::Model
 
-  attr_accessor :app, :name
+  attr_accessor :app, :name, :decision, :decided_at
   attr_reader :weighting_registry
 
   validate :split_must_be_valid
 
   def save
-    split.finished_at = nil
+    split.assign_attributes(finished_at: nil, decision: decision, decided_at: decided_at)
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?
     split.save

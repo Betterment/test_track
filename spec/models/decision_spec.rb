@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Decision do
   let(:split_registry) { { off: 0, slow: 25, very_slow: 25, excruciatingly_slow: 50 }.stringify_keys }
   let(:split) { FactoryBot.create :split, name: "garbage_smasher_speed", registry: split_registry }
-  let(:admin) { FactoryBot.create :admin }
 
   let(:off_assignments) { FactoryBot.create_list(:assignment, 1, split: split, variant: "off") }
   let(:on_assignments) do
@@ -17,7 +16,7 @@ RSpec.describe Decision do
   end
 
   def build_decision_favoring(variant = "off")
-    described_class.new(admin: admin, split: split, variant: variant)
+    described_class.new(split: split, variant: variant)
   end
 
   context "variant already weighted 100%" do
@@ -26,11 +25,10 @@ RSpec.describe Decision do
     it "re-assigns everyone even if registry is already weighted to variant" do
       expect(on_assignments.size).to eq 4
 
-      decision = build_decision_favoring("off").tap(&:save!)
+      build_decision_favoring("off").tap(&:save!)
 
-      expect(decision.count).to eq 4
-      expect(assignments_of_split.where.not(variant: "off").count).to eq 0
-      expect(assignments_of_split.where(variant: "off").count).to eq 4
+      expect(assignments_of_split.for_presentation.reject { |a| a.variant == "off" }.length).to eq 0
+      expect(assignments_of_split.for_presentation.select { |a| a.variant == "off" }.length).to eq 4
     end
   end
 
@@ -48,14 +46,13 @@ RSpec.describe Decision do
     expect(off_assignments.size).to eq 1
     expect(on_assignments.size).to eq 4
 
-    expect(assignments_of_split.where.not(variant: "off").count).to eq 4
-    expect(assignments_of_split.where(variant: "off").count).to eq 1
+    expect(assignments_of_split.for_presentation.reject { |a| a.variant == "off" }.length).to eq 4
+    expect(assignments_of_split.for_presentation.select { |a| a.variant == "off" }.length).to eq 1
 
-    decision = build_decision_favoring("off").tap(&:save!)
-    expect(decision.count).to eq 4
+    build_decision_favoring("off").tap(&:save!)
 
-    expect(assignments_of_split.where.not(variant: "off").count).to eq 0
-    expect(assignments_of_split.where(variant: "off").count).to eq 5
+    expect(assignments_of_split.for_presentation.reject { |a| a.variant == "off" }.length).to eq 0
+    expect(assignments_of_split.for_presentation.select { |a| a.variant == "off" }.length).to eq 5
   end
 
   it "re-weights variant to 100%" do

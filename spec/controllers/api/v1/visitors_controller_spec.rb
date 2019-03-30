@@ -63,8 +63,8 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
         )
       end
 
-      it "only queries once per table (visitor, assignment, and split)" do
-        expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 3)
+      it "only queries twice (visitors, then assignments joined to splits)" do
+        expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 2)
       end
     end
 

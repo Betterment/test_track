@@ -24,8 +24,8 @@ RSpec.describe 'split decision flow' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
 
-    expect(Assignment.where(variant: "hammer_time").count).to eq 5
-    expect(Assignment.where(variant: "touch_this").count).to eq 0
+    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "hammer_time" }.length).to eq 5
+    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "touch_this" }.length).to eq 0
 
     split_page.decide_split.click
     expect(split_decision_page).to be_displayed
@@ -36,15 +36,13 @@ RSpec.describe 'split decision flow' do
     end
 
     expect(split_page).to be_displayed
-    expect(split_page).to have_content "Queued decision"
-
-    Delayed::Worker.new.work_off
+    expect(split_page).to have_content "Decided"
 
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
 
-    expect(Assignment.where(variant: "hammer_time").count).to eq 0
-    expect(Assignment.where(variant: "touch_this").count).to eq 5
+    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "hammer_time" }.length).to eq 0
+    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "touch_this" }.length).to eq 5
 
     split.reload
     expect(split.registry).to eq("hammer_time" => 0, "touch_this" => 100)

@@ -15,6 +15,8 @@ class Split < ActiveRecord::Base
   validate :variants_must_be_snake_case
   validate :registry_weights_must_sum_to_100
   validate :registry_weights_must_be_integers
+  validate :decision_must_be_variant
+  validate :decision_must_accompany_decided_at
 
   before_validation :cast_registry
 
@@ -55,6 +57,10 @@ class Split < ActiveRecord::Base
 
   def build_split_creation(params = {})
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
+  end
+
+  def decide!(variant)
+    build_split_creation(weighting_registry: { variant => 100 }, decision: variant, decided_at: Time.zone.now).save!
   end
 
   def reweight!(weighting_registry)
@@ -102,6 +108,16 @@ class Split < ActiveRecord::Base
     return if registry.blank?
     return unless @registry_before_type_cast.values.any? { |w| w.to_i.to_s != w.to_s }
     errors.add(:registry, "all weights must be integers")
+  end
+
+  def decision_must_be_variant
+    return if decision.nil? || registry.key?(decision)
+    errors.add(:decision, "decision must be a variant of the split")
+  end
+
+  def decision_must_accompany_decided_at
+    return if decision.present? == decided_at.present?
+    errors.add(:decision, "decision must accompany decided_at")
   end
 
   def name_not_underscored?

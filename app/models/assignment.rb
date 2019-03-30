@@ -20,6 +20,37 @@ class Assignment < ActiveRecord::Base
 
   delegate :name, to: :split, prefix: true
 
+  class << self
+    def to_hash
+      Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
+    end
+
+    def for_presentation(built_at: nil)
+      q = presentation_query
+
+      q = built_at.nil? ? q.where("splits.finished_at is null") : q.where("splits.finished_at > ?", built_at)
+
+      q
+    end
+
+    private
+
+    def presentation_query
+      joins(:split).select(<<~SQL)
+        assignments.split_id,
+        assignments.context,
+        assignments.mixpanel_result,
+        assignments.bulk_assignment_id,
+        assignments.visitor_supersession_id,
+        case when
+          splits.decided_at is null
+          or assignments.created_at > splits.decided_at
+        then assignments.variant
+        else splits.decision end as variant
+      SQL
+    end
+  end
+
   def variant_detail
     @variant_detail ||= begin
       detail = variant_details.select { |d| d.variant == variant }.first
@@ -35,10 +66,6 @@ class Assignment < ActiveRecord::Base
     mixpanel_result.nil? || mixpanel_result == 'failure'
   end
   alias unsynced unsynced?
-
-  def self.to_hash
-    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
-  end
 
   private
 
