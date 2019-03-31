@@ -1,6 +1,8 @@
 class Assignment < ActiveRecord::Base
   include AttributeNormalizer
 
+  NON_PRESENTATION_COLUMNS = %w(individually_overridden created_at updated_at).freeze
+
   belongs_to :visitor, required: true
   belongs_to :split, required: true
   belongs_to :bulk_assignment, required: false
@@ -36,13 +38,23 @@ class Assignment < ActiveRecord::Base
     private
 
     def presentation_query
-      joins(:split).select(<<~SQL)
-        assignments.id,
-        assignments.split_id,
-        assignments.context,
-        assignments.mixpanel_result,
-        assignments.bulk_assignment_id,
-        assignments.visitor_supersession_id,
+      @presentation_query ||= joins(:split).select((passthrough_sql_columns + overridden_sql_columns).join(",\n"))
+    end
+
+    def passthrough_sql_columns
+      passthrough_columns.map { |n| "assignments.#{connection.quote_column_name(n)}" }
+    end
+
+    def passthrough_columns
+      (column_names - NON_PRESENTATION_COLUMNS - %w(variant))
+    end
+
+    def overridden_sql_columns
+      [variant_or_decision_as_variant]
+    end
+
+    def variant_or_decision_as_variant
+      <<~SQL
         case when
           splits.decided_at is null
           or assignments.created_at > splits.decided_at
