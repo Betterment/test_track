@@ -24,8 +24,8 @@ RSpec.describe 'split decision flow' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
 
-    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "hammer_time" }.length).to eq 5
-    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "touch_this" }.length).to eq 0
+    expect(split.assignment_count_for_variant(:hammer_time)).to eq 5
+    expect(split.assignment_count_for_variant(:touch_this)).to eq 0
 
     split_page.decide_split.click
     expect(split_decision_page).to be_displayed
@@ -41,8 +41,8 @@ RSpec.describe 'split decision flow' do
     split_page.load split_id: split.id
     expect(split_page).to be_displayed
 
-    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "hammer_time" }.length).to eq 0
-    expect(Assignment.for_presentation.to_a.select { |a| a.variant == "touch_this" }.length).to eq 5
+    expect(split.assignment_count_for_variant(:hammer_time)).to eq 0
+    expect(split.assignment_count_for_variant(:touch_this)).to eq 5
 
     split.reload
     expect(split.registry).to eq("hammer_time" => 0, "touch_this" => 100)
