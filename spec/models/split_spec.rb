@@ -137,22 +137,4 @@ RSpec.describe Split, type: :model do
       expect(subject.assignment_count_for_variant("control")).to eq(0)
     end
   end
-
-  describe "#decide!" do
-    subject { FactoryBot.create(:split, registry: { treatment: 90, disease: 10 }) }
-    it "persists as a weighting, a decision and decided_at value" do
-      t = Time.zone.parse("2011-01-01 00:00:00")
-      Timecop.freeze(t) do
-        subject.decide!(:treatment)
-
-        expect(subject.registry).to eq("treatment" => 100, "disease" => 0)
-        expect(subject.decision).to eq "treatment"
-        expect(subject.decided_at).to eq t
-      end
-    end
-
-    it "won't allow an invalid decision variant" do
-      expect { subject.decide!(:invalid_variant) }.to raise_error(/Decision must be a variant of the split/)
-    end
-  end
 end

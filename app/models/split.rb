@@ -59,15 +59,12 @@ class Split < ActiveRecord::Base
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
   end
 
-  def decide!(decision_variant)
-    assignment_variant = has_variant?(decision_variant) ? decision_variant : variants.first
-    build_split_creation(
-      weighting_registry: { assignment_variant => 100 },
-      decision: decision_variant,
-      decided_at: Time.zone.now
-    ).save!.tap do
-      reload
-    end
+  def build_decision(params = {})
+    Decision.new(params.merge(split: self))
+  end
+
+  def create_decision!(params)
+    build_decision(params).save!
   end
 
   def reweight!(weighting_registry)

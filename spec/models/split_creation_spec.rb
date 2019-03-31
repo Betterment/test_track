@@ -44,7 +44,7 @@ RSpec.describe SplitCreation do
   it 'undecides a decided split' do
     bad_weather_create.save
     weather = Split.find_by!(name: "weather")
-    weather.decide!(:rain)
+    weather.create_decision!(variant: :rain)
 
     expect(weather.decision).to eq "rain"
     expect(weather.decided_at).to be_present

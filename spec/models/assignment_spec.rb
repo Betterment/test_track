@@ -119,13 +119,13 @@ RSpec.describe Assignment, type: :model do
 
     it "returns the split decision if newer than the assignment" do
       FactoryBot.create(:assignment, split: split, variant: :hammer_time)
-      split.decide!(:touch_this)
+      split.create_decision!(variant: :touch_this)
 
       expect(described_class.for_presentation.first.variant).to eq("touch_this")
     end
 
     it "returns the assignment if newer than the split decision" do
-      split.decide!(:touch_this)
+      split.create_decision!(variant: :touch_this)
       FactoryBot.create(:assignment, split: split, variant: :hammer_time)
 
       expect(described_class.for_presentation.first.variant).to eq("hammer_time")
