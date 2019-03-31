@@ -71,7 +71,7 @@ class Split < ActiveRecord::Base
     Decision.new(params.merge(split: self))
   end
 
-  def create_decision!(params)
+  def create_decision!(params = {})
     build_decision(params).tap(&:save!)
   end
 
