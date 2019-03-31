@@ -63,16 +63,16 @@ class Split < ActiveRecord::Base
     build_split_creation(weighting_registry: weighting_registry).save!
   end
 
+  def assignment_count_for_variant(variant)
+    Assignment.from(assignments.for_presentation, :assignments).where(variant: variant).count(:id)
+  end
+
   def build_decision(params = {})
     Decision.new(params.merge(split: self))
   end
 
   def create_decision!(params)
     build_decision(params).save!
-  end
-
-  def assignment_count_for_variant(variant)
-    Assignment.from(assignments.for_presentation, :assignments).where(variant: variant).count(:id)
   end
 
   private
