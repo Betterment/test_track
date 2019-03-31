@@ -137,4 +137,12 @@ RSpec.describe Split, type: :model do
       expect(subject.assignment_count_for_variant("control")).to eq(0)
     end
   end
+
+  describe "#build_decision" do
+    it "builds a decision from the split" do
+      subject.name = "my_split"
+      decision = subject.build_decision
+      expect(decision.send(:split)).to eq subject
+    end
+  end
 end
