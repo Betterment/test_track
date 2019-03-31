@@ -16,7 +16,6 @@ class Assignment < ActiveRecord::Base
   validate :variant_must_exist
 
   scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
-  scope :by_recency, -> { order(created_at: :desc) }
 
   normalize_attributes :mixpanel_result
 
@@ -61,7 +60,7 @@ class Assignment < ActiveRecord::Base
       <<~SQL
         case when
           splits.decided_at is null
-          or assignments.created_at > splits.decided_at
+          or assignments.updated_at > splits.decided_at
         then
           assignments.variant
         else
