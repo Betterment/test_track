@@ -72,7 +72,7 @@ class Split < ActiveRecord::Base
   end
 
   def create_decision!(params)
-    build_decision(params).save!
+    build_decision(params).tap(&:save!)
   end
 
   private
