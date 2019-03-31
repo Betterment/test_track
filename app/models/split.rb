@@ -59,16 +59,16 @@ class Split < ActiveRecord::Base
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
   end
 
+  def reweight!(weighting_registry)
+    build_split_creation(weighting_registry: weighting_registry).save!
+  end
+
   def build_decision(params = {})
     Decision.new(params.merge(split: self))
   end
 
   def create_decision!(params)
     build_decision(params).save!
-  end
-
-  def reweight!(weighting_registry)
-    build_split_creation(weighting_registry: weighting_registry).save!
   end
 
   def assignment_count_for_variant(variant)
