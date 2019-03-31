@@ -45,8 +45,11 @@ class Assignment < ActiveRecord::Base
         case when
           splits.decided_at is null
           or assignments.created_at > splits.decided_at
-        then assignments.variant
-        else splits.decision end as variant
+        then
+          assignments.variant
+        else
+          splits.decision
+        end as variant
       SQL
     end
   end

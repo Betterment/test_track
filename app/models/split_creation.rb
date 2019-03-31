@@ -49,7 +49,8 @@ class SplitCreation
 
   def split_must_be_valid
     return if split.valid?
-    split.errors[:name].each { |e| errors.add(:name, e) }
-    split.errors[:registry].each { |e| errors.add(:weighting_registry, e) }
+    [%i(name name), %i(registry weighting_registry), %i(decision decision)].each do |split_attr, attr|
+      split.errors[split_attr].each { |e| errors.add(attr, e) }
+    end
   end
 end

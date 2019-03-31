@@ -59,8 +59,15 @@ class Split < ActiveRecord::Base
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
   end
 
-  def decide!(variant)
-    build_split_creation(weighting_registry: { variant => 100 }, decision: variant, decided_at: Time.zone.now).save!
+  def decide!(decision_variant)
+    assignment_variant = has_variant?(decision_variant) ? decision_variant : variants.first
+    build_split_creation(
+      weighting_registry: { assignment_variant => 100 },
+      decision: decision_variant,
+      decided_at: Time.zone.now
+    ).save!.tap do
+      reload
+    end
   end
 
   def reweight!(weighting_registry)
@@ -69,14 +76,6 @@ class Split < ActiveRecord::Base
 
   def assignment_count_for_variant(variant)
     assignments.where(variant: variant).count(:id)
-  end
-
-  def build_decision(params = {})
-    Decision.new({ split: self }.merge(params))
-  end
-
-  def create_decision!(params = {})
-    build_decision(params).tap(&:save!)
   end
 
   private
@@ -111,8 +110,8 @@ class Split < ActiveRecord::Base
   end
 
   def decision_must_be_variant
-    return if decision.nil? || registry.key?(decision)
-    errors.add(:decision, "decision must be a variant of the split")
+    return if decision.nil? || has_variant?(decision)
+    errors.add(:decision, "must be a variant of the split")
   end
 
   def decision_must_accompany_decided_at
