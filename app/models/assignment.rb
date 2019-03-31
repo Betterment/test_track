@@ -37,6 +37,7 @@ class Assignment < ActiveRecord::Base
 
     def presentation_query
       joins(:split).select(<<~SQL)
+        assignments.id,
         assignments.split_id,
         assignments.context,
         assignments.mixpanel_result,

@@ -72,7 +72,7 @@ class Split < ActiveRecord::Base
   end
 
   def assignment_count_for_variant(variant)
-    assignments.where(variant: variant).count(:id)
+    Assignment.from(assignments.for_presentation, :assignments).where(variant: variant).count(:id)
   end
 
   private
