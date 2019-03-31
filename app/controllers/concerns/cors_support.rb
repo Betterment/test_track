@@ -48,5 +48,6 @@ module CorsSupport
   def add_common_cors_headers
     headers['Access-Control-Allow-Origin'] = origin
     headers['Access-Control-Allow-Credentials'] = 'true'
+    headers['Vary'] = 'Origin'
   end
 end
