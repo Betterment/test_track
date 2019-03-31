@@ -38,7 +38,11 @@ class Assignment < ActiveRecord::Base
     private
 
     def presentation_query
-      @presentation_query ||= joins(:split).select((passthrough_sql_columns + overridden_sql_columns).join(",\n"))
+      joins(:split).select(select_sql)
+    end
+
+    def select_sql
+      @select_sql ||= (passthrough_sql_columns + overridden_sql_columns).join(",\n")
     end
 
     def passthrough_sql_columns
