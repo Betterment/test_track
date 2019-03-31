@@ -4,7 +4,7 @@ RSpec.describe Decision do
   let(:split) { FactoryBot.create(:split, registry: { treatment: 90, disease: 10 }) }
   subject { split.build_decision }
 
-  describe "#decide!" do
+  describe "#save!" do
     it "persists as a weighting, a decision and decided_at value" do
       t = Time.zone.parse("2011-01-01 00:00:00")
       Timecop.freeze(t) do
