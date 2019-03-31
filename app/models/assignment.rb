@@ -39,7 +39,7 @@ class Assignment < ActiveRecord::Base
     end
 
     def select_columns
-      @select_columns ||= ((column_names - %w(variant)).map(&:to_sym) + [calculated_variant_column])
+      @select_columns ||= (column_names - %w(variant)).map(&:to_sym) + [calculated_variant_column]
     end
 
     def calculated_variant_column
