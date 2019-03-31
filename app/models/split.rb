@@ -64,7 +64,7 @@ class Split < ActiveRecord::Base
   end
 
   def assignment_count_for_variant(variant)
-    Assignment.from(assignments.for_presentation, :assignments).where(variant: variant).count(:id)
+    assignments.for_presentation.where(variant: variant).count(:id)
   end
 
   def build_decision(params = {})

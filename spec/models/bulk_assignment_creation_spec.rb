@@ -207,7 +207,7 @@ RSpec.describe BulkAssignmentCreation do
       bulk_assignment = subject.bulk_assignment.reload
 
       Identifier.find_by(value: "5092").tap do |identifier|
-        expect(identifier.visitor.assignments.count(:id)).to eq 1
+        expect(identifier.visitor.assignments.count).to eq 1
 
         assignment = identifier.visitor.assignments.first!
         expect(assignment.split).to eq split
@@ -217,7 +217,7 @@ RSpec.describe BulkAssignmentCreation do
       end
 
       Identifier.find_by(value: "1bc12fa6-6c5b-47a4-b500-82b4e271520f").tap do |identifier|
-        expect(identifier.visitor.assignments.count(:id)).to eq 1
+        expect(identifier.visitor.assignments.count).to eq 1
 
         assignment = identifier.visitor.assignments.first!
         expect(assignment.split).to eq split

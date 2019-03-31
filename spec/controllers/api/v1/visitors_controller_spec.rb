@@ -66,6 +66,23 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
       it "only queries twice (visitors, then assignments joined to splits)" do
         expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 2)
       end
+
+      it "returns a more recent decision in preference to an assignment" do
+        split_1.create_decision!(variant: "treatment")
+        get :show, params: { id: visitor.id }
+
+        expect(response).to have_http_status :ok
+        expect(response_json["id"]).to eq(visitor.id)
+        expect(response_json["assignments"].length).to eq 3
+        expect(response_json["assignments"]).to include(
+          hash_including(
+            "split_name" => "one",
+            "variant" => "treatment",
+            "unsynced" => false,
+            "context" => "context_a"
+          )
+        )
+      end
     end
 
     it "responds with empty assignments if visitor has no assignments" do
