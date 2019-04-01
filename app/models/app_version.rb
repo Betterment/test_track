@@ -8,7 +8,11 @@ class AppVersion
   attr_reader :version_number
 
   def self.from_a(ary)
-    ary && new(ary.map(&:to_s).join("."))
+    new(ary.map(&:to_s).join("."))
+  end
+
+  def self.from_pg_array(value)
+    from_a(value.scan(/\d+/))
   end
 
   def initialize(version_number)
