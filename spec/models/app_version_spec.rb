@@ -59,4 +59,10 @@ RSpec.describe AppVersion do
       expect(described_class.from_a([1, 0, 20])).to eq described_class.new("1.0.20")
     end
   end
+
+  describe ".from_pg_array" do
+    it "ingests a PG array literal" do
+      expect(described_class.from_pg_array('{1,0,20}')).to eq described_class.new("1.0.20")
+    end
+  end
 end

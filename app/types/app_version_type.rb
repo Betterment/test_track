@@ -6,10 +6,10 @@ class AppVersionType < ActiveRecord::Type::Value
   end
 
   def serialize(value)
-    value.to_pg_array
+    value.to_pg_array if value
   end
 
   def deserialize(value)
-    AppVersion.from_a(value.scan(/\d+/)) if value
+    AppVerrsion.from_pg_array(value) if value
   end
 end
