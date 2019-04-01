@@ -1,15 +1,15 @@
 class AppVersionType < ActiveRecord::Type::Value
   def cast(value)
-    AppVersion.new(value)
-  rescue
+    value.to_s.present? ? AppVersion.new(value) : nil
+  rescue StandardError
     nil
   end
 
   def serialize(value)
-    "{#{value.to_a.join(',')}}"
+    value.to_pg_array
   end
 
   def deserialize(value)
-    AppVersion.from_a(value.scan(/\d+/))
+    AppVersion.from_a(value.scan(/\d+/)) if value
   end
 end
