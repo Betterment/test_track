@@ -18,6 +18,18 @@ RSpec.describe AppVersion do
     expect { described_class.new("07") }.to raise_error(/format/)
   end
 
+  it "doesn't allow floats because of precision loss" do
+    v = 1.20
+    expect(v.to_s).to eq "1.2"
+    expect { described_class.new(v) }.to raise_error(/integer/)
+  end
+
+  it "doesn't allow BigDecimals because of precision loss" do
+    v = BigDecimal("1.20")
+    expect(v.to_s).to eq "1.2"
+    expect { described_class.new(v) }.to raise_error(/integer/)
+  end
+
   it "can collate version numbers numerically by position" do
     expect(described_class.new("0.20")).to be < described_class.new("0.100")
     expect(described_class.new("0.100")).to be > described_class.new("0.20")
