@@ -27,6 +27,10 @@ class AppVersion
     version_number
   end
 
+  def to_pg_array
+    "{#{to_a.join(',')}}"
+  end
+
   def inspect
     "#<AppVersion: #{self}>"
   end

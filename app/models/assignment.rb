@@ -24,11 +24,30 @@ class Assignment < ActiveRecord::Base
       Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
     end
 
-    def for_presentation(built_at: nil)
-      q = joins(:split)
+    def for_presentation(app_build: nil)
+      q =
+        if app_build.present?
+          for_app_build(app_build)
+        else
+          where("splits.finished_at is null")
+        end
+      q.joins(:split)
         .where("splits.decided_at is null or assignments.updated_at > splits.decided_at")
-      q = built_at.nil? ? q.where("splits.finished_at is null") : q.where("splits.finished_at > ?", built_at)
-      q
+    end
+
+    private
+
+    def for_app_build(app_build)
+      where("splits.finished_at is null or splits.finished_at > ?", app_build.built_at)
+        .where(<<~SQL, app_build.app_id, app_build.version.to_pg_array)
+          splits.name not like '%_enabled'
+          or exists (
+            select 1 from feature_completions fc
+            where fc.app_id = ?
+              and fc.split_id = assignments.split_id
+              and fc.version <= ?
+          )
+        SQL
     end
   end
 

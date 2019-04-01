@@ -44,7 +44,13 @@ RSpec.describe AppVersion do
 
   describe "#to_a" do
     it "returns an array of integer parts" do
-      expect(described_class.new("1.0.20")).to eq [1, 0, 20]
+      expect(described_class.new("1.0.20").to_a).to eq [1, 0, 20]
+    end
+  end
+
+  describe "#to_pg_array" do
+    it "returns a postgresql array literal representation of the version" do
+      expect(described_class.new("1.0.20").to_pg_array).to eq '{1,0,20}'
     end
   end
 
