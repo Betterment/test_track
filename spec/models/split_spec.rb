@@ -118,21 +118,29 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe "#build_split_creation" do
-    it "builds a split creation from the split" do
+  describe "#build_config" do
+    it "builds a split config from the split" do
       subject.name = "my_split"
-      split_creation = subject.build_split_creation
-      expect(split_creation.weighting_registry).to eq("treatment" => 100)
-      expect(split_creation.app).to eq subject.owner_app
-      expect(split_creation.name).to eq "my_split"
+      config = subject.build_config
+      expect(config.weighting_registry).to eq("treatment" => 100)
+      expect(config.app).to eq subject.owner_app
+      expect(config.name).to eq "my_split"
     end
 
     it "allows params to be overridden" do
       subject.name = "my_split"
-      split_creation = subject.build_split_creation(name: "a different name", weighting_registry: { foobar: 100 })
-      expect(split_creation.weighting_registry).to eq("foobar" => 100)
-      expect(split_creation.app).to eq subject.owner_app
-      expect(split_creation.name).to eq "a different name"
+      config = subject.build_config(name: "a different name", weighting_registry: { foobar: 100 })
+      expect(config.weighting_registry).to eq("foobar" => 100)
+      expect(config.app).to eq subject.owner_app
+      expect(config.name).to eq "a different name"
+    end
+  end
+
+  describe "#reconfigure!" do
+    it "reflects changes in the instance" do
+      subject.reconfigure!(weighting_registry: { baz: 100 })
+
+      expect(subject.registry).to eq("treatment" => 0, "baz" => 100)
     end
   end
 

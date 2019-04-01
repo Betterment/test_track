@@ -7,15 +7,7 @@ class Decision
 
   def save!
     raise "Variant must be present in the split" unless split.has_variant?(variant)
-    build_split_creation.save!.tap do
-      split.reload
-    end
-  end
-
-  private
-
-  def build_split_creation
-    split.build_split_creation(
+    split.reconfigure!(
       weighting_registry: { variant => 100 },
       decided_at: Time.zone.now
     )

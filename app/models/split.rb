@@ -54,12 +54,18 @@ class Split < ActiveRecord::Base
     self.updated_at = now
   end
 
-  def build_split_creation(params = {})
+  def build_config(params = {})
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
   end
 
+  def reconfigure!(params = {})
+    build_config(params).save!.tap do
+      reload
+    end
+  end
+
   def reweight!(weighting_registry)
-    build_split_creation(weighting_registry: weighting_registry).save!
+    reconfigure!(weighting_registry: weighting_registry)
   end
 
   def assignment_count_for_variant(variant)
