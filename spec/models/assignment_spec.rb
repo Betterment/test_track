@@ -109,7 +109,7 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.for_presentation(built_at: built_at).map(&:split_name)).not_to include("finished_split")
     end
 
-    it "returns assignments finished after built_at if provided" do
+    it "returns assignments for splits finished after built_at if provided" do
       finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
       FactoryBot.create(:assignment, split: finished_split)
       built_at = 5.minutes.ago
