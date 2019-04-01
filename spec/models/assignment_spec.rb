@@ -117,11 +117,11 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.for_presentation(built_at: built_at).map(&:split_name)).to include("finished_split")
     end
 
-    it "returns the split decision if newer than the assignment" do
+    it "returns nothing if the decision is newer than the assignment" do
       FactoryBot.create(:assignment, split: split, variant: :hammer_time)
       split.create_decision!(variant: :touch_this)
 
-      expect(described_class.for_presentation.first.variant).to eq("touch_this")
+      expect(described_class.for_presentation).to be_empty
     end
 
     it "returns the assignment if newer than the split decision" do

@@ -6,6 +6,7 @@ class Decision
   validates :split, :variant, presence: true
 
   def save!
+    raise "Variant must be present in the split" unless split.has_variant?(variant)
     build_split_creation.save!.tap do
       split.reload
     end
@@ -13,14 +14,9 @@ class Decision
 
   private
 
-  def assignment_variant
-    split.has_variant?(variant) ? variant : split.variants.first
-  end
-
   def build_split_creation
     split.build_split_creation(
-      weighting_registry: { assignment_variant => 100 },
-      decision: variant,
+      weighting_registry: { variant => 100 },
       decided_at: Time.zone.now
     )
   end

@@ -25,34 +25,10 @@ class Assignment < ActiveRecord::Base
     end
 
     def for_presentation(built_at: nil)
-      q = presentation_query
-
+      q = joins(:split)
+        .where("splits.decided_at is null or assignments.updated_at > splits.decided_at")
       q = built_at.nil? ? q.where("splits.finished_at is null") : q.where("splits.finished_at > ?", built_at)
-
       q
-    end
-
-    private
-
-    def presentation_query
-      Assignment.from(joins(:split).select(select_columns), :assignments).joins(:split).readonly
-    end
-
-    def select_columns
-      @select_columns ||= (column_names - %w(variant)).map(&:to_sym) + [calculated_variant_column]
-    end
-
-    def calculated_variant_column
-      <<~SQL
-        case when
-          splits.decided_at is null
-          or assignments.updated_at > splits.decided_at
-        then
-          assignments.variant
-        else
-          splits.decision
-        end as variant
-      SQL
     end
   end
 

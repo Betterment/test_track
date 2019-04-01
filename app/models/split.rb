@@ -2,7 +2,7 @@ class Split < ActiveRecord::Base
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
   has_many :previous_split_registries, dependent: :nullify
-  has_many :assignments, dependent: :nullify
+  has_many :assignments, -> { for_presentation }, dependent: :nullify, inverse_of: :split
   has_many :bulk_assignments, dependent: :nullify
   has_many :variant_details, dependent: :nullify
 
@@ -15,8 +15,7 @@ class Split < ActiveRecord::Base
   validate :variants_must_be_snake_case
   validate :registry_weights_must_sum_to_100
   validate :registry_weights_must_be_integers
-  validate :decision_must_be_variant
-  validate :decision_must_accompany_decided_at
+  validate :registry_must_have_winning_variant_if_decided
 
   before_validation :cast_registry
 
@@ -64,7 +63,7 @@ class Split < ActiveRecord::Base
   end
 
   def assignment_count_for_variant(variant)
-    assignments.for_presentation.where(variant: variant).count(:id)
+    assignments.where(variant: variant).count(:id)
   end
 
   def build_decision(params = {})
@@ -95,6 +94,10 @@ class Split < ActiveRecord::Base
     errors.add(:registry, "all variants must be snake_case: #{variants.inspect}") if variants_not_underscored?
   end
 
+  def registry_must_have_winning_variant_if_decided
+    errors.add(:registry, "must have a winning variant if decided") if decided_at.present? && registry.values.none? { |v| v == 100 }
+  end
+
   def registry_weights_must_sum_to_100
     sum = registry && registry.values.sum
     errors.add(:registry, "must contain weights that sum to 100% (got #{sum})") unless sum == 100
@@ -104,16 +107,6 @@ class Split < ActiveRecord::Base
     return if registry.blank?
     return unless @registry_before_type_cast.values.any? { |w| w.to_i.to_s != w.to_s }
     errors.add(:registry, "all weights must be integers")
-  end
-
-  def decision_must_be_variant
-    return if decision.nil? || has_variant?(decision)
-    errors.add(:decision, "must be a variant of the split")
-  end
-
-  def decision_must_accompany_decided_at
-    return if decision.present? == decided_at.present?
-    errors.add(:decision, "decision must accompany decided_at")
   end
 
   def name_not_underscored?

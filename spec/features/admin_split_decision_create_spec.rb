@@ -42,7 +42,7 @@ RSpec.describe 'split decision flow' do
     expect(split_page).to be_displayed
 
     expect(split.assignment_count_for_variant(:hammer_time)).to eq 0
-    expect(split.assignment_count_for_variant(:touch_this)).to eq 5
+    expect(split.assignment_count_for_variant(:touch_this)).to eq 0
 
     split.reload
     expect(split.registry).to eq("hammer_time" => 0, "touch_this" => 100)

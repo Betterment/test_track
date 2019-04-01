@@ -46,13 +46,11 @@ RSpec.describe SplitCreation do
     weather = Split.find_by!(name: "weather")
     weather.create_decision!(variant: :rain)
 
-    expect(weather.decision).to eq "rain"
     expect(weather.decided_at).to be_present
 
     good_weather_create.save
 
     weather.reload
-    expect(weather.decision).to be_nil
     expect(weather.decided_at).to be_nil
   end
 

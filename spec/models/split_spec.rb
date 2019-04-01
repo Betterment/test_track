@@ -93,6 +93,19 @@ RSpec.describe Split, type: :model do
       expect(subject).to be_valid
       expect(subject.registry).to eq "foo" => 25, "bar" => 75
     end
+
+    it "fails if decided with no winning variant" do
+      subject.registry = { foo: "25", bar: "75" }
+      subject.decided_at = Time.zone.now
+      expect(subject).not_to be_valid
+      expect(subject.errors).to be_added :registry, "must have a winning variant if decided"
+    end
+
+    it "succeeds if decided with a winning variant" do
+      subject.registry = { foo: "0", bar: "100" }
+      subject.decided_at = Time.zone.now
+      expect(subject).to be_valid
+    end
   end
 
   describe "#variants" do
