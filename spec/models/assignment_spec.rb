@@ -102,7 +102,7 @@ RSpec.describe Assignment, type: :model do
     end
 
     context "with app_build provided" do
-      let(:feature_gate) { FactoryBot.create(:split, name: "bla_enabled") }
+      let(:feature_gate) { FactoryBot.create(:split, name: "bla_enabled", feature_gate: true) }
       let(:random_split) { FactoryBot.create(:split, name: "random") }
       let(:app) { FactoryBot.create(:app) }
       let(:new_app_build) { app.define_build(version: "5.0.1", built_at: Time.zone.now) }

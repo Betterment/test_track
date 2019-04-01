@@ -40,7 +40,7 @@ class Assignment < ActiveRecord::Base
     def for_app_build(app_build)
       where("splits.finished_at is null or splits.finished_at > ?", app_build.built_at)
         .where(<<~SQL, app_build.app_id, app_build.version.to_pg_array)
-          splits.name not like '%_enabled'
+          splits.feature_gate = false
           or exists (
             select 1 from feature_completions fc
             where fc.app_id = ?
