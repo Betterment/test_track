@@ -145,7 +145,6 @@ ActiveRecord::Schema.define(version: 20190317143114) do
     t.string "location"
     t.integer "platform"
     t.boolean "feature_gate", default: false, null: false
-    t.string "decision"
     t.datetime "decided_at"
     t.index ["name"], name: "index_splits_on_name", unique: true
     t.index ["owner_app_id"], name: "index_splits_on_owner_app_id"
