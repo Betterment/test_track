@@ -16,6 +16,9 @@ class AppVersion
   end
 
   def initialize(version_number)
+    raise "version_number must be an string, integer, or AppVersion" unless [String, Integer, AppVersion].any? do |t|
+      version_number.is_a?(t)
+    end
     version_number = version_number.to_s
     raise "version_number must be present" if version_number.blank?
     raise "version_number is too long" if version_number.length > MAX_LENGTH
