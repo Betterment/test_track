@@ -1,6 +1,6 @@
 class AppVersionType < ActiveRecord::Type::Value
   def cast(value)
-    value.to_s.present? ? AppVersion.new(value) : nil
+    AppVersion.new(value) unless value.nil?
   rescue StandardError
     nil
   end
