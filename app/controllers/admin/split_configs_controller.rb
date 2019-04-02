@@ -19,6 +19,6 @@ class Admin::SplitConfigsController < AuthenticatedAdminController
   private
 
   def update_params
-    params.require(:split_creation).permit(weighting_registry: @split.registry.keys)
+    params.require(:split_upsert).permit(weighting_registry: @split.registry.keys)
   end
 end

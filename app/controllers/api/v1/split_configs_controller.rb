@@ -1,10 +1,10 @@
 class Api::V1::SplitConfigsController < AuthenticatedApiController
   def create
-    split_creation = SplitCreation.new(create_params.merge(app: current_app))
-    if split_creation.save
+    split_upsert = SplitUpsert.new(create_params.merge(app: current_app))
+    if split_upsert.save
       head :no_content
     else
-      render_errors split_creation
+      render_errors split_upsert
     end
   end
 
