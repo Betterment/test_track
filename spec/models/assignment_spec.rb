@@ -111,7 +111,7 @@ RSpec.describe Assignment, type: :model do
     end
 
     it "combines excluding_decision_overrides and for_app_build when app_build is provided" do
-      app = FactoryBot.create(:app)
+      app = FactoryBot.build_stubbed(:app)
       app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
       allow(described_class).to receive(:excluding_decision_overrides).and_call_original
       allow(described_class).to receive(:for_app_build).and_call_original
@@ -125,7 +125,7 @@ RSpec.describe Assignment, type: :model do
 
   describe ".for_app_build" do
     it "combines for_active_splits and excluding_incomplete_features, forwarding args from app_build" do
-      app = FactoryBot.create(:app)
+      app = FactoryBot.build_stubbed(:app)
       t = Time.zone.now
       app_build = app.define_build(built_at: t, version: "1.0.0")
       allow(described_class).to receive(:for_active_splits).and_call_original
