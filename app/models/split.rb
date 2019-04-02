@@ -55,7 +55,7 @@ class Split < ActiveRecord::Base
   end
 
   def build_config(params = {})
-    SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
+    SplitUpsert.new({ weighting_registry: registry }.merge(params).merge(name: name, app: owner_app))
   end
 
   def reconfigure!(params = {})
