@@ -90,4 +90,45 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.unsynced_to_mixpanel).to include(mixpanel_failure, mixpanel_nil)
     end
   end
+
+  describe ".for_presentation" do
+    let(:split) { FactoryBot.create(:split) }
+
+    it "doesn't return assignments for finished splits" do
+      finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
+      FactoryBot.create(:assignment, split: finished_split)
+
+      expect(described_class.for_presentation.map(&:split_name)).not_to include("finished_split")
+    end
+
+    it "doesn't return assignments for splits finished before built_at if provided" do
+      finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
+      FactoryBot.create(:assignment, split: finished_split)
+      built_at = 5.minutes.from_now
+
+      expect(described_class.for_presentation(built_at: built_at).map(&:split_name)).not_to include("finished_split")
+    end
+
+    it "returns assignments for splits finished after built_at if provided" do
+      finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
+      FactoryBot.create(:assignment, split: finished_split)
+      built_at = 5.minutes.ago
+
+      expect(described_class.for_presentation(built_at: built_at).map(&:split_name)).to include("finished_split")
+    end
+
+    it "returns nothing if the decision is newer than the assignment" do
+      FactoryBot.create(:assignment, split: split, variant: :hammer_time)
+      split.create_decision!(variant: :touch_this)
+
+      expect(described_class.for_presentation).to be_empty
+    end
+
+    it "returns the assignment if newer than the split decision" do
+      split.create_decision!(variant: :touch_this)
+      FactoryBot.create(:assignment, split: split, variant: :hammer_time)
+
+      expect(described_class.for_presentation.first.variant).to eq("hammer_time")
+    end
+  end
 end

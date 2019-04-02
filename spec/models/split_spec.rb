@@ -93,6 +93,19 @@ RSpec.describe Split, type: :model do
       expect(subject).to be_valid
       expect(subject.registry).to eq "foo" => 25, "bar" => 75
     end
+
+    it "fails if decided with no winning variant" do
+      subject.registry = { foo: "25", bar: "75" }
+      subject.decided_at = Time.zone.now
+      expect(subject).not_to be_valid
+      expect(subject.errors).to be_added :registry, "must have a winning variant if decided"
+    end
+
+    it "succeeds if decided with a winning variant" do
+      subject.registry = { foo: "0", bar: "100" }
+      subject.decided_at = Time.zone.now
+      expect(subject).to be_valid
+    end
   end
 
   describe "#variants" do
@@ -105,21 +118,29 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe "#build_split_creation" do
-    it "builds a split creation from the split" do
+  describe "#build_config" do
+    it "builds a split config from the split" do
       subject.name = "my_split"
-      split_creation = subject.build_split_creation
-      expect(split_creation.weighting_registry).to eq("treatment" => 100)
-      expect(split_creation.app).to eq subject.owner_app
-      expect(split_creation.name).to eq "my_split"
+      config = subject.build_config
+      expect(config.weighting_registry).to eq("treatment" => 100)
+      expect(config.app).to eq subject.owner_app
+      expect(config.name).to eq "my_split"
     end
 
     it "allows params to be overridden" do
       subject.name = "my_split"
-      split_creation = subject.build_split_creation(name: "a different name", weighting_registry: { foobar: 100 })
-      expect(split_creation.weighting_registry).to eq("foobar" => 100)
-      expect(split_creation.app).to eq subject.owner_app
-      expect(split_creation.name).to eq "a different name"
+      config = subject.build_config(name: "a different name", weighting_registry: { foobar: 100 })
+      expect(config.weighting_registry).to eq("foobar" => 100)
+      expect(config.app).to eq subject.owner_app
+      expect(config.name).to eq "a different name"
+    end
+  end
+
+  describe "#reconfigure!" do
+    it "reflects changes in the instance" do
+      subject.reconfigure!(weighting_registry: { baz: 100 })
+
+      expect(subject.registry).to eq("treatment" => 0, "baz" => 100)
     end
   end
 

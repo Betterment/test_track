@@ -21,4 +21,10 @@ RSpec.describe Visitor, type: :model do
   it "has many unsynced assignments" do
     expect(subject).to have_many(:unsynced_splits)
   end
+
+  it "doesn't include assignments to finished splits" do
+    dead_split = FactoryBot.create(:split, finished_at: Time.zone.now)
+    dead_assignment = FactoryBot.create(:assignment, split: dead_split, visitor: subject)
+    expect(subject.reload.assignments).not_to include(dead_assignment)
+  end
 end

@@ -2,7 +2,7 @@ class Split < ActiveRecord::Base
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
   has_many :previous_split_registries, dependent: :nullify
-  has_many :assignments, dependent: :nullify
+  has_many :assignments, -> { for_presentation }, dependent: :nullify, inverse_of: :split
   has_many :bulk_assignments, dependent: :nullify
   has_many :variant_details, dependent: :nullify
 
@@ -15,6 +15,7 @@ class Split < ActiveRecord::Base
   validate :variants_must_be_snake_case
   validate :registry_weights_must_sum_to_100
   validate :registry_weights_must_be_integers
+  validate :registry_must_have_winning_variant_if_decided
 
   before_validation :cast_registry
 
@@ -53,12 +54,18 @@ class Split < ActiveRecord::Base
     self.updated_at = now
   end
 
-  def build_split_creation(params = {})
+  def build_config(params = {})
     SplitCreation.new({ weighting_registry: registry, name: name, app: owner_app }.merge(params))
   end
 
+  def reconfigure!(params = {})
+    build_config(params).save!.tap do
+      reload
+    end
+  end
+
   def reweight!(weighting_registry)
-    build_split_creation(weighting_registry: weighting_registry).save!
+    reconfigure!(weighting_registry: weighting_registry)
   end
 
   def assignment_count_for_variant(variant)
@@ -66,7 +73,7 @@ class Split < ActiveRecord::Base
   end
 
   def build_decision(params = {})
-    Decision.new({ split: self }.merge(params))
+    Decision.new(params.merge(split: self))
   end
 
   def create_decision!(params = {})
@@ -91,6 +98,10 @@ class Split < ActiveRecord::Base
 
   def variants_must_be_snake_case
     errors.add(:registry, "all variants must be snake_case: #{variants.inspect}") if variants_not_underscored?
+  end
+
+  def registry_must_have_winning_variant_if_decided
+    errors.add(:registry, "must have a winning variant if decided") if decided_at.present? && registry.values.none? { |v| v == 100 }
   end
 
   def registry_weights_must_sum_to_100

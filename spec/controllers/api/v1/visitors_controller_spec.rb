@@ -63,8 +63,30 @@ RSpec.describe Api::V1::VisitorsController, type: :controller do
         )
       end
 
-      it "only queries once per table (visitor, assignment, and split)" do
-        expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 3)
+      it "only queries twice (visitors, then assignments joined to splits)" do
+        expect { get :show, params: { id: visitor.id } }.to make_database_queries(count: 2)
+      end
+
+      it "omits an assignment when a more recent decision exists" do
+        split_1.create_decision!(variant: "treatment")
+        get :show, params: { id: visitor.id }
+
+        expect(response).to have_http_status :ok
+        expect(response_json["assignments"]).not_to include(
+          hash_including("split_name" => "one")
+        )
+      end
+
+      it "includes an assignment when updated since decision" do
+        split_1.create_decision!(variant: "treatment")
+        Assignment.find_by(visitor: visitor, split: split_1).update!(updated_at: Time.zone.now)
+
+        get :show, params: { id: visitor.id }
+
+        expect(response).to have_http_status :ok
+        expect(response_json["assignments"]).to include(
+          hash_including("split_name" => "one")
+        )
       end
     end
 

@@ -24,7 +24,7 @@ describe Api::V1::VisitorDetailsController, type: :request do
       visitor: visitor,
       split: split,
       variant: 'enabled',
-      created_at: Time.zone.parse('2017-04-05 14:00:00')
+      updated_at: Time.zone.parse('2017-04-05 14:00:00')
     )
   end
 

@@ -14,11 +14,23 @@ class Assignment < ActiveRecord::Base
   validate :variant_must_exist
 
   scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
-  scope :by_recency, -> { order(created_at: :desc) }
 
   normalize_attributes :mixpanel_result
 
   delegate :name, to: :split, prefix: true
+
+  class << self
+    def to_hash
+      Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
+    end
+
+    def for_presentation(built_at: nil)
+      q = joins(:split)
+        .where("splits.decided_at is null or assignments.updated_at > splits.decided_at")
+      q = built_at.nil? ? q.where("splits.finished_at is null") : q.where("splits.finished_at > ?", built_at)
+      q
+    end
+  end
 
   def variant_detail
     @variant_detail ||= begin
@@ -35,10 +47,6 @@ class Assignment < ActiveRecord::Base
     mixpanel_result.nil? || mixpanel_result == 'failure'
   end
   alias unsynced unsynced?
-
-  def self.to_hash
-    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
-  end
 
   private
 
