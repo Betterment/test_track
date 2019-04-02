@@ -13,42 +13,40 @@ class Assignment < ActiveRecord::Base
   validates :mixpanel_result, inclusion: { in: %w(success failure) }, allow_nil: true
   validate :variant_must_exist
 
-  scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
-
   normalize_attributes :mixpanel_result
 
   delegate :name, to: :split, prefix: true
 
-  class << self
-    def to_hash
-      Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
-    end
+  scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
 
-    def for_presentation(app_build: nil)
-      q =
-        if app_build.present?
-          for_app_build(app_build)
-        else
-          where("splits.finished_at is null")
-        end
-      q.joins(:split)
-        .where("splits.decided_at is null or assignments.updated_at > splits.decided_at")
-    end
+  scope :for_presentation, ->(app_build: nil) do
+    q = excluding_decision_overrides
+    app_build.present? ? q.for_app_build(app_build) : q.for_active_splits
+  end
 
-    private
+  scope :for_app_build, ->(app_build) do
+    for_active_splits(as_of: app_build.built_at)
+      .excluding_incomplete_features(app_id: app_build.app_id, version: app_build.version)
+  end
 
-    def for_app_build(app_build)
-      where("splits.finished_at is null or splits.finished_at > ?", app_build.built_at)
-        .where(<<~SQL, app_build.app_id, app_build.version.to_pg_array)
-          splits.feature_gate = false
-          or exists (
-            select 1 from feature_completions fc
-            where fc.app_id = ?
-              and fc.split_id = assignments.split_id
-              and fc.version <= ?
-          )
-        SQL
-    end
+  scope :excluding_decision_overrides, -> do
+    joins(:split).where('splits.decided_at is null or assignments.updated_at > splits.decided_at')
+  end
+
+  scope :for_active_splits, ->(as_of: nil) do
+    joins(:split).merge(Split.active(as_of: as_of))
+  end
+
+  scope :excluding_incomplete_features, ->(app_id:, version:) do
+    joins(:split).where(<<~SQL, app_id, AppVersion.new(version).to_pg_array)
+      splits.feature_gate = false
+      or exists (
+        select 1 from feature_completions fc
+        where fc.app_id = ?
+          and fc.split_id = assignments.split_id
+          and fc.version <= ?
+      )
+    SQL
   end
 
   def variant_detail
@@ -66,6 +64,10 @@ class Assignment < ActiveRecord::Base
     mixpanel_result.nil? || mixpanel_result == 'failure'
   end
   alias unsynced unsynced?
+
+  def self.to_hash
+    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
+  end
 
   private
 

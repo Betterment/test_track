@@ -19,7 +19,9 @@ class Split < ActiveRecord::Base
 
   before_validation :cast_registry
 
-  scope :active, -> { where(finished_at: nil) }
+  scope :active, ->(as_of: nil) do
+    as_of ? where('splits.finished_at is null or splits.finished_at > ?', as_of) : where(finished_at: nil)
+  end
 
   enum platform: %i(mobile desktop)
 

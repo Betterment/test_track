@@ -92,76 +92,158 @@ RSpec.describe Assignment, type: :model do
   end
 
   describe ".for_presentation" do
-    let(:split) { FactoryBot.create(:split) }
+    it "filters for one reason of underlying scopes (decision overrides)" do
+      split = FactoryBot.create(:split, decided_at: Time.zone.now)
+      assignment = FactoryBot.create(:assignment, split: split, updated_at: 1.day.ago)
+
+      expect(described_class.for_presentation).not_to include(assignment)
+    end
+
+    it "combines excluding_decision_overrides and for_active_splits (argless) with no app_build" do
+      allow(described_class).to receive(:excluding_decision_overrides).and_call_original
+      allow(described_class).to receive(:for_active_splits).and_call_original
+      expect(described_class).not_to receive(:for_app_build)
+
+      described_class.for_presentation
+
+      expect(described_class).to have_received(:excluding_decision_overrides)
+      expect(described_class).to have_received(:for_active_splits).with(no_args)
+    end
+
+    it "combines excluding_decision_overrides and for_app_build when app_build is provided" do
+      app = FactoryBot.create(:app)
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+      allow(described_class).to receive(:excluding_decision_overrides).and_call_original
+      allow(described_class).to receive(:for_app_build).and_call_original
+
+      described_class.for_presentation(app_build: app_build)
+
+      expect(described_class).to have_received(:excluding_decision_overrides)
+      expect(described_class).to have_received(:for_app_build).with(app_build)
+    end
+  end
+
+  describe ".for_app_build" do
+    it "combines for_active_splits and excluding_incomplete_features, forwarding args from app_build" do
+      app = FactoryBot.create(:app)
+      t = Time.zone.now
+      app_build = app.define_build(built_at: t, version: "1.0.0")
+      allow(described_class).to receive(:for_active_splits).and_call_original
+      allow(described_class).to receive(:excluding_incomplete_features).and_call_original
+
+      described_class.for_app_build(app_build)
+
+      expect(described_class).to have_received(:for_active_splits).with(as_of: t)
+      expect(described_class).to have_received(:excluding_incomplete_features).with(app_id: app.id, version: AppVersion.new("1.0.0"))
+    end
+  end
+
+  describe ".excluding_decision_overrides" do
+    it "returns assignments to undecided splits" do
+      split = FactoryBot.create(:split)
+      assignment = FactoryBot.create(:assignment, split: split)
+
+      expect(described_class.excluding_decision_overrides).to include(assignment)
+    end
+
+    it "returns assignments more recent than the split decision" do
+      split = FactoryBot.create(:split, decided_at: 1.week.ago)
+      assignment = FactoryBot.create(:assignment, split: split)
+
+      expect(described_class.excluding_decision_overrides).to include(assignment)
+    end
+
+    it "doesn't return assignments simultaneous with split decision" do
+      t = Time.zone.now
+      split = FactoryBot.create(:split, decided_at: t)
+      assignment = FactoryBot.create(:assignment, split: split, updated_at: t)
+
+      expect(described_class.excluding_decision_overrides).not_to include(assignment)
+    end
+
+    it "doesn't return assignments before split decision" do
+      split = FactoryBot.create(:split, decided_at: Time.zone.now)
+      assignment = FactoryBot.create(:assignment, split: split, updated_at: 1.day.ago)
+
+      expect(described_class.excluding_decision_overrides).not_to include(assignment)
+    end
+  end
+
+  describe ".for_active_splits" do
+    it "returns assignments for unfinished splits" do
+      split = FactoryBot.create(:split)
+      assignment = FactoryBot.create(:assignment, split: split)
+
+      expect(described_class.for_active_splits).to include(assignment)
+    end
 
     it "doesn't return assignments for finished splits" do
-      finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
-      FactoryBot.create(:assignment, split: finished_split)
+      split = FactoryBot.create(:split, finished_at: Time.zone.now)
+      assignment = FactoryBot.create(:assignment, split: split)
 
-      expect(described_class.for_presentation.map(&:split_name)).not_to include("finished_split")
+      expect(described_class.for_active_splits).not_to include(assignment)
     end
 
-    context "with app_build provided" do
-      let(:feature_gate) { FactoryBot.create(:split, name: "bla_enabled", feature_gate: true) }
-      let(:random_split) { FactoryBot.create(:split, name: "random") }
-      let(:app) { FactoryBot.create(:app) }
-      let(:new_app_build) { app.define_build(version: "5.0.1", built_at: Time.zone.now) }
+    it "delegates to Split.active" do
+      allow(Split).to receive(:active).and_call_original
+      t = Time.zone.now
 
-      it "doesn't return assignments for splits finished before built_at" do
-        finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
-        FactoryBot.create(:assignment, split: finished_split)
-        app_build = FactoryBot.build_stubbed(:app).define_build(built_at: 5.minutes.from_now, version: "1.0")
+      described_class.for_active_splits(as_of: t)
 
-        expect(described_class.for_presentation(app_build: app_build).map(&:split_name)).not_to include("finished_split")
-      end
+      expect(Split).to have_received(:active).with(as_of: t)
+    end
+  end
 
-      it "returns assignments for splits finished after built_at" do
-        finished_split = FactoryBot.create(:split, name: "finished_split", finished_at: Time.zone.now)
-        FactoryBot.create(:assignment, split: finished_split)
-        app_build = FactoryBot.build_stubbed(:app).define_build(built_at: 5.minutes.ago, version: "1.0")
+  describe ".excluding_incomplete_features" do
+    it "returns assignments to non-gates for which no feature_completion exists" do
+      split = FactoryBot.create(:split, feature_gate: false)
+      assignment = FactoryBot.create(:assignment, split: split)
 
-        expect(described_class.for_presentation(app_build: app_build).map(&:split_name)).to include("finished_split")
-      end
-
-      it "doesn't return assignments for feature gates that have no feature_completion" do
-        FactoryBot.create(:assignment, split: feature_gate)
-
-        expect(described_class.for_presentation(app_build: new_app_build)).to be_empty
-      end
-
-      it "doesn't return assignments for feature gates that have a feature_completion with a greater version" do
-        FactoryBot.create(:assignment, split: feature_gate)
-        FeatureCompletion.create!(app: app, split: feature_gate, version: "5.0.2")
-
-        expect(described_class.for_presentation(app_build: new_app_build)).to be_empty
-      end
-
-      it "returns assignments for feature gates that have a feature_completion with the same version" do
-        FeatureCompletion.create!(app: app, split: feature_gate, version: "5.0.1")
-        FactoryBot.create(:assignment, split: feature_gate)
-
-        expect(described_class.for_presentation(app_build: new_app_build)).to be_present
-      end
-
-      it "returns assignments for unsuffixed splits that have no feature_completion" do
-        FactoryBot.create(:assignment, split: random_split)
-
-        expect(described_class.for_presentation(app_build: new_app_build)).to be_present
-      end
+      expect(
+        described_class.excluding_incomplete_features(
+          app_id: split.owner_app.id,
+          version: "1.0.1"
+        )
+      ).to include(assignment)
     end
 
-    it "returns nothing if the decision is newer than the assignment" do
-      FactoryBot.create(:assignment, split: split, variant: :hammer_time)
-      split.create_decision!(variant: :touch_this)
+    it "returns assignments for features completed before the provided version" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      assignment = FactoryBot.create(:assignment, split: split)
+      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
 
-      expect(described_class.for_presentation).to be_empty
+      expect(
+        described_class.excluding_incomplete_features(
+          app_id: feature_completion.app.id,
+          version: "1.0.1"
+        )
+      ).to include(assignment)
     end
 
-    it "returns the assignment if newer than the split decision" do
-      split.create_decision!(variant: :touch_this)
-      FactoryBot.create(:assignment, split: split, variant: :hammer_time)
+    it "returns assignments for features completed at the provided version" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      assignment = FactoryBot.create(:assignment, split: split)
+      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
 
-      expect(described_class.for_presentation.first.variant).to eq("hammer_time")
+      expect(
+        described_class.excluding_incomplete_features(
+          app_id: feature_completion.app.id,
+          version: "1.0.0"
+        )
+      ).to include(assignment)
+    end
+
+    it "doesn't return assignments for features completed after the provided version" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      assignment = FactoryBot.create(:assignment, split: split)
+      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
+
+      expect(
+        described_class.excluding_incomplete_features(
+          app_id: feature_completion.app.id,
+          version: "0.9.48"
+        )
+      ).not_to include(assignment)
     end
   end
 end
