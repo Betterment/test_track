@@ -195,7 +195,7 @@ RSpec.describe Split, type: :model do
       expect(described_class.active(as_of: 1.minute.ago)).to include(split)
     end
 
-    it "doesn't return splits finished at simultaneously with as_of:" do
+    it "doesn't return splits finished simultaneously with as_of:" do
       t = Time.zone.now
       split = FactoryBot.create(:split, finished_at: t)
 
