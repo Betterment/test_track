@@ -127,12 +127,21 @@ RSpec.describe Split, type: :model do
       expect(config.name).to eq "my_split"
     end
 
-    it "allows params to be overridden" do
-      subject.name = "my_split"
-      config = subject.build_config(name: "a different name", weighting_registry: { foobar: 100 })
+    it "allows weighting registry to be overridden" do
+      config = subject.build_config(weighting_registry: { foobar: 100 })
       expect(config.weighting_registry).to eq("foobar" => 100)
+    end
+
+    it "doesn't allow split name to be overridden" do
+      subject.name = "my_split"
+      config = subject.build_config(name: "a different name")
+      expect(config.name).to eq "my_split"
+    end
+
+    it "doesn't allow app to be overridden" do
+      subject.name = "my_split"
+      config = subject.build_config(app: FactoryBot.build_stubbed(:app))
       expect(config.app).to eq subject.owner_app
-      expect(config.name).to eq "a different name"
     end
   end
 
