@@ -17,8 +17,6 @@ class Assignment < ActiveRecord::Base
 
   delegate :name, to: :split, prefix: true
 
-  scope :unsynced_to_mixpanel, -> { where("mixpanel_result = 'failure' OR mixpanel_result IS NULL") }
-
   scope :for_presentation, ->(app_build: nil) do
     q = excluding_decision_overrides
     app_build.present? ? q.for_app_build(app_build) : q.for_active_splits

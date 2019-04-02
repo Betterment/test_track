@@ -2,8 +2,6 @@ class Visitor < ActiveRecord::Base
   UUID_REGEX = /\A[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\z/i
 
   has_many :assignments, -> { for_presentation }, dependent: :nullify, inverse_of: :visitor
-  has_many :unsynced_assignments, -> { unsynced_to_mixpanel }, class_name: "Assignment", inverse_of: :visitor
-  has_many :unsynced_splits, through: :unsynced_assignments, source: :split
   has_many :identifiers, dependent: :nullify
 
   validates :id, format: UUID_REGEX, allow_nil: true

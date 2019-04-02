@@ -80,17 +80,6 @@ RSpec.describe Assignment, type: :model do
     end
   end
 
-  describe ".unsynced_to_mixpanel" do
-    it "returns assignments that were not a mixpanel success" do
-      FactoryBot.create(:assignment, mixpanel_result: "success")
-      mixpanel_failure = FactoryBot.create(:assignment, mixpanel_result: "failure")
-      mixpanel_nil = FactoryBot.create(:assignment, mixpanel_result: nil)
-
-      expect(described_class.unsynced_to_mixpanel.count).to eq 2
-      expect(described_class.unsynced_to_mixpanel).to include(mixpanel_failure, mixpanel_nil)
-    end
-  end
-
   describe ".for_presentation" do
     it "filters for one reason of underlying scopes (decision overrides)" do
       split = FactoryBot.create(:split, decided_at: Time.zone.now)
