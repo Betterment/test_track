@@ -1,4 +1,4 @@
-class SplitCreation
+class SplitUpsert
   include ActiveModel::Model
 
   attr_accessor :app, :name, :decided_at
