@@ -1,6 +1,14 @@
 class AppVersion
   include Comparable
-
+  # Validations currently tailored to match the following Apple technical note:
+  #
+  # https://developer.apple.com/library/archive/technotes/tn2420/_index.html
+  #
+  # Future change to format validation and collation algorithm is fine as long
+  # as all currently legal version numbers remain valid and collate the same
+  # relative to one another, i.e. we can relax the validations and make the
+  # comparable representation more flexible in the future, but not make them
+  # more restrictive.
   DECIMAL_INTEGER = /(?:0|[1-9]\d*)/
   VERSION_REGEX = /\A(?:#{DECIMAL_INTEGER}\.){0,2}#{DECIMAL_INTEGER}\z/ # iOS rules currently, but can be relaxed from here
   MAX_LENGTH = 18 # iOS rules
