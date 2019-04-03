@@ -175,4 +175,37 @@ RSpec.describe Split, type: :model do
       expect(decision.send(:split)).to eq subject
     end
   end
+
+  describe ".active" do
+    it "returns unfinished splits without arguments" do
+      split = FactoryBot.create(:split)
+
+      expect(described_class.active).to include(split)
+    end
+
+    it "returns unfinished splits with as_of: provided" do
+      split = FactoryBot.create(:split)
+
+      expect(described_class.active(as_of: Time.zone.now)).to include(split)
+    end
+
+    it "returns splits finished after as_of:" do
+      split = FactoryBot.create(:split, finished_at: Time.zone.now)
+
+      expect(described_class.active(as_of: 1.minute.ago)).to include(split)
+    end
+
+    it "doesn't return splits finished simultaneously with as_of:" do
+      t = Time.zone.now
+      split = FactoryBot.create(:split, finished_at: t)
+
+      expect(described_class.active(as_of: t)).not_to include(split)
+    end
+
+    it "doesn't return splits finished before as_of:" do
+      split = FactoryBot.create(:split, finished_at: 1.day.ago)
+
+      expect(described_class.active(as_of: Time.zone.now)).not_to include(split)
+    end
+  end
 end
