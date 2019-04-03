@@ -39,7 +39,7 @@ class Assignment < ActiveRecord::Base
     joins(:split).where(<<~SQL, app_id, AppVersion.new(version).to_pg_array)
       splits.feature_gate = false
       or exists (
-        select 1 from feature_completions fc
+        select 1 from app_feature_completions fc
         where fc.app_id = ?
           and fc.split_id = assignments.split_id
           and fc.version <= ?

@@ -184,7 +184,7 @@ RSpec.describe Assignment, type: :model do
   end
 
   describe ".excluding_incomplete_features" do
-    it "returns assignments to non-gates for which no feature_completion exists" do
+    it "returns assignments to non-gates for which no app_feature_completion exists" do
       split = FactoryBot.create(:split, feature_gate: false)
       assignment = FactoryBot.create(:assignment, split: split)
 
@@ -199,11 +199,11 @@ RSpec.describe Assignment, type: :model do
     it "returns assignments for features completed before the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
-      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
+      app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
 
       expect(
         described_class.excluding_incomplete_features(
-          app_id: feature_completion.app.id,
+          app_id: app_feature_completion.app.id,
           version: "1.0.1"
         )
       ).to include(assignment)
@@ -212,11 +212,11 @@ RSpec.describe Assignment, type: :model do
     it "returns assignments for features completed at the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
-      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
+      app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
 
       expect(
         described_class.excluding_incomplete_features(
-          app_id: feature_completion.app.id,
+          app_id: app_feature_completion.app.id,
           version: "1.0.0"
         )
       ).to include(assignment)
@@ -225,11 +225,11 @@ RSpec.describe Assignment, type: :model do
     it "doesn't return assignments for features completed after the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
-      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
+      app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
 
       expect(
         described_class.excluding_incomplete_features(
-          app_id: feature_completion.app.id,
+          app_id: app_feature_completion.app.id,
           version: "0.9.48"
         )
       ).not_to include(assignment)
@@ -238,7 +238,7 @@ RSpec.describe Assignment, type: :model do
     it "doesn't return assignments for features completed on a different app" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
-      feature_completion = FactoryBot.create(:feature_completion, split: split, version: "1.0.0")
+      FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
       other_app = FactoryBot.create(:app)
 
       expect(

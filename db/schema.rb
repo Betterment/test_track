@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 20190401094449) do
     t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
   end
 
+  create_table "app_feature_completions", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "app_id", null: false
+    t.uuid "split_id", null: false
+    t.integer "version", null: false, array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id"], name: "index_app_feature_completions_on_app_id"
+    t.index ["split_id", "app_id"], name: "index_app_feature_completions_on_split_id_and_app_id", unique: true
+    t.index ["split_id"], name: "index_app_feature_completions_on_split_id"
+  end
+
   create_table "apps", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at"
@@ -84,17 +95,6 @@ ActiveRecord::Schema.define(version: 20190401094449) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
-  end
-
-  create_table "feature_completions", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.uuid "split_id", null: false
-    t.uuid "app_id", null: false
-    t.integer "version", null: false, array: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["app_id"], name: "index_feature_completions_on_app_id"
-    t.index ["split_id", "app_id"], name: "index_feature_completions_on_split_id_and_app_id", unique: true
-    t.index ["split_id"], name: "index_feature_completions_on_split_id"
   end
 
   create_table "identifier_types", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -190,14 +190,14 @@ ActiveRecord::Schema.define(version: 20190401094449) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "app_feature_completions", "apps"
+  add_foreign_key "app_feature_completions", "splits"
   add_foreign_key "assignments", "bulk_assignments"
   add_foreign_key "assignments", "splits"
   add_foreign_key "assignments", "visitor_supersessions"
   add_foreign_key "assignments", "visitors"
   add_foreign_key "bulk_assignments", "admins"
   add_foreign_key "bulk_assignments", "splits"
-  add_foreign_key "feature_completions", "apps"
-  add_foreign_key "feature_completions", "splits"
   add_foreign_key "identifier_types", "apps", column: "owner_app_id"
   add_foreign_key "identifiers", "identifier_types"
   add_foreign_key "identifiers", "visitors"
