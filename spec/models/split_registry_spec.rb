@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SplitRegistry do
-  subject { SplitRegistry.instance }
+  subject { described_class.instance }
 
   describe "#splits" do
     it "doesn't cache the instance" do
@@ -24,7 +24,7 @@ RSpec.describe SplitRegistry do
 
   describe "#experience_sampling_weight" do
     context "bypassing singleton memoization" do
-      subject { SplitRegistry.send(:new) }
+      subject { described_class.send(:new) }
 
       it "memoizes the env var fetch" do
         allow(ENV).to receive(:fetch).and_call_original

@@ -19,12 +19,12 @@ RSpec.describe 'bulk assign flow' do
   def bulk_assign_to_hammer_time(identifiers_listing: '4, 8, 15, 16', identifier_type: 'user_ids')
     split_page.load split_id: split.id
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page.population_count.text).to eq "0"
 
     split_page.upload_new_assignments.click
 
-    expect(bulk_assignment_page).to be_displayed
+    expect(bulk_assignment_page).to be_loaded
 
     bulk_assignment_page.create_form.tap do |form|
       form.identifiers_listing.set identifiers_listing
@@ -38,7 +38,7 @@ RSpec.describe 'bulk assign flow' do
   it 'allows admins to assign a split variant in bulk' do
     bulk_assign_to_hammer_time
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
 
     Delayed::Worker.new.work_off
 
@@ -64,7 +64,7 @@ RSpec.describe 'bulk assign flow' do
     bulk_assignment_page.create_form.identifier_type.select 'user_ids'
     bulk_assignment_page.create_form.submit_button.click
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
   end
 
   it 'allows admins to ignore the warning and apply the bulk assignment' do
@@ -82,6 +82,6 @@ RSpec.describe 'bulk assign flow' do
     bulk_assignment_page.create_form.force_creation_checkbox.click
     bulk_assignment_page.create_form.submit_button.click
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
   end
 end

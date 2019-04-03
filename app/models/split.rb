@@ -114,6 +114,7 @@ class Split < ActiveRecord::Base
   def registry_weights_must_be_integers
     return if registry.blank?
     return unless @registry_before_type_cast.values.any? { |w| w.to_i.to_s != w.to_s }
+
     errors.add(:registry, "all weights must be integers")
   end
 

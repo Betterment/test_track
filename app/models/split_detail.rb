@@ -12,6 +12,7 @@ class SplitDetail
 
   def initialize(params)
     raise 'A split is required to create split details' if params[:split].blank?
+
     self.split = params.delete(:split)
     super
   end

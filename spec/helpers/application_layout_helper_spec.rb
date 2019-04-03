@@ -40,7 +40,7 @@ RSpec.describe ApplicationLayoutHelper, type: :helper do
       expect(helper.body_layout_body_color_class).to eq 'Body--nearWhite'
     end
 
-    it 'returns descendant class and color modifier class' do
+    it 'returns descendant class and color modifier class when overridden' do
       helper.content_for :body_layout_body_color, 'blue'
       expect(helper.body_layout_body_color_class).to eq 'Body--blue'
     end

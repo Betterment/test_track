@@ -31,7 +31,7 @@ RSpec.describe VisitorSupersession do
     end
 
     it "merges assignments from the superseded visitor without overwriting existing assignments" do
-      visitor_supersession = VisitorSupersession.create!(superseded_visitor: visitor, superseding_visitor: existing_visitor)
+      visitor_supersession = described_class.create!(superseded_visitor: visitor, superseding_visitor: existing_visitor)
 
       banana_split_assignment = existing_visitor.assignments.find_by!(split: banana_split, variant: "squishy")
       expect(banana_split_assignment.mixpanel_result).to eq "success"

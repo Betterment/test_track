@@ -9,8 +9,8 @@ class AppVersion
   # relative to one another, i.e. we can relax the validations and make the
   # comparable representation more flexible in the future, but not make them
   # more restrictive.
-  DECIMAL_INTEGER = /(?:0|[1-9]\d*)/
-  VERSION_REGEX = /\A(?:#{DECIMAL_INTEGER}\.){0,2}#{DECIMAL_INTEGER}\z/ # iOS rules currently, but can be relaxed from here
+  DECIMAL_INTEGER = /(?:0|[1-9]\d*)/.freeze
+  VERSION_REGEX = /\A(?:#{DECIMAL_INTEGER}\.){0,2}#{DECIMAL_INTEGER}\z/.freeze # iOS rules currently, but can be relaxed from here
   MAX_LENGTH = 18 # iOS rules
 
   attr_reader :version_number
@@ -27,10 +27,12 @@ class AppVersion
     raise "version_number must be a string, integer, or AppVersion" unless [String, Integer, AppVersion].any? do |t|
       version_number.is_a?(t)
     end
+
     version_number = version_number.to_s
     raise "version_number must be present" if version_number.blank?
     raise "version_number is too long" if version_number.length > MAX_LENGTH
     raise "version_number does not conform to format" unless version_number.match(VERSION_REGEX)
+
     @version_number = version_number
   end
 

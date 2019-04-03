@@ -22,24 +22,24 @@ RSpec.describe 'split decision flow' do
 
   it 'allows an admin to decide a split' do
     split_page.load split_id: split.id
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
 
     expect(split.assignment_count_for_variant(:hammer_time)).to eq 5
     expect(split.assignment_count_for_variant(:touch_this)).to eq 0
 
     split_page.decide_split.click
-    expect(split_decision_page).to be_displayed
+    expect(split_decision_page).to be_loaded
 
     split_decision_page.create_form.tap do |form|
       form.variant_options.select 'touch_this'
       form.submit_button.click
     end
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page).to have_content "Decided"
 
     split_page.load split_id: split.id
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
 
     expect(split.assignment_count_for_variant(:hammer_time)).to eq 0
     expect(split.assignment_count_for_variant(:touch_this)).to eq 0

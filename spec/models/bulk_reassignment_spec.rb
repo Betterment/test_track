@@ -60,10 +60,9 @@ RSpec.describe BulkReassignment do
   end
 
   context "when updating one assignment" do
-    subject { described_class.new(assignments: [assignment], bulk_assignment: bulk_assignment) }
+    subject! { described_class.create!(assignments: [assignment], bulk_assignment: bulk_assignment) }
 
     before do
-      expect(subject.save).to eq true
       assignment.reload
     end
 

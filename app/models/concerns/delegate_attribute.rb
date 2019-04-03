@@ -11,6 +11,7 @@ module DelegateAttribute
       opts = getters.extract_options!
       to = opts.delete(:to)
       raise 'You must specify what method/association to delegate to' unless to
+
       getters.each do |getter|
         opts[getter] ||= getter
       end

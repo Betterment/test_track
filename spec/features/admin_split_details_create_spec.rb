@@ -19,11 +19,11 @@ RSpec.describe 'admin can add details to a split' do
 
   it 'allows admins to add details to a split' do
     split_page.load split_id: split.id
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page.test_overview).to have_content "Is this split a test? Add metadata about it."
 
     split_page.add_details.click
-    expect(split_details_page).to be_displayed
+    expect(split_details_page).to be_loaded
 
     form = split_details_page.form
     form.owner.set owner_name
@@ -37,7 +37,7 @@ RSpec.describe 'admin can add details to a split' do
     split_details_page.form.description.set description
     split_details_page.form.submit
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page.test_overview.table).to have_content owner_name
     expect(split_page.test_overview.table).to have_content location
     expect(split_page.test_overview.table).to have_content platform
