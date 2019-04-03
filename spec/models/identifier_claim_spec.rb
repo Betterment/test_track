@@ -16,32 +16,32 @@ RSpec.describe IdentifierClaim do
       end
 
       it "is invalid if identifier_type is nil" do
-        claim = IdentifierClaim.create! create_params.except(:identifier_type)
+        claim = described_class.create! create_params.except(:identifier_type)
         expect(claim).not_to be_valid
         expect(claim.errors).to be_added(:identifier_type, "can't be blank")
       end
 
       it "is invalid if visitor_id is nil" do
-        claim = IdentifierClaim.create! create_params.except(:visitor_id)
+        claim = described_class.create! create_params.except(:visitor_id)
         expect(claim).not_to be_valid
         expect(claim.errors).to be_added(:visitor_id, "can't be blank")
       end
 
       it "is invalid if value is nil" do
-        claim = IdentifierClaim.create! create_params.except(:value)
+        claim = described_class.create! create_params.except(:value)
         expect(claim).not_to be_valid
         expect(claim.errors).to be_added(:value, "can't be blank")
       end
 
       it "is invalid if identifier_type does not exist" do
-        claim = IdentifierClaim.create! create_params.merge(identifier_type: "not_real_identifier_type")
+        claim = described_class.create! create_params.merge(identifier_type: "not_real_identifier_type")
         expect(claim).not_to be_valid
         expect(claim.errors).to be_added(:identifier_type, "does not exist")
       end
     end
 
     it "creates a new identifier linked to the visitor" do
-      claim = IdentifierClaim.create!(identifier_type: identifier_type.name, visitor_id: visitor.id, value: "123")
+      claim = described_class.create!(identifier_type: identifier_type.name, visitor_id: visitor.id, value: "123")
       expect(claim.identifier).to be_persisted
       expect(claim.identifier.visitor).to eq visitor
     end
@@ -49,7 +49,7 @@ RSpec.describe IdentifierClaim do
     it "creates a new visitor if none exits" do
       allow(Visitor).to receive(:new).and_call_original
 
-      IdentifierClaim.create!(identifier_type: identifier_type.name, visitor_id: unknown_uuid, value: "123")
+      described_class.create!(identifier_type: identifier_type.name, visitor_id: unknown_uuid, value: "123")
 
       expect(Visitor.where(id: unknown_uuid)).to be_present
     end
@@ -58,7 +58,7 @@ RSpec.describe IdentifierClaim do
       existing_visitor
       allow(Visitor).to receive(:new).and_call_original
 
-      claim = IdentifierClaim.create!(
+      claim = described_class.create!(
         identifier_type: identifier_type.name,
         visitor_id: existing_visitor.id,
         value: existing_identifier.value
@@ -74,7 +74,7 @@ RSpec.describe IdentifierClaim do
       existing_visitor
       allow(Visitor).to receive(:new).and_call_original
 
-      claim = IdentifierClaim.create!(
+      claim = described_class.create!(
         identifier_type: identifier_type.name,
         visitor_id: visitor.id,
         value: existing_identifier.value
@@ -91,7 +91,7 @@ RSpec.describe IdentifierClaim do
       existing_visitor
       allow(Visitor).to receive(:new).and_call_original
 
-      claim = IdentifierClaim.create!(identifier_type: identifier_type.name, visitor_id: existing_visitor.id, value: "456")
+      claim = described_class.create!(identifier_type: identifier_type.name, visitor_id: existing_visitor.id, value: "456")
 
       expect(Visitor).to have_received(:new)
       expect(claim.identifier).to be_persisted
@@ -107,7 +107,7 @@ RSpec.describe IdentifierClaim do
     end
 
     it "creates a visitor supersession when the incoming is identified and the target identity is claimed by another visitor" do
-      claim = IdentifierClaim.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: existing_identifier.value)
+      claim = described_class.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: existing_identifier.value)
 
       expect(claim.identifier).to be_persisted
       expect(claim.identifier.visitor).to eq existing_visitor
@@ -128,7 +128,7 @@ RSpec.describe IdentifierClaim do
 
       claim = nil
       expect {
-        claim = IdentifierClaim.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
+        claim = described_class.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
       }.to change { Visitor.count }.by(0)
 
       expect(claim.identifier.visitor).to eq visitor
@@ -144,7 +144,7 @@ RSpec.describe IdentifierClaim do
 
       claim = nil
       expect {
-        claim = IdentifierClaim.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
+        claim = described_class.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
       }.not_to change { Identifier.count }
 
       expect(claim.value).to eq "123"

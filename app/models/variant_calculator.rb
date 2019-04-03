@@ -6,6 +6,7 @@ class VariantCalculator
   def initialize(opts = {})
     @visitor_id = opts.delete(:visitor_id)
     raise "Must provide visitor_id" unless visitor_id
+
     @split = opts.delete(:split)
     raise "Must provide split" unless split
     raise "unknown opts: #{opts.keys.to_sentence}" if opts.present?

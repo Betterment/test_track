@@ -82,6 +82,7 @@ class Assignment < ActiveRecord::Base
 
   def variant_must_exist
     return unless split
+
     errors.add(:variant, "must be specified in split's current variations") unless split.has_variant?(variant)
   end
 end

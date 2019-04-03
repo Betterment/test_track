@@ -13,12 +13,12 @@ RSpec.describe 'admin can change weights for split variants' do
 
   it 'allows admins to change the weights of a split' do
     split_page.load split_id: split.id
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page.variants_table).to have_content "red 100%(0) edit blue 0%(0) edit"
 
     split_page.change_weights.click
 
-    expect(split_config_new_page).to be_displayed
+    expect(split_config_new_page).to be_loaded
 
     split_config_new_page.create_form.tap do |form|
       form.weight_inputs.each do |input|

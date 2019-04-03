@@ -1,5 +1,5 @@
 class Visitor < ActiveRecord::Base
-  UUID_REGEX = /\A[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\z/i
+  UUID_REGEX = /\A[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}\z/i.freeze
 
   has_many :assignments, -> { for_presentation }, dependent: :nullify, inverse_of: :visitor
   has_many :identifiers, dependent: :nullify

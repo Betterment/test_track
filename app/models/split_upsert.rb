@@ -10,6 +10,7 @@ class SplitUpsert
     split.assign_attributes(finished_at: nil, decided_at: decided_at)
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?
+
     split.save
   end
 
@@ -49,6 +50,7 @@ class SplitUpsert
 
   def split_must_be_valid
     return if split.valid?
+
     split.errors[:name].each { |e| errors.add(:name, e) }
     split.errors[:registry].each { |e| errors.add(:weighting_registry, e) }
   end

@@ -16,12 +16,12 @@ RSpec.describe 'admin can edit variant details' do
 
   it 'allows admins to edit variant details' do
     split_page.load split_id: split.id
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
 
     expect(split_page.variants.count).to eq 2
 
     split_page.edit_variant(:enabled)
-    expect(variant_page).to be_displayed
+    expect(variant_page).to be_loaded
     expect(variant_page).not_to have_content "Retire variant"
 
     variant_page.form.display_name.set 'Variant name'
@@ -29,7 +29,7 @@ RSpec.describe 'admin can edit variant details' do
     variant_page.form.screenshot.set variant_screenshot
     variant_page.form.submit_button.click
 
-    expect(split_page).to be_displayed
+    expect(split_page).to be_loaded
     expect(split_page).to have_content 'Details for enabled have been saved'
     expect(split_page.variants.first.name).to have_content "Variant name"
     expect(split_page.variants.first.description).to have_content "Super great variant"
@@ -44,7 +44,7 @@ RSpec.describe 'admin can edit variant details' do
 
       split_page.edit_variant(variant_to_retire)
 
-      expect(variant_page).to be_displayed
+      expect(variant_page).to be_loaded
       expect(variant_page).to have_content "Retire variant"
     end
   end

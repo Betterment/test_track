@@ -7,6 +7,7 @@ class Decision
 
   def save!
     raise "Variant must be present in the split" unless split.has_variant?(variant)
+
     split.reconfigure!(
       weighting_registry: { variant => 100 },
       decided_at: Time.zone.now

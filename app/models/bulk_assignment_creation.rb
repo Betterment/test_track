@@ -39,11 +39,13 @@ class BulkAssignmentCreation
 
   def new_identifier_creation_ratio
     return 0 unless total_identifiers_to_assign_count.positive?
+
     @new_identifier_creation_ratio ||= 1 - (existing_identifiers_count.to_f / total_identifiers_to_assign_count)
   end
 
   def new_identifier_creation_ratio_above_warning_threshold?
     return false unless identifier_type
+
     new_identifier_creation_ratio > NEW_IDENTIFIER_CREATION_RATIO_WARNING_THRESHOLD
   end
 
@@ -98,6 +100,7 @@ class BulkAssignmentCreation
 
   def ensure_identifiers
     return false if identifiers_fetched?
+
     @identifiers_fetched = true
     ids_to_assign.each do |i|
       identifier = Identifier.find_or_initialize_by(identifier_type_id: identifier_type_id, value: i)
@@ -118,11 +121,13 @@ class BulkAssignmentCreation
 
   def existing_visitor_ids
     raise "must ensure_identifiers first" unless identifiers_fetched?
+
     @existing_visitor_ids ||= []
   end
 
   def identifier_ids
     raise "must ensure_identifiers first" unless identifiers_fetched?
+
     @identifier_ids ||= []
   end
 
@@ -136,6 +141,7 @@ class BulkAssignmentCreation
 
   def most_identifiers_must_exist
     return if force_identifier_creation? || !new_identifier_creation_ratio_above_warning_threshold?
+
     errors.add(:identifiers_listing, "would create #{new_identifier_count} previously unknown identifiers")
   end
 end
