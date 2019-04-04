@@ -19,8 +19,32 @@ class Split < ActiveRecord::Base
 
   before_validation :cast_registry
 
+  scope :for_presentation, ->(app_build: nil) do
+    app_build.present? ? for_app_build(app_build) : active
+  end
+
+  scope :for_app_build, ->(app_build) do
+    active(as_of: app_build.built_at)
+      .with_feature_completeness(app_build)
+  end
+
   scope :active, ->(as_of: nil) do
     as_of ? where('splits.finished_at is null or splits.finished_at > ?', as_of) : where(finished_at: nil)
+  end
+
+  scope :with_feature_completeness, ->(app_build) do
+    select(column_names).readonly
+      .select(<<~SQL)
+        (
+          select splits.feature_gate = false
+          or exists (
+            select 1 from app_feature_completions fc
+            where fc.app_id = #{connection.quote(app_build.app_id)}
+            and fc.split_id = splits.id
+            and fc.version <= #{connection.quote(app_build.version.to_pg_array)}
+          )
+        ) as feature_complete
+      SQL
   end
 
   enum platform: %i(mobile desktop)
@@ -80,6 +104,20 @@ class Split < ActiveRecord::Base
 
   def create_decision!(params = {})
     build_decision(params).tap(&:save!)
+  end
+
+  def registry
+    if respond_to?(:feature_complete?) && !feature_complete?
+      super.each_with_object({}) do |(k, v), h|
+        if k == "false"
+          h[k] = 100
+        else
+          h[k] = 0
+        end
+      end
+    else
+      super
+    end
   end
 
   private
