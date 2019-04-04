@@ -24,7 +24,7 @@ class Assignment < ActiveRecord::Base
 
   scope :for_app_build, ->(app_build) do
     for_active_splits(as_of: app_build.built_at)
-      .excluding_incomplete_features(app_id: app_build.app_id, version: app_build.version)
+      .excluding_incomplete_features_for(app_build)
   end
 
   scope :excluding_decision_overrides, -> do
@@ -35,16 +35,8 @@ class Assignment < ActiveRecord::Base
     joins(:split).merge(Split.active(as_of: as_of))
   end
 
-  scope :excluding_incomplete_features, ->(app_id:, version:) do
-    joins(:split).where(<<~SQL, app_id, AppVersion.new(version).to_pg_array)
-      splits.feature_gate = false
-      or exists (
-        select 1 from app_feature_completions fc
-        where fc.app_id = ?
-          and fc.split_id = assignments.split_id
-          and fc.version <= ?
-      )
-    SQL
+  scope :excluding_incomplete_features_for, ->(app_build) do
+    joins(:split).merge(Split.excluding_incomplete_features_for(app_build))
   end
 
   def variant_detail

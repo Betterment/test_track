@@ -113,17 +113,17 @@ RSpec.describe Assignment, type: :model do
   end
 
   describe ".for_app_build" do
-    it "combines for_active_splits and excluding_incomplete_features, forwarding args from app_build" do
+    it "combines for_active_splits and excluding_incomplete_features_for, forwarding args from app_build" do
       app = FactoryBot.build_stubbed(:app)
       t = Time.zone.now
       app_build = app.define_build(built_at: t, version: "1.0.0")
       allow(described_class).to receive(:for_active_splits).and_call_original
-      allow(described_class).to receive(:excluding_incomplete_features).and_call_original
+      allow(described_class).to receive(:excluding_incomplete_features_for).and_call_original
 
       described_class.for_app_build(app_build)
 
       expect(described_class).to have_received(:for_active_splits).with(as_of: t)
-      expect(described_class).to have_received(:excluding_incomplete_features).with(app_id: app.id, version: AppVersion.new("1.0.0"))
+      expect(described_class).to have_received(:excluding_incomplete_features_for).with(app_build)
     end
   end
 
@@ -183,56 +183,40 @@ RSpec.describe Assignment, type: :model do
     end
   end
 
-  describe ".excluding_incomplete_features" do
+  describe ".excluding_incomplete_features_for" do
     it "returns assignments to non-gates for which no app_feature_completion exists" do
       split = FactoryBot.create(:split, feature_gate: false)
       assignment = FactoryBot.create(:assignment, split: split)
+      app_build = split.owner_app.define_build(built_at: Time.zone.now, version: "1.0.1")
 
-      expect(
-        described_class.excluding_incomplete_features(
-          app_id: split.owner_app.id,
-          version: "1.0.1"
-        )
-      ).to include(assignment)
+      expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
     end
 
     it "returns assignments for features completed before the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
       app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
+      app_build = app_feature_completion.app.define_build(built_at: Time.zone.now, version: "1.0.1")
 
-      expect(
-        described_class.excluding_incomplete_features(
-          app_id: app_feature_completion.app.id,
-          version: "1.0.1"
-        )
-      ).to include(assignment)
+      expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
     end
 
     it "returns assignments for features completed at the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
       app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
+      app_build = app_feature_completion.app.define_build(built_at: Time.zone.now, version: "1.0.0")
 
-      expect(
-        described_class.excluding_incomplete_features(
-          app_id: app_feature_completion.app.id,
-          version: "1.0.0"
-        )
-      ).to include(assignment)
+      expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
     end
 
     it "doesn't return assignments for features completed after the provided version" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
       app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
+      app_build = app_feature_completion.app.define_build(built_at: Time.zone.now, version: "0.9.48")
 
-      expect(
-        described_class.excluding_incomplete_features(
-          app_id: app_feature_completion.app.id,
-          version: "0.9.48"
-        )
-      ).not_to include(assignment)
+      expect(described_class.excluding_incomplete_features_for(app_build)).not_to include(assignment)
     end
 
     it "doesn't return assignments for features completed on a different app" do
@@ -240,13 +224,9 @@ RSpec.describe Assignment, type: :model do
       assignment = FactoryBot.create(:assignment, split: split)
       FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
       other_app = FactoryBot.create(:app)
+      app_build = other_app.define_build(built_at: Time.zone.now, version: "1.0.0")
 
-      expect(
-        described_class.excluding_incomplete_features(
-          app_id: other_app.id,
-          version: "1.0.0"
-        )
-      ).not_to include(assignment)
+      expect(described_class.excluding_incomplete_features_for(app_build)).not_to include(assignment)
     end
   end
 end

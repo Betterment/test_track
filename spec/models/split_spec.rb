@@ -209,29 +209,29 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe ".with_feature_completeness" do
+  describe ".with_feature_completeness_for" do
     let(:app) { FactoryBot.create(:app) }
     let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
 
     it "is feature_complete for non-feature gates" do
       split = FactoryBot.create(:split, feature_gate: false)
-      expect(Split.with_feature_completeness(app_build).find(split.id)).to be_feature_complete
+      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_feature_complete
     end
 
     it "returns readonly records" do
       split = FactoryBot.create(:split, feature_gate: false)
-      expect(Split.with_feature_completeness(app_build).find(split.id)).to be_readonly
+      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_readonly
     end
 
     it "returns false for feature gates with no feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
-      expect(Split.with_feature_completeness(app_build).find(split.id)).not_to be_feature_complete
+      expect(Split.with_feature_completeness_for(app_build).find(split.id)).not_to be_feature_complete
     end
 
     it "returns true for feature gates with a feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
       FactoryBot.create(:app_feature_completion, app: app, version: "1.0", split: split)
-      expect(Split.with_feature_completeness(app_build).find(split.id)).to be_feature_complete
+      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_feature_complete
     end
   end
 end

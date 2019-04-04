@@ -32,19 +32,25 @@ class Split < ActiveRecord::Base
     as_of ? where('splits.finished_at is null or splits.finished_at > ?', as_of) : where(finished_at: nil)
   end
 
-  scope :with_feature_completeness, ->(app_build) do
-    select(column_names).readonly
-      .select(<<~SQL)
-        (
-          select splits.feature_gate = false
-          or exists (
-            select 1 from app_feature_completions fc
-            where fc.app_id = #{connection.quote(app_build.app_id)}
-            and fc.split_id = splits.id
-            and fc.version <= #{connection.quote(app_build.version.to_pg_array)}
-          )
-        ) as feature_complete
-      SQL
+  scope :with_feature_completeness_for, ->(app_build) do
+    select(column_names)
+      .select(
+        excluding_incomplete_features_for(app_build)
+          .select(1)
+          .from('(select null) as dual') # replace generated `FROM splits` which shadows us with a no-op "table"
+          .exists
+          .as('feature_complete')
+      )
+      .readonly
+  end
+
+  scope :excluding_incomplete_features_for, ->(app_build) do
+    where(
+      Arel::Nodes::Or.new(
+        arel_table[:feature_gate].eq(false),
+        AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+      )
+    )
   end
 
   enum platform: %i(mobile desktop)
@@ -109,11 +115,7 @@ class Split < ActiveRecord::Base
   def registry
     if respond_to?(:feature_complete?) && !feature_complete?
       super.each_with_object({}) do |(k, v), h|
-        if k == "false"
-          h[k] = 100
-        else
-          h[k] = 0
-        end
+        h[k] = (v == "false" ? 100 : 0)
       end
     else
       super
