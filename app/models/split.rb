@@ -27,7 +27,7 @@ class Split < ActiveRecord::Base
 
   scope :for_app_build, ->(app_build) do
     active(as_of: app_build.built_at)
-      .with_feature_completeness(app_build)
+      .with_feature_incomplete_knockouts_for(app_build)
   end
 
   scope :active, ->(as_of: nil) do

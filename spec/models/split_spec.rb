@@ -307,4 +307,46 @@ RSpec.describe Split, type: :model do
       expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
     end
   end
+
+  describe ".for_presentation" do
+    it "calls active with no args if no app_build is provided" do
+      allow(Split).to receive(:for_app_build).and_call_original
+      allow(Split).to receive(:active).and_call_original
+
+      expect(Split.for_presentation).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:active).with(no_args)
+      expect(Split).not_to have_received(:for_app_build)
+    end
+
+    it "calls for_app_build if app_build is provided" do
+      allow(Split).to receive(:for_app_build).and_call_original
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
+
+      expect(Split.for_presentation(app_build: app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:for_app_build).with(app_build)
+    end
+  end
+
+  describe ".for_app_build" do
+    it "it calls active with built_at" do
+      allow(Split).to receive(:active).and_call_original
+      t = Time.zone.now
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: t, version: "1.0")
+
+      expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:active).with(as_of: t)
+    end
+
+    it "calls with_feature_incomplete_knockouts_for with app_build" do
+      allow(Split).to receive(:with_feature_incomplete_knockouts_for).and_call_original
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
+
+      expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:with_feature_incomplete_knockouts_for).with(app_build)
+    end
+  end
 end
