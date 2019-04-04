@@ -37,10 +37,8 @@ class Split < ActiveRecord::Base
     except(:select)
       .select(
         previous_selects,
-        excluding_incomplete_features_for(app_build)
-          .except(:select)
-          .select(1)
-          .tap { |s| s.arel.ast.cores.first.from = nil } # inherit `splits` table from parent scope instead of doubling up
+        Arel::SelectManager.new
+          .where(arel_excluding_incomplete_features_for(app_build))
           .exists
           .as('feature_complete')
       )
@@ -48,11 +46,13 @@ class Split < ActiveRecord::Base
   end
 
   scope :excluding_incomplete_features_for, ->(app_build) do
-    where(
-      Arel::Nodes::Or.new(
-        arel_table[:feature_gate].eq(false),
-        AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
-      )
+    where(arel_excluding_incomplete_features_for(app_build))
+  end
+
+  def self.arel_excluding_incomplete_features_for(app_build)
+    Arel::Nodes::Or.new(
+      arel_table[:feature_gate].eq(false),
+      AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
     )
   end
 
