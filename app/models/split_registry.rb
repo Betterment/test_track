@@ -2,7 +2,7 @@ class SplitRegistry
   include Singleton
 
   def splits
-    Split.active
+    Split.for_presentation
   end
 
   def experience_sampling_weight
