@@ -209,45 +209,45 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe ".with_feature_completeness_for" do
+  describe ".with_feature_incomplete_knockouts_for" do
     let(:app) { FactoryBot.create(:app) }
     let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
 
     it "respects existing selects" do
       split = FactoryBot.create(:split, feature_gate: false)
 
-      result = Split.select(:name).with_feature_completeness_for(app_build).find(split.id)
+      result = Split.select(:name).with_feature_incomplete_knockouts_for(app_build).find(split.id)
 
-      expect(result).to be_feature_complete
+      expect(result).not_to be_feature_incomplete
       expect(result).to respond_to(:name)
       expect(result).not_to respond_to(:finished_at)
     end
 
-    it "is feature_complete for non-feature gates" do
+    it "isn't feature_incomplete for non-feature gates" do
       split = FactoryBot.create(:split, feature_gate: false)
-      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_feature_complete
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).not_to be_feature_incomplete
     end
 
     it "returns readonly records" do
       split = FactoryBot.create(:split, feature_gate: false)
-      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_readonly
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).to be_readonly
     end
 
-    it "is feature_complete for feature gates with a feature completion" do
+    it "isn't feature_incomplete for feature gates with a feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
       FactoryBot.create(:app_feature_completion, app: app, version: "1.0", split: split)
-      expect(Split.with_feature_completeness_for(app_build).find(split.id)).to be_feature_complete
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).not_to be_feature_incomplete
     end
 
-    it "isn't feature_complete for feature gates with no feature completion" do
+    it "is feature_incomplete for feature gates with no feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
-      expect(Split.with_feature_completeness_for(app_build).find(split.id)).not_to be_feature_complete
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).to be_feature_incomplete
     end
 
     it "is backed by AppFeatureCompletion.satisfied_by" do
       allow(AppFeatureCompletion).to receive(:satisfied_by).and_call_original
 
-      Split.with_feature_completeness_for(app_build)
+      Split.with_feature_incomplete_knockouts_for(app_build)
 
       expect(AppFeatureCompletion).to have_received(:satisfied_by).with(app_build)
     end
@@ -279,6 +279,32 @@ RSpec.describe Split, type: :model do
       Split.excluding_incomplete_features_for(app_build)
 
       expect(AppFeatureCompletion).to have_received(:satisfied_by).with(app_build)
+    end
+  end
+
+  describe "#registry" do
+    subject { FactoryBot.create(:split, registry: { true: 50, false: 50 }, feature_gate: true) }
+    it "returns the column value if it doesn't respond to feature_incomplete?" do
+      expect(subject).not_to respond_to(:feature_incomplete?)
+      expect(subject.registry).to eq("true" => 50, "false" => 50)
+    end
+
+    it "overrides to 100% false if feature-incomplete" do
+      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+      expect(subject_with_knockouts).to be_feature_incomplete
+      expect(subject_with_knockouts.registry).to eq("true" => 0, "false" => 100)
+    end
+
+    it "returns the column value if it isn't feature-incomplete" do
+      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.1")
+
+      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+      expect(subject_with_knockouts).not_to be_feature_incomplete
+      expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
     end
   end
 end

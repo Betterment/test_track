@@ -34,15 +34,15 @@ class Split < ActiveRecord::Base
     as_of ? where('splits.finished_at is null or splits.finished_at > ?', as_of) : where(finished_at: nil)
   end
 
-  scope :with_feature_completeness_for, ->(app_build) do
+  scope :with_feature_incomplete_knockouts_for, ->(app_build) do
     previous_selects = all.arel.projections
     except(:select)
       .select(
         previous_selects,
         Arel::SelectManager.new
-          .where(arel_excluding_incomplete_features_for(app_build))
+      .where(arel_excluding_incomplete_features_for(app_build).not)
           .exists
-          .as('feature_complete')
+          .as('feature_incomplete')
       )
       .readonly
   end
@@ -120,9 +120,9 @@ class Split < ActiveRecord::Base
   end
 
   def registry
-    if respond_to?(:feature_complete?) && !feature_complete?
-      super.each_with_object({}) do |(k, v), h|
-        h[k] = (v == "false" ? 100 : 0)
+    if try(:feature_incomplete?)
+      super.each_with_object({}) do |(k, _), h|
+        h[k] = (k.to_s == "false" ? 100 : 0)
       end
     else
       super
