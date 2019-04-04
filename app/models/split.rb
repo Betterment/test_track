@@ -33,11 +33,14 @@ class Split < ActiveRecord::Base
   end
 
   scope :with_feature_completeness_for, ->(app_build) do
-    select(column_names)
+    previous_selects = all.arel.projections
+    except(:select)
       .select(
+        previous_selects,
         excluding_incomplete_features_for(app_build)
+          .except(:select)
           .select(1)
-          .from('(select null) as dual') # replace generated `FROM splits` which shadows us with a no-op "table"
+          .tap { |s| s.arel.ast.cores.first.from = nil } # inherit `splits` table from parent scope instead of doubling up
           .exists
           .as('feature_complete')
       )
