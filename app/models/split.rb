@@ -40,7 +40,7 @@ class Split < ActiveRecord::Base
       .select(
         previous_selects,
         Arel::SelectManager.new
-      .where(arel_excluding_incomplete_features_for(app_build).not)
+          .where(arel_excluding_incomplete_features_for(app_build).not)
           .exists
           .as('feature_incomplete')
       )
