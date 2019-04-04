@@ -17,6 +17,8 @@ class Split < ActiveRecord::Base
   validate :registry_weights_must_be_integers
   validate :registry_must_have_winning_variant_if_decided
 
+  enum platform: %i(mobile desktop)
+
   before_validation :cast_registry
 
   scope :for_presentation, ->(app_build: nil) do
@@ -49,14 +51,16 @@ class Split < ActiveRecord::Base
     where(arel_excluding_incomplete_features_for(app_build))
   end
 
-  def self.arel_excluding_incomplete_features_for(app_build)
-    Arel::Nodes::Or.new(
-      arel_table[:feature_gate].eq(false),
-      AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
-    )
-  end
+  class << self
+    private
 
-  enum platform: %i(mobile desktop)
+    def arel_excluding_incomplete_features_for(app_build)
+      Arel::Nodes::Or.new(
+        arel_table[:feature_gate].eq(false),
+        AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+      )
+    end
+  end
 
   def detail
     @detail ||= SplitDetail.new(split: self)
