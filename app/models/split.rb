@@ -130,17 +130,21 @@ class Split < ActiveRecord::Base
   private
 
   def knock_out_weightings(registry_hash, to: "false")
+    target_variant = to.to_s
+    knock_out_hash(registry_hash, to: target_variant) || log_knockout_error(target_variant) && registry_hash
+  end
+
+  def knock_out_hash(registry_hash, to:)
     found_key = false
-    to = to.to_s
     knocked_out_registry = registry_hash.each_with_object({}) do |(k, _), h|
       h[k] = (k.to_s == to ? (found_key = true && 100) : 0)
     end
-    if found_key
-      knocked_out_registry
-    else
-      logger.error "Failed to knock out weightings of split #{name.inspect} because variant #{to.inspect} not found."
-      registry_hash
-    end
+    found_key ? knocked_out_registry : nil
+  end
+
+  def log_knockout_error(to)
+    logger.error "Failed to knock out weightings of split #{name.inspect} because variant #{to.inspect} not found."
+    true
   end
 
   def name_must_be_snake_case
