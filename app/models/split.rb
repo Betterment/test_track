@@ -132,7 +132,7 @@ class Split < ActiveRecord::Base
   def knock_out_weightings(registry_hash, to: "false")
     found_key = false
     knocked_out_registry = registry_hash.each_with_object({}) do |(k, _), h|
-      h[k] = (k.to_s == to ? (found_key = true && 100) : 0)
+      h[k] = (k.to_s == to.to_s ? (found_key = true && 100) : 0)
     end
     if found_key
       knocked_out_registry
