@@ -303,8 +303,25 @@ RSpec.describe Split, type: :model do
       app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.1")
 
       subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+
       expect(subject_with_knockouts).not_to be_feature_incomplete
       expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
+    end
+
+    context "with a feature gate missing a false variant (gasp!)" do
+      subject { FactoryBot.create(:split, registry: { true: 50, not_false: 50 }, feature_gate: true) }
+
+      it "returns the column value and logs an error if feature-incomplete" do
+        fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+        subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+        allow(subject_with_knockouts.logger).to receive(:error).and_call_original
+
+        expect(subject_with_knockouts).to be_feature_incomplete
+        expect(subject_with_knockouts.registry).to eq("true" => 50, "not_false" => 50)
+        expect(subject_with_knockouts.logger).to have_received(:error).with(/variant "false" not found/)
+      end
     end
   end
 

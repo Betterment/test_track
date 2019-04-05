@@ -121,15 +121,26 @@ class Split < ActiveRecord::Base
 
   def registry
     if try(:feature_incomplete?)
-      super.each_with_object({}) do |(k, _), h|
-        h[k] = (k.to_s == "false" ? 100 : 0)
-      end
+      knock_out_weightings(super)
     else
       super
     end
   end
 
   private
+
+  def knock_out_weightings(registry_hash, to: "false")
+    found_key = false
+    knocked_out_registry = registry_hash.each_with_object({}) do |(k, _), h|
+      h[k] = (k.to_s == to ? (found_key = true && 100) : 0)
+    end
+    if found_key
+      knocked_out_registry
+    else
+      logger.error "Failed to knock out weightings of split #{name.inspect} because variant #{to.inspect} not found."
+      registry_hash
+    end
+  end
 
   def name_must_be_snake_case
     errors.add(:name, "must be snake_case: #{name.inspect}") if name_not_underscored?
