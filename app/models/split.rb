@@ -120,7 +120,7 @@ class Split < ActiveRecord::Base
   end
 
   def registry
-    if try(:feature_incomplete?)
+    if try(:feature_incomplete?) # This is a virtual attribute provided by the with_feature_incomplete_knockouts_for scope
       knock_out_weightings(super)
     else
       super
