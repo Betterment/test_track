@@ -19,6 +19,12 @@ RSpec.describe AppFeatureCompletion do
       expect(described_class.joins(:split).satisfied_by(app_build)).to include(fc)
     end
 
+    it "returns a record for an app_build with a greater version" do
+      fc = FactoryBot.create(:app_feature_completion, app: app, split: split, version: "0.9")
+
+      expect(described_class.joins(:split).satisfied_by(app_build)).to include(fc)
+    end
+
     it "doesn't return a record for an app_build with a lower version" do
       fc = FactoryBot.create(:app_feature_completion, app: app, split: split, version: "1.1")
 
