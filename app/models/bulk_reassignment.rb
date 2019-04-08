@@ -38,7 +38,8 @@ class BulkReassignment
         bulk_assignment_id,
         individually_overridden,
         visitor_supersession_id,
-        context
+        context,
+        force
       )
       SELECT
         a.variant,
@@ -48,8 +49,9 @@ class BulkReassignment
         #{connection.quote(now)},
         a.bulk_assignment_id,
         a.individually_overridden,
-        visitor_supersession_id,
-        context
+        a.visitor_supersession_id,
+        a.context,
+        a.force
       FROM assignments a
       WHERE a.id #{assignment_id_clause}
     SQL
@@ -63,7 +65,8 @@ class BulkReassignment
         mixpanel_result = NULL,
         bulk_assignment_id = #{connection.quote(bulk_assignment)},
         visitor_supersession_id = NULL,
-        context = 'bulk_assignment'
+        context = 'bulk_assignment',
+        force = false
       WHERE id #{assignment_id_clause}
     SQL
   end

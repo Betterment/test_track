@@ -229,4 +229,22 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.excluding_incomplete_features_for(app_build)).not_to include(assignment)
     end
   end
+
+  describe "#create_previous_assignment" do
+    it "passes back a true force value" do
+      assignment = FactoryBot.create(:assignment, force: true)
+      previous_assignment = assignment.create_previous_assignment!(Time.zone.now)
+
+      expect(previous_assignment).to be_a PreviousAssignment
+      expect(previous_assignment.force).to eq(true)
+    end
+
+    it "passes back a false force value" do
+      assignment = FactoryBot.create(:assignment, force: false)
+      previous_assignment = assignment.create_previous_assignment!(Time.zone.now)
+
+      expect(previous_assignment).to be_a PreviousAssignment
+      expect(previous_assignment.force).to eq(false)
+    end
+  end
 end
