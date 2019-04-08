@@ -208,4 +208,162 @@ RSpec.describe Split, type: :model do
       expect(described_class.active(as_of: Time.zone.now)).not_to include(split)
     end
   end
+
+  describe ".with_feature_incomplete_knockouts_for" do
+    let(:app) { FactoryBot.create(:app) }
+    let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
+
+    it "respects existing selects" do
+      split = FactoryBot.create(:split, feature_gate: false)
+
+      result = Split.select(:name).with_feature_incomplete_knockouts_for(app_build).find(split.id)
+
+      expect(result).not_to be_feature_incomplete
+      expect(result).to respond_to(:name)
+      expect(result).not_to respond_to(:finished_at)
+    end
+
+    it "isn't feature_incomplete for non-feature gates" do
+      split = FactoryBot.create(:split, feature_gate: false)
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).not_to be_feature_incomplete
+    end
+
+    it "returns readonly records" do
+      split = FactoryBot.create(:split, feature_gate: false)
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).to be_readonly
+    end
+
+    it "isn't feature_incomplete for feature gates with a feature completion" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      FactoryBot.create(:app_feature_completion, app: app, version: "1.0", split: split)
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).not_to be_feature_incomplete
+    end
+
+    it "is feature_incomplete for feature gates with no feature completion" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).to be_feature_incomplete
+    end
+
+    it "is backed by AppFeatureCompletion.satisfied_by" do
+      allow(AppFeatureCompletion).to receive(:satisfied_by).and_call_original
+
+      Split.with_feature_incomplete_knockouts_for(app_build)
+
+      expect(AppFeatureCompletion).to have_received(:satisfied_by).with(app_build)
+    end
+  end
+
+  describe ".excluding_incomplete_features_for" do
+    let(:app) { FactoryBot.create(:app) }
+    let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
+
+    it "includes non-feature gates" do
+      split = FactoryBot.create(:split, feature_gate: false)
+      expect(Split.excluding_incomplete_features_for(app_build)).to include(split)
+    end
+
+    it "includes feature gates with a feature completion" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      FactoryBot.create(:app_feature_completion, app: app, version: "1.0", split: split)
+      expect(Split.excluding_incomplete_features_for(app_build)).to include(split)
+    end
+
+    it "doesn't include feature gates with no feature completion" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      expect(Split.excluding_incomplete_features_for(app_build)).not_to include(split)
+    end
+
+    it "is backed by AppFeatureCompletion.satisfied_by" do
+      allow(AppFeatureCompletion).to receive(:satisfied_by).and_call_original
+
+      Split.excluding_incomplete_features_for(app_build)
+
+      expect(AppFeatureCompletion).to have_received(:satisfied_by).with(app_build)
+    end
+  end
+
+  describe "#registry" do
+    subject { FactoryBot.create(:split, registry: { true: 50, false: 50 }, feature_gate: true) }
+    it "returns the column value if it doesn't respond to feature_incomplete?" do
+      expect(subject).not_to respond_to(:feature_incomplete?)
+      expect(subject.registry).to eq("true" => 50, "false" => 50)
+    end
+
+    it "overrides to 100% false if feature-incomplete" do
+      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+      expect(subject_with_knockouts).to be_feature_incomplete
+      expect(subject_with_knockouts.registry).to eq("true" => 0, "false" => 100)
+    end
+
+    it "returns the column value if it isn't feature-incomplete" do
+      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.1")
+
+      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+
+      expect(subject_with_knockouts).not_to be_feature_incomplete
+      expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
+    end
+
+    context "with a feature gate missing a false variant (gasp!)" do
+      subject { FactoryBot.create(:split, registry: { true: 50, not_false: 50 }, feature_gate: true) }
+
+      it "returns the column value and logs an error if feature-incomplete" do
+        fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+        subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+        allow(subject_with_knockouts.logger).to receive(:error).and_call_original
+
+        expect(subject_with_knockouts).to be_feature_incomplete
+        expect(subject_with_knockouts.registry).to eq("true" => 50, "not_false" => 50)
+        expect(subject_with_knockouts.logger).to have_received(:error).with(/variant "false" not found/)
+      end
+    end
+  end
+
+  describe ".for_presentation" do
+    it "calls active with no args if no app_build is provided" do
+      allow(Split).to receive(:for_app_build).and_call_original
+      allow(Split).to receive(:active).and_call_original
+
+      expect(Split.for_presentation).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:active).with(no_args)
+      expect(Split).not_to have_received(:for_app_build)
+    end
+
+    it "calls for_app_build if app_build is provided" do
+      allow(Split).to receive(:for_app_build).and_call_original
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
+
+      expect(Split.for_presentation(app_build: app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:for_app_build).with(app_build)
+    end
+  end
+
+  describe ".for_app_build" do
+    it "it calls active with built_at" do
+      allow(Split).to receive(:active).and_call_original
+      t = Time.zone.now
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: t, version: "1.0")
+
+      expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:active).with(as_of: t)
+    end
+
+    it "calls with_feature_incomplete_knockouts_for with app_build" do
+      allow(Split).to receive(:with_feature_incomplete_knockouts_for).and_call_original
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
+
+      expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:with_feature_incomplete_knockouts_for).with(app_build)
+    end
+  end
 end

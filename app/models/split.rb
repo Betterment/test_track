@@ -17,13 +17,50 @@ class Split < ActiveRecord::Base
   validate :registry_weights_must_be_integers
   validate :registry_must_have_winning_variant_if_decided
 
+  enum platform: %i(mobile desktop)
+
   before_validation :cast_registry
+
+  scope :for_presentation, ->(app_build: nil) do
+    app_build.present? ? for_app_build(app_build) : active
+  end
+
+  scope :for_app_build, ->(app_build) do
+    active(as_of: app_build.built_at)
+      .with_feature_incomplete_knockouts_for(app_build)
+  end
 
   scope :active, ->(as_of: nil) do
     as_of ? where('splits.finished_at is null or splits.finished_at > ?', as_of) : where(finished_at: nil)
   end
 
-  enum platform: %i(mobile desktop)
+  scope :with_feature_incomplete_knockouts_for, ->(app_build) do
+    previous_selects = all.arel.projections
+    except(:select)
+      .select(
+        previous_selects,
+        Arel::SelectManager.new
+          .where(arel_excluding_incomplete_features_for(app_build).not)
+          .exists
+          .as('feature_incomplete')
+      )
+      .readonly
+  end
+
+  scope :excluding_incomplete_features_for, ->(app_build) do
+    where(arel_excluding_incomplete_features_for(app_build))
+  end
+
+  class << self
+    private
+
+    def arel_excluding_incomplete_features_for(app_build)
+      Arel::Nodes::Or.new(
+        arel_table[:feature_gate].eq(false),
+        AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+      )
+    end
+  end
 
   def detail
     @detail ||= SplitDetail.new(split: self)
@@ -82,7 +119,33 @@ class Split < ActiveRecord::Base
     build_decision(params).tap(&:save!)
   end
 
+  def registry
+    if try(:feature_incomplete?) # This is a virtual attribute provided by the with_feature_incomplete_knockouts_for scope
+      knock_out_weightings(super)
+    else
+      super
+    end
+  end
+
   private
+
+  def knock_out_weightings(registry_hash, to: "false")
+    target_variant = to.to_s
+    knock_out_weightings_if_possible(registry_hash, to: target_variant) || log_knockout_error(target_variant) && registry_hash
+  end
+
+  def knock_out_weightings_if_possible(registry_hash, to:)
+    found_key = false
+    knocked_out_registry = registry_hash.each_with_object({}) do |(k, _), h|
+      h[k] = (k.to_s == to ? (found_key = true && 100) : 0)
+    end
+    found_key ? knocked_out_registry : nil
+  end
+
+  def log_knockout_error(to)
+    logger.error "Failed to knock out weightings of split #{name.inspect} because variant #{to.inspect} not found."
+    true
+  end
 
   def name_must_be_snake_case
     errors.add(:name, "must be snake_case: #{name.inspect}") if name_not_underscored?
