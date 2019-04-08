@@ -34,7 +34,7 @@ class BulkAssignmentCreation
   end
 
   def bulk_assignment
-    @bulk_assignment ||= admin.bulk_assignments.build(reason: reason, split: split, variant: variant)
+    @bulk_assignment ||= admin.bulk_assignments.build(reason: reason, split: split, variant: variant, force: force)
   end
 
   def new_identifier_creation_ratio
@@ -61,6 +61,15 @@ class BulkAssignmentCreation
     @force_identifier_creation = ActiveRecord::Type::Boolean.new.cast(value)
   end
 
+  def force=(value)
+    @force = ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def force
+    instance_variable_defined?(:@force) ? @force : false
+  end
+  alias force? force
+
   private
 
   attr_reader :identifiers_fetched
@@ -72,7 +81,8 @@ class BulkAssignmentCreation
         visitor_id: identifier.visitor_id,
         split_name: split.name,
         variant: variant,
-        bulk_assignment_id: bulk_assignment.id
+        bulk_assignment_id: bulk_assignment.id,
+        force: force
       )
     end
   end
@@ -83,7 +93,10 @@ class BulkAssignmentCreation
 
   def existing_assignments
     ensure_identifiers
-    Assignment.where(visitor_id: existing_visitor_ids, split: split).where.not(variant: variant)
+    Assignment.where(visitor_id: existing_visitor_ids, split: split).where.not(
+      Assignment.arel_table[:variant].eq(variant)
+      .and(Assignment.arel_table[:force].eq(force))
+    )
   end
 
   def unassigned_identifiers

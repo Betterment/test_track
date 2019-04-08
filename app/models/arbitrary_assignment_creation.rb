@@ -1,4 +1,6 @@
 class ArbitraryAssignmentCreation
+  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context
+
   def initialize(params = {})
     @visitor_id = params[:visitor_id]
     @split_name = params[:split_name]
@@ -6,6 +8,7 @@ class ArbitraryAssignmentCreation
     @mixpanel_result = params[:mixpanel_result]
     @bulk_assignment_id = params[:bulk_assignment_id]
     @context = params[:context]
+    @force = params[:force] if params.key?(:force)
   end
 
   def save!
@@ -18,6 +21,10 @@ class ArbitraryAssignmentCreation
 
   def self.create!(params)
     new(params).tap(&:save!)
+  end
+
+  def force
+    instance_variable_defined?(:@force) ? @force : false
   end
 
   private
@@ -78,7 +85,8 @@ class ArbitraryAssignmentCreation
       variant: variant,
       mixpanel_result: mixpanel_result,
       bulk_assignment_id: bulk_assignment_id_for_save,
-      context: context_for_save
+      context: context_for_save,
+      force: force
     }
   end
 
@@ -110,6 +118,4 @@ class ArbitraryAssignmentCreation
       context_for_save
     end
   end
-
-  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context
 end

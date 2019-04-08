@@ -33,5 +33,11 @@
   </div>
   <%= f.input :reason, placeholder: "e.g. Turn FeatureX on" %>
 
+  <div class="sc-m-v--s">
+  <%= f.input :force, as: :boolean, label: 'Alpha tester population? Allows
+  assignees to see known-incomplete or broken versions of this feature on
+  clients in the field.' %>
+  </div>
+
   <%= render "shared/form_footer", f: f, submit_text: "Assign To Split", submit_disable_with_text: "Assigning..." %>
 <% end %>

@@ -35,6 +35,6 @@ class Admin::BulkAssignmentsController < AuthenticatedAdminController
   def create_form_params
     params
       .require(:bulk_assignment_creation)
-      .permit(:identifiers_listing, :identifier_type_id, :variant, :reason, :force_identifier_creation)
+      .permit(:identifiers_listing, :identifier_type_id, :variant, :reason, :force_identifier_creation, :force)
   end
 end

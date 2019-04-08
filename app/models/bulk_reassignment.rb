@@ -57,7 +57,7 @@ class BulkReassignment
     SQL
   end
 
-  def update_assignments
+  def update_assignments # rubocop:disable Metrics/AbcSize
     connection.execute(<<-SQL)
       UPDATE assignments SET
         variant = #{connection.quote(bulk_assignment.variant)},
@@ -66,7 +66,7 @@ class BulkReassignment
         bulk_assignment_id = #{connection.quote(bulk_assignment)},
         visitor_supersession_id = NULL,
         context = 'bulk_assignment',
-        force = false
+        force = #{connection.quote(bulk_assignment.force)}
       WHERE id #{assignment_id_clause}
     SQL
   end
