@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20190409164425) do
     t.uuid "bulk_assignment_id"
     t.uuid "visitor_supersession_id"
     t.string "context"
-    t.boolean "force", default: false
+    t.boolean "force", default: false, null: false
     t.index ["bulk_assignment_id"], name: "index_assignments_on_bulk_assignment_id"
     t.index ["split_id", "visitor_id"], name: "index_assignments_on_split_id_and_visitor_id", unique: true
     t.index ["split_id"], name: "index_assignments_on_split_id"
@@ -81,7 +81,7 @@ ActiveRecord::Schema.define(version: 20190409164425) do
     t.string "variant", null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean "force", default: false
+    t.boolean "force", default: false, null: false
   end
 
   create_table "delayed_jobs", id: :serial, force: :cascade do |t|
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 20190409164425) do
     t.boolean "individually_overridden", default: false, null: false
     t.string "context"
     t.uuid "visitor_supersession_id"
-    t.boolean "force", default: false
+    t.boolean "force", default: false, null: false
     t.index ["assignment_id"], name: "index_previous_assignments_on_assignment_id"
     t.index ["superseded_at"], name: "index_previous_assignments_on_superseded_at"
     t.index ["visitor_supersession_id"], name: "index_previous_assignments_on_visitor_supersession_id"
