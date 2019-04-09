@@ -219,6 +219,15 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.excluding_incomplete_features_for(app_build)).not_to include(assignment)
     end
 
+    it "returns assignments for features completed after the provided version if forced" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app_feature_completion = FactoryBot.create(:app_feature_completion, split: split, version: "1.0.0")
+      app_build = app_feature_completion.app.define_build(built_at: Time.zone.now, version: "0.9.48")
+
+      expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
+    end
+
     it "doesn't return assignments for features completed on a different app" do
       split = FactoryBot.create(:split, feature_gate: true)
       assignment = FactoryBot.create(:assignment, split: split)
@@ -227,6 +236,15 @@ RSpec.describe Assignment, type: :model do
       app_build = other_app.define_build(built_at: Time.zone.now, version: "1.0.0")
 
       expect(described_class.excluding_incomplete_features_for(app_build)).not_to include(assignment)
+    end
+
+    it "returns assignments for features never completed if forced" do
+      split = FactoryBot.create(:split, feature_gate: true)
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app = FactoryBot.create(:app)
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+
+      expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
     end
   end
 

@@ -47,19 +47,11 @@ class Split < ActiveRecord::Base
       .readonly
   end
 
-  scope :excluding_incomplete_features_for, ->(app_build) do
-    where(arel_excluding_incomplete_features_for(app_build))
-  end
-
-  class << self
-    private
-
-    def arel_excluding_incomplete_features_for(app_build)
-      Arel::Nodes::Or.new(
-        arel_table[:feature_gate].eq(false),
-        AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
-      )
-    end
+  def self.arel_excluding_incomplete_features_for(app_build)
+    Arel::Nodes::Or.new(
+      arel_table[:feature_gate].eq(false),
+      AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+    )
   end
 
   def detail
