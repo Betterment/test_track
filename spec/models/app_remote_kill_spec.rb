@@ -77,6 +77,12 @@ RSpec.describe AppRemoteKill do
 
       expect(subject).to be_valid
     end
+
+    it "is valid if it's for a different split" do
+      subject = FactoryBot.build(:app_remote_kill, app: app, split: FactoryBot.create(:split), first_bad_version: "1.1", fixed_version: nil)
+
+      expect(subject).to be_valid
+    end
   end
 
   context "with an existing completed remote kill" do
@@ -160,6 +166,78 @@ RSpec.describe AppRemoteKill do
 
     it "does not conflict with itself" do
       expect(existing_remote_kill).to be_valid
+    end
+  end
+
+  describe ".affecting" do
+    context "with an existing open-ended remote kill" do
+      let(:app) { FactoryBot.create(:app) }
+      let(:split) { FactoryBot.create(:split) }
+      let!(:existing_remote_kill) do
+        FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: nil)
+      end
+
+      it "returns remote_kills starting before app version" do
+        app_build = app.define_build(version: "1.1", built_at: nil)
+
+        expect(described_class.affecting(app_build)).to include(existing_remote_kill)
+      end
+
+      it "returns remote_kills starting on app version" do
+        app_build = app.define_build(version: "1.0", built_at: nil)
+
+        expect(described_class.affecting(app_build)).to include(existing_remote_kill)
+      end
+
+      it "doesn't return remote kills starting after app version" do
+        app_build = app.define_build(version: "0.9", built_at: nil)
+
+        expect(described_class.affecting(app_build)).not_to include(existing_remote_kill)
+      end
+
+      it "doesn't return remote kills for the wrong app" do
+        app_build = FactoryBot.create(:app).define_build(version: "1.1", built_at: nil)
+
+        expect(described_class.affecting(app_build)).not_to include(existing_remote_kill)
+      end
+    end
+
+    context "with an existing completed remote kill" do
+      let(:app) { FactoryBot.create(:app) }
+      let(:split) { FactoryBot.create(:split) }
+      let!(:existing_remote_kill) do
+        FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: "1.2")
+      end
+
+      it "doesn't return remote kills ending before app version" do
+        app_build = app.define_build(version: "1.3", built_at: nil)
+
+        expect(described_class.affecting(app_build)).not_to include(existing_remote_kill)
+      end
+
+      it "doesn't return remote kills fixed on app version" do
+        app_build = app.define_build(version: "1.2", built_at: nil)
+
+        expect(described_class.affecting(app_build)).not_to include(existing_remote_kill)
+      end
+
+      it "returns remote_kills starting before app version and fixed after app_version" do
+        app_build = app.define_build(version: "1.1", built_at: nil)
+
+        expect(described_class.affecting(app_build)).to include(existing_remote_kill)
+      end
+
+      it "returns remote_kills starting on app version" do
+        app_build = app.define_build(version: "1.0", built_at: nil)
+
+        expect(described_class.affecting(app_build)).to include(existing_remote_kill)
+      end
+
+      it "doesn't return remote_kills starting after app version" do
+        app_build = app.define_build(version: "0.9", built_at: nil)
+
+        expect(described_class.affecting(app_build)).not_to include(existing_remote_kill)
+      end
     end
   end
 end

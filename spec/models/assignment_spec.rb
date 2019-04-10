@@ -12,7 +12,7 @@ RSpec.describe Assignment, type: :model do
     it "ensures validity of variant" do
       subject.variant = :not_really_a_variant
       expect(subject).not_to be_valid
-      expect(subject.errors).to be_added(:variant, "must be specified in split's current variations")
+      expect(subject.errors).to be_added(:variant, "must be specified in split's current variants")
     end
   end
 

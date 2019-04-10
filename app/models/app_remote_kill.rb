@@ -12,19 +12,11 @@ class AppRemoteKill < ActiveRecord::Base
   validate :fixed_version_must_be_greater_than_first_bad_version
   validate :must_not_overlap_existing
 
-  # This scope requires you to BYO `splits` FROM clause either via join or an
-  # outer scope, if using this as a subselect.
   scope :affecting, ->(app_build) do
     where(
-      arel_table[:split_id].eq(Split.arel_table[:id])
-      .and(arel_table[:app_id].eq(app_build.app_id))
+      arel_table[:app_id].eq(app_build.app_id)
       .and(arel_table[:first_bad_version].lteq(app_build.version))
-      .and(
-        Arel::Nodes::Or.new(
-          arel_table[:fixed_version].eq(nil),
-          arel_table[:fixed_version].gt(app_build.version)
-        )
-      )
+      .and(arel_fixed_version_is_null_or_greater_than(app_build.version))
     )
   end
 
@@ -37,15 +29,17 @@ class AppRemoteKill < ActiveRecord::Base
         else
           arel_table[:first_bad_version].lt(other.fixed_version)
         end
-        .and(
-          Arel::Nodes::Grouping.new(
-            Arel::Nodes::Or.new(
-              arel_table[:fixed_version].eq(nil),
-              arel_table[:fixed_version].gt(other.first_bad_version)
-            )
-          )
-        )
+        .and(arel_fixed_version_is_null_or_greater_than(other.first_bad_version))
       )
+  end
+
+  def self.arel_fixed_version_is_null_or_greater_than(version)
+    Arel::Nodes::Grouping.new(
+      Arel::Nodes::Or.new(
+        arel_table[:fixed_version].eq(nil),
+        arel_table[:fixed_version].gt(version)
+      )
+    )
   end
 
   def override_to_must_exist

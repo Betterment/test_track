@@ -48,9 +48,21 @@ class Split < ActiveRecord::Base
   end
 
   def self.arel_excluding_incomplete_features_for(app_build)
-    Arel::Nodes::Or.new(
-      arel_table[:feature_gate].eq(false),
-      AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+    Arel::Nodes::Grouping.new(
+      Arel::Nodes::Or.new(
+        arel_table[:feature_gate].eq(false),
+        AppFeatureCompletion.select(1).satisfied_by(app_build).arel
+        .where(AppFeatureCompletion.arel_table[:split_id].eq(arel_table[:id]))
+        .exists
+      )
+    )
+  end
+
+  scope :excluding_remote_kills_for, ->(app_build) do
+    where(
+      AppRemoteKill.select(1).affecting(app_build).arel
+      .where(AppRemoteKill.arel_table[:split_id].eq(arel_table[:id]))
+      .exists.not
     )
   end
 

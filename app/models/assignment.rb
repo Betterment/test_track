@@ -37,9 +37,11 @@ class Assignment < ActiveRecord::Base
 
   scope :excluding_incomplete_features_for, ->(app_build) do
     joins(:split).where(
-      Arel::Nodes::Or.new(
-        arel_table[:force].eq(true),
-        Split.arel_excluding_incomplete_features_for(app_build)
+      Arel::Nodes::Grouping.new(
+        Arel::Nodes::Or.new(
+          arel_table[:force].eq(true),
+          Split.arel_excluding_incomplete_features_for(app_build)
+        )
       )
     )
   end
@@ -81,6 +83,6 @@ class Assignment < ActiveRecord::Base
   def variant_must_exist
     return unless split
 
-    errors.add(:variant, "must be specified in split's current variations") unless split.has_variant?(variant)
+    errors.add(:variant, "must be specified in split's current variants") unless split.has_variant?(variant)
   end
 end
