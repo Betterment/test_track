@@ -113,17 +113,19 @@ RSpec.describe Assignment, type: :model do
   end
 
   describe ".for_app_build" do
-    it "combines for_active_splits and excluding_incomplete_features_for, forwarding args from app_build" do
+    it "combines for_active_splits, excluding_incomplete_features_for, and excluding_remote_kills_for" do
       app = FactoryBot.build_stubbed(:app)
       t = Time.zone.now
       app_build = app.define_build(built_at: t, version: "1.0.0")
       allow(described_class).to receive(:for_active_splits).and_call_original
       allow(described_class).to receive(:excluding_incomplete_features_for).and_call_original
+      allow(described_class).to receive(:excluding_remote_kills_for).and_call_original
 
       described_class.for_app_build(app_build)
 
       expect(described_class).to have_received(:for_active_splits).with(as_of: t)
       expect(described_class).to have_received(:excluding_incomplete_features_for).with(app_build)
+      expect(described_class).to have_received(:excluding_remote_kills_for).with(app_build)
     end
   end
 
@@ -245,6 +247,47 @@ RSpec.describe Assignment, type: :model do
       app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
 
       expect(described_class.excluding_incomplete_features_for(app_build)).to include(assignment)
+    end
+  end
+
+  describe ".excluding_remote_kills_for" do
+    it "returns assignments for which no remote kill exists" do
+      split = FactoryBot.create(:split)
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app = FactoryBot.create(:app)
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+
+      expect(described_class.excluding_remote_kills_for(app_build)).to include(assignment)
+    end
+
+    it "returns assignments for non-overlapping remote kills" do
+      split = FactoryBot.create(:split)
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app = FactoryBot.create(:app)
+      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "1.1", fixed_version: "1.2")
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+
+      expect(described_class.excluding_remote_kills_for(app_build)).to include(assignment)
+    end
+
+    it "doesn't return assignments for overlapping remote kills" do
+      split = FactoryBot.create(:split)
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app = FactoryBot.create(:app)
+      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.9", fixed_version: "1.2")
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+
+      expect(described_class.excluding_remote_kills_for(app_build)).not_to include(assignment)
+    end
+
+    it "is backed by Split.excluding_remote_kills_for" do
+      app = FactoryBot.create(:app)
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+      allow(Split).to receive(:excluding_remote_kills_for).and_call_original
+
+      described_class.excluding_remote_kills_for(app_build)
+
+      expect(Split).to have_received(:excluding_remote_kills_for).with(app_build)
     end
   end
 

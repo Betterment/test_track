@@ -25,6 +25,7 @@ class Assignment < ActiveRecord::Base
   scope :for_app_build, ->(app_build) do
     for_active_splits(as_of: app_build.built_at)
       .excluding_incomplete_features_for(app_build)
+      .excluding_remote_kills_for(app_build)
   end
 
   scope :excluding_decision_overrides, -> do
@@ -44,6 +45,10 @@ class Assignment < ActiveRecord::Base
         )
       )
     )
+  end
+
+  scope :excluding_remote_kills_for, ->(app_build) do
+    joins(:split).merge(Split.excluding_remote_kills_for(app_build))
   end
 
   def variant_detail
