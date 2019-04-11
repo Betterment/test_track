@@ -330,13 +330,13 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe ".excluding_remote_kills_for" do
+  describe ".arel_excluding_remote_kills_for" do
     let(:app) { FactoryBot.create(:app) }
     let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
 
     it "includes a split with no remote kill" do
       split = FactoryBot.create(:split)
-      expect(Split.excluding_remote_kills_for(app_build)).to include(split)
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
     end
 
     it "includes a split when there's a remote kill for another split" do
@@ -344,27 +344,27 @@ RSpec.describe Split, type: :model do
       other_split = FactoryBot.create(:split)
       FactoryBot.create(:app_remote_kill, split: other_split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
 
-      expect(Split.excluding_remote_kills_for(app_build)).to include(split)
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
     end
 
     it "includes a split with a remote kill not conflicting with version" do
       split = FactoryBot.create(:split)
       FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "2.0", fixed_version: "2.1")
 
-      expect(Split.excluding_remote_kills_for(app_build)).to include(split)
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
     end
 
     it "doesn't include a split with a remote kill spanning version" do
       split = FactoryBot.create(:split)
       FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
 
-      expect(Split.excluding_remote_kills_for(app_build)).not_to include(split)
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).not_to include(split)
     end
 
     it "is backed by AppRemoteKill.affecting" do
       allow(AppRemoteKill).to receive(:affecting).and_call_original
 
-      Split.excluding_remote_kills_for(app_build)
+      Split.arel_excluding_remote_kills_for(app_build)
 
       expect(AppRemoteKill).to have_received(:affecting).with(app_build)
     end

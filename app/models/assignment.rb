@@ -48,7 +48,14 @@ class Assignment < ActiveRecord::Base
   end
 
   scope :excluding_remote_kills_for, ->(app_build) do
-    joins(:split).merge(Split.excluding_remote_kills_for(app_build))
+    joins(:split).where(
+      Arel::Nodes::Grouping.new(
+        Arel::Nodes::Or.new(
+          arel_table[:force].eq(true),
+          Split.arel_excluding_remote_kills_for(app_build)
+        )
+      )
+    )
   end
 
   def variant_detail

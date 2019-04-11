@@ -71,12 +71,10 @@ class Split < ActiveRecord::Base
       .readonly
   end
 
-  scope :excluding_remote_kills_for, ->(app_build) do
-    where(
-      AppRemoteKill.select(1).affecting(app_build).arel
+  def self.arel_excluding_remote_kills_for(app_build)
+    AppRemoteKill.select(1).affecting(app_build).arel
       .where(AppRemoteKill.arel_table[:split_id].eq(arel_table[:id]))
       .exists.not
-    )
   end
 
   def detail
