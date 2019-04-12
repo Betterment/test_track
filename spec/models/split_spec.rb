@@ -361,12 +361,21 @@ RSpec.describe Split, type: :model do
       expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).not_to include(split)
     end
 
-    it "is backed by AppRemoteKill.affecting" do
+    it "is backed by AppRemoteKill.affecting with default override args" do
       allow(AppRemoteKill).to receive(:affecting).and_call_original
 
       Split.arel_excluding_remote_kills_for(app_build)
 
-      expect(AppRemoteKill).to have_received(:affecting).with(app_build)
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: false, overridden_at: nil)
+    end
+
+    it "is backed by AppRemoteKill.affecting with explicit override args" do
+      allow(AppRemoteKill).to receive(:affecting).and_call_original
+      t = Time.zone.now
+
+      Split.arel_excluding_remote_kills_for(app_build, override: true, overridden_at: t)
+
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: true, overridden_at: t)
     end
   end
 
@@ -494,7 +503,7 @@ RSpec.describe Split, type: :model do
       expect(Split).to have_received(:with_feature_incomplete_knockouts_for).with(app_build)
     end
 
-    it "calls with_remote_kill_knockouts_for with app_build" do
+    it "calls with_remote_kill_knockouts_for with app_build and default override args" do
       allow(Split).to receive(:with_remote_kill_knockouts_for).and_call_original
       app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
 

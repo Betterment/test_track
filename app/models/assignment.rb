@@ -39,22 +39,15 @@ class Assignment < ActiveRecord::Base
   scope :excluding_incomplete_features_for, ->(app_build) do
     joins(:split).where(
       Arel::Nodes::Grouping.new(
-        Arel::Nodes::Or.new(
-          arel_table[:force].eq(true),
-          Split.arel_excluding_incomplete_features_for(app_build)
-        )
+        arel_table[:force].eq(true)
+        .or(Split.arel_excluding_incomplete_features_for(app_build))
       )
     )
   end
 
   scope :excluding_remote_kills_for, ->(app_build) do
     joins(:split).where(
-      Arel::Nodes::Grouping.new(
-        Arel::Nodes::Or.new(
-          arel_table[:force].eq(true),
-          Split.arel_excluding_remote_kills_for(app_build)
-        )
-      )
+      Split.arel_excluding_remote_kills_for(app_build, override: arel_table[:force], overridden_at: arel_table[:updated_at])
     )
   end
 

@@ -280,14 +280,24 @@ RSpec.describe Assignment, type: :model do
       expect(described_class.excluding_remote_kills_for(app_build)).not_to include(assignment)
     end
 
-    it "returns assignments for overlapping remote kills when forced" do
+    it "returns assignments for overlapping older remote kills when forced" do
+      split = FactoryBot.create(:split)
+      app = FactoryBot.create(:app)
+      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.9", fixed_version: "1.2")
+      assignment = FactoryBot.create(:assignment, split: split, force: true)
+      app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
+
+      expect(described_class.excluding_remote_kills_for(app_build)).to include(assignment)
+    end
+
+    it "doesn't return forced assignments older than a remote kill" do
       split = FactoryBot.create(:split)
       assignment = FactoryBot.create(:assignment, split: split, force: true)
       app = FactoryBot.create(:app)
       FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.9", fixed_version: "1.2")
       app_build = app.define_build(built_at: Time.zone.now, version: "1.0.0")
 
-      expect(described_class.excluding_remote_kills_for(app_build)).to include(assignment)
+      expect(described_class.excluding_remote_kills_for(app_build)).not_to include(assignment)
     end
 
     it "is backed by Split.arel_excluding_remote_kills_for" do
@@ -297,7 +307,7 @@ RSpec.describe Assignment, type: :model do
 
       described_class.excluding_remote_kills_for(app_build)
 
-      expect(Split).to have_received(:arel_excluding_remote_kills_for).with(app_build)
+      expect(Split).to have_received(:arel_excluding_remote_kills_for).with(app_build, any_args)
     end
   end
 
