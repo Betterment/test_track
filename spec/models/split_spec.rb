@@ -503,7 +503,7 @@ RSpec.describe Split, type: :model do
       expect(Split).to have_received(:with_feature_incomplete_knockouts_for).with(app_build)
     end
 
-    it "calls with_remote_kill_knockouts_for with app_build and default override args" do
+    it "calls with_remote_kill_knockouts_for with app_build" do
       allow(Split).to receive(:with_remote_kill_knockouts_for).and_call_original
       app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
 
