@@ -50,8 +50,8 @@ class Split < ActiveRecord::Base
 
   def self.arel_excluding_incomplete_features_for(app_build)
     Arel::Nodes::Grouping.new(
-      Arel::Nodes::Or.new(
-        arel_table[:feature_gate].eq(false),
+      arel_table[:feature_gate].eq(false)
+      .or(
         AppFeatureCompletion.select(1).satisfied_by(app_build).arel
         .where(AppFeatureCompletion.arel_table[:split_id].eq(arel_table[:id]))
         .exists
