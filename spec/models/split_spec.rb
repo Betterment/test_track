@@ -253,30 +253,30 @@ RSpec.describe Split, type: :model do
     end
   end
 
-  describe ".excluding_incomplete_features_for" do
+  describe ".arel_excluding_incomplete_features_for" do
     let(:app) { FactoryBot.create(:app) }
     let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
 
     it "includes non-feature gates" do
       split = FactoryBot.create(:split, feature_gate: false)
-      expect(Split.excluding_incomplete_features_for(app_build)).to include(split)
+      expect(Split.where(Split.arel_excluding_incomplete_features_for(app_build))).to include(split)
     end
 
     it "includes feature gates with a feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
       FactoryBot.create(:app_feature_completion, app: app, version: "1.0", split: split)
-      expect(Split.excluding_incomplete_features_for(app_build)).to include(split)
+      expect(Split.where(Split.arel_excluding_incomplete_features_for(app_build))).to include(split)
     end
 
     it "doesn't include feature gates with no feature completion" do
       split = FactoryBot.create(:split, feature_gate: true)
-      expect(Split.excluding_incomplete_features_for(app_build)).not_to include(split)
+      expect(Split.where(Split.arel_excluding_incomplete_features_for(app_build))).not_to include(split)
     end
 
     it "is backed by AppFeatureCompletion.satisfied_by" do
       allow(AppFeatureCompletion).to receive(:satisfied_by).and_call_original
 
-      Split.excluding_incomplete_features_for(app_build)
+      Split.where(Split.arel_excluding_incomplete_features_for(app_build))
 
       expect(AppFeatureCompletion).to have_received(:satisfied_by).with(app_build)
     end
