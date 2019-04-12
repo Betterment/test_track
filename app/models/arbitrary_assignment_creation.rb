@@ -1,15 +1,25 @@
 class ArbitraryAssignmentCreation
-  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context
+  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context, :force
 
-  def initialize(params = {})
-    @visitor_id = params[:visitor_id]
-    @split_name = params[:split_name]
-    @variant = params[:variant]
-    @mixpanel_result = params[:mixpanel_result]
-    @bulk_assignment_id = params[:bulk_assignment_id]
-    @context = params[:context]
-    @force = params[:force] if params.key?(:force)
+  # rubocop:disable Metrics/ParameterLists
+  def initialize(
+    visitor_id: nil,
+    split_name: nil,
+    variant: nil,
+    mixpanel_result: nil,
+    bulk_assignment_id: nil,
+    context: nil,
+    force: false
+  )
+    @visitor_id = visitor_id
+    @split_name = split_name
+    @variant = variant
+    @mixpanel_result = mixpanel_result
+    @bulk_assignment_id = bulk_assignment_id
+    @context = context
+    @force = force
   end
+  # rubocop:enable Metrics/ParameterLists
 
   def save!
     if superseding?
@@ -20,11 +30,7 @@ class ArbitraryAssignmentCreation
   end
 
   def self.create!(params)
-    new(params).tap(&:save!)
-  end
-
-  def force
-    instance_variable_defined?(:@force) ? @force : false
+    new(params.to_h.symbolize_keys).tap(&:save!)
   end
 
   private
