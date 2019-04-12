@@ -2,7 +2,7 @@ class Api::V1::AssignmentOverridesController < SharedSecretAuthenticatedApiContr
   include CorsSupport
 
   def create
-    ArbitraryAssignmentCreation.create! create_params
+    ArbitraryAssignmentCreation.create! create_params.merge(force: true)
     head :no_content
   end
 

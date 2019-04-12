@@ -174,11 +174,61 @@ RSpec.describe BulkAssignmentCreation do
       expect(previous_assignments.find_by(variant: "yes").bulk_assignment).to be_nil
     end
 
-    it "assigns the specified population to the same variant" do
+    it "assigns the specified population to the same variant and force value" do
       bulk_assign_create = subject.tap(&:save)
 
       expect(bulk_assign_create.variant).to eq "no"
       expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
+      expect(bulk_assign_create.force).to eq false
+      expect(Assignment.all.map(&:force).uniq).to match_array [false]
+    end
+
+    describe "with force true" do
+      let(:create_params) do
+        {
+          identifiers_listing: ids_csv,
+          identifier_type_id: identifier_type.id,
+          variant: "no",
+          reason: "because i felt like it",
+          split: split,
+          admin: admin,
+          force_identifier_creation: '1',
+          force: true
+        }
+      end
+
+      it "assigns the specified population to the same variant and force value" do
+        bulk_assign_create = subject.tap(&:save)
+
+        expect(bulk_assign_create.variant).to eq "no"
+        expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
+        expect(bulk_assign_create.force).to eq true
+        expect(Assignment.all.map(&:force).uniq).to match_array [true]
+      end
+    end
+
+    describe "with force true and variant unchanged" do
+      let(:create_params) do
+        {
+          identifiers_listing: ids_csv,
+          identifier_type_id: identifier_type.id,
+          variant: "yes",
+          reason: "because i felt like it",
+          split: split,
+          admin: admin,
+          force_identifier_creation: '1',
+          force: true
+        }
+      end
+
+      it "assigns the specified population to the same variant and force value" do
+        bulk_assign_create = subject.tap(&:save)
+
+        expect(bulk_assign_create.variant).to eq "yes"
+        expect(Assignment.all.map(&:variant).uniq).to match_array ["yes"]
+        expect(bulk_assign_create.force).to eq true
+        expect(Assignment.all.map(&:force).uniq).to match_array [true]
+      end
     end
 
     it "creates new Visitors and Identifiers for unidentified ids" do

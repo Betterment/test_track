@@ -14,7 +14,8 @@ RSpec.describe BulkReassignment do
       visitor_supersession: visitor_supersession,
       bulk_assignment: old_bulk_assignment,
       created_at: 7.minutes.ago,
-      updated_at: 7.minutes.ago
+      updated_at: 7.minutes.ago,
+      force: true
     }
   end
   let!(:assignments) { FactoryBot.create_list(:assignment, 2, assignment_attrs) }
@@ -94,6 +95,10 @@ RSpec.describe BulkReassignment do
       expect(assignment.previous_assignments.length).to eq 1
     end
 
+    it "toggles force to false" do
+      expect(assignment.force).to eq(false)
+    end
+
     context "within the created previous_assignment record" do
       let(:previous_assignment) { assignment.previous_assignments.first }
 
@@ -123,6 +128,10 @@ RSpec.describe BulkReassignment do
 
       it "preserves old visitor_supersession_id" do
         expect(previous_assignment.visitor_supersession_id).to eq visitor_supersession.id
+      end
+
+      it "preserves old force" do
+        expect(previous_assignment.force).to eq(true)
       end
     end
   end

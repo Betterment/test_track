@@ -68,7 +68,8 @@ class Assignment < ActiveRecord::Base
       bulk_assignment_id: bulk_assignment_id,
       individually_overridden: individually_overridden,
       visitor_supersession_id: visitor_supersession_id,
-      context: context
+      context: context,
+      force: force
     }
   end
 
