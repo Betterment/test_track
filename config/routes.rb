@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
       namespace :migrations do
         resource :app_feature_completion
+        resource :app_remote_kill
       end
     end
   end
