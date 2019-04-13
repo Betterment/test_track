@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190413110639) do
+ActiveRecord::Schema.define(version: 20190413210327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20190413110639) do
     t.index ["feature_gate_id"], name: "index_app_feature_completions_on_feature_gate_id"
   end
 
-  create_table "app_remote_kills", force: :cascade do |t|
+  create_table "app_remote_kills", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid "app_id", null: false
     t.uuid "split_id", null: false
     t.string "reason", null: false
