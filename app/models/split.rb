@@ -53,7 +53,7 @@ class Split < ActiveRecord::Base
       arel_table[:feature_gate].eq(false)
       .or(
         AppFeatureCompletion.select(1).satisfied_by(app_build).arel
-        .where(AppFeatureCompletion.arel_table[:split_id].eq(arel_table[:id]))
+        .where(AppFeatureCompletion.arel_table[:feature_gate_id].eq(arel_table[:id]))
         .exists
       )
     )
