@@ -36,6 +36,10 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resource :split_registry, only: :show
+
+      namespace :migrations do
+        resource :app_feature_completion
+      end
     end
   end
 
