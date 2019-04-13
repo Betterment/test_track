@@ -33,11 +33,22 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
       expect(feature_completion.version).to eq(AppVersion.new("1.0"))
     end
 
-    it "destroys feature completions with null version" do
+    it "destroys feature completions with null version via JSON request" do
       FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
 
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: { feature_gate: feature_gate.name, version: nil }, as: :json
+
+      expect(response).to have_http_status(:no_content)
+
+      expect(app.feature_completions).to be_empty
+    end
+
+    it "destroys feature completions with null version via URLENCODED request" do
+      FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
+
+      http_authenticate username: app.name, auth_secret: app.auth_secret
+      post :create, params: { feature_gate: feature_gate.name, version: nil }
 
       expect(response).to have_http_status(:no_content)
 

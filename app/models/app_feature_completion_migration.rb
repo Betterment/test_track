@@ -14,32 +14,34 @@ class AppFeatureCompletionMigration
   end
 
   def valid?
-    if version_before_type_cast
-      app_feature_completion.valid?
-    else
+    if destroy?
       super
+    else
+      app_feature_completion.valid?
     end
   end
 
   def errors
-    if version_before_type_cast
-      app_feature_completion.errors
-    else
+    if destroy?
       super
+    else
+      app_feature_completion.errors
     end
   end
 
   def save
-    if version_before_type_cast
-      app_feature_completion.save
+    if destroy?
+      valid? && app_feature_completion.destroy.destroyed?
     else
-      if valid? && app_feature_completion.persisted?
-        app_feature_completion.destroy.destroyed?
-      else
-        false
-      end
+      app_feature_completion.save
     end
   end
+
+  def destroy?
+    version_before_type_cast.blank?
+  end
+
+  private
 
   def app_feature_completion
     @app_feature_completion ||= app.feature_completions.find_or_initialize_by(feature_gate: feature_gate_model)
@@ -48,8 +50,6 @@ class AppFeatureCompletionMigration
   def feature_gate_model
     Split.find_by(name: feature_gate)
   end
-
-  private
 
   def feature_gate_must_exist
     errors.add(:feature_gate, "must exist") unless feature_gate_model
