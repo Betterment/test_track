@@ -6,7 +6,9 @@ class AppRemoteKill < ActiveRecord::Base
   attribute :fixed_version, :app_version
 
   validates :app, :split, :reason, :override_to, :first_bad_version, presence: true
-  validates :reason, uniqueness: { scope: %i(app split) }
+  validates :reason,
+    uniqueness: { scope: %i(app split) },
+    format: { with: /\A[a-z\d_]*\z/, message: "must be alphanumeric snake_case" }
 
   validate :override_to_must_exist
   validate :fixed_version_must_be_greater_than_first_bad_version
