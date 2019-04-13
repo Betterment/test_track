@@ -1,14 +1,10 @@
 class Api::V2::Migrations::AppFeatureCompletionsController < AuthenticatedApiController
   def create
-    feature_gate = Split.find_by(name: create_params[:feature_gate])
-    feature_completion = current_app.feature_completions.find_or_initialize_by(
-      feature_gate: feature_gate,
-      version: AppVersion.new(create_params[:version])
-    )
-    if feature_completion.save
+    feature_completion_migration = AppFeatureCompletionMigration.new(create_params.merge(app: current_app))
+    if feature_completion_migration.save
       head :no_content
     else
-      render_errors feature_completion
+      render_errors feature_completion_migration
     end
   end
 
