@@ -94,20 +94,6 @@ RSpec.describe AppRemoteKillMigration do
     expect(subject.save).to eq false
   end
 
-  it "is invalid with a nonexistant override_to" do
-    subject = described_class.new(
-      app: app,
-      split: feature_gate.name,
-      reason: "my_giant_bug_2019",
-      override_to: "not_it",
-      first_bad_version: "1.0",
-      fixed_version: nil
-    )
-
-    expect(subject).to have(1).error_on(:override_to)
-    expect(subject.save).to eq false
-  end
-
   it "blows up with no app" do
     expect {
       described_class.new(

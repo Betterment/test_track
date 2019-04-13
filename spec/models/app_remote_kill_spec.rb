@@ -10,12 +10,6 @@ RSpec.describe AppRemoteKill do
     expect(subject).to have(1).error_on(:reason)
   end
 
-  it "is invalid with an invalid variant" do
-    subject = FactoryBot.build(:app_remote_kill, override_to: :nonexistant)
-
-    expect(subject).to have(1).error_on(:override_to)
-  end
-
   it "is valid with nil fixed_version" do
     subject = FactoryBot.build(:app_remote_kill, first_bad_version: "1.0", fixed_version: nil)
 
