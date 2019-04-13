@@ -41,7 +41,22 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
 
       expect(response).to have_http_status(:no_content)
 
-      expect(app.feature_completions).to be_empty
+      expect(app.feature_completions.reload).to be_empty
+    end
+
+    it "destroys idempotently" do
+      FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
+
+      http_authenticate username: app.name, auth_secret: app.auth_secret
+      post :create, params: { feature_gate: feature_gate.name, version: nil }, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(app.feature_completions.reload).to be_empty
+
+      post :create, params: { feature_gate: feature_gate.name, version: nil }, as: :json
+
+      expect(response).to have_http_status(:no_content)
+      expect(app.feature_completions.reload).to be_empty
     end
 
     it "destroys feature completions with null version via URLENCODED request" do
