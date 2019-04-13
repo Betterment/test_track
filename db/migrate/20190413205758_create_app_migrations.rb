@@ -5,6 +5,6 @@ class CreateAppMigrations < ActiveRecord::Migration[5.1]
       t.string :version, null: false, unique: true
     end
 
-    add_index :app_migrations, :version, unique: true
+    add_index :app_migrations, [:app_id, :version], unique: true
   end
 end

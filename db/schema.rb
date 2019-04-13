@@ -51,8 +51,8 @@ ActiveRecord::Schema.define(version: 20190413210327) do
   create_table "app_migrations", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid "app_id"
     t.string "version", null: false
+    t.index ["app_id", "version"], name: "index_app_migrations_on_app_id_and_version", unique: true
     t.index ["app_id"], name: "index_app_migrations_on_app_id"
-    t.index ["version"], name: "index_app_migrations_on_version", unique: true
   end
 
   create_table "app_remote_kills", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
