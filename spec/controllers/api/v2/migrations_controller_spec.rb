@@ -38,6 +38,33 @@ RSpec.describe Api::V2::MigrationsController do
     end
   end
 
+  describe "#destroy" do
+    it "deletes with a well-formed request" do
+      app.migrations.create!(version: "123")
+
+      http_authenticate username: app.name, auth_secret: app.auth_secret
+      delete :destroy, params: { id: "123" }
+
+      expect(response).to have_http_status(:no_content)
+      expect(app.migrations.where(version: "123")).not_to be_present
+    end
+
+    it "is idempotent" do
+      app.migrations.create!(version: "123")
+
+      http_authenticate username: app.name, auth_secret: app.auth_secret
+      delete :destroy, params: { id: "123" }
+
+      expect(response).to have_http_status(:no_content)
+      expect(app.migrations.where(version: "123")).not_to be_present
+
+      delete :destroy, params: { id: "123" }
+
+      expect(response).to have_http_status(:no_content)
+      expect(app.migrations.where(version: "123")).not_to be_present
+    end
+  end
+
   describe "#index" do
     it "returns all of an apps migration versions and no others" do
       app.migrations.create!(version: "123")

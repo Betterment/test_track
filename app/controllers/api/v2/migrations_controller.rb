@@ -8,6 +8,15 @@ class Api::V2::MigrationsController < AuthenticatedApiController
     end
   end
 
+  def destroy
+    app_migration = current_app.migrations.find_or_initialize_by(version: params[:id])
+    if app_migration.valid? && app_migration.destroy.destroyed?
+      head :no_content
+    else
+      render_errors app_migration
+    end
+  end
+
   def index
     @app_migrations = current_app.migrations.order(:version)
   end
