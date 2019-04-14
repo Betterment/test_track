@@ -50,6 +50,54 @@ RSpec.describe AppRemoteKillMigration do
     expect(remote_kill.fixed_version).to eq(AppVersion.new("1.0"))
   end
 
+  it "destroys remote kills with null first_bad_version" do
+    FactoryBot.create(
+      :app_remote_kill,
+      app: app,
+      split: feature_gate,
+      reason: "my_giant_bug_2019",
+      override_to: "false",
+      first_bad_version: "0.9",
+      fixed_version: nil
+    )
+    subject = described_class.new(
+      app: app,
+      split: feature_gate.name,
+      reason: "my_giant_bug_2019",
+      override_to: "false",
+      first_bad_version: nil,
+      fixed_version: nil
+    )
+
+    expect(subject.save).to eq true
+
+    expect(app.remote_kills).to be_empty
+  end
+
+  it "destroys remote kills with empty string first_bad_version" do
+    FactoryBot.create(
+      :app_remote_kill,
+      app: app,
+      split: feature_gate,
+      reason: "my_giant_bug_2019",
+      override_to: "false",
+      first_bad_version: "0.9",
+      fixed_version: nil
+    )
+    subject = described_class.new(
+      app: app,
+      split: feature_gate.name,
+      reason: "my_giant_bug_2019",
+      override_to: "false",
+      first_bad_version: "",
+      fixed_version: nil
+    )
+
+    expect(subject.save).to eq true
+
+    expect(app.remote_kills).to be_empty
+  end
+
   it "nullifies fixed_version with an empty string for URLEncoded compatibility" do
     subject = described_class.new(
       app: app,
@@ -80,6 +128,20 @@ RSpec.describe AppRemoteKillMigration do
     expect(subject.save).to eq false
   end
 
+  it "is invalid with no split on delete" do
+    subject = described_class.new(
+      app: app,
+      split: "nonexistant_split",
+      reason: "my_giant_bug_2019",
+      override_to: "false",
+      first_bad_version: nil,
+      fixed_version: nil
+    )
+
+    expect(subject).to have(1).error_on(:split)
+    expect(subject.save).to eq false
+  end
+
   it "is invalid with no reason" do
     subject = described_class.new(
       app: app,
@@ -87,6 +149,20 @@ RSpec.describe AppRemoteKillMigration do
       reason: "",
       override_to: "false",
       first_bad_version: "1.0",
+      fixed_version: nil
+    )
+
+    expect(subject).to have(1).error_on(:reason)
+    expect(subject.save).to eq false
+  end
+
+  it "is invalid with no reason on delete" do
+    subject = described_class.new(
+      app: app,
+      split: feature_gate.name,
+      reason: "",
+      override_to: "false",
+      first_bad_version: nil,
       fixed_version: nil
     )
 

@@ -3,25 +3,55 @@ class AppRemoteKillMigration
 
   attr_reader :app,
     :split,
-    :reason
+    :reason,
+    :first_bad_version_before_type_cast
+
+  validate :split_must_exist
+  validates :reason, presence: true
 
   delegate :override_to,
     :first_bad_version,
     :fixed_version,
-    :save,
-    :valid?,
-    :errors,
     to: :app_remote_kill
 
   def initialize(params)
     @app = params[:app] || raise("Must provide app")
     @split = params[:split]
     @reason = params[:reason]
+    @first_bad_version_before_type_cast = params[:first_bad_version]
     app_remote_kill.assign_attributes(
       override_to: params[:override_to],
       first_bad_version: params[:first_bad_version],
       fixed_version: params[:fixed_version]
     )
+  end
+
+  def valid?
+    if destroy?
+      super
+    else
+      app_remote_kill.valid?
+    end
+  end
+
+  def errors
+    if destroy?
+      super
+    else
+      app_remote_kill.errors
+    end
+  end
+
+  def save
+    if destroy?
+      valid? && app_remote_kill.destroy.destroyed?
+    else
+      app_remote_kill.save
+    end
+  end
+
+  def destroy?
+    first_bad_version_before_type_cast.blank?
   end
 
   private
@@ -32,5 +62,9 @@ class AppRemoteKillMigration
 
   def split_model
     Split.find_by(name: split)
+  end
+
+  def split_must_exist
+    errors.add(:split, "must exist") unless split_model
   end
 end
