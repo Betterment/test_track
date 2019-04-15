@@ -6,6 +6,10 @@ class Visitor < ActiveRecord::Base
 
   validates :id, format: UUID_REGEX, allow_nil: true
 
+  def assignments_for(app_build)
+    Assignment.where(visitor: self).for_presentation(app_build: app_build)
+  end
+
   def assignment_registry
     assignments.to_hash
   end

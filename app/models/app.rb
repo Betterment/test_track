@@ -28,7 +28,7 @@ class App < ActiveRecord::Base
     def initialize(app_id:, version:, built_at:)
       @app_id = app_id
       @version = AppVersion.new(version)
-      @built_at = built_at
+      @built_at = built_at.is_a?(String) ? Time.zone.parse(built_at) : built_at
     end
   end
 end
