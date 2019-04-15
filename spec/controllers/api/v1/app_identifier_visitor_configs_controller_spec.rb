@@ -58,6 +58,7 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
 
       expect(response).to have_http_status :ok
       expect(response_json['splits']['blab_enabled']).to eq('false' => 50, 'true' => 50)
+      expect(response_json['visitor']['id']).to eq(visitor.id)
       expect(response_json['visitor']['assignments'].first['split_name']).to eq('blab_enabled')
       expect(response_json['visitor']['assignments'].first['variant']).to eq('true')
     end
