@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Api::V1::AppVisitorConfigsController do
   describe "#show" do
     let(:app) { FactoryBot.create(:app) }
-    let(:identifier_type) { FactoryBot.create(:identifier_type, name: "clown_id") }
     let(:feature_gate) { FactoryBot.create(:feature_gate, name: "blab_enabled", registry: { false: 50, true: 50 }) }
     let(:visitor) { FactoryBot.create(:visitor) }
 
