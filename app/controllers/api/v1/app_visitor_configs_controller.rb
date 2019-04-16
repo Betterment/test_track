@@ -2,11 +2,16 @@ class Api::V1::AppVisitorConfigsController < UnauthenticatedApiController
   include CorsSupport
 
   def show
-    app_build = AppVersionBuildPath.new(build_params).app_build
-    @active_splits = Split.for_presentation(app_build: app_build)
-    @visitor_id = visitor_id
-    visitor = Visitor.find_or_initialize_by(id: @visitor_id)
-    @assignments = visitor.assignments_for(app_build).includes(:split).order(:updated_at)
+    build_path = AppVersionBuildPath.new(build_params)
+    if build_path.valid?
+      app_build = AppVersionBuildPath.new(build_params).app_build
+      @active_splits = Split.for_presentation(app_build: app_build)
+      @visitor_id = visitor_id
+      visitor = Visitor.find_or_initialize_by(id: @visitor_id)
+      @assignments = visitor.assignments_for(app_build).includes(:split).order(:updated_at)
+    else
+      render_errors build_path
+    end
   end
 
   private

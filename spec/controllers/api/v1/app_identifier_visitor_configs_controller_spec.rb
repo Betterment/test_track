@@ -21,7 +21,7 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
       get :show, params: {
         app_name: app.name,
         version_number: "1.0",
-        build_timestamp: "2019-01-01",
+        build_timestamp: "2019-04-16T14:35:30Z",
         identifier_type_name: identifier.identifier_type.name,
         identifier_value: identifier.value
       }
@@ -51,7 +51,7 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
       get :show, params: {
         app_name: app.name,
         version_number: "1.0",
-        build_timestamp: "2019-01-01",
+        build_timestamp: "2019-04-16T14:35:30Z",
         identifier_type_name: identifier.identifier_type.name,
         identifier_value: identifier.value
       }
@@ -61,6 +61,18 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
       expect(response_json['visitor']['id']).to eq(visitor.id)
       expect(response_json['visitor']['assignments'].first['split_name']).to eq('blab_enabled')
       expect(response_json['visitor']['assignments'].first['variant']).to eq('true')
+    end
+
+    it "returns unprocessable_entity if the app_build url params are invalid" do
+      get :show, params: {
+        app_name: app.name,
+        version_number: "01.0",
+        build_timestamp: "2019-04-16T14:35:30Z",
+        identifier_type_name: identifier.identifier_type.name,
+        identifier_value: identifier.value
+      }
+
+      expect(response).to have_http_status :unprocessable_entity
     end
   end
 end
