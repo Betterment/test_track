@@ -25,6 +25,7 @@ class Assignment < ActiveRecord::Base
   scope :for_app_build, ->(app_build) do
     for_active_splits(as_of: app_build.built_at)
       .excluding_incomplete_features_for(app_build)
+      .excluding_remote_kills_for(app_build)
   end
 
   scope :excluding_decision_overrides, -> do
@@ -37,10 +38,16 @@ class Assignment < ActiveRecord::Base
 
   scope :excluding_incomplete_features_for, ->(app_build) do
     joins(:split).where(
-      Arel::Nodes::Or.new(
-        arel_table[:force].eq(true),
-        Split.arel_excluding_incomplete_features_for(app_build)
+      Arel::Nodes::Grouping.new(
+        arel_table[:force].eq(true)
+        .or(Split.arel_excluding_incomplete_features_for(app_build))
       )
+    )
+  end
+
+  scope :excluding_remote_kills_for, ->(app_build) do
+    joins(:split).where(
+      Split.arel_excluding_remote_kills_for(app_build, override: arel_table[:force], overridden_at: arel_table[:updated_at])
     )
   end
 
@@ -81,6 +88,6 @@ class Assignment < ActiveRecord::Base
   def variant_must_exist
     return unless split
 
-    errors.add(:variant, "must be specified in split's current variations") unless split.has_variant?(variant)
+    errors.add(:variant, "must be specified in split's current variants") unless split.has_variant?(variant)
   end
 end

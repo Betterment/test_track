@@ -28,6 +28,7 @@ class Split < ActiveRecord::Base
   scope :for_app_build, ->(app_build) do
     active(as_of: app_build.built_at)
       .with_feature_incomplete_knockouts_for(app_build)
+      .with_remote_kill_knockouts_for(app_build)
   end
 
   scope :active, ->(as_of: nil) do
@@ -48,10 +49,31 @@ class Split < ActiveRecord::Base
   end
 
   def self.arel_excluding_incomplete_features_for(app_build)
-    Arel::Nodes::Or.new(
-      arel_table[:feature_gate].eq(false),
-      AppFeatureCompletion.select(1).satisfied_by(app_build).arel.exists
+    Arel::Nodes::Grouping.new(
+      arel_table[:feature_gate].eq(false)
+      .or(
+        AppFeatureCompletion.select(1).satisfied_by(app_build).arel
+        .where(AppFeatureCompletion.arel_table[:split_id].eq(arel_table[:id]))
+        .exists
+      )
     )
+  end
+
+  scope :with_remote_kill_knockouts_for, ->(app_build) do
+    previous_selects = all.arel.projections
+    except(:select)
+      .select(
+        previous_selects,
+        AppRemoteKill.select(:override_to).affecting(app_build).arel
+          .where(AppRemoteKill.arel_table[:split_id].eq(arel_table[:id]))
+          .as('remote_kill_override_to')
+      )
+      .readonly
+  end
+
+  def self.arel_excluding_remote_kills_for(app_build, override: false, overridden_at: nil)
+    AppRemoteKill.select(1).affecting(app_build, override: override, overridden_at: overridden_at).arel
+      .where(AppRemoteKill.arel_table[:split_id].eq(arel_table[:id])).exists.not
   end
 
   def detail
@@ -112,7 +134,9 @@ class Split < ActiveRecord::Base
   end
 
   def registry
-    if try(:feature_incomplete?) # This is a virtual attribute provided by the with_feature_incomplete_knockouts_for scope
+    if try(:remote_kill_override_to) # These are virtual attributes provided by the for_app_build scope
+      knock_out_weightings(super, to: remote_kill_override_to)
+    elsif try(:feature_incomplete?) # These are virtual attributes provided by the for_app_build scope
       knock_out_weightings(super)
     else
       super

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190409164425) do
+ActiveRecord::Schema.define(version: 20190409231451) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,20 @@ ActiveRecord::Schema.define(version: 20190409164425) do
     t.index ["app_id"], name: "index_app_feature_completions_on_app_id"
     t.index ["split_id", "app_id"], name: "index_app_feature_completions_on_split_id_and_app_id", unique: true
     t.index ["split_id"], name: "index_app_feature_completions_on_split_id"
+  end
+
+  create_table "app_remote_kills", force: :cascade do |t|
+    t.uuid "app_id", null: false
+    t.uuid "split_id", null: false
+    t.string "reason", null: false
+    t.string "override_to", null: false
+    t.integer "first_bad_version", null: false, array: true
+    t.integer "fixed_version", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["app_id"], name: "index_app_remote_kills_on_app_id"
+    t.index ["split_id", "app_id", "reason"], name: "index_app_remote_kills_on_split_id_and_app_id_and_reason", unique: true
+    t.index ["split_id"], name: "index_app_remote_kills_on_split_id"
   end
 
   create_table "apps", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
@@ -195,6 +209,8 @@ ActiveRecord::Schema.define(version: 20190409164425) do
 
   add_foreign_key "app_feature_completions", "apps"
   add_foreign_key "app_feature_completions", "splits"
+  add_foreign_key "app_remote_kills", "apps"
+  add_foreign_key "app_remote_kills", "splits"
   add_foreign_key "assignments", "bulk_assignments"
   add_foreign_key "assignments", "splits"
   add_foreign_key "assignments", "visitor_supersessions"

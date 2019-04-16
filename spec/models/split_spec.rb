@@ -282,45 +282,182 @@ RSpec.describe Split, type: :model do
     end
   end
 
+  describe ".with_remote_kill_knockouts_for" do
+    let(:app) { FactoryBot.create(:app) }
+    let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
+
+    it "respects existing selects" do
+      split = FactoryBot.create(:split)
+
+      result = Split.select(:name).with_remote_kill_knockouts_for(app_build).find(split.id)
+
+      expect(result.remote_kill_override_to).to be_nil
+      expect(result).to respond_to(:name)
+      expect(result).not_to respond_to(:finished_at)
+    end
+
+    it "has a nil override without a remote kill" do
+      split = FactoryBot.create(:split)
+
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq(nil)
+    end
+
+    it "returns readonly records" do
+      split = FactoryBot.create(:split)
+
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id)).to be_readonly
+    end
+
+    it "has a nil override for a remote kill that doesn't overlap" do
+      split = FactoryBot.create(:split)
+      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: "1.2", override_to: :touch_this)
+
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq(nil)
+    end
+
+    it "has an override for a remote kill that overlaps" do
+      split = FactoryBot.create(:split)
+      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "0.9", fixed_version: "1.1", override_to: :touch_this)
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq("touch_this")
+    end
+
+    it "is backed by AppRemoteKill.affecting" do
+      allow(AppRemoteKill).to receive(:affecting).and_call_original
+
+      Split.with_remote_kill_knockouts_for(app_build)
+
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build)
+    end
+  end
+
+  describe ".arel_excluding_remote_kills_for" do
+    let(:app) { FactoryBot.create(:app) }
+    let(:app_build) { app.define_build(built_at: Time.zone.now, version: "1.0") }
+
+    it "includes a split with no remote kill" do
+      split = FactoryBot.create(:split)
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
+    end
+
+    it "includes a split when there's a remote kill for another split" do
+      split = FactoryBot.create(:split)
+      other_split = FactoryBot.create(:split)
+      FactoryBot.create(:app_remote_kill, split: other_split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
+
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
+    end
+
+    it "includes a split with a remote kill not conflicting with version" do
+      split = FactoryBot.create(:split)
+      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "2.0", fixed_version: "2.1")
+
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
+    end
+
+    it "doesn't include a split with a remote kill spanning version" do
+      split = FactoryBot.create(:split)
+      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
+
+      expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).not_to include(split)
+    end
+
+    it "is backed by AppRemoteKill.affecting with default override args" do
+      allow(AppRemoteKill).to receive(:affecting).and_call_original
+
+      Split.arel_excluding_remote_kills_for(app_build)
+
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: false, overridden_at: nil)
+    end
+
+    it "is backed by AppRemoteKill.affecting with explicit override args" do
+      allow(AppRemoteKill).to receive(:affecting).and_call_original
+      t = Time.zone.now
+
+      Split.arel_excluding_remote_kills_for(app_build, override: true, overridden_at: t)
+
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: true, overridden_at: t)
+    end
+  end
+
   describe "#registry" do
-    subject { FactoryBot.create(:split, registry: { true: 50, false: 50 }, feature_gate: true) }
-    it "returns the column value if it doesn't respond to feature_incomplete?" do
-      expect(subject).not_to respond_to(:feature_incomplete?)
-      expect(subject.registry).to eq("true" => 50, "false" => 50)
-    end
+    context "with a feature gate" do
+      subject { FactoryBot.create(:split, registry: { true: 50, false: 50 }, feature_gate: true) }
 
-    it "overrides to 100% false if feature-incomplete" do
-      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
-      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+      it "returns the column value if it doesn't respond to feature_incomplete?" do
+        expect(subject).not_to respond_to(:feature_incomplete?)
+        expect(subject.registry).to eq("true" => 50, "false" => 50)
+      end
 
-      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
-      expect(subject_with_knockouts).to be_feature_incomplete
-      expect(subject_with_knockouts.registry).to eq("true" => 0, "false" => 100)
-    end
-
-    it "returns the column value if it isn't feature-incomplete" do
-      fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
-      app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.1")
-
-      subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
-
-      expect(subject_with_knockouts).not_to be_feature_incomplete
-      expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
-    end
-
-    context "with a feature gate missing a false variant (gasp!)" do
-      subject { FactoryBot.create(:split, registry: { true: 50, not_false: 50 }, feature_gate: true) }
-
-      it "returns the column value and logs an error if feature-incomplete" do
+      it "overrides to 100% false if feature-incomplete" do
         fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
         app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
 
-        subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
-        allow(subject_with_knockouts.logger).to receive(:error).and_call_original
-
+        subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
         expect(subject_with_knockouts).to be_feature_incomplete
-        expect(subject_with_knockouts.registry).to eq("true" => 50, "not_false" => 50)
-        expect(subject_with_knockouts.logger).to have_received(:error).with(/variant "false" not found/)
+        expect(subject_with_knockouts.registry).to eq("true" => 0, "false" => 100)
+      end
+
+      it "returns the column value if it isn't feature-incomplete" do
+        fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.1")
+
+        subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
+
+        expect(subject_with_knockouts).not_to be_feature_incomplete
+        expect(subject_with_knockouts.registry).to eq("true" => 50, "false" => 50)
+      end
+
+      it "prefers a remote kill over a feature incompletion if both are present" do
+        rk = FactoryBot.create(:app_remote_kill, split: subject, first_bad_version: "0.9", fixed_version: nil, override_to: "true")
+        fc = FactoryBot.create(:app_feature_completion, split: subject, app: rk.app, version: "1.1")
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+        subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
+        expect(subject_with_knockouts).to be_feature_incomplete
+        expect(subject_with_knockouts.registry).to eq("true" => 100, "false" => 0)
+      end
+
+      context "missing a false variant (gasp!)" do
+        subject { FactoryBot.create(:split, registry: { true: 50, not_false: 50 }, feature_gate: true) }
+
+        it "returns the column value and logs an error if feature-incomplete" do
+          fc = FactoryBot.create(:app_feature_completion, version: "1.1", split: subject)
+          app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+          subject_with_knockouts = Split.with_feature_incomplete_knockouts_for(app_build).find(subject.id)
+          allow(subject_with_knockouts.logger).to receive(:error).and_call_original
+
+          expect(subject_with_knockouts).to be_feature_incomplete
+          expect(subject_with_knockouts.registry).to eq("true" => 50, "not_false" => 50)
+          expect(subject_with_knockouts.logger).to have_received(:error).with(/variant "false" not found/)
+        end
+      end
+    end
+
+    context "with a non-feature-gate" do
+      subject { FactoryBot.create(:split, registry: { hammer_time: 50, touch_this: 50 }) }
+
+      it "returns the column value if it doesn't respond to remote_kill_override_to" do
+        expect(subject).not_to respond_to(:remote_kill_override_to)
+        expect(subject.registry).to eq("hammer_time" => 50, "touch_this" => 50)
+      end
+
+      it "overrides to 100% remote_kill_override_to if remote killed" do
+        fc = FactoryBot.create(:app_remote_kill, split: subject, first_bad_version: "0.9", fixed_version: "1.1")
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+        subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
+        expect(subject_with_knockouts.remote_kill_override_to).to eq "touch_this"
+        expect(subject_with_knockouts.registry).to eq("hammer_time" => 0, "touch_this" => 100)
+      end
+
+      it "returns the column value if not remote killed" do
+        fc = FactoryBot.create(:app_remote_kill, split: subject, first_bad_version: "1.1", fixed_version: "1.2")
+        app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
+
+        subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
+        expect(subject_with_knockouts.remote_kill_override_to).to eq nil
+        expect(subject_with_knockouts.registry).to eq("hammer_time" => 50, "touch_this" => 50)
       end
     end
   end
@@ -364,6 +501,15 @@ RSpec.describe Split, type: :model do
       expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
 
       expect(Split).to have_received(:with_feature_incomplete_knockouts_for).with(app_build)
+    end
+
+    it "calls with_remote_kill_knockouts_for with app_build" do
+      allow(Split).to receive(:with_remote_kill_knockouts_for).and_call_original
+      app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
+
+      expect(Split.for_app_build(app_build)).to be_a(ActiveRecord::Relation)
+
+      expect(Split).to have_received(:with_remote_kill_knockouts_for).with(app_build)
     end
   end
 end
