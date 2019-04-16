@@ -361,21 +361,12 @@ RSpec.describe Split, type: :model do
       expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).not_to include(split)
     end
 
-    it "is backed by AppRemoteKill.affecting with default override args" do
+    it "is backed by AppRemoteKill.affecting" do
       allow(AppRemoteKill).to receive(:affecting).and_call_original
 
       Split.arel_excluding_remote_kills_for(app_build)
 
-      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: false, overridden_at: nil)
-    end
-
-    it "is backed by AppRemoteKill.affecting with explicit override args" do
-      allow(AppRemoteKill).to receive(:affecting).and_call_original
-      t = Time.zone.now
-
-      Split.arel_excluding_remote_kills_for(app_build, override: true, overridden_at: t)
-
-      expect(AppRemoteKill).to have_received(:affecting).with(app_build, override: true, overridden_at: t)
+      expect(AppRemoteKill).to have_received(:affecting).with(app_build)
     end
   end
 

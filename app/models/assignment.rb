@@ -47,7 +47,7 @@ class Assignment < ActiveRecord::Base
 
   scope :excluding_remote_kills_for, ->(app_build) do
     joins(:split).where(
-      Split.arel_excluding_remote_kills_for(app_build, override: arel_table[:force], overridden_at: arel_table[:updated_at])
+      Split.arel_excluding_remote_kills_for(app_build)
     )
   end
 
