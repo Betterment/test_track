@@ -6,7 +6,7 @@ class AppVersionType < ActiveRecord::Type::Value
   end
 
   def serialize(value)
-    value.to_pg_array if value
+    AppVersion.new(value).to_pg_array if value
   end
 
   def deserialize(value)
