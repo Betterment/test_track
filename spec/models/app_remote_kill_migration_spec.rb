@@ -157,6 +157,7 @@ RSpec.describe AppRemoteKillMigration do
   end
 
   it "is invalid with no reason on delete" do
+    FactoryBot.create(:app_remote_kill, app: app, split: feature_gate)
     subject = described_class.new(
       app: app,
       split: feature_gate.name,
@@ -168,6 +169,7 @@ RSpec.describe AppRemoteKillMigration do
 
     expect(subject).to have(1).error_on(:reason)
     expect(subject.save).to eq false
+    expect(app.remote_kills.count).to eq(1)
   end
 
   it "blows up with no app" do
