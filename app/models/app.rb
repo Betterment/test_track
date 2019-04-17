@@ -2,6 +2,7 @@ class App < ActiveRecord::Base
   has_many :splits, foreign_key: :owner_app_id, dependent: :nullify, inverse_of: :owner_app
   has_many :identifier_types, foreign_key: :owner_app_id, dependent: :nullify, inverse_of: :owner_app
   has_many :feature_completions, class_name: "AppFeatureCompletion", dependent: :nullify
+  has_many :remote_kills, class_name: "AppRemoteKill", dependent: :nullify
 
   validates :name, :auth_secret, presence: true
   validates :name, uniqueness: true

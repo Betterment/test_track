@@ -443,7 +443,7 @@ RSpec.describe Split, type: :model do
       end
 
       it "overrides to 100% remote_kill_override_to if remote killed" do
-        fc = FactoryBot.create(:app_remote_kill, split: subject, first_bad_version: "0.9", fixed_version: "1.1")
+        fc = FactoryBot.create(:app_remote_kill, split: subject, override_to: "touch_this", first_bad_version: "0.9", fixed_version: "1.1")
         app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
 
         subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)

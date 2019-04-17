@@ -6,9 +6,10 @@ class AppRemoteKill < ActiveRecord::Base
   attribute :fixed_version, :app_version
 
   validates :app, :split, :reason, :override_to, :first_bad_version, presence: true
-  validates :reason, uniqueness: { scope: %i(app split) }
+  validates :reason,
+    uniqueness: { scope: %i(app split) },
+    format: { with: /\A[a-z\d_]*\z/, message: "must be alphanumeric snake_case" }
 
-  validate :override_to_must_exist
   validate :fixed_version_must_be_greater_than_first_bad_version
   validate :must_not_overlap_existing
 
@@ -52,12 +53,6 @@ class AppRemoteKill < ActiveRecord::Base
       arel_table[:fixed_version].eq(nil)
       .or(arel_table[:fixed_version].gt(version))
     )
-  end
-
-  def override_to_must_exist
-    return unless split
-
-    errors.add(:override_to, "must exist in split's current variants") unless split.has_variant?(override_to)
   end
 
   def fixed_version_must_be_greater_than_first_bad_version
