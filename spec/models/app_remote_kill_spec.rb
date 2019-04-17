@@ -188,26 +188,6 @@ RSpec.describe AppRemoteKill do
         expect(described_class.affecting(app_build)).to include(existing_remote_kill)
       end
 
-      it "doesn't return remote kills with newer overrides" do
-        app_build = app.define_build(version: "1.0", built_at: nil)
-
-        expect(described_class.affecting(app_build, override: true, overridden_at: 1.hour.from_now)).not_to include(existing_remote_kill)
-      end
-
-      it "does return remote kills with older overrides" do
-        app_build = app.define_build(version: "1.0", built_at: nil)
-
-        expect(described_class.affecting(app_build, override: true, overridden_at: 1.hour.ago)).to include(existing_remote_kill)
-      end
-
-      it "accepts arel expressions for override and overridden_at and behaves the same" do
-        app_build = app.define_build(version: "1.0", built_at: nil)
-        override = Arel::Nodes::True.new
-        overridden_at = Arel::Nodes.build_quoted(1.hour.ago)
-
-        expect(described_class.affecting(app_build, override: override, overridden_at: overridden_at)).to include(existing_remote_kill)
-      end
-
       it "doesn't return remote kills starting after app version" do
         app_build = app.define_build(version: "0.9", built_at: nil)
 

@@ -13,26 +13,12 @@ class AppRemoteKill < ActiveRecord::Base
   validate :fixed_version_must_be_greater_than_first_bad_version
   validate :must_not_overlap_existing
 
-  scope :affecting, ->(app_build, override: false, overridden_at: nil) do
+  scope :affecting, ->(app_build) do
     where(
       arel_table[:app_id].eq(app_build.app_id)
       .and(arel_table[:first_bad_version].lteq(app_build.version))
       .and(arel_fixed_version_is_null_or_greater_than(app_build.version))
-      .and(
-        Arel::Nodes::Grouping.new(
-          arel_is_false(override)
-          .or(arel_table[:updated_at].gt(overridden_at))
-        )
-      )
     )
-  end
-
-  class << self
-    private
-
-    def arel_is_false(value_or_arel)
-      Arel::Nodes::Grouping.new(Arel::Nodes::False.new).eq(value_or_arel)
-    end
   end
 
   scope :overlapping, ->(other) do
