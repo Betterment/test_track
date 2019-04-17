@@ -37,9 +37,13 @@ Rails.application.routes.draw do
     namespace :v2 do
       resource :split_registry, only: :show
 
-      namespace :migrations do
-        resource :app_feature_completion
-        resource :app_remote_kill
+      resources :migrations do
+        collection do
+          scope module: :migrations do
+            resource :app_feature_completion
+            resource :app_remote_kill
+          end
+        end
       end
     end
   end

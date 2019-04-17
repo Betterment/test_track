@@ -48,6 +48,13 @@ ActiveRecord::Schema.define(version: 20190413210327) do
     t.index ["feature_gate_id"], name: "index_app_feature_completions_on_feature_gate_id"
   end
 
+  create_table "app_migrations", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "app_id"
+    t.string "version", null: false
+    t.index ["app_id", "version"], name: "index_app_migrations_on_app_id_and_version", unique: true
+    t.index ["app_id"], name: "index_app_migrations_on_app_id"
+  end
+
   create_table "app_remote_kills", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid "app_id", null: false
     t.uuid "split_id", null: false
@@ -209,6 +216,7 @@ ActiveRecord::Schema.define(version: 20190413210327) do
 
   add_foreign_key "app_feature_completions", "apps"
   add_foreign_key "app_feature_completions", "splits", column: "feature_gate_id"
+  add_foreign_key "app_migrations", "apps"
   add_foreign_key "app_remote_kills", "apps"
   add_foreign_key "app_remote_kills", "splits"
   add_foreign_key "assignments", "bulk_assignments"
