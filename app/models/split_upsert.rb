@@ -6,7 +6,7 @@ class SplitUpsert
 
   validate :split_must_be_valid
 
-  def save
+  def save # rubocop:disable Metrics/AbcSize
     split.assign_attributes(finished_at: finished_at, decided_at: decided_at, require_app_name_prefix: require_app_name_prefix)
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?

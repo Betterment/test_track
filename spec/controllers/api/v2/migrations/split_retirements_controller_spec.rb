@@ -37,4 +37,3 @@ RSpec.describe Api::V2::Migrations::SplitRetirementsController do
     end
   end
 end
-

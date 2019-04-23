@@ -14,4 +14,3 @@ class Api::V2::Migrations::SplitRetirementsController < AuthenticatedApiControll
     params.permit(:split, :decision)
   end
 end
-

@@ -17,11 +17,7 @@ class SplitRetirementMigration
   def save
     if valid?
       t = Time.zone.now
-      split_model.reconfigure!(
-        weighting_registry: { decision => 100 },
-        decided_at: t,
-        finished_at: t
-      )
+      split_model.reconfigure!(weighting_registry: { decision => 100 }, decided_at: t, finished_at: t)
       true
     else
       false
