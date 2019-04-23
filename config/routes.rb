@@ -57,6 +57,7 @@ Rails.application.routes.draw do
           scope module: :migrations do
             resource :app_feature_completion
             resource :app_remote_kill
+            resource :split
           end
         end
       end

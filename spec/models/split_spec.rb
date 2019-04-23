@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Split, type: :model do
-  subject { FactoryBot.create(:split, registry: { treatment: 100 }) }
+  let(:app) { FactoryBot.create(:app, name: "my_app") }
+
+  subject { FactoryBot.create(:split, owner_app: app, registry: { treatment: 100 }) }
 
   it "validates presence of registry" do
     expect(subject).to validate_presence_of(:registry)
@@ -46,6 +48,37 @@ RSpec.describe Split, type: :model do
       subject.name = 'my_foo_test'
       expect(subject).not_to be_valid
       expect(subject.errors[:name].first).to include("redundant")
+    end
+
+    it "rejects prefixed with other-than-app-name" do
+      subject.name = 'bla.baz'
+      expect(subject).not_to be_valid
+      expect(subject.errors[:name].first).to include("can only be prefixed with")
+    end
+
+    it "is fine prefixed with app name" do
+      subject.name = 'my_app.baz'
+      expect(subject).to be_valid
+    end
+
+    it "is fine with legacy splits that don't conform to app name prefix rules" do
+      Split.where(id: subject.id).update_all(name: 'not_cool.name')
+      subject.reload
+      expect(subject.name).to eq "not_cool.name"
+      expect(subject).to be_valid
+    end
+
+    it "is not fine with new splits when require_app_name_prefix is set" do
+      subject.name = 'baz'
+      subject.require_app_name_prefix = "t"
+      expect(subject).not_to be_valid
+      expect(subject.errors[:name].first).to include("can only be prefixed with")
+    end
+
+    it "is fine with new splits when require_app_name_prefix is set to something false-ish" do
+      subject.name = 'baz'
+      subject.require_app_name_prefix = "f"
+      expect(subject).to be_valid
     end
   end
 
