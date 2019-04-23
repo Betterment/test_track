@@ -39,43 +39,5 @@ RSpec.describe Api::V2::Migrations::SplitsController do
         expect(response_json['errors']['name'].first).to include("prefix")
       end
     end
-
-    describe '#destroy' do
-      it "sets the finished_at time on the split" do
-        split = FactoryBot.create(:split, name: "default_app.old_split", owner_app: default_app, finished_at: nil)
-
-        delete :destroy, params: { id: "default_app.old_split" }
-
-        expect(response).to have_http_status(:no_content)
-        expect(split.reload).to be_finished
-      end
-
-      it "can't delete another app's split" do
-        other_app = FactoryBot.create :app, name: "other_app"
-        split = FactoryBot.create(:split, name: "other_app.other_split", owner_app: other_app, finished_at: nil)
-
-        expect { delete :destroy, params: { id: "other_app.other_split" } }.to raise_error(ActiveRecord::RecordNotFound)
-
-        expect(split.reload).not_to be_finished
-      end
-
-      it "is idempotent" do
-        split = FactoryBot.create(:split, name: "default_app.old_split", owner_app: default_app, finished_at: nil)
-
-        Timecop.freeze(Time.zone.parse('2011-01-01')) do
-          delete :destroy, params: { id: "default_app.old_split" }
-        end
-
-        expect(response).to have_http_status(:no_content)
-        expect(split.reload.finished_at).to eq Time.zone.parse('2011-01-01')
-
-        Timecop.freeze(Time.zone.parse('2011-01-02')) do
-          delete :destroy, params: { id: "default_app.old_split" }
-        end
-
-        expect(response).to have_http_status(:no_content)
-        expect(split.reload.finished_at).to eq Time.zone.parse('2011-01-01')
-      end
-    end
   end
 end

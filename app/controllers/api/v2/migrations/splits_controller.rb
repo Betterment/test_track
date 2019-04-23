@@ -8,12 +8,6 @@ class Api::V2::Migrations::SplitsController < AuthenticatedApiController
     end
   end
 
-  def destroy
-    split = current_app.splits.find_by!(name: params[:id])
-    split.update!(finished_at: Time.zone.now) unless split.finished?
-    head :no_content
-  end
-
   private
 
   def create_params
