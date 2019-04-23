@@ -58,6 +58,7 @@ Rails.application.routes.draw do
             resource :app_feature_completion, only: :create
             resource :app_remote_kill, only: :create
             resource :split, only: :create
+            resource :split_retirement, only: :create
           end
         end
       end
