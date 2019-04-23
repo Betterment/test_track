@@ -79,4 +79,3 @@ RSpec.describe Api::V2::Migrations::SplitsController do
     end
   end
 end
-

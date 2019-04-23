@@ -62,7 +62,7 @@ RSpec.describe Split, type: :model do
     end
 
     it "is fine with legacy splits that don't conform to app name prefix rules" do
-      Split.where(id: subject.id).update_all(name: 'not_cool.name')
+      Split.where(id: subject.id).update_all(name: 'not_cool.name') # rubocop:disable Rails/SkipsModelValidations
       subject.reload
       expect(subject.name).to eq "not_cool.name"
       expect(subject).to be_valid
