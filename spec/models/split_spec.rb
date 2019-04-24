@@ -80,6 +80,12 @@ RSpec.describe Split, type: :model do
       subject.require_app_name_prefix = "f"
       expect(subject).to be_valid
     end
+
+    it "is fine with dashes in app names" do
+      subject.owner_app.name = 'my-app'
+      subject.name = 'my-app.bink_split'
+      expect(subject).to be_valid
+    end
   end
 
   describe "registry" do

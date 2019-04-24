@@ -217,7 +217,7 @@ class Split < ActiveRecord::Base
   end
 
   def name_not_underscored?
-    name && !underscored?(name)
+    name && !underscored?(name.split('.').last)
   end
 
   def name_contains_new?
