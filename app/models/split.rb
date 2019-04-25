@@ -145,11 +145,7 @@ class Split < ActiveRecord::Base
   end
 
   def require_app_name_prefix=(value)
-    if instance_variable_defined?(:@require_app_name_prefix)
-      @require_app_name_prefix
-    else
-      @require_app_name_prefix = ActiveRecord::Type::Boolean.new.cast(value)
-    end
+    @require_app_name_prefix = ActiveRecord::Type::Boolean.new.cast(value)
   end
 
   def require_app_name_prefix?

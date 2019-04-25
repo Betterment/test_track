@@ -35,6 +35,8 @@ class SplitRetirementMigration
   end
 
   def decision_must_exist
-    errors.add(:decision, "must exist in split") unless split_model&.has_variant?(decision)
+    return unless split_model
+
+    errors.add(:decision, "must exist in split") unless split_model.has_variant?(decision)
   end
 end

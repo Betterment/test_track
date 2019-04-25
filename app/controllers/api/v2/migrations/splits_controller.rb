@@ -11,7 +11,7 @@ class Api::V2::Migrations::SplitsController < AuthenticatedApiController
   private
 
   def create_params
-    # rails-sponsored workaround https://github.com/rails/rails/pull/12609
-    params.permit(:name, weighting_registry: params[:weighting_registry].try(:keys))
+    # rails-sponsored approach https://github.com/rails/rails/pull/12609
+    params.permit(:name, weighting_registry: params[:weighting_registry].try(:keys)) # ensure weighting_registry is a hash of scalars
   end
 end
