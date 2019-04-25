@@ -20,14 +20,18 @@ RSpec.describe SplitDecisionMigration do
 
   it "is invalid with a missing split" do
     app = FactoryBot.create(:app)
-    expect(described_class.new(app: app, split: "my_split", variant: "b")).to have(1).error_on(:split)
+    subject = described_class.new(app: app, split: "my_split", variant: "b")
+    expect(subject).to have(1).error_on(:split)
+    expect(subject).to have(0).errors_on(:variant)
   end
 
   it "is invalid with a split from the wrong app" do
     FactoryBot.create(:split, name: "my_split", registry: { a: 100, b: 0 })
     other_app = FactoryBot.create(:app)
 
-    expect(described_class.new(app: other_app, split: "my_split", variant: "b")).to have(1).error_on(:split)
+    subject = described_class.new(app: other_app, split: "my_split", variant: "b")
+    expect(subject).to have(1).error_on(:split)
+    expect(subject).to have(0).errors_on(:variant)
   end
 
   it "is invalid with a missing variant" do
