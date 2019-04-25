@@ -231,11 +231,11 @@ class Split < ActiveRecord::Base
   def name_prefixed_other_than_app_name?
     parts = name.split(".")
     if parts.length == 1 && !require_app_name_prefix?
-      return false
+      false
     elsif parts.length == 2
-      return parts.first != owner_app.name
+      parts.first != owner_app.name
     else
-      return true
+      true
     end
   end
 
