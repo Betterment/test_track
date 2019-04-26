@@ -19,12 +19,11 @@ RSpec.describe Api::V1::IdentifierTypesController, type: :controller do
     end
 
     it 'is idempotent for existing identifier types' do
-      another_app = FactoryBot.create :app
-      FactoryBot.create :identifier_type, owner_app: another_app, name: 'myappdb_user_id'
+      FactoryBot.create :identifier_type, owner_app: default_app, name: 'myappdb_user_id'
 
       expect { post :create, params: { name: 'myappdb_user_id' } }.not_to change { IdentifierType.count }
       expect(response).to have_http_status(:no_content)
-      expect(IdentifierType.find_by(name: 'myappdb_user_id', owner_app: another_app)).to be_truthy
+      expect(IdentifierType.find_by!(name: 'myappdb_user_id', owner_app: default_app)).to be_truthy
     end
 
     it 'returns errors when invalid' do

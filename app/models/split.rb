@@ -12,6 +12,7 @@ class Split < ActiveRecord::Base
   validate :name_must_be_snake_case
   validate :name_must_not_include_new
   validate :name_must_not_end_with_test
+  validate :name_must_only_be_prefixed_with_app_name
   validate :variants_must_be_snake_case
   validate :registry_weights_must_sum_to_100
   validate :registry_weights_must_be_integers
@@ -143,6 +144,14 @@ class Split < ActiveRecord::Base
     end
   end
 
+  def require_app_name_prefix=(value)
+    @require_app_name_prefix = ActiveRecord::Type::Boolean.new.cast(value)
+  end
+
+  def require_app_name_prefix?
+    @require_app_name_prefix
+  end
+
   private
 
   def knock_out_weightings(registry_hash, to: "false")
@@ -177,6 +186,12 @@ class Split < ActiveRecord::Base
     errors.add(:name, "should not end with 'test', as it is redundant. All splits are testable.") if name_ends_with_test?
   end
 
+  def name_must_only_be_prefixed_with_app_name
+    return if name.nil? || !name_changed?
+
+    errors.add(:name, "can only be prefixed with '[app_name].'") if name_prefixed_other_than_app_name?
+  end
+
   def variants_must_be_snake_case
     errors.add(:registry, "all variants must be snake_case: #{variants.inspect}") if variants_not_underscored?
   end
@@ -198,7 +213,7 @@ class Split < ActiveRecord::Base
   end
 
   def name_not_underscored?
-    name && !underscored?(name)
+    name && !underscored?(name.split('.').last)
   end
 
   def name_contains_new?
@@ -207,6 +222,17 @@ class Split < ActiveRecord::Base
 
   def name_ends_with_test?
     name && dasherized_name.match(/\btest\z/i).present?
+  end
+
+  def name_prefixed_other_than_app_name?
+    parts = name.split(".")
+    if parts.length == 1 && !require_app_name_prefix?
+      false
+    elsif parts.length == 2
+      parts.first != owner_app.name
+    else
+      true
+    end
   end
 
   def variants_not_underscored?
