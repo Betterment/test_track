@@ -51,6 +51,8 @@ class Assignment < ActiveRecord::Base
     )
   end
 
+  scope :except_feature_gates, -> { joins(:split).merge(Split.except_feature_gates) }
+
   def variant_detail
     @variant_detail ||= begin
       detail = variant_details.select { |d| d.variant == variant }.first
