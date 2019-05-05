@@ -10,8 +10,6 @@ class Split < ActiveRecord::Base
   validates :registry, presence: true
 
   validate :name_must_be_snake_case
-  validate :name_must_not_include_new
-  validate :name_must_not_end_with_test
   validate :name_must_only_be_prefixed_with_app_name
   validate :variants_must_be_snake_case
   validate :registry_weights_must_sum_to_100
@@ -176,16 +174,6 @@ class Split < ActiveRecord::Base
 
   def name_must_be_snake_case
     errors.add(:name, "must be snake_case: #{name.inspect}") if name_not_underscored?
-  end
-
-  def name_must_not_include_new
-    errors.add(:name, <<-ERROR_MESSAGE) if name_contains_new?
-      should not contain the ambiguous word 'new'. If expressing timing, refer to absolute time like 'late_2015'. If expressing creation use 'create'.
-    ERROR_MESSAGE
-  end
-
-  def name_must_not_end_with_test
-    errors.add(:name, "should not end with 'test', as it is redundant. All splits are testable.") if name_ends_with_test?
   end
 
   def name_must_only_be_prefixed_with_app_name
