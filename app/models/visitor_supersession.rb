@@ -7,8 +7,8 @@ class VisitorSupersession < ActiveRecord::Base
   private
 
   def merge_assignments!
-    target_split_ids = superseding_visitor.assignments.map(&:split_id).to_set
-    superseded_visitor.assignments.order(:id).each do |a|
+    target_split_ids = superseding_visitor.assignments.pluck(:split_id).to_set
+    superseded_visitor.assignments.except_feature_gates.order(:id).each do |a|
       create_or_ignore_duplicate(a) unless target_split_ids.include?(a.split_id)
     end
   end

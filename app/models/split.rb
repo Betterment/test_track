@@ -77,6 +77,8 @@ class Split < ActiveRecord::Base
       .where(AppRemoteKill.arel_table[:split_id].eq(arel_table[:id])).exists.not
   end
 
+  scope :except_feature_gates, -> { where(feature_gate: false) }
+
   def detail
     @detail ||= SplitDetail.new(split: self)
   end
