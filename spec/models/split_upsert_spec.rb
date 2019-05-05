@@ -55,9 +55,9 @@ RSpec.describe SplitUpsert do
   end
 
   it 'delegates validation errors to split' do
-    split_upsert = described_class.new(app: default_app, name: "bad_test", weighting_registry: { badBadBad: 100 })
+    split_upsert = described_class.new(app: default_app, name: "bump.bad_extremely_bad", weighting_registry: { badBadBad: 100 })
     expect(split_upsert.save).to eq false
-    expect(split_upsert.errors[:name].first).to include("redundant")
+    expect(split_upsert.errors[:name].first).to include("prefixed")
     expect(split_upsert.errors[:weighting_registry].first).to include("snake_case")
   end
 

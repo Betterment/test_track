@@ -38,18 +38,6 @@ RSpec.describe Split, type: :model do
       expect(subject.errors[:name].first).to include("snake_case")
     end
 
-    it "rejects new" do
-      subject.name = 'my_new_foo'
-      expect(subject).not_to be_valid
-      expect(subject.errors[:name].first).to include("absolute time")
-    end
-
-    it "rejects ending in test" do
-      subject.name = 'my_foo_test'
-      expect(subject).not_to be_valid
-      expect(subject.errors[:name].first).to include("redundant")
-    end
-
     it "rejects prefixed with other-than-app-name" do
       subject.name = 'bla.baz'
       expect(subject).not_to be_valid
