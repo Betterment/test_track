@@ -29,7 +29,8 @@ gem 'responders'
 
 gem 'rack-timeout'
 
-gem 'airbrake', '~> 7.3.5'
+gem 'airbrake', '~> 7.3.5', require: false
+gem 'sentry-raven', require: false
 
 gem 'newrelic_rpm'
 gem 'ddtrace'

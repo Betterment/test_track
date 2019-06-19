@@ -1,4 +1,6 @@
 if ENV['AIRBRAKE_API_KEY'].present?
+  require 'airbrake'
+
   Airbrake.configure do |config|
     config.project_id = ENV['AIRBRAKE_API_KEY']
     config.project_key = ENV['AIRBRAKE_API_KEY']
