@@ -65,11 +65,13 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
             split: split,
             variant: "variant1",
             bulk_assignment: bulk_assignment,
-            context: "bulk_assignment"
+            context: "bulk_assignment",
+            mixpanel_result: "success",
+            updated_at: Time.zone.parse('2019-01-01 00:00:00')
           )
         end
 
-        it "does nothing" do
+        it "maintains bulk assignment status" do
           expect { subject.save! }
             .not_to change { Assignment.count }
 
@@ -89,13 +91,17 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
             visitor: visitor,
             split: split,
             variant: "variant1",
-            context: "context"
+            context: "context",
+            mixpanel_result: "success",
+            updated_at: Time.zone.parse('2019-01-01 00:00:00')
           )
         end
 
-        it "does nothing" do
-          expect { subject.save! }
-            .not_to change { Assignment.count }
+        it "touches the record but changes nothing else" do
+          Timecop.freeze(Time.zone.parse('2019-07-01 00:00:00')) do
+            expect { subject.save! }
+              .not_to change { Assignment.count }
+          end
 
           existing_assignment.reload
           expect(existing_assignment.variant).to eq "variant1"
@@ -103,6 +109,8 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
           expect(existing_assignment.split).to eq split
           expect(existing_assignment.bulk_assignment).to eq nil
           expect(existing_assignment.context).to eq "context"
+          expect(existing_assignment.mixpanel_result).to eq "success"
+          expect(existing_assignment.updated_at).to eq Time.zone.parse('2019-07-01 00:00:00')
         end
       end
     end
