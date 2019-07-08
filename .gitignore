@@ -20,6 +20,7 @@
 /public/system
 
 /spec/error_screenshots/
+/spec/examples.txt
 .idea
 /.powenv
 /.env.local

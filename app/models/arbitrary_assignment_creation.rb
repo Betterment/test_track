@@ -1,8 +1,7 @@
 class ArbitraryAssignmentCreation
   attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context, :force
 
-  # rubocop:disable Metrics/ParameterLists
-  def initialize(
+  def initialize( # rubocop:disable Metrics/ParameterLists
     visitor_id: nil,
     split_name: nil,
     variant: nil,
@@ -19,7 +18,6 @@ class ArbitraryAssignmentCreation
     @context = context
     @force = force
   end
-  # rubocop:enable Metrics/ParameterLists
 
   def save!
     if superseding?
@@ -43,10 +41,10 @@ class ArbitraryAssignmentCreation
     save!
   end
 
-  def supersede!(now = Time.zone.now)
+  def supersede!
     assignment.with_lock do
       assignment.create_previous_assignment!(now)
-      assignment.update! supersede_attrs(now)
+      assignment.update! supersede_attrs
     end
   end
 
@@ -92,14 +90,14 @@ class ArbitraryAssignmentCreation
       mixpanel_result: mixpanel_result,
       bulk_assignment_id: bulk_assignment_id_for_save,
       context: context_for_save,
+      updated_at: now,
       force: force
     }
   end
 
-  def supersede_attrs(updated_at)
+  def supersede_attrs
     assignment_attrs.merge(
       individually_overridden: individual_override?,
-      updated_at: updated_at,
       bulk_assignment_id: bulk_assignment_id_for_supersession,
       context: context_for_supersession
     )
@@ -123,5 +121,9 @@ class ArbitraryAssignmentCreation
     else
       context_for_save
     end
+  end
+
+  def now
+    @now ||= Time.zone.now
   end
 end
