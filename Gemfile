@@ -39,6 +39,7 @@ gem 'rails_semantic_logger', require: false
 
 gem 'devise'
 gem 'omniauth-saml'
+gem 'omniauth-rails_csrf_protection'
 
 gem 'simple_form'
 
