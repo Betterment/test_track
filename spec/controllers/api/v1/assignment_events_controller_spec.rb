@@ -30,8 +30,12 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
     end
 
     it "noops if a conflicting assignment already exists" do
-      assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+      assignment = nil
+      Timecop.freeze(1.year.ago) do
+        assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+      end
 
+      assignment.reload
       original_attributes = assignment.attributes
 
       expect {
