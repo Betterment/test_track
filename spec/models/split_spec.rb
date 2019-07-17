@@ -467,6 +467,7 @@ RSpec.describe Split, type: :model do
 
       it "returns 100% weighted variant if decided" do
         subject = FactoryBot.build_stubbed(:split, registry: { false: 0, true: 100 }, decided_at: Time.zone.now)
+
         expect(subject.decided_variant).to eq("true")
       end
     end
