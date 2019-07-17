@@ -156,6 +156,13 @@ class Split < ActiveRecord::Base
     @require_app_name_prefix
   end
 
+  def decided_variant
+    return nil unless decided?
+    registry.each_with_object([]) { |(k, v), found|
+      found << k if v == 100
+    }.first
+  end
+
   private
 
   def knock_out_weightings(registry_hash, to: "false")

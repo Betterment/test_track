@@ -452,6 +452,25 @@ RSpec.describe Split, type: :model do
       end
     end
 
+    describe "#decided_variant" do
+      it "returns nil if 100% weighted and undecided" do
+        subject = FactoryBot.build_stubbed(:split, registry: { false: 100, true: 0 })
+
+        expect(subject.decided_variant).to be_nil
+      end
+
+      it "returns nil if decided and not 100% weighted" do
+        subject = FactoryBot.build_stubbed(:split, registry: { false: 50, true: 50 }, decided_at: Time.zone.now)
+
+        expect(subject.decided_variant).to be_nil
+      end
+
+      it "returns 100% weighted variant if decided" do
+        subject = FactoryBot.build_stubbed(:split, registry: { false: 0, true: 100 }, decided_at: Time.zone.now)
+        expect(subject.decided_variant).to eq("true")
+      end
+    end
+
     context "with a non-feature-gate" do
       subject { FactoryBot.create(:split, registry: { hammer_time: 50, touch_this: 50 }) }
 
