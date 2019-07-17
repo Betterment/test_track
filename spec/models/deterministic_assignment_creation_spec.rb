@@ -55,13 +55,12 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
         .with(hash_including(variant: "variant2"))
     end
 
-    it "recreates with the previously assigned variant if already assigned" do
+    it "noops if already assigned" do
       FactoryBot.create(:assignment, split: split, visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), variant: "variant3")
 
       subject.save!
 
-      expect(ArbitraryAssignmentCreation).to have_received(:create!)
-        .with(hash_including(variant: "variant3"))
+      expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
     end
 
     it "creates with the same context" do

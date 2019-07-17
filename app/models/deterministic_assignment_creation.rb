@@ -14,19 +14,15 @@ class DeterministicAssignmentCreation
   end
 
   def save!
-    unless split.feature_gate?
+    if !split.feature_gate? && !existing_assignment
       ArbitraryAssignmentCreation.create!(
         visitor_id: visitor_id,
         split_name: split_name,
-        variant: variant,
+        variant: variant_calculator.variant,
         mixpanel_result: mixpanel_result,
         context: context
       )
     end
-  end
-
-  def variant
-    assignment.variant || variant_calculator.variant
   end
 
   def variant_calculator
@@ -37,8 +33,8 @@ class DeterministicAssignmentCreation
     @split ||= Split.find_by!(name: split_name)
   end
 
-  def assignment
-    @assignment ||= Assignment.find_or_initialize_by visitor: visitor, split: split
+  def existing_assignment
+    Assignment.find_by visitor: visitor, split: split
   end
 
   def visitor

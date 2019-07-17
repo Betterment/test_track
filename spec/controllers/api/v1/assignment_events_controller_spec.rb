@@ -30,13 +30,20 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
     end
 
     it "noops if a conflicting assignment already exists" do
-      FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+      assignment = nil
+      Timecop.freeze(1.year.ago) do
+        assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+      end
+
+      assignment.reload
+      original_attributes = assignment.attributes
 
       expect {
         post :create, params: create_params
       }.not_to change { PreviousAssignment.count }
 
       expect(response).to have_http_status :no_content
+      expect(assignment.reload.attributes).to eq original_attributes
     end
 
     it "allows a request without a mixpanel_result" do
