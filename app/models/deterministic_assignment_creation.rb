@@ -34,7 +34,7 @@ class DeterministicAssignmentCreation
   end
 
   def existing_assignment
-    @existing_assignment ||= Assignment.find_by visitor: visitor, split: split
+    Assignment.find_by visitor: visitor, split: split
   end
 
   def visitor
