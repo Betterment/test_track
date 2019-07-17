@@ -101,6 +101,10 @@ class Split < ActiveRecord::Base
     finished_at.present?
   end
 
+  def decided?
+    decided_at.present?
+  end
+
   def reassign_weight(weighting_registry)
     now = Time.zone.now
     previous_split_registries.build(registry: registry, created_at: updated_at, updated_at: now, superseded_at: now)
@@ -150,6 +154,10 @@ class Split < ActiveRecord::Base
 
   def require_app_name_prefix?
     @require_app_name_prefix
+  end
+
+  def decided_variant
+    registry.key(100) if decided?
   end
 
   private
