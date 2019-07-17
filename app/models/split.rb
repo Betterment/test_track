@@ -157,10 +157,7 @@ class Split < ActiveRecord::Base
   end
 
   def decided_variant
-    return nil unless decided?
-    registry.each_with_object([]) { |(k, v), found|
-      found << k if v == 100
-    }.first
+    registry.key(100) if decided?
   end
 
   private
