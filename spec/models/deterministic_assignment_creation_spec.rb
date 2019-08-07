@@ -55,12 +55,34 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
         .with(hash_including(variant: "variant2"))
     end
 
-    it "noops if already assigned" do
-      FactoryBot.create(:assignment, split: split, visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), variant: "variant3")
+    context 'with and existing assignement' do
+      context 'when the mixpanel result is identical' do
+        it "does not update the assignment" do
+          FactoryBot.create(:assignment,
+            split: split, variant: "variant3", mixpanel_result: "success",
+            visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"))
 
-      subject.save!
+          subject.save!
 
-      expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
+          expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
+        end
+      end
+
+      context 'when the mixpanel result is different' do
+        let(:date) { Date.parse('2016-08-07') }
+
+        it "passes the new mixpanel_result and existing updated_at" do
+          FactoryBot.create(:assignment,
+            split: split, variant: "variant3", mixpanel_result: nil,
+            visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), updated_at: date)
+
+          subject.save!
+
+          expect(ArbitraryAssignmentCreation).to have_received(:create!).with hash_including(
+            mixpanel_result: "success", updated_at: Date.parse('2016-08-07')
+          )
+        end
+      end
     end
 
     it "creates with the same context" do
