@@ -14,13 +14,14 @@ class DeterministicAssignmentCreation
   end
 
   def save!
-    if !split.feature_gate? && !existing_assignment
+    if should_create_or_update_assignment?
       ArbitraryAssignmentCreation.create!(
         visitor_id: visitor_id,
         split_name: split_name,
         variant: variant_calculator.variant,
         mixpanel_result: mixpanel_result,
-        context: context
+        context: context,
+        updated_at: updated_at
       )
     end
   end
@@ -39,5 +40,15 @@ class DeterministicAssignmentCreation
 
   def visitor
     @visitor ||= Visitor.from_id(visitor_id)
+  end
+
+  private
+
+  def should_create_or_update_assignment?
+    !split.feature_gate? && (!existing_assignment || existing_assignment.mixpanel_result != @mixpanel_result)
+  end
+
+  def updated_at
+    existing_assignment && existing_assignment.updated_at
   end
 end
