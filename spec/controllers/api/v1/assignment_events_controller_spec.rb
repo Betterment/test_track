@@ -29,10 +29,10 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
       expect(assignment.context).to eq "context"
     end
 
-    it "noops if a conflicting assignment already exists" do
+    it "noops if a conflicting assignment with a mixpanel_result already exists" do
       assignment = nil
       Timecop.freeze(1.year.ago) do
-        assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+        assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control", mixpanel_result: "success")
       end
 
       assignment.reload
@@ -44,6 +44,23 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
 
       expect(response).to have_http_status :no_content
       expect(assignment.reload.attributes).to eq original_attributes
+    end
+
+    it "updates an existing assignment without a mixpanel_result" do
+      assignment = nil
+      Timecop.freeze(1.year.ago) do
+        assignment = FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control", mixpanel_result: nil)
+      end
+
+      assignment.reload
+
+      expect {
+        post :create, params: create_params
+      }.to change { PreviousAssignment.count }.by(1)
+
+      expect(response).to have_http_status :no_content
+      assignment = Assignment.first
+      expect(assignment.mixpanel_result).to eq "success"
     end
 
     it "allows a request without a mixpanel_result" do
