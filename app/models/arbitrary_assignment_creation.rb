@@ -1,5 +1,5 @@
 class ArbitraryAssignmentCreation
-  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context, :force, :updated_at
+  attr_reader :visitor_id, :split_name, :variant, :bulk_assignment_id, :context, :force
 
   def initialize( # rubocop:disable Metrics/ParameterLists
     visitor_id: nil,

@@ -180,7 +180,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         expect(existing_assignment.mixpanel_result).to eq "success"
       end
 
-      it "overrides an existing assignment's mixpanel_result with a non-nil mixpanel_result and keeps the original updated_at" do
+      it "overrides an existing assignment's mixpanel_result with a non-nil mixpanel_result" do
         visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
         existing_assignment = FactoryBot.create(
           :assignment,
