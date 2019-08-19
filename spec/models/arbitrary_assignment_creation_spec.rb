@@ -3,15 +3,13 @@ require 'rails_helper'
 RSpec.describe ArbitraryAssignmentCreation, type: :model do
   subject { ArbitraryAssignmentCreation.new params }
 
-  let(:updated_at) { nil }
   let(:params) do
     {
       visitor_id: SecureRandom.uuid,
       split_name: "split",
       variant: "variant1",
       mixpanel_result: "success",
-      context: "the_context",
-      updated_at: updated_at
+      context: "the_context"
     }
   end
 
@@ -156,7 +154,6 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
     end
 
     context "mixpanel_result" do
-      let(:updated_at) { Date.parse("2016-08-07") }
       let(:assignment_creation_without_mixpanel_result) { ArbitraryAssignmentCreation.new params.except(:mixpanel_result) }
       let(:assignment_creation_with_mixpanel_result) { subject }
 
@@ -197,7 +194,6 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
         existing_assignment.reload
         expect(existing_assignment.mixpanel_result).to eq "success"
-        expect(existing_assignment.updated_at).to eq Date.parse("2016-08-07")
       end
 
       it "overrides an existing assignment's mixpanel_result when switching variants" do

@@ -56,7 +56,7 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
 
       expect {
         post :create, params: create_params
-      }.to change { PreviousAssignment.count }.by(1)
+      }.not_to change { PreviousAssignment.count }
 
       expect(response).to have_http_status :no_content
       assignment = Assignment.first

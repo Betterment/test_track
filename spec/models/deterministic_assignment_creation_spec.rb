@@ -55,41 +55,45 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
         .with(hash_including(variant: "variant2"))
     end
 
-    context 'with and existing assignement' do
-      context 'when the mixpanel result is identical' do
-        it "does not update the assignment" do
-          FactoryBot.create(:assignment,
-            split: split, variant: "variant3", mixpanel_result: "success",
-            visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"))
-
-          subject.save!
-
-          expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
-        end
-      end
-
-      context 'when the mixpanel result is different' do
-        let(:date) { Date.parse('2016-08-07') }
-
-        it "passes the new mixpanel_result and existing updated_at" do
-          FactoryBot.create(:assignment,
-            split: split, variant: "variant3", mixpanel_result: nil,
-            visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"), updated_at: date)
-
-          subject.save!
-
-          expect(ArbitraryAssignmentCreation).to have_received(:create!).with hash_including(
-            mixpanel_result: "success", updated_at: Date.parse('2016-08-07')
-          )
-        end
-      end
-    end
-
     it "creates with the same context" do
       subject.save!
 
       expect(ArbitraryAssignmentCreation).to have_received(:create!)
         .with(hash_including(context: "the_context"))
+    end
+
+    context 'with an existing assignement' do
+      let(:updated_at) { Time.zone.parse("2016-08-07 23:45:59") }
+      let(:original_mixpanel_result) { "success" }
+
+      let!(:existing_assignment) do
+        FactoryBot.create(:assignment,
+          split: split, variant: "variant3",
+          visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"),
+          mixpanel_result: original_mixpanel_result,
+          updated_at: updated_at)
+      end
+
+      it "does not create a new assignment or change existing assignment" do
+        original_attributes = existing_assignment.attributes
+
+        subject.save!
+
+        expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
+        expect(existing_assignment.reload.attributes).to eq original_attributes
+      end
+
+      context 'when the mixpanel result changes' do
+        let(:original_mixpanel_result) { "failure" }
+
+        it "updates the new mixpanel_result but leaves existing updated_at" do
+          subject.save!
+
+          expect(ArbitraryAssignmentCreation).not_to have_received(:create!)
+          expect(existing_assignment.reload.mixpanel_result).to eq "success"
+          expect(existing_assignment.reload.updated_at).to eq Time.zone.parse("2016-08-07 23:45:59")
+        end
+      end
     end
 
     context "with a feature gate" do

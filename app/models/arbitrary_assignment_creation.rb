@@ -8,8 +8,7 @@ class ArbitraryAssignmentCreation
     mixpanel_result: nil,
     bulk_assignment_id: nil,
     context: nil,
-    force: false,
-    updated_at: nil
+    force: false
   )
     @visitor_id = visitor_id
     @split_name = split_name
@@ -18,7 +17,6 @@ class ArbitraryAssignmentCreation
     @bulk_assignment_id = bulk_assignment_id
     @context = context
     @force = force
-    @updated_at = updated_at
   end
 
   def save!
@@ -92,7 +90,7 @@ class ArbitraryAssignmentCreation
       mixpanel_result: mixpanel_result,
       bulk_assignment_id: bulk_assignment_id_for_save,
       context: context_for_save,
-      updated_at: updated_at || now,
+      updated_at: now,
       force: force
     }
   end
