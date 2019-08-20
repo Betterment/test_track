@@ -63,17 +63,18 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
         .with(hash_including(context: "the_context"))
     end
 
-    context 'with an existing assignement' do
+    context 'with an existing assignment' do
       let(:updated_at) { Time.zone.parse("2016-08-07 23:45:59") }
       let(:original_mixpanel_result) { "success" }
 
       let!(:existing_assignment) do
-        FactoryBot.create(:assignment,
+        assignment = FactoryBot.create(:assignment,
           split: split, variant: "variant3",
           visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"),
           mixpanel_result: original_mixpanel_result,
-          created_at: 1.year.ago,
           updated_at: updated_at)
+
+          assignment.reload
       end
 
       it "does not create a new assignment or change existing assignment" do
