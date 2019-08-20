@@ -17,8 +17,10 @@ class DeterministicAssignmentCreation
     return if split.feature_gate?
 
     if existing_assignment.present?
-      existing_assignment.assign_attributes(mixpanel_result: mixpanel_result)
-      existing_assignment.save!(touch: false)
+      if existing_assignment.unsynced?
+        existing_assignment.assign_attributes(mixpanel_result: mixpanel_result)
+        existing_assignment.save!(touch: false)
+      end
     else
       ArbitraryAssignmentCreation.create!(
         visitor_id: visitor_id,
