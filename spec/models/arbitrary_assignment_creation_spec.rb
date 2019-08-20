@@ -24,7 +24,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
       expect(visitor.id).to eq params[:visitor_id]
     end
 
-    it "finds existing visitor when there is a visitor creation race conditon" do
+    it "finds existing visitor when there is a visitor creation race condition" do
       visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
       error = ActiveRecord::RecordNotUnique.new("duplicate key value violates unique constraint")
       allow(Visitor).to receive(:find_or_create_by!).and_raise(error)

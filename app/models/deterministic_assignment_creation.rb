@@ -13,8 +13,15 @@ class DeterministicAssignmentCreation
     new(params).tap(&:save!)
   end
 
-  def save!
-    if !split.feature_gate? && !existing_assignment
+  def save! # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    return if split.feature_gate?
+
+    if existing_assignment.present?
+      if existing_assignment.unsynced?
+        existing_assignment.assign_attributes(mixpanel_result: mixpanel_result)
+        existing_assignment.save!(touch: false)
+      end
+    else
       ArbitraryAssignmentCreation.create!(
         visitor_id: visitor_id,
         split_name: split_name,
@@ -34,7 +41,7 @@ class DeterministicAssignmentCreation
   end
 
   def existing_assignment
-    Assignment.find_by visitor: visitor, split: split
+    @existing_assignment ||= Assignment.find_by visitor: visitor, split: split
   end
 
   def visitor
