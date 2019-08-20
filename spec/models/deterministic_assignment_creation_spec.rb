@@ -72,6 +72,7 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
           split: split, variant: "variant3",
           visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"),
           mixpanel_result: original_mixpanel_result,
+          created_at: 1.year.ago,
           updated_at: updated_at)
       end
 
