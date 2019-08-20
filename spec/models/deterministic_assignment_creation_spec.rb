@@ -74,7 +74,7 @@ RSpec.describe DeterministicAssignmentCreation, type: :model do
           mixpanel_result: original_mixpanel_result,
           updated_at: updated_at)
 
-          assignment.reload
+        assignment.reload
       end
 
       it "does not create a new assignment or change existing assignment" do
