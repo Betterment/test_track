@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V2::SplitRegistriesController, type: :controller do
+RSpec.describe Api::V2::LegacySplitRegistriesController, type: :controller do
   let(:split_1) { FactoryBot.create :split, name: "one", finished_at: Time.zone.now, registry: { all: 100 } }
   let(:split_2) { FactoryBot.create :split, name: "two", registry: { on: 50, off: 50 } }
   let(:split_3) { FactoryBot.create :split, name: "three_enabled", registry: { true: 99, false: 1 }, feature_gate: true }

@@ -1,8 +1,10 @@
 class SplitRegistry
-  include Singleton
+  def initialize(build_timestamp)
+    @build_timestamp = build_timestamp
+  end
 
   def splits
-    Split.for_presentation
+    Split.active(as_of: build_timestamp.build_timestamp)
   end
 
   def experience_sampling_weight
@@ -10,6 +12,8 @@ class SplitRegistry
   end
 
   private
+
+  attr_reader :build_timestamp
 
   def _experience_sampling_weight
     Integer(ENV.fetch('EXPERIENCE_SAMPLING_WEIGHT', '1')).tap do |weight|

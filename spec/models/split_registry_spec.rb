@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SplitRegistry do
-  subject { described_class.instance }
+  subject { described_class.new(Time.zone.now) }
 
   describe "#splits" do
     it "doesn't cache the instance" do
