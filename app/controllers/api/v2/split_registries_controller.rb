@@ -4,11 +4,10 @@ class Api::V2::SplitRegistriesController < UnauthenticatedApiController
   def show
     build_timestamp = BuildTimestamp.new(build_params)
     if build_timestamp.valid?
-      @split_registry = SplitRegistry.new(build_timestamp)
+      @split_registry = SplitRegistry.new(build_timestamp.build_timestamp)
     else
       render_errors build_timestamp
     end
-
   end
 
   private

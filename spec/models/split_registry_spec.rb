@@ -9,23 +9,27 @@ RSpec.describe SplitRegistry do
       expect(subject.splits).not_to eql(subject.splits)
     end
 
-    it "returns active splits" do
+    it "returns active splits as of provided timestamp" do
       split = FactoryBot.create(:split)
 
       expect(subject.splits.all).to include(split)
     end
 
-    it "doesn't return inactive splits" do
-      split = FactoryBot.create(:split, finished_at: Time.zone.now)
+    it "doesn't return inactive splits as of given timestamp" do
+      split = FactoryBot.create(:split, finished_at: 1.day.ago)
 
       expect(subject.splits.all).not_to include(split)
+    end
+
+    it "returns splits that were retired after the given timestamp" do
+      split = FactoryBot.create(:split, finished_at: Time.zone.now)
+
+      expect(described_class.new(1.day.ago).splits.all).to include(split)
     end
   end
 
   describe "#experience_sampling_weight" do
     context "bypassing singleton memoization" do
-      subject { described_class.send(:new) }
-
       it "memoizes the env var fetch" do
         allow(ENV).to receive(:fetch).and_call_original
 

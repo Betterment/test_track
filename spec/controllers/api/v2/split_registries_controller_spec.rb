@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Api::V2::LegacySplitRegistriesController, type: :controller do
-  let(:split_1) { FactoryBot.create :split, name: "one", finished_at: Time.zone.now, registry: { all: 100 } }
+RSpec.describe Api::V2::SplitRegistriesController, type: :controller do
+  let(:split_1) { FactoryBot.create :split, name: "one", finished_at: Time.zone.parse('2019-11-13'), registry: { all: 100 } }
   let(:split_2) { FactoryBot.create :split, name: "two", registry: { on: 50, off: 50 } }
   let(:split_3) { FactoryBot.create :split, name: "three_enabled", registry: { true: 99, false: 1 }, feature_gate: true }
 
@@ -11,26 +11,34 @@ RSpec.describe Api::V2::LegacySplitRegistriesController, type: :controller do
     end
 
     it "includes sampling weight" do
-      get :show
+      get :show, params: { timestamp: '2019-11-11T14:35:30Z' }
+
       expect(response).to have_http_status :ok
       expect(response_json['experience_sampling_weight']).to eq(10)
     end
 
-    it "returns empty with no active splits" do
-      get :show
+    it "returns empty with no active splits on the timestamp" do
+      expect(split_1).to be_finished
+
+      get :show, params: { timestamp: '2019-11-14T14:35:30Z' }
+
       expect(response).to have_http_status :ok
       expect(response_json['splits']).to eq({})
     end
 
-    it "returns the full split registry" do
+    it "returns the full split registry of splits that are active during timestamp" do
       expect(split_1).to be_finished
       expect(split_2).not_to be_finished
       expect(split_3).not_to be_finished
 
-      get :show
+      get :show, params: { timestamp: '2019-11-12T14:35:30Z' }
 
       expect(response).to have_http_status :ok
       expect(response_json['splits']).to eq(
+        "one" => {
+          "weights" => { "all" => 100 },
+          "feature_gate" => false
+        },
         "two" => {
           "weights" => { "on" => 50, "off" => 50 },
           "feature_gate" => false
