@@ -1,7 +1,29 @@
 require 'rails_helper'
 
-RSpec.describe SplitRegistry do
-  subject { described_class.new(Time.zone.now) }
+RSpec.describe SplitRegistrySnapshot do
+  subject { described_class.new(timestamp: Time.zone.now) }
+
+  describe 'validations' do
+    it "is valid with valid args" do
+      expect(described_class.new(timestamp: "2019-04-16T14:35:30Z")).to be_valid
+    end
+
+    it "is invalid with no timestamp" do
+      expect(described_class.new(timestamp: "")).to be_invalid
+    end
+
+    it "is invalid with a non-ISO date" do
+      expect(described_class.new(timestamp: "2019-04-16 10:38:08 -0400")).to be_invalid
+    end
+
+    it "is valid with an ISO date with millis" do
+      expect(described_class.new(timestamp: "2019-04-16T14:35:30.123Z")).to be_valid
+    end
+
+    it "is invalid with an ISO date without seconds" do
+      expect(described_class.new(timestamp: "2019-04-16T14:35Z")).to be_invalid
+    end
+  end
 
   describe "#splits" do
     it "doesn't cache the instance" do
@@ -24,7 +46,7 @@ RSpec.describe SplitRegistry do
     it "returns splits that were retired after the given timestamp" do
       split = FactoryBot.create(:split, finished_at: Time.zone.now)
 
-      expect(described_class.new(1.day.ago).splits.all).to include(split)
+      expect(described_class.new(timestamp: 1.day.ago).splits.all).to include(split)
     end
   end
 

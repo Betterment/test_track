@@ -50,8 +50,8 @@ Rails.application.routes.draw do
     end
 
     namespace :v2 do
-      resource :split_registry, only: :show, controller: 'legacy_split_registries'
-      resources :split_registries, only: :show, param: :timestamp
+      resource :split_registry, only: :show
+      resources :split_registry_snapshots, only: :show, param: :timestamp
 
       resources :migrations do
         collection do
