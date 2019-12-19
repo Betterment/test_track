@@ -11,15 +11,14 @@ addons:
     - postgresql-client-11
 env:
   global:
-  - PGPORT=5432
+  - PGPORT=5433
 
 rvm:
   - 2.4.2
   - 2.6.2
 
 before_install:
-  - gem uninstall bundler
-  - gem update --system
+  - gem update --system 3.0.3
   - gem install bundler
 
 before_script:
