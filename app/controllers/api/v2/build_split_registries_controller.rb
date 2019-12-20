@@ -1,4 +1,4 @@
-class Api::V2::SplitRegistrySnapshotsController < UnauthenticatedApiController
+class Api::V2::BuildSplitRegistriesController < UnauthenticatedApiController
   include CorsSupport
 
   def show
