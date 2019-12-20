@@ -1,3 +1,5 @@
+dist: bionic
+
 language: ruby
 
 services:
@@ -5,10 +7,7 @@ services:
 
 addons:
   postgresql: '11'
-  apt:
-    packages:
-    - postgresql-11
-    - postgresql-client-11
+
 env:
   global:
   - PGPORT=5433
@@ -20,9 +19,6 @@ rvm:
 before_install:
   - gem update --system 3.0.3
   - gem install bundler
-  - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-  - sudo service postgresql restart
-  - sleep 1
 
 before_script:
   - bundle exec rake db:create
