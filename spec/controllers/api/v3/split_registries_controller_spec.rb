@@ -11,7 +11,7 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
     end
 
     it "includes sampling weight" do
-      get :show, params: { timestamp: '2019-11-11T14:35:30Z' }
+      get :show, params: { build_timestamp: '2019-11-11T14:35:30Z' }
 
       expect(response).to have_http_status :ok
       expect(response_json['experience_sampling_weight']).to eq(10)
@@ -20,7 +20,7 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
     it "returns empty with no active splits on the timestamp" do
       expect(split_1).to be_finished
 
-      get :show, params: { timestamp: '2019-11-14T14:35:30Z' }
+      get :show, params: { build_timestamp: '2019-11-14T14:35:30Z' }
 
       expect(response).to have_http_status :ok
       expect(response_json['splits']).to eq({})
@@ -31,7 +31,7 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
       expect(split_2).not_to be_finished
       expect(split_3).not_to be_finished
 
-      get :show, params: { timestamp: '2019-11-12T14:35:30Z' }
+      get :show, params: { build_timestamp: '2019-11-12T14:35:30Z' }
 
       expect(response).to have_http_status :ok
       expect(response_json['splits']).to eq(
@@ -51,13 +51,13 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
     end
 
     it "returns unprocessable_entity if the timestamp url param is invalid" do
-      get :show, params: { timestamp: "2019-04-16 10:38:08 -0400" }
+      get :show, params: { build_timestamp: "2019-04-16 10:38:08 -0400" }
 
       expect(response).to have_http_status :unprocessable_entity
     end
 
     it "returns unprocessable_entity if the timestamp url param is missing" do
-      get :show, params: { timestamp: "" }
+      get :show, params: { build_timestamp: "" }
 
       expect(response).to have_http_status :unprocessable_entity
     end
