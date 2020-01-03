@@ -1,5 +1,5 @@
 json.splits do
-  @split_registry_snapshot.splits.each do |split|
+  @split_registry.splits.each do |split|
     json.set! split.name do
       json.weights split.registry
       json.feature_gate split.feature_gate?
@@ -7,4 +7,4 @@ json.splits do
   end
   json.merge!({})
 end
-json.(@split_registry_snapshot, :experience_sampling_weight)
+json.(@split_registry, :experience_sampling_weight)

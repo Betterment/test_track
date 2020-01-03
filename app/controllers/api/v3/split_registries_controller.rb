@@ -2,18 +2,18 @@ class Api::V3::SplitRegistriesController < UnauthenticatedApiController
   include CorsSupport
 
   def show
-    snapshot = SplitRegistrySnapshot.new(timestamp: snapshot_params[:build_timestamp])
+    split_registry = SplitRegistry.new(as_of: split_registry_params[:build_timestamp])
 
-    if snapshot.valid?
-      @split_registry_snapshot = snapshot
+    if split_registry.valid?
+      @split_registry = split_registry
     else
-      render_errors snapshot
+      render_errors split_registry
     end
   end
 
   private
 
-  def snapshot_params
+  def split_registry_params
     params.permit(:build_timestamp)
   end
 end
