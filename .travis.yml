@@ -8,10 +8,6 @@ services:
 addons:
   postgresql: '11'
 
-env:
-  global:
-  - PGPORT=5433
-
 rvm:
   - 2.4.2
   - 2.6.2
