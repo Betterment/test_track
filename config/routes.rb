@@ -67,7 +67,7 @@ Rails.application.routes.draw do
 
     namespace :v3 do
       resources :builds, only: [], param: :timestamp do
-        resource :split_registry, only: :show, controller: 'split_registries'
+        resource :split_registry, only: :show
       end
     end
   end
