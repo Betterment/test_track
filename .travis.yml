@@ -3,14 +3,20 @@ dist: bionic
 language: ruby
 
 services:
+  - postgresql
   - xvfb
 
+
 addons:
-  postgresql: '11'
+  postgresql: 11
+  apt:
+    packages:
+      - postgresql-11
+      - postgresql-client-11
 
 rvm:
-  - 2.4.2
-  - 2.6.2
+  - 2.4.9
+  - 2.6.5
 
 before_install:
   - gem update --system 3.0.3
