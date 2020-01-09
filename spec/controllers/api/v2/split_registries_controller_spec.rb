@@ -7,7 +7,7 @@ RSpec.describe Api::V2::SplitRegistriesController, type: :controller do
 
   describe "#show" do
     before do
-      allow(SplitRegistry.instance).to receive(:experience_sampling_weight).and_return(10)
+      allow(ENV).to receive(:fetch).with('EXPERIENCE_SAMPLING_WEIGHT', any_args).and_return(10)
     end
 
     it "includes sampling weight" do

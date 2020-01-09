@@ -64,6 +64,12 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    namespace :v3 do
+      resources :builds, only: [], param: :timestamp do
+        resource :split_registry, only: :show
+      end
+    end
   end
 
   if ENV['SAML_ISSUER'].present?
