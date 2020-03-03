@@ -194,7 +194,7 @@ GEM
     net-http-persistent (2.9.4)
     net-http-pipeline (1.0.1)
     newrelic_rpm (5.3.0.346)
-    nio4r (2.3.1)
+    nio4r (2.5.2)
     nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     omniauth (1.9.0)
@@ -231,7 +231,7 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    puma (4.3.1)
+    puma (4.3.3)
       nio4r (~> 2.0)
     pusher-client (0.6.2)
       json
