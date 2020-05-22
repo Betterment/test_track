@@ -231,7 +231,7 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    puma (4.3.3)
+    puma (4.3.5)
       nio4r (~> 2.0)
     pusher-client (0.6.2)
       json
