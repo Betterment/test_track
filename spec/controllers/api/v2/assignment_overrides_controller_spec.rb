@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V2::AssignmentOverridesController, type: :controller do
   describe "#create" do
     let!(:visitor) { FactoryBot.create :visitor }
-    let(:split) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }
+    let(:split) { FactoryBot.create(:split, name: "1split", registry: { control: 50, treatment: 50 }) }
 
     let(:create_params) do
       {
@@ -75,7 +75,7 @@ RSpec.describe Api::V2::AssignmentOverridesController, type: :controller do
         end
 
         context "with multiple assignments in the payload" do
-          let(:split2) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }
+          let(:split2) { FactoryBot.create(:split, name: "2split", registry: { control: 50, treatment: 50 }) }
 
           let(:create_params) do
             {
@@ -102,7 +102,7 @@ RSpec.describe Api::V2::AssignmentOverridesController, type: :controller do
 
             expect(response).to have_http_status :no_content
 
-            assignment = Assignment.first
+            assignment = Assignment.joins(:split).merge(Split.order(name: :asc)).first
             expect(assignment.variant).to eq "treatment"
             expect(assignment.visitor).to eq visitor
             expect(assignment.split).to eq split
@@ -110,7 +110,7 @@ RSpec.describe Api::V2::AssignmentOverridesController, type: :controller do
             expect(assignment.context).to eq "context"
             expect(assignment.force).to eq true
 
-            assignment = Assignment.second
+            assignment = Assignment.joins(:split).merge(Split.order(name: :asc)).second
             expect(assignment.variant).to eq "treatment"
             expect(assignment.visitor).to eq visitor
             expect(assignment.split).to eq split2
