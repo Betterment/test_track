@@ -43,10 +43,6 @@ Rails.application.routes.draw do
       match 'assignment_override', to: '/api/v1/cors#allow', via: :options
       resource :assignment_override, only: :create
 
-      # Shared secret-based batch assignment override for chrome extension
-      match 'batch_assignment_override', to: '/api/v1/cors#allow', via: :options
-      resource :batch_assignment_override, only: :create
-
       # Server-side authenticated endpoints
       resources :split_details, only: :show
       resources :split_configs, only: [:create, :destroy]
@@ -55,6 +51,10 @@ Rails.application.routes.draw do
 
     namespace :v2 do
       resource :split_registry, only: :show
+
+      # Shared secret-based assignment override for chrome extension
+      match 'assignment_override', to: '/api/v1/cors#allow', via: :options
+      resource :assignment_override, only: :create
 
       resources :migrations do
         collection do

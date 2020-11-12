@@ -58,7 +58,7 @@ RSpec.describe BatchArbitraryAssignmentCreation, type: :model do
 
       expect(ArbitraryAssignmentCreation).to have_received(:create!).with(
         hash_including(
-          mixpanel_result: "success",
+          mixpanel_result: "success"
         )
       ).twice
     end
