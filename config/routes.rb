@@ -54,7 +54,7 @@ Rails.application.routes.draw do
 
       resources :visitors, only: [] do
         # Shared secret-based assignment override for chrome extension
-        match 'assignment_override', to: '/api/v1/cors#allow', via: :options
+        match 'assignment_overrides', to: '/api/v1/cors#allow', via: :options
         resources :assignment_overrides, only: :create
       end
 
