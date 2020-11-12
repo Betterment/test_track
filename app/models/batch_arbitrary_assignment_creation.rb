@@ -1,7 +1,7 @@
 class BatchArbitraryAssignmentCreation
   attr_reader :visitor_id, :assignments, :force
 
-  def initialize( # rubocop:disable Metrics/ParameterLists
+  def initialize(
     visitor_id: nil,
     assignments: nil,
     force: false
