@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::BatchAssignmentOverridesController, type: :controller do
+RSpec.describe Api::V2::AssignmentOverridesController, type: :controller do
   describe "#create" do
     let!(:visitor) { FactoryBot.create :visitor }
     let(:split) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }

@@ -1,4 +1,4 @@
-class Api::V1::BatchAssignmentOverridesController < SharedSecretAuthenticatedApiController
+class Api::V2::AssignmentOverridesController < SharedSecretAuthenticatedApiController
   include CorsSupport
 
   def create
