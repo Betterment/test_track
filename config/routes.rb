@@ -52,6 +52,12 @@ Rails.application.routes.draw do
     namespace :v2 do
       resource :split_registry, only: :show
 
+      resources :visitors, only: [] do
+        # Shared secret-based assignment override for chrome extension
+        match 'assignment_overrides', to: '/api/v1/cors#allow', via: :options
+        resources :assignment_overrides, only: :create
+      end
+
       resources :migrations do
         collection do
           scope module: :migrations do
