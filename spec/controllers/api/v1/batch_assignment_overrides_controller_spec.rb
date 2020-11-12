@@ -12,7 +12,6 @@ RSpec.describe Api::V1::BatchAssignmentOverridesController, type: :controller do
           {
             split_name: split.name,
             variant: "treatment",
-            mixpanel_result: "success",
             context: "context"
           }
         ]
@@ -75,20 +74,6 @@ RSpec.describe Api::V1::BatchAssignmentOverridesController, type: :controller do
           expect(response).to have_http_status :no_content
         end
 
-        it "allows a request without a mixpanel_result" do
-          create_params_without_mixpanel = create_params.merge(assignments: create_params[:assignments].map { |a| a.except(:mixpanel_result) })
-          post :create, params: create_params_without_mixpanel
-
-          expect(response).to have_http_status :no_content
-
-          assignment = Assignment.first
-          expect(assignment.variant).to eq "treatment"
-          expect(assignment.visitor).to eq visitor
-          expect(assignment.split).to eq split
-          expect(assignment.mixpanel_result).to eq nil
-          expect(assignment.context).to eq "context"
-        end
-
         context "with multiple assignments in the payload" do
           let(:split2) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }
 
@@ -99,13 +84,11 @@ RSpec.describe Api::V1::BatchAssignmentOverridesController, type: :controller do
                 {
                   split_name: split.name,
                   variant: "treatment",
-                  mixpanel_result: "success",
                   context: "context"
                 },
                 {
                   split_name: split2.name,
                   variant: "treatment",
-                  mixpanel_result: "success",
                   context: "context"
                 }
               ]

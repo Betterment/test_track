@@ -9,6 +9,6 @@ class Api::V1::BatchAssignmentOverridesController < SharedSecretAuthenticatedApi
   private
 
   def create_params
-    params.permit(:visitor_id, assignments: [:split_name, :variant, :mixpanel_result, :context])
+    params.permit(:visitor_id, assignments: %i(split_name variant context))
   end
 end
