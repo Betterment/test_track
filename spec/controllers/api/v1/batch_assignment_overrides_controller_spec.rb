@@ -76,7 +76,8 @@ RSpec.describe Api::V1::BatchAssignmentOverridesController, type: :controller do
         end
 
         it "allows a request without a mixpanel_result" do
-          post :create, params: create_params.except(:mixpanel_result)
+          create_params_without_mixpanel = create_params.merge(assignments: create_params[:assignments].map { |a| a.except(:mixpanel_result) })
+          post :create, params: create_params_without_mixpanel
 
           expect(response).to have_http_status :no_content
 
