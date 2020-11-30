@@ -24,6 +24,9 @@ if ENV['DATADOG_ENABLED']
       c.use :http, service_name: "#{service_name}-http",
                    distributed_tracing: true,
                    analytics_enabled: true
+
+      c.use :faraday, service_name: "#{service_name}-faraday",
+                      distributed_tracing: true
     end
   end
 end
