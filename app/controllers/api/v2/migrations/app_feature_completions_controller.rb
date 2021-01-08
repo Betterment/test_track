@@ -4,7 +4,6 @@ class Api::V2::Migrations::AppFeatureCompletionsController < AuthenticatedApiCon
     if feature_completion_migration.save
       head :no_content
     else
-      puts feature_completion_migration.errors.full_messages
       render_errors feature_completion_migration
     end
   end
