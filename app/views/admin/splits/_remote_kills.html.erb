@@ -1,0 +1,34 @@
+<article class="InfoCard sc-m-v--l">
+  <div class="InfoCard-titleContainer">
+    <h4>Remote kills</h4>
+  </div>
+  <hr class="InfoCard-divider">
+  <div class="InfoCard-description">
+    <% if split.remote_kills.any? %>
+      <table class="fs-VariantsTable DescriptionTable">
+        <thead>
+          <th>App</th>
+          <th>Reason</th>
+          <th>From version</th>
+          <th>To version</th>
+        </thead>
+        <tbody>
+          <% split.remote_kills.each do |remote_kill| %>
+            <tr>
+              <td><%= remote_kill.app.name %></td>
+              <td><%= remote_kill.reason %></td>
+              <td><%= remote_kill.first_bad_version %></td>
+              <td><%= remote_kill.fixed_version || '-' %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="EmptyTable EmptyTable--centered sc-p--l">
+        <p>
+          No remote kills.
+        </p>
+      </div>
+    <% end %>
+  </div>
+</article>

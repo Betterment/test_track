@@ -6,6 +6,13 @@ class Split < ActiveRecord::Base
   has_many :bulk_assignments, dependent: :nullify
   has_many :variant_details, dependent: :nullify
 
+  has_many :remote_kills, ->(split) { where(split: split) }, through: :owner_app, class_name: 'AppRemoteKill', inverse_of: :split
+  has_many :feature_completions,
+    ->(split) { where(feature_gate: split) },
+    through: :owner_app,
+    class_name: 'AppFeatureCompletion',
+    inverse_of: :feature_gate
+
   validates :name, presence: true, uniqueness: true
   validates :registry, presence: true
 

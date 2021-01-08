@@ -1,0 +1,40 @@
+<article class="InfoCard sc-m-v--l">
+  <div class="InfoCard-titleContainer">
+    <h4>Feature Completions</h4>
+  </div>
+  <hr class="InfoCard-divider">
+  <% if split.feature_gate? %>
+    <% if split.feature_completions.any? %>
+      <div class="InfoCard-description">
+        <table class="fs-VariantsTable DescriptionTable">
+          <thead>
+            <th>App</th>
+            <th>Version</th>
+          </thead>
+          <tbody>
+            <% split.feature_completions.each do |feature_completion| %>
+              <tr>
+                <td><%= feature_completion.app.name %></td>
+                <td><%= feature_completion.version %>+</td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <div class="EmptyTable EmptyTable--centered sc-p--l">
+          <p>
+            <strong>This feature has not been marked as complete for any app versions yet.</strong>
+            <br>
+            As a result, this feature is not visible to any clients that rely on feature completions (barring alpha tester overrides).
+          </p>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="EmptyTable EmptyTable--centered sc-p--l">
+        <p>
+          Feature completions don't apply to experiments.
+        </p>
+      </div>
+    <% end %>
+  </div>
+</article>
