@@ -4,7 +4,6 @@ class Api::V2::Migrations::SplitsController < AuthenticatedApiController
     if split_upsert.save
       head :no_content
     else
-      puts split_upsert.errors.full_messages
       render_errors split_upsert
     end
   end

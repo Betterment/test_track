@@ -4,7 +4,6 @@ class Api::V2::Migrations::SplitRetirementsController < AuthenticatedApiControll
     if split_retirement.save
       head :no_content
     else
-      puts split_retirement.errors.full_messages
       render_errors split_retirement
     end
   end
