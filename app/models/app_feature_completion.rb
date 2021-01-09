@@ -15,6 +15,8 @@ class AppFeatureCompletion < ActiveRecord::Base
     )
   end
 
+  scope :by_app_and_version, -> { joins(:app).merge(App.by_name).order(version: :desc) }
+
   private
 
   def feature_gate_must_be_a_feature_gate

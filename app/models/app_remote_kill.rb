@@ -13,6 +13,8 @@ class AppRemoteKill < ActiveRecord::Base
   validate :fixed_version_must_be_greater_than_first_bad_version
   validate :must_not_overlap_existing
 
+  scope :by_app_and_version, -> { joins(:app).merge(App.by_name).order(first_bad_version: :desc) }
+
   scope :affecting, ->(app_build) do
     where(
       arel_table[:app_id].eq(app_build.app_id)

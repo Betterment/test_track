@@ -12,7 +12,7 @@
             <th>Version</th>
           </thead>
           <tbody>
-            <% split.feature_completions.each do |feature_completion| %>
+            <% split.feature_completions.by_app_and_version.each do |feature_completion| %>
               <tr>
                 <td><%= feature_completion.app.name %></td>
                 <td><%= feature_completion.version %>+</td>
@@ -25,7 +25,7 @@
           <p>
             <strong>This feature has not been marked as complete for any app versions yet.</strong>
             <br>
-            As a result, this feature is not visible to any clients that rely on feature completions (barring alpha tester overrides).
+            As a result, this feature is not visible to customer installed apps, e.g. mobile (barring alpha tester overrides).
           </p>
         </div>
       <% end %>

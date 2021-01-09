@@ -13,7 +13,7 @@
           <th>To version</th>
         </thead>
         <tbody>
-          <% split.remote_kills.each do |remote_kill| %>
+          <% split.remote_kills.by_app_and_version.each do |remote_kill| %>
             <tr>
               <td><%= remote_kill.app.name %></td>
               <td><%= remote_kill.reason %></td>

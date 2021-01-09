@@ -5,6 +5,8 @@ class App < ActiveRecord::Base
   has_many :remote_kills, class_name: "AppRemoteKill", dependent: :nullify
   has_many :migrations, class_name: "AppMigration", dependent: :nullify
 
+  scope :by_name, -> { order(name: :asc) }
+
   validates :name, :auth_secret, presence: true
   validates :name, uniqueness: true
 
