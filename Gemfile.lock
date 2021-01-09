@@ -78,8 +78,9 @@ GEM
       aws-sdk-core (= 2.3.22)
     backports (3.10.3)
     bcrypt (3.1.13)
-    binding_of_caller (0.7.3)
-      debug_inspector (>= 0.0.1)
+    bindex (0.8.1)
+    bootsnap (1.5.1)
+      msgpack (~> 1.0)
     bourbon (4.2.0)
       sass (~> 3.4)
       thor
@@ -114,7 +115,6 @@ GEM
       rspec (~> 3.0)
     ddtrace (0.43.0)
       msgpack
-    debug_inspector (0.0.3)
     delayed_job (4.1.8)
       activesupport (>= 3.0, < 6.1)
     delayed_job_active_record (4.1.4)
@@ -175,6 +175,10 @@ GEM
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (8.4.255.0)
+    listen (3.1.5)
+      rb-fsevent (~> 0.9, >= 0.9.4)
+      rb-inotify (~> 0.9, >= 0.9.7)
+      ruby_dep (~> 1.2)
     loofah (2.6.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -325,6 +329,7 @@ GEM
     ruby-progressbar (1.10.0)
     ruby-saml (1.10.2)
       nokogiri (>= 1.5.10)
+    ruby_dep (1.5.0)
     rubyzip (1.3.0)
     safe_yaml (1.0.4)
     sass (3.5.3)
@@ -396,11 +401,11 @@ GEM
     unicode-display_width (1.4.1)
     warden (1.2.8)
       rack (>= 2.0.6)
-    web-console (2.3.0)
-      activemodel (>= 4.0)
-      binding_of_caller (>= 0.7.2)
-      railties (>= 4.0)
-      sprockets-rails (>= 2.0, < 4.0)
+    web-console (3.7.0)
+      actionview (>= 5.0)
+      activemodel (>= 5.0)
+      bindex (>= 0.4.0)
+      railties (>= 5.0)
     webmock (3.3.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
@@ -424,6 +429,7 @@ DEPENDENCIES
   airbrake (~> 7.3.5)
   attribute_normalizer (~> 1.2.0)
   aws-sdk (~> 2.3.0)
+  bootsnap (>= 1.3.0)
   byebug
   coffee-rails (~> 4.2.0)
   database_cleaner
@@ -437,6 +443,7 @@ DEPENDENCIES
   foreman
   jbuilder (~> 2.0)
   jquery-rails
+  listen (~> 3.1.5)
   mini_racer
   newrelic_rpm
   nokogiri
@@ -468,7 +475,7 @@ DEPENDENCIES
   travis (~> 1.8.0)
   turbolinks
   uglifier (>= 1.3.0)
-  web-console (~> 2.0)
+  web-console (>= 3.3.0)
   with_transactional_lock
 
 BUNDLED WITH
