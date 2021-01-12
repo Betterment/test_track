@@ -4,7 +4,7 @@ class AppFeatureCompletion < ActiveRecord::Base
 
   attribute :version, :app_version
 
-  validates :app, :feature_gate, :version, presence: true
+  validates :app, :version, presence: true
   validates :feature_gate, uniqueness: { scope: :app }
   validate :feature_gate_must_be_a_feature_gate
 
@@ -14,6 +14,8 @@ class AppFeatureCompletion < ActiveRecord::Base
       .and(arel_table[:version].lteq(app_build.version))
     )
   end
+
+  scope :by_app_and_version, -> { joins(:app).merge(App.by_name).order(version: :desc) }
 
   private
 

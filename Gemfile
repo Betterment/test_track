@@ -11,7 +11,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'therubyracer', platforms: :ruby
+gem 'mini_racer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -55,6 +55,8 @@ gem 'delayed_job_active_record'
 
 gem 'with_transactional_lock'
 
+gem 'bootsnap', '>= 1.3.0', require: false
+
 group :development, :test do
   gem 'simplecov', require: false
   gem 'pry-rails'
@@ -78,8 +80,9 @@ end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
-  gem 'web-console', '~> 2.0'
+  gem 'web-console', '>= 3.3.0'
   gem 'travis', '~> 1.8.0'
+  gem 'listen', '~> 3.1.5'
 end
 
 group :test do

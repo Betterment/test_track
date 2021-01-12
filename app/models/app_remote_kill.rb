@@ -5,13 +5,15 @@ class AppRemoteKill < ActiveRecord::Base
   attribute :first_bad_version, :app_version
   attribute :fixed_version, :app_version
 
-  validates :app, :split, :reason, :override_to, :first_bad_version, presence: true
+  validates :app, :reason, :override_to, :first_bad_version, presence: true
   validates :reason,
     uniqueness: { scope: %i(app split) },
     format: { with: /\A[a-z\d_]*\z/, message: "must be alphanumeric snake_case" }
 
   validate :fixed_version_must_be_greater_than_first_bad_version
   validate :must_not_overlap_existing
+
+  scope :by_app_and_version, -> { joins(:app).merge(App.by_name).order(first_bad_version: :desc) }
 
   scope :affecting, ->(app_build) do
     where(
