@@ -13,9 +13,7 @@ RSpec.describe Api::V2::AppIdentifierVisitorConfigsController do
         :assignment,
         visitor: visitor,
         split: feature_gate,
-        variant: "true",
-        context: "the_context",
-        mixpanel_result: "success"
+        variant: "true"
       )
 
       get :show, params: {
@@ -39,9 +37,7 @@ RSpec.describe Api::V2::AppIdentifierVisitorConfigsController do
         :assignment,
         visitor: visitor,
         split: feature_gate,
-        variant: "true",
-        context: "the_context",
-        mixpanel_result: "success"
+        variant: "true"
       )
 
       FactoryBot.create(
