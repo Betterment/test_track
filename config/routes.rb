@@ -58,21 +58,6 @@ Rails.application.routes.draw do
         resources :assignment_overrides, only: :create
       end
 
-      resources :apps, only: [], param: :name do
-        resources :versions, only: [], param: :number, constraints: { number: /[\d\.]+/ } do
-          resources :builds, only: [], param: :timestamp do
-            resources :visitors, only: [] do
-              resource :config, only: :show, controller: 'app_visitor_configs'
-            end
-            resources :identifier_types, only: [], param: :name do
-              resources :identifiers, only: [], param: :value do
-                resource :visitor_config, only: :show, controller: 'app_identifier_visitor_configs'
-              end
-            end
-          end
-        end
-      end
-
       resources :migrations do
         collection do
           scope module: :migrations do
@@ -89,6 +74,23 @@ Rails.application.routes.draw do
     namespace :v3 do
       resources :builds, only: [], param: :timestamp do
         resource :split_registry, only: :show
+      end
+    end
+
+    namespace :v4 do
+      resources :apps, only: [], param: :name do
+        resources :versions, only: [], param: :number, constraints: { number: /[\d\.]+/ } do
+          resources :builds, only: [], param: :timestamp do
+            resources :visitors, only: [] do
+              resource :config, only: :show, controller: 'app_visitor_configs'
+            end
+            resources :identifier_types, only: [], param: :name do
+              resources :identifiers, only: [], param: :value do
+                resource :visitor_config, only: :show, controller: 'app_identifier_visitor_configs'
+              end
+            end
+          end
+        end
       end
     end
   end

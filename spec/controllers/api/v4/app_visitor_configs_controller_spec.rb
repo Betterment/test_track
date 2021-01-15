@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V2::AppVisitorConfigsController do
+RSpec.describe Api::V4::AppVisitorConfigsController do
   describe "#show" do
     let(:app) { FactoryBot.create(:app) }
     let(:feature_gate) { FactoryBot.create(:feature_gate, name: "blab_enabled", registry: { false: 50, true: 50 }) }

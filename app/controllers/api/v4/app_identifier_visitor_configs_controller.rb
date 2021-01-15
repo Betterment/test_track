@@ -1,7 +1,7 @@
-class Api::V2::AppIdentifierVisitorConfigsController < UnauthenticatedApiController
+class Api::V4::AppIdentifierVisitorConfigsController < UnauthenticatedApiController
   include CorsSupport
 
-  def show # rubocop:disable Metrics/AbcSize
+  def show
     build_path = AppVersionBuildPath.new(build_params)
     if build_path.valid?
       app_build = build_path.app_build

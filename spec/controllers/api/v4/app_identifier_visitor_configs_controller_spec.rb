@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V2::AppIdentifierVisitorConfigsController do
+RSpec.describe Api::V4::AppIdentifierVisitorConfigsController do
   describe "#show" do
     let(:app) { FactoryBot.create(:app) }
     let(:identifier_type) { FactoryBot.create(:identifier_type, name: "clown_id") }
