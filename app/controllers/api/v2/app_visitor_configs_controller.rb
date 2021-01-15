@@ -4,7 +4,7 @@ class Api::V2::AppVisitorConfigsController < UnauthenticatedApiController
   def show
     build_path = AppVersionBuildPath.new(build_params)
     if build_path.valid?
-      app_build = AppVersionBuildPath.new(build_params).app_build
+      app_build = build_path.app_build
       @active_splits = Split.for_presentation(app_build: app_build)
       @visitor_id = visitor_id
       visitor = Visitor.find_or_initialize_by(id: @visitor_id)

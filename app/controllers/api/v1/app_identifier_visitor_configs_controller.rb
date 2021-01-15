@@ -4,7 +4,7 @@ class Api::V1::AppIdentifierVisitorConfigsController < UnauthenticatedApiControl
   def show # rubocop:disable Metrics/AbcSize
     build_path = AppVersionBuildPath.new(build_params)
     if build_path.valid?
-      app_build = AppVersionBuildPath.new(build_params).app_build
+      app_build = build_path.app_build
       @active_splits = Split.for_presentation(app_build: app_build)
       visitor = VisitorLookup.new(identifier_params).visitor
       @visitor_id = visitor.id
