@@ -24,9 +24,10 @@ RSpec.describe Api::V2::AppVisitorConfigsController do
       }
 
       expect(response).to have_http_status :ok
-      expect(response_json['splits'][0]['name']).to eq('blab_enabled')
-      expect(response_json['splits'][0]['weights']).to eq('false' => 100, 'true' => 0)
-      expect(response_json['splits'][0]['feature_gate']).to eq(true)
+      expect(response_json['splits'].first['name']).to eq('blab_enabled')
+      expect(response_json['splits'].first['variants'].first).to eq('name' => 'false', 'weight' => 100)
+      expect(response_json['splits'].first['variants'].last).to eq('name' => 'true', 'weight' => 0)
+      expect(response_json['splits'].first['feature_gate']).to eq(true)
       expect(response_json['visitor']['assignments']).to be_empty
     end
 
@@ -57,7 +58,8 @@ RSpec.describe Api::V2::AppVisitorConfigsController do
       expect(response).to have_http_status :ok
 
       expect(response_json['splits'][0]['name']).to eq('blab_enabled')
-      expect(response_json['splits'][0]['weights']).to eq('false' => 50, 'true' => 50)
+      expect(response_json['splits'].first['variants'].first).to eq('name' => 'false', 'weight' => 50)
+      expect(response_json['splits'].first['variants'].last).to eq('name' => 'true', 'weight' => 50)
       expect(response_json['splits'][0]['feature_gate']).to eq(true)
 
       expect(response_json['visitor']['assignments'].first['split_name']).to eq('blab_enabled')

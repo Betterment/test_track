@@ -1,6 +1,11 @@
 json.splits active_splits do |split|
   json.name split.name
-  json.weights split.registry
+
+  json.variants split.registry do |(variant_name, weight)|
+    json.name variant_name
+    json.weight weight
+  end
+
   json.feature_gate split.feature_gate?
 end
 
