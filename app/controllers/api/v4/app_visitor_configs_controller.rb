@@ -1,4 +1,4 @@
-class Api::V1::AppVisitorConfigsController < UnauthenticatedApiController
+class Api::V4::AppVisitorConfigsController < UnauthenticatedApiController
   include CorsSupport
 
   def show
