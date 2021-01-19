@@ -78,6 +78,9 @@ Rails.application.routes.draw do
     end
 
     namespace :v4 do
+      resources :builds, only: [], param: :timestamp do
+        resource :split_registry, only: :show
+      end
       resources :apps, only: [], param: :name do
         resources :versions, only: [], param: :number, constraints: { number: /[\d\.]+/ } do
           resources :builds, only: [], param: :timestamp do
