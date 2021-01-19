@@ -2,6 +2,10 @@ require 'rails_helper'
 
 RSpec.describe Api::V4::AppVisitorConfigsController do
   describe "#show" do
+    before do
+      allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)
+    end
+
     let(:app) { FactoryBot.create(:app) }
     let(:feature_gate) { FactoryBot.create(:feature_gate, name: "blab_enabled", registry: { false: 50, true: 50 }) }
     let(:visitor) { FactoryBot.create(:visitor) }
@@ -60,6 +64,18 @@ RSpec.describe Api::V4::AppVisitorConfigsController do
 
       expect(response_json['visitor']['assignments'].first['split_name']).to eq('blab_enabled')
       expect(response_json['visitor']['assignments'].first['variant']).to eq('true')
+    end
+
+    it "includes sampling weight" do
+      get :show, params: {
+        app_name: app.name,
+        version_number: "1.0",
+        build_timestamp: "2019-04-16T14:35:30Z",
+        visitor_id: visitor.id
+      }
+
+      expect(response).to have_http_status :ok
+      expect(response_json['experience_sampling_weight']).to eq(10)
     end
 
     it "returns unprocessable_entity if the app_build url params are invalid" do

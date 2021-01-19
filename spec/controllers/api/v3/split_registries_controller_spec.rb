@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
   describe "#show" do
     before do
-      allow(ENV).to receive(:fetch).with('EXPERIENCE_SAMPLING_WEIGHT', any_args).and_return(10)
+      allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)
     end
 
     it "includes sampling weight" do
