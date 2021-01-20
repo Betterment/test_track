@@ -49,4 +49,10 @@ RSpec.describe SplitRegistry do
       expect(described_class.new(as_of: 1.day.ago).splits.all).to include(split)
     end
   end
+
+  describe '#experience_sampling_weight' do
+    it "returns the default value as an integer" do
+      expect(Rails.configuration.experience_sampling_weight).to eq(1)
+    end
+  end
 end
