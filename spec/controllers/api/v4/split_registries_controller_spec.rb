@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
+RSpec.describe Api::V4::SplitRegistriesController, type: :controller do
   describe "#show" do
     before do
       allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)
@@ -22,7 +22,7 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
         get :show, params: { build_timestamp: '2019-11-14T14:35:30Z' }
 
         expect(response).to have_http_status :ok
-        expect(response_json['splits']).to eq({})
+        expect(response_json['splits']).to eq([])
       end
     end
 
@@ -39,20 +39,46 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
         get :show, params: { build_timestamp: '2019-11-12T14:35:30Z' }
 
         expect(response).to have_http_status :ok
-        expect(response_json['splits']).to eq(
-          "one" => {
-            "weights" => { "all" => 100 },
+        expect(response_json['splits']).to eq([
+          {
+            "name" => "one",
+            "variants" => [
+              {
+                "name" => "all",
+                "weight" => 100
+              }
+            ],
             "feature_gate" => false
           },
-          "two" => {
-            "weights" => { "on" => 50, "off" => 50 },
+          {
+            "name" => "two",
+            "variants" => [
+              {
+                "name" => "on",
+                "weight" => 50
+              },
+              {
+                "name" => "off",
+                "weight" => 50
+              }
+            ],
             "feature_gate" => false
           },
-          "three_enabled" => {
-            "weights" => { "true" => 99, "false" => 1 },
+          {
+            "name" => "three_enabled",
+            "variants" => [
+              {
+                "name" => "true",
+                "weight" => 99
+              },
+              {
+                "name" => "false",
+                "weight" => 1
+              }
+            ],
             "feature_gate" => true
           }
-        )
+        ])
       end
     end
 

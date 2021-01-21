@@ -13,3 +13,5 @@ json.visitor do
   json.id visitor_id
   json.assignments assignments, :split_name, :variant
 end
+
+json.experience_sampling_weight experience_sampling_weight

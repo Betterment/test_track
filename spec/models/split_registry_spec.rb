@@ -50,38 +50,9 @@ RSpec.describe SplitRegistry do
     end
   end
 
-  describe "#experience_sampling_weight" do
-    it "memoizes the env var fetch" do
-      allow(ENV).to receive(:fetch).and_call_original
-
-      subject.experience_sampling_weight
-      subject.experience_sampling_weight
-
-      expect(ENV).to have_received(:fetch).with('EXPERIENCE_SAMPLING_WEIGHT', any_args).exactly(:once)
-    end
-
-    it "returns 1 with no env var" do
-      with_env EXPERIENCE_SAMPLING_WEIGHT: nil do
-        expect(subject.experience_sampling_weight).to eq 1
-      end
-    end
-
-    it "returns an positive value specified" do
-      with_env EXPERIENCE_SAMPLING_WEIGHT: '10' do
-        expect(subject.experience_sampling_weight).to eq 10
-      end
-    end
-
-    it "returns zero when specified" do
-      with_env EXPERIENCE_SAMPLING_WEIGHT: '0' do
-        expect(subject.experience_sampling_weight).to eq 0
-      end
-    end
-
-    it "blows up on negative" do
-      with_env EXPERIENCE_SAMPLING_WEIGHT: '-1' do
-        expect { subject.experience_sampling_weight }.to raise_error(/greater than or equal/)
-      end
+  describe '#experience_sampling_weight' do
+    it "returns the default value as an integer" do
+      expect(Rails.configuration.experience_sampling_weight).to eq(1)
     end
   end
 end
