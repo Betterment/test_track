@@ -3,23 +3,19 @@ class AppIdentifierClaim
 
   attr_accessor :app_name, :version_number, :build_timestamp, :identifier_type, :value, :visitor_id
 
+  attr_reader :visitor, :app_build
+
   validate :build_path_must_be_valid
   validate :identifier_claim_must_be_valid
 
   def save
-    if valid?
-      identifier_claim.save!
+    if valid? && identifier_claim.save!
+      @visitor = identifier_claim.identifier.visitor
+      @app_build = build_path.app_build
+      true
     else
       false
     end
-  end
-
-  def visitor
-    identifier_claim.identifier.visitor
-  end
-
-  def app_build # rubocop:disable Rails/Delegate
-    build_path.app_build
   end
 
   private
