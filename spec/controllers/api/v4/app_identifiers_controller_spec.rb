@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V4::IdentifiersController, type: :controller do
+RSpec.describe Api::V4::AppIdentifiersController, type: :controller do
   describe "#create" do
     before do
       allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)

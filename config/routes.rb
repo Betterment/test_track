@@ -87,7 +87,7 @@ Rails.application.routes.draw do
             resources :visitors, only: [] do
               resource :config, only: :show, controller: 'app_visitor_configs'
             end
-            resource :identifier, only: :create
+            resource :identifier, only: :create, controller: 'app_identifiers'
           end
         end
       end

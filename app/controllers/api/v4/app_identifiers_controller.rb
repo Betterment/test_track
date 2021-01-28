@@ -1,4 +1,4 @@
-class Api::V4::IdentifiersController < UnauthenticatedApiController
+class Api::V4::AppIdentifiersController < UnauthenticatedApiController
   include CorsSupport
 
   def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
