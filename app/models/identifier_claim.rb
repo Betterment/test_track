@@ -27,7 +27,7 @@ class IdentifierClaim
   private
 
   def supersede_visitor!
-    VisitorSupersession.create!(superseded_visitor: visitor, superseding_visitor: identifier.visitor)
+    VisitorSupersessionCreation.new(superseded_visitor: visitor, superseding_visitor: identifier.visitor).save!
   end
 
   def find_or_create_identifier
