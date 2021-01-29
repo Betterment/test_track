@@ -1,7 +1,7 @@
 class Api::V4::AppIdentifiersController < UnauthenticatedApiController
   include CorsSupport
 
-  def create # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+  def create # rubocop:disable Metrics/MethodLength
     app_identifier_claim = AppIdentifierClaim.new(create_params)
     if app_identifier_claim.save
       visitor = app_identifier_claim.visitor
