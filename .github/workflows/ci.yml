@@ -17,8 +17,9 @@ jobs:
       postgres:
         image: postgres:11.0
         env:
-          POSTGRES_USER: postgres
+          POSTGRES_USER: runner
           POSTGRES_PASSWORD: ""
+          POSTGRES_DB: test_track_test
         ports:
           - 5432:5432
         options: >-
