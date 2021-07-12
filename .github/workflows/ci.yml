@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6.1
+          bundler-cache: true
+      - name: Prepare DB
+        run: bundle exec rake db:test:prepare
+      - name: Run tests
+        run: bundle exec rake
+services:
+  postgres:
+    image: postgres:10.8
+    env:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ""
+    ports:
+      - 5432:5432
+    options: >-
+      --mount type=tmpfs,destination=/var/lib/postgresql/data
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
