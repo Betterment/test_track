@@ -210,7 +210,7 @@ GEM
       connection_pool (~> 2.2)
     net-http-pipeline (1.0.1)
     newrelic_rpm (5.3.0.346)
-    nio4r (2.5.7)
+    nio4r (2.5.8)
     nokogiri (1.12.5)
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
@@ -248,7 +248,7 @@ GEM
       pry (~> 0.9)
       slop (~> 3.0)
     public_suffix (4.0.6)
-    puma (5.3.1)
+    puma (5.5.1)
       nio4r (~> 2.0)
     pusher-client (0.6.2)
       json
@@ -462,7 +462,7 @@ DEPENDENCIES
   poltergeist
   pry-rails
   pry-remote
-  puma (~> 5.3)
+  puma (~> 5.5)
   rack-timeout
   rails (~> 5.2.4)
   rails_semantic_logger
