@@ -248,7 +248,7 @@ GEM
       pry (~> 0.9)
       slop (~> 3.0)
     public_suffix (4.0.6)
-    puma (5.5.1)
+    puma (5.6.2)
       nio4r (~> 2.0)
     pusher-client (0.6.2)
       json
@@ -462,7 +462,7 @@ DEPENDENCIES
   poltergeist
   pry-rails
   pry-remote
-  puma (~> 5.5)
+  puma (~> 5.6)
   rack-timeout
   rails (~> 5.2.4)
   rails_semantic_logger
