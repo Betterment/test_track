@@ -22,6 +22,7 @@ The TestTrack system consists of the following components:
 * the server (this repository)
 * the [Rails client](https://github.com/Betterment/test_track_rails_client)
 * the [JS client](https://github.com/Betterment/test_track_js_client)
+* the [Dart client](https://github.com/Betterment/test_track_dart_client)
 * the [Chrome extension](https://github.com/Betterment/test_track_chrome_extension)
 
 ## Getting Started
