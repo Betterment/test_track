@@ -181,6 +181,10 @@ GEM
     launchy (2.5.0)
       addressable (~> 2.7)
     libv8-node (16.10.0.0)
+    libv8-node (16.10.0.0-arm64-darwin)
+    libv8-node (16.10.0.0-x86_64-darwin)
+    libv8-node (16.10.0.0-x86_64-darwin-19)
+    libv8-node (16.10.0.0-x86_64-linux)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -447,8 +451,10 @@ GEM
       rspec (~> 3)
 
 PLATFORMS
+  arm64-darwin
   arm64-darwin-21
   ruby
+  x86_64-darwin
   x86_64-darwin-18
   x86_64-darwin-19
   x86_64-darwin-20
