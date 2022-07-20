@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
 
   s.files = Dir["lib/**/*", "README.md"]
 
-  s.add_dependency 'capybara', '~> 2.16.0'
+  s.add_dependency 'capybara'
   s.add_dependency 'rspec-collection_matchers'
   s.add_dependency 'rspec-rails'
   s.add_dependency 'rspec-retry', '~> 0.4.5'

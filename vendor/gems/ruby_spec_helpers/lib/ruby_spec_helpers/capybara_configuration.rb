@@ -30,15 +30,17 @@ case driver
         timeout: 60
       )
     end
-  when :headless_chrome
-    Capybara.register_driver :headless_chrome do |app|
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions: { args: %w(headless disable-gpu no-sandbox) }
-      )
+  when :selenium_chrome_headless
+    Capybara.register_driver :selenium_chrome_headless do |app|
+      args = %w(headless disable-gpu disable-dev-shm-usage no-sandbox window-size=1280,1024)
+      options_key = Selenium::WebDriver::VERSION >= '4' ? :capabilities : :options
 
       Capybara::Selenium::Driver.new app,
         browser: :chrome,
-        desired_capabilities: capabilities
+        options_key => Selenium::WebDriver::Chrome::Options.new(args: args),
+        http_client: Selenium::WebDriver::Remote::Http::Default.new(
+          read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
+        )
     end
   when :selenium_remote_chrome
     url = ENV.fetch("SELENIUM_REMOTE_URL", "http://localhost:4444/wd/hub")
