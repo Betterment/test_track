@@ -54,7 +54,7 @@ RSpec.describe 'bulk assign flow' do
 
     expect(bulk_assignment_page.error_box).to have_content "Please address the errors below"
     expect(bulk_assignment_page.create_form.identifier_creation_warning).to have_content(
-      <<~HTML
+      <<~HTML.squish
         100% (4 of 4) of the identifiers provided will be created as part of this operation.
         That's unusual. Please verify that you selected the correct Identified By below and
         double-check that the IDs listed above are correct. Do you still wish to proceed?
@@ -72,7 +72,7 @@ RSpec.describe 'bulk assign flow' do
 
     expect(bulk_assignment_page.error_box).to have_content "Please address the errors below"
     expect(bulk_assignment_page.create_form.identifier_creation_warning).to have_content(
-      <<~HTML
+      <<~HTML.squish
         17% (1 of 6) of the identifiers provided will be created as part of this operation.
         That's unusual. Please verify that you selected the correct Identified By below and
         double-check that the IDs listed above are correct. Do you still wish to proceed?
