@@ -59,13 +59,13 @@ end
 
 Capybara.configure do |config|
   config.match = :one
-  config.exact_options = true
   config.ignore_hidden_elements = true
   config.visible_text_only = true
   config.default_driver = driver
   config.javascript_driver = driver
 
   config.default_max_wait_time = ENV.fetch('CAPYBARA_WAIT_TIME', 10).to_i
+  config.default_normalize_ws = true if config.respond_to?(:default_normalize_ws=)
 end
 
 module CapybaraScreenshotHelpers

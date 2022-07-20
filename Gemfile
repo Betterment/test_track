@@ -68,7 +68,6 @@ group :development, :test do
 
   gem 'dotenv-rails'
 
-  gem 'poltergeist'
   gem 'site_prism'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
