@@ -3,7 +3,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'fileutils'
 
-driver = ENV.fetch("CAPYBARA_DRIVER", "poltergeist").to_sym
+driver = ENV.fetch("CAPYBARA_DRIVER", "selenium_chrome_headless").to_sym
 
 case driver
   when :webkit
