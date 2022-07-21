@@ -68,7 +68,6 @@ group :development, :test do
 
   gem 'site_prism'
   gem 'selenium-webdriver'
-  gem 'database_cleaner'
 
   gem 'factory_bot_rails'
 
