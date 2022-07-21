@@ -3,7 +3,7 @@ require 'capybara/rspec'
 require 'selenium-webdriver'
 require 'fileutils'
 
-driver = ENV.fetch("CAPYBARA_DRIVER", "poltergeist").to_sym
+driver = ENV.fetch("CAPYBARA_DRIVER", "selenium_chrome_headless").to_sym
 
 case driver
   when :webkit
@@ -30,15 +30,17 @@ case driver
         timeout: 60
       )
     end
-  when :headless_chrome
-    Capybara.register_driver :headless_chrome do |app|
-      capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        chromeOptions: { args: %w(headless disable-gpu no-sandbox) }
-      )
+  when :selenium_chrome_headless
+    Capybara.register_driver :selenium_chrome_headless do |app|
+      args = %w(headless disable-gpu disable-dev-shm-usage no-sandbox window-size=1280,1024)
+      options_key = Selenium::WebDriver::VERSION >= '4' ? :capabilities : :options
 
       Capybara::Selenium::Driver.new app,
         browser: :chrome,
-        desired_capabilities: capabilities
+        options_key => Selenium::WebDriver::Chrome::Options.new(args: args),
+        http_client: Selenium::WebDriver::Remote::Http::Default.new(
+          read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
+        )
     end
   when :selenium_remote_chrome
     url = ENV.fetch("SELENIUM_REMOTE_URL", "http://localhost:4444/wd/hub")
@@ -57,13 +59,13 @@ end
 
 Capybara.configure do |config|
   config.match = :one
-  config.exact_options = true
   config.ignore_hidden_elements = true
   config.visible_text_only = true
   config.default_driver = driver
   config.javascript_driver = driver
 
   config.default_max_wait_time = ENV.fetch('CAPYBARA_WAIT_TIME', 10).to_i
+  config.default_normalize_ws = true if config.respond_to?(:default_normalize_ws=)
 end
 
 module CapybaraScreenshotHelpers

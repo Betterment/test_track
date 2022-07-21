@@ -30,10 +30,15 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
+      - uses: nanasess/setup-chromedriver@v1
+      - run: |
+          export DISPLAY=:99
+          chromedriver --url-base=/wd/hub &
+          sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.1
+          ruby-version: 2.7.5
           bundler-cache: true
       - name: Prepare DB
         run: bundle exec rake db:test:prepare

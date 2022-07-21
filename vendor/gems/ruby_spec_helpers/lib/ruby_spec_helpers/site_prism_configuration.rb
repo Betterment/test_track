@@ -13,10 +13,6 @@ Dir[Rails.root.join("spec/support/sections/**/*.rb")].each { |f| require f }
 Dir[Rails.root.join("spec/support/pages/**/*.rb")].each { |f| require f }
 Rails.application.config.autoload_paths += Dir[Rails.root.join("spec/support/**/")]
 
-SitePrism.configure do |config|
-  config.use_implicit_waits = true
-end
-
 class SitePrismApp
   def initialize
     @pages = {}
