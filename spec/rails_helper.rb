@@ -1,5 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
-ENV['DRIVER'] ||= 'poltergeist'
+ENV['CAPYBARA_DRIVER'] ||= ENV['CI'] ? 'selenium_remote_chrome' : 'selenium_chrome_headless'
+
 require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
