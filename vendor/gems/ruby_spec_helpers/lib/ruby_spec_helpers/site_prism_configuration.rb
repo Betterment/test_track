@@ -34,5 +34,5 @@ module SitePrismHelpers
 end
 
 RSpec.configure do |config|
-  config.include SitePrismHelpers, type: :feature
+  config.include SitePrismHelpers, type: :system
 end

@@ -113,4 +113,8 @@ RSpec.configure do |config|
     # remove any paperclip attachments
     FileUtils.rm_rf(Dir["#{Rails.root}/spec/test_files/"])
   end
+
+  config.before(:each, type: :system) do
+    driven_by driver
+  end
 end

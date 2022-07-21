@@ -21,7 +21,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include RequestSpecHelper, type: :request
   config.include ControllerSpecHelper, type: :controller
-  config.include LoginHelper, type: :feature
+  config.include LoginHelper, type: :system
   config.include AttributeNormalizer::RSpecMatcher, type: :model
   config.include EnvironmentSpecHelper
 
