@@ -48,8 +48,7 @@ case driver
     Capybara.register_driver driver do |app|
       Capybara::Selenium::Driver.new(
         app,
-        browser: :remote,
-        desired_capabilities: :chrome,
+        browser: :chrome,
         url: url,
         http_client: Selenium::WebDriver::Remote::Http::Default.new(
           read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
