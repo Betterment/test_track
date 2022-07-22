@@ -44,3 +44,5 @@ jobs:
         run: bundle exec rake db:test:prepare
       - name: Run tests
         run: bundle exec rake
+        env:
+          CAPYBARA_DRIVER: selenium_chrome_headless

@@ -46,10 +46,21 @@ case driver
     url = ENV.fetch("SELENIUM_REMOTE_URL", "http://localhost:4444/wd/hub")
 
     Capybara.register_driver driver do |app|
-      Capybara::Selenium::Driver.new app,
+      Capybara::Selenium::Driver.new(
+        app,
         browser: :remote,
-        desired_capabilities: :chrome,
-        url: url
+        capabilities: %i(chrome),
+        url: url,
+        http_client: Selenium::WebDriver::Remote::Http::Default.new(
+          read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
+        ),
+      ).tap do |driver|
+        driver.browser.manage.window.size = Selenium::WebDriver::Dimension.new(1280, 1024)
+        driver.browser.file_detector = ->(args) {
+          str = args.first.to_s
+          str if File.exist?(str)
+        }
+      end
     end
   else
     Capybara.register_driver driver do |app|
