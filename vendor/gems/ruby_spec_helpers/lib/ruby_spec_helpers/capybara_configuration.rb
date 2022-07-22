@@ -56,7 +56,12 @@ case driver
         http_client: Selenium::WebDriver::Remote::Http::Default.new(
           read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
         ),
-      )
+      ).tap do |driver|
+        driver.browser.file_detector = ->(args) {
+          str = args.first.to_s
+          str if File.exist?(str)
+        }
+      end
     end
   else
     Capybara.register_driver driver do |app|
