@@ -50,7 +50,8 @@ case driver
     Capybara.register_driver driver do |app|
       Capybara::Selenium::Driver.new(
         app,
-        browser: :chrome,
+        browser: :remote,
+        desired_capabilities: :chrome,
         url: url,
         options_key => Selenium::WebDriver::Chrome::Options.new(args: args),
         http_client: Selenium::WebDriver::Remote::Http::Default.new(
