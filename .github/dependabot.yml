@@ -1,0 +1,15 @@
+---
+version: 2
+registries:
+  ruby-github:
+    type: rubygems-server
+    url: https://rubygems.pkg.github.com/betterment
+    token: "${{secrets.DEPENDABOT_HELPER_PAT}}"
+updates:
+- package-ecosystem: bundler
+  registries: "*"
+  open-pull-requests-limit: 0
+  vendor: true
+  directory: "/"
+  schedule:
+    interval: daily
