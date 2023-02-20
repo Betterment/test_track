@@ -11,5 +11,9 @@
   <td>
     <%= link_to "View", admin_split_path(split) %>
   </td>
+  <% if github_search_enabled? %>
+    <td>
+      <%= link_to "Github", github_search_url(split), target: "_blank" %>
+    </td>
+  <% end %>
 </tr>
-

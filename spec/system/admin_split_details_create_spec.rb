@@ -17,6 +17,20 @@ RSpec.describe 'admin can add details to a split' do
     login
   end
 
+  context 'if GITHUB_ORGANIZATION ENV is set' do
+    before do
+      ENV['GITHUB_ORGANIZATION'] = 'test'
+    end
+
+    it 'displays Github search link' do
+      split_page.load split_id: split.id
+
+      expect(split_page).to be_loaded
+      expect(split_page).to have_text("Github")
+      expect(split_page).to have_text("Search for uses")
+    end
+  end
+
   it 'allows admins to add details to a split' do
     split_page.load split_id: split.id
     expect(split_page).to be_loaded

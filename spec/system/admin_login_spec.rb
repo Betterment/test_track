@@ -10,4 +10,18 @@ RSpec.describe 'admin login' do
     subject.log_out.click
     expect(app.admin_session_new_page).to be_loaded
   end
+
+  context 'if GITHUB_ORGANIZATION ENV is set' do
+    let!(:split) { FactoryBot.create(:split, name: 'test_split') }
+
+    before do
+      ENV['GITHUB_ORGANIZATION'] = 'test'
+    end
+
+    it 'displays Github search link' do
+      login
+
+      expect(subject).to have_text("Github")
+    end
+  end
 end

@@ -39,11 +39,18 @@
       </tr>
       <tr>
         <td>Creation</td>
-        <td>
+        <td colspan="2">
           <span><%= @split.created_at %></span>
         </td>
-        <td>&nbsp;</td>
       </tr>
+      <% if github_search_enabled? %>
+        <tr>
+          <td>Github</td>
+          <td colspan="2">
+            <span><%= link_to "Search for uses", github_search_url(@split), target: '_blank' %></span>
+          </td>
+        </tr>
+      <% end %>
     </table>
     <% if @split.feature_gate? %>
       <p>
