@@ -18,6 +18,7 @@ Betterment/UnscopedFind:
     - 'app/controllers/admin/decisions_controller.rb'
     - 'app/controllers/admin/split_configs_controller.rb'
     - 'app/controllers/admin/split_details_controller.rb'
+    - 'app/controllers/admin/split_searches_controller.rb'
     - 'app/controllers/admin/splits_controller.rb'
     - 'app/controllers/admin/variant_details_controller.rb'
     - 'app/controllers/api/v1/split_details_controller.rb'

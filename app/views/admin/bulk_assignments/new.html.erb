@@ -5,7 +5,7 @@
   <h1 class="TakeoverText-title sc-m-v--l">Reassign Visitors to <%= @split.name %></h1>
 </div>
 
-<%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path) do |f| %>
+<%= simple_form_for(@bulk_assignment_creation, url: admin_split_bulk_assignments_path, data: { testId: 'bulkAssignmentForm' }) do |f| %>
   <%= f.input :identifiers_listing, as: :text, label: 'IDs To Assign', :input_html => {:rows => 10} %>
 
   <% if @bulk_assignment_creation.new_identifier_creation_ratio_above_warning_threshold? %>

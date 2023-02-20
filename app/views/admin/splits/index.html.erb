@@ -1,19 +1,36 @@
-<div class="TakeoverText">
-  <h1 class="TakeoverText-title sc-m-v--l">Active Split Tests</h1>
+<div class="TakeoverText sc-m-v--l">
+  <h1 class="TakeoverText-title">
+    Active Split Tests
+    <% if @app %>
+      for <%= @app.name %>
+    <% end %>
+  </h1>
+  <% if App.by_name.any? %>
+    <select onchange="if (this.value) window.location.href=this.value" data-testId="appSelector">
+      <option value="">Filter by App</option>
+      <% App.by_name.each do |app| %>
+        <option value="<%= admin_root_path(app: app.name) %>"><%= app.name %></option>
+      <% end %>
+    </select>
+  <% end %>
 </div>
 
 <div class="sc-m-v--m">
-  <table class="BasicTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Owner App</th>
-        <th>Date Migrated</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <%= render @splits %>
-    </tbody>
-  </table>
+  <% if @splits.any? %>
+    <table class="BasicTable">
+      <thead>
+        <tr>
+          <th><a href="?sort=name">Name</a></th>
+          <th>Owner App</th>
+          <th><a href="?sort=date">Date Migrated</a></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= render @splits %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>There are no active splits<%= " for the #{@app.name} app" if @app %>.</p>
+  <% end %>
 </div>

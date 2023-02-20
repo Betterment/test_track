@@ -108,6 +108,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     root 'splits#index'
+    resource :split_search, only: :create
     resources :splits, only: [:show] do
       resource :details, only: [:edit, :update], controller: 'split_details'
       resource :split_config, only: [:new, :create]

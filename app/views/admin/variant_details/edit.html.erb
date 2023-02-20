@@ -5,7 +5,7 @@
   <h1 class="TakeoverText-title">Details for variant: <%= @variant_detail.variant %></h1>
 </div>
 
-<%= simple_form_for @variant_detail, url: admin_split_variant_detail_path(@split, @variant_detail.variant), method: :put do |f| %>
+<%= simple_form_for @variant_detail, url: admin_split_variant_detail_path(@split, @variant_detail.variant), method: :put, data: { testId: 'variantDetailsEditForm' } do |f| %>
   <%= f.error :base %>
   <%= f.input :display_name %>
   <%= f.input :description, label: 'Short description', hint: 'For example: There are FAQ links in a sidebar on the Activity Tab' %>

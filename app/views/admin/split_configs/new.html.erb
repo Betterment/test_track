@@ -21,7 +21,7 @@
   </p>
 <% end %>
 
-<%= simple_form_for(@split_config, url: admin_split_split_config_path) do |f| %>
+<%= simple_form_for(@split_config, url: admin_split_split_config_path, data: { testId: 'splitConfigForm' }) do |f| %>
   <% f.simple_fields_for :weighting_registry do |ff| %>
 
     <% if @split_config.errors.include? :weighting_registry %>

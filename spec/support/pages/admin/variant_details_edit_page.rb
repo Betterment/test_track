@@ -1,7 +1,7 @@
 class AdminVariantDetailsEditPage < SitePrism::Page
   set_url '/admin/splits/{split_id}/variant_details/{variant}/edit'
 
-  section :form, 'form' do
+  section :form, 'form[data-testId="variantDetailsEditForm"]' do
     element :display_name, 'input[name="variant_detail[display_name]"]'
     element :description, 'textarea[name="variant_detail[description]"]'
     element :screenshot, 'input[name="variant_detail[screenshot]"]'

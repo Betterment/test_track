@@ -1,7 +1,7 @@
 class AdminSplitDecisionNewPage < SitePrism::Page
   set_url "/admin/splits/{split_id}/decisions/new"
 
-  section :create_form, "form" do
+  section :create_form, "form[data-testId='splitDecisionForm']" do
     section :variant_options, ".fs-VariantOptions" do
       element :options, ' .radio-options'
       def select(text)

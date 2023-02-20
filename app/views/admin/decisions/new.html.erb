@@ -5,7 +5,7 @@
   <h1 class="TakeoverText-title sc-m-v--l">Decide '<%= @split.name %>'</h1>
 </div>
 
-<%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
+<%= simple_form_for(@decision, url: admin_split_decisions_path, data: { testId: 'splitDecisionForm' }) do |f| %>
   <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
   <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
     <li>This split will be re-weighted so that all <span class="u-emphasis">future</span> assignments will be to the variant specified.</li>

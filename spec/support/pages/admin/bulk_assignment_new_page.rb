@@ -3,7 +3,7 @@ class AdminBulkAssignmentNewPage < SitePrism::Page
 
   element :error_box, ".error"
 
-  section :create_form, "form" do
+  section :create_form, "form[data-testId='bulkAssignmentForm']" do
     element :identifiers_listing, "textarea#bulk_assignment_creation_identifiers_listing"
     element :identifier_creation_warning, "div#identifier_creation_warning"
     element :reason, "input#bulk_assignment_creation_reason"
