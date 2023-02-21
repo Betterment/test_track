@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -25,7 +25,7 @@ gem 'nokogiri'
 
 gem 'responders'
 
-gem 'rack-timeout'
+gem 'rack-timeout', require: "rack/timeout/base"
 
 gem 'airbrake', '~> 7.3.5', require: false
 gem 'sentry-raven', require: false

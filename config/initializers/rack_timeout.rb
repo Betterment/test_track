@@ -1,4 +1,8 @@
-Rack::Timeout.service_timeout = 30
+# Rack::Timeout.service_timeout = 30
+
+# insert middleware wherever you want in the stack, optionally pass
+# initialization arguments, or use environment variables
+Rails.application.config.middleware.insert_before Rack::Runtime, Rack::Timeout, service_timeout: 30
 
 if Rails.env.development? || Rails.env.test?
   Rack::Timeout::Logger.disable
