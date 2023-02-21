@@ -55,6 +55,9 @@ gem 'with_transactional_lock'
 
 gem 'bootsnap', '>= 1.3.0', require: false
 
+# Avoid deprecation notices by pinning mail to Ruby 2.7.5 compatible version
+gem 'mail', '~> 2.7.1'
+
 group :development, :test do
   gem 'simplecov', require: false
   gem 'pry-rails'
