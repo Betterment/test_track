@@ -13,7 +13,7 @@
   </td>
   <% if github_search_enabled? %>
     <td>
-      <%= link_to "Github", github_search_url(split), target: "_blank" %>
+      <%= link_to "Github", split.github_search_url, target: "_blank" %>
     </td>
   <% end %>
 </tr>

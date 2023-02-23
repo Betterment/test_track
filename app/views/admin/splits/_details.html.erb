@@ -47,7 +47,7 @@
         <tr>
           <td>Github</td>
           <td colspan="2">
-            <span><%= link_to "Search for uses", github_search_url(@split), target: '_blank' %></span>
+            <span><%= link_to "Search for uses", @split.github_search_url, target: '_blank' %></span>
           </td>
         </tr>
       <% end %>

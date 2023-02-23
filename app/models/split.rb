@@ -1,4 +1,5 @@
 class Split < ActiveRecord::Base
+
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
   has_many :previous_split_registries, dependent: :nullify
@@ -82,6 +83,14 @@ class Split < ActiveRecord::Base
   end
 
   scope :except_feature_gates, -> { where(feature_gate: false) }
+
+  def github_search_url?
+    github_search_url.present?
+  end
+
+  def github_search_url
+    GithubSearch.build_split_search_url(self)
+  end
 
   def detail
     @detail ||= SplitDetail.new(split: self)

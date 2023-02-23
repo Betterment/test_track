@@ -8,12 +8,6 @@ module ApplicationHelper
   end
 
   def github_search_enabled?
-    ENV['GITHUB_ORGANIZATION'].present?
-  end
-
-  def github_search_url(split)
-    return nil unless github_search_enabled?
-
-    "https://github.com/search?q=org%3A#{ENV['GITHUB_ORGANIZATION']}+#{split.name}&type=code"
+    GithubSearch.configured?
   end
 end
