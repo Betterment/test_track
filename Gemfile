@@ -25,7 +25,7 @@ gem 'nokogiri'
 
 gem 'responders'
 
-gem 'rack-timeout', require: "rack/timeout/base"
+gem 'rack-timeout'
 
 gem 'airbrake', '~> 7.3.5', require: false
 gem 'sentry-raven', require: false
