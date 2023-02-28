@@ -4,7 +4,7 @@ module EnvironmentSpecHelper
     opts.each do |k, v|
       k = k.to_s
       v = v.to_s unless v.nil?
-      old[k] = ENV[k]
+      old[k] = ENV.fetch(k, nil)
       ENV[k] = v
     end
     yield

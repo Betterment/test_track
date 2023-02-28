@@ -101,7 +101,7 @@ class BulkAssignmentCreation
 
   def unassigned_identifiers
     ensure_identifiers
-    Identifier.where(id: identifier_ids).where(<<-SQL)
+    Identifier.where(id: identifier_ids).where(<<-SQL.squish)
       NOT EXISTS (
         SELECT 1
         FROM assignments
@@ -149,7 +149,7 @@ class BulkAssignmentCreation
   end
 
   def existing_identifiers_count
-    Identifier.where(identifier_type: identifier_type).where("value IN (?)", ids_to_assign).count
+    Identifier.where(identifier_type: identifier_type).where(value: ids_to_assign).count
   end
 
   def most_identifiers_must_exist

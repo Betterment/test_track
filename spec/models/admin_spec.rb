@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Admin, type: :model do
+RSpec.describe Admin do
   describe ".from_saml" do
     let(:info) { { email: "herman@example.com", name: "Herman Miller" } }
     let(:auth) { OmniAuth::AuthHash.new(uid: "herman@example.com", info: info) }
@@ -15,7 +15,7 @@ RSpec.describe Admin, type: :model do
     end
 
     it "allows the user to log in despite casing" do
-      FactoryBot.create :admin, email: "herman@example.com"
+      FactoryBot.create(:admin, email: "herman@example.com")
       expect {
         admin = Admin.from_saml(
           OmniAuth::AuthHash.new(

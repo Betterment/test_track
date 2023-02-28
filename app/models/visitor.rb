@@ -17,6 +17,6 @@ class Visitor < ActiveRecord::Base
   def self.from_id(visitor_id)
     Visitor.find_or_create_by! id: visitor_id
   rescue ActiveRecord::RecordNotUnique
-    Visitor.find_by! id: visitor_id
+    Visitor.find(visitor_id)
   end
 end

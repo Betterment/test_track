@@ -11,7 +11,7 @@ task :seed_app, [:app_name] do |_, opts|
   auth_secret = "#{app_name}_development_#{SecureRandom.urlsafe_base64(32)}"
 
   existing_apps[app_name] = auth_secret
-  File.open(seed_app_filename, 'w') { |f| f.write(YAML.dump(existing_apps)) }
+  File.write(seed_app_filename, YAML.dump(existing_apps))
 
   Rake::Task["db:seed"].invoke
 

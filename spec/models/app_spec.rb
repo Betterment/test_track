@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe App, type: :model do
-  subject { FactoryBot.build :app }
+RSpec.describe App do
+  subject { FactoryBot.build(:app) }
 
   describe "name" do
     it "validates presence of name" do

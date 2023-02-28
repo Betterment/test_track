@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Split, type: :model do
+RSpec.describe Split do
   let(:app) { FactoryBot.create(:app, name: "my_app") }
 
   subject { FactoryBot.create(:split, owner_app: app, registry: { treatment: 100 }) }
@@ -326,7 +326,7 @@ RSpec.describe Split, type: :model do
     it "has a nil override without a remote kill" do
       split = FactoryBot.create(:split)
 
-      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq(nil)
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to be_nil
     end
 
     it "returns readonly records" do
@@ -339,7 +339,7 @@ RSpec.describe Split, type: :model do
       split = FactoryBot.create(:split)
       FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: "1.2", override_to: :touch_this)
 
-      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq(nil)
+      expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to be_nil
     end
 
     it "has an override for a remote kill that overlaps" do
@@ -494,7 +494,7 @@ RSpec.describe Split, type: :model do
         app_build = fc.app.define_build(built_at: Time.zone.now, version: "1.0")
 
         subject_with_knockouts = Split.for_app_build(app_build).find(subject.id)
-        expect(subject_with_knockouts.remote_kill_override_to).to eq nil
+        expect(subject_with_knockouts.remote_kill_override_to).to be_nil
         expect(subject_with_knockouts.registry).to eq("hammer_time" => 50, "touch_this" => 50)
       end
     end

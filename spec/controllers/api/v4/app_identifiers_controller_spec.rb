@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V4::AppIdentifiersController, type: :controller do
+RSpec.describe Api::V4::AppIdentifiersController do
   describe "#create" do
     before do
       allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)
@@ -32,7 +32,7 @@ RSpec.describe Api::V4::AppIdentifiersController, type: :controller do
       expect(response_json['splits'].first['name']).to eq('blab_enabled')
       expect(response_json['splits'].first['variants'].first).to eq('name' => 'false', 'weight' => 100)
       expect(response_json['splits'].first['variants'].last).to eq('name' => 'true', 'weight' => 0)
-      expect(response_json['splits'].first['feature_gate']).to eq(true)
+      expect(response_json['splits'].first['feature_gate']).to be(true)
       expect(response_json['visitor']['assignments']).to be_empty
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Api::V4::AppIdentifiersController, type: :controller do
       expect(response_json['splits'][0]['name']).to eq('blab_enabled')
       expect(response_json['splits'].first['variants'].first).to eq('name' => 'false', 'weight' => 50)
       expect(response_json['splits'].first['variants'].last).to eq('name' => 'true', 'weight' => 50)
-      expect(response_json['splits'][0]['feature_gate']).to eq(true)
+      expect(response_json['splits'][0]['feature_gate']).to be(true)
 
       expect(response_json['visitor']['assignments'].first['split_name']).to eq('blab_enabled')
       expect(response_json['visitor']['assignments'].first['variant']).to eq('true')

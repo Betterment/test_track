@@ -116,7 +116,7 @@ class CollectionSelectInput < SimpleForm::Inputs::CollectionSelectInput
 
   def prompt_as_string
     if options[:prompt] == true
-      I18n.translate('helpers.select.prompt', default: 'Please select')
+      I18n.t('helpers.select.prompt', default: 'Please select')
     else
       options[:prompt]
     end

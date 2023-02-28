@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ApplicationLayoutHelper, type: :helper do
+RSpec.describe ApplicationLayoutHelper do
   describe '#page_title' do
     it 'defaults to Test Track Admin' do
       expect(helper.page_title).to eq 'Test Track Admin'

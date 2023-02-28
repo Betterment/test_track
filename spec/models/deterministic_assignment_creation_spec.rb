@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeterministicAssignmentCreation, type: :model do
+RSpec.describe DeterministicAssignmentCreation do
   subject { DeterministicAssignmentCreation.new params }
 
   let(:visitor_id) { SecureRandom.uuid }

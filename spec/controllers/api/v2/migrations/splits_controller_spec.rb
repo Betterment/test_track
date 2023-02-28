@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V2::Migrations::SplitsController do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
 
   describe '#create' do
     it "doesn't create when unauthenticated" do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe IdentifierType, type: :model do
+RSpec.describe IdentifierType do
   describe "#name" do
     it "validates presence of name" do
       expect(subject).to validate_presence_of(:name)

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ArbitraryAssignmentCreation, type: :model do
+RSpec.describe ArbitraryAssignmentCreation do
   subject { ArbitraryAssignmentCreation.new params }
 
   let(:params) do
@@ -107,7 +107,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
           expect(existing_assignment.variant).to eq "variant1"
           expect(existing_assignment.visitor).to eq visitor
           expect(existing_assignment.split).to eq split
-          expect(existing_assignment.bulk_assignment).to eq nil
+          expect(existing_assignment.bulk_assignment).to be_nil
           expect(existing_assignment.context).to eq "context"
           expect(existing_assignment.mixpanel_result).to eq "success"
           expect(existing_assignment.updated_at).to eq Time.zone.parse('2019-07-01 00:00:00')
@@ -161,7 +161,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         assignment_creation_without_mixpanel_result.save!
 
         assignment = Assignment.first
-        expect(assignment.mixpanel_result).to eq nil
+        expect(assignment.mixpanel_result).to be_nil
       end
 
       it "does not override an existing assignment's mixpanel_result with nil mixpanel_result" do
@@ -227,7 +227,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
         existing_assignment.previous_assignments.first.tap do |prev|
           expect(prev.variant).to eq "variant2"
           expect(existing_assignment).to be_individually_overridden
-          expect(existing_assignment.bulk_assignment).to eq nil
+          expect(existing_assignment.bulk_assignment).to be_nil
           expect(existing_assignment.updated_at).to eq prev.superseded_at
           expect(existing_assignment.context).to eq "individually_overridden"
         end
@@ -252,7 +252,7 @@ RSpec.describe ArbitraryAssignmentCreation, type: :model do
 
         subject.save!
 
-        expect(existing_assignment.reload.bulk_assignment).to eq nil
+        expect(existing_assignment.reload.bulk_assignment).to be_nil
         expect(existing_assignment).to be_individually_overridden
         expect(existing_assignment.context).to eq "individually_overridden"
       end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::SplitConfigsController, type: :controller do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+RSpec.describe Api::V1::SplitConfigsController do
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
 
   describe '#create' do
     it "doesn't create when unauthenticated" do
@@ -45,7 +45,7 @@ RSpec.describe Api::V1::SplitConfigsController, type: :controller do
       end
 
       it "can't delete another app's split" do
-        other_app = FactoryBot.create :app, name: "other_app"
+        other_app = FactoryBot.create(:app, name: "other_app")
         split = FactoryBot.create(:split, name: "other_split", owner_app: other_app, finished_at: nil)
 
         expect { delete :destroy, params: { id: "other_split" } }.to raise_error(ActiveRecord::RecordNotFound)

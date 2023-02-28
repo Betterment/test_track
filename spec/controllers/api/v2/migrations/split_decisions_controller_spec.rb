@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V2::Migrations::SplitDecisionsController do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
   let!(:split) do
     FactoryBot.create(:split, owner_app: default_app, name: "default_app.my_split", registry: { a: 100, b: 0 }, finished_at: Time.zone.now)
   end
@@ -28,7 +28,7 @@ RSpec.describe Api::V2::Migrations::SplitDecisionsController do
         split.reload
         expect(split.registry).to eq 'a' => 0, 'b' => 100
         expect(split.decided_at).to be_present
-        expect(split.finished_at).to eq nil
+        expect(split.finished_at).to be_nil
       end
 
       it 'returns errors when invalid' do

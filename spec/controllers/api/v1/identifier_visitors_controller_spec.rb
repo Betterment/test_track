@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::IdentifierVisitorsController, type: :controller do
+RSpec.describe Api::V1::IdentifierVisitorsController do
   describe "#show" do
     let(:identifier_type) { FactoryBot.create(:identifier_type, name: "clown_id") }
     let(:split) { FactoryBot.create(:split, name: "what_time_is_it") }
@@ -16,7 +16,7 @@ RSpec.describe Api::V1::IdentifierVisitorsController, type: :controller do
       expect(response_json['id']).to eq assignment.visitor.id
       expect(response_json['assignments'][0]['split_name']).to eq('what_time_is_it')
       expect(response_json['assignments'][0]['variant']).to eq('hammer_time')
-      expect(response_json['assignments'][0]['unsynced']).to eq(false)
+      expect(response_json['assignments'][0]['unsynced']).to be(false)
       expect(response_json['assignments'][0]['context']).to eq("the_context")
     end
 

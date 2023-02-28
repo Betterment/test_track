@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
+RSpec.describe Api::V3::SplitRegistriesController do
   describe "#show" do
     before do
       allow(Rails.configuration).to receive(:experience_sampling_weight).and_return(10)
@@ -14,7 +14,7 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
     end
 
     context "without active split on given timestamp" do
-      let!(:split_1) { FactoryBot.create :split, name: "one", finished_at: Time.zone.parse('2019-11-13'), registry: { all: 100 } }
+      let!(:split_1) { FactoryBot.create(:split, name: "one", finished_at: Time.zone.parse('2019-11-13'), registry: { all: 100 }) }
 
       it "returns empty with no active splits on the timestamp" do
         expect(split_1).to be_finished
@@ -27,9 +27,9 @@ RSpec.describe Api::V3::SplitRegistriesController, type: :controller do
     end
 
     context "with splits active on given during timestamp" do
-      let(:split_1) { FactoryBot.create :split, name: "one", finished_at: Time.zone.parse('2019-11-13'), registry: { all: 100 } }
-      let(:split_2) { FactoryBot.create :split, name: "two", registry: { on: 50, off: 50 } }
-      let(:split_3) { FactoryBot.create :split, name: "three_enabled", registry: { true: 99, false: 1 }, feature_gate: true }
+      let(:split_1) { FactoryBot.create(:split, name: "one", finished_at: Time.zone.parse('2019-11-13'), registry: { all: 100 }) }
+      let(:split_2) { FactoryBot.create(:split, name: "two", registry: { on: 50, off: 50 }) }
+      let(:split_3) { FactoryBot.create(:split, name: "three_enabled", registry: { true: 99, false: 1 }, feature_gate: true) }
 
       it "returns the full split registry of splits that are active during timestamp" do
         expect(split_1).to be_finished

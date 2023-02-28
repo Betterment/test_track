@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::IdentifierTypesController, type: :controller do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+RSpec.describe Api::V1::IdentifierTypesController do
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
 
   it 'requires http basic auth' do
     http_authenticate username: default_app.name, auth_secret: 'bad bad bad'
@@ -19,7 +19,7 @@ RSpec.describe Api::V1::IdentifierTypesController, type: :controller do
     end
 
     it 'is idempotent for existing identifier types' do
-      FactoryBot.create :identifier_type, owner_app: default_app, name: 'myappdb_user_id'
+      FactoryBot.create(:identifier_type, owner_app: default_app, name: 'myappdb_user_id')
 
       expect { post :create, params: { name: 'myappdb_user_id' } }.not_to change { IdentifierType.count }
       expect(response).to have_http_status(:no_content)

@@ -37,7 +37,7 @@ class SplitUpsert
   private
 
   def zeroed_registry
-    found_split ? found_split.registry.keys.each_with_object({}) { |split_name, r| r[split_name] = 0 } : {}
+    found_split ? found_split.registry.keys.index_with { |_split_name| 0 } : {}
   end
 
   def merged_registry

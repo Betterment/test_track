@@ -8,7 +8,7 @@ class IdentifierType < ActiveRecord::Base
   private
 
   def name_must_be_snake_case
-    errors[:name] << "must be snake_case: #{name.inspect}" if name_not_underscored?
+    errors.add(:name, "must be snake_case: #{name.inspect}") if name_not_underscored?
   end
 
   def name_not_underscored?

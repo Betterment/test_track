@@ -129,7 +129,7 @@ RSpec.describe IdentifierClaim do
       claim = nil
       expect {
         claim = described_class.create!(visitor_id: visitor.id, identifier_type: identifier_type.name, value: "123")
-      }.to change { Visitor.count }.by(0)
+      }.not_to change { Visitor.count }
 
       expect(claim.identifier.visitor).to eq visitor
     end

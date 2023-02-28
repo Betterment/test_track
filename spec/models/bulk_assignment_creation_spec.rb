@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe BulkAssignmentCreation do
-  let(:split) { FactoryBot.create :split, name: "crying_in_baseball", registry: { yes: 20, no: 80 } }
-  let!(:identifier_type) { FactoryBot.create :identifier_type }
+  let(:split) { FactoryBot.create(:split, name: "crying_in_baseball", registry: { yes: 20, no: 80 }) }
+  let!(:identifier_type) { FactoryBot.create(:identifier_type) }
 
   let!(:visitor) { FactoryBot.create(:visitor) }
   let!(:identifier) { FactoryBot.create(:identifier, visitor: visitor, identifier_type_id: identifier_type.id, value: "22") }
   let!(:assignment) { FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "yes", context: "original_context") }
 
-  let(:admin) { FactoryBot.create :admin }
+  let(:admin) { FactoryBot.create(:admin) }
 
   let(:ids_csv) { ["22", "5092", "1bc12fa6-6c5b-47a4-b500-82b4e271520f"].join(',') }
 
@@ -179,7 +179,7 @@ RSpec.describe BulkAssignmentCreation do
 
       expect(bulk_assign_create.variant).to eq "no"
       expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
-      expect(bulk_assign_create.force).to eq false
+      expect(bulk_assign_create.force).to be false
       expect(Assignment.all.map(&:force).uniq).to match_array [false]
     end
 
@@ -202,7 +202,7 @@ RSpec.describe BulkAssignmentCreation do
 
         expect(bulk_assign_create.variant).to eq "no"
         expect(Assignment.all.map(&:variant).uniq).to match_array ["no"]
-        expect(bulk_assign_create.force).to eq true
+        expect(bulk_assign_create.force).to be true
         expect(Assignment.all.map(&:force).uniq).to match_array [true]
       end
     end
@@ -226,7 +226,7 @@ RSpec.describe BulkAssignmentCreation do
 
         expect(bulk_assign_create.variant).to eq "yes"
         expect(Assignment.all.map(&:variant).uniq).to match_array ["yes"]
-        expect(bulk_assign_create.force).to eq true
+        expect(bulk_assign_create.force).to be true
         expect(Assignment.all.map(&:force).uniq).to match_array [true]
       end
     end

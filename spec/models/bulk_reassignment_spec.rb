@@ -27,7 +27,7 @@ RSpec.describe BulkReassignment do
   it "reassigns multiple chosen assignments based on relation" do
     bulk_reassignment = described_class.new(assignments: Assignment.where(id: assignments.map(&:id)), bulk_assignment: bulk_assignment)
 
-    expect(bulk_reassignment.save).to eq true
+    expect(bulk_reassignment.save).to be true
 
     expect(assignments.length).to eq 2
     expect(assignments.first.reload.variant).to eq "bar"
@@ -41,7 +41,7 @@ RSpec.describe BulkReassignment do
   it "reassigns multiple chosen assignments to bar based on array" do
     bulk_reassignment = described_class.new(assignments: assignments, bulk_assignment: bulk_assignment)
 
-    expect(bulk_reassignment.save).to eq true
+    expect(bulk_reassignment.save).to be true
 
     expect(assignments.length).to eq 2
     expect(assignments.first.reload.variant).to eq "bar"
@@ -55,7 +55,7 @@ RSpec.describe BulkReassignment do
   it "reassigns nothing with an empty array" do
     bulk_reassignment = described_class.new(assignments: [], bulk_assignment: bulk_assignment)
 
-    expect(bulk_reassignment.save).to eq true
+    expect(bulk_reassignment.save).to be true
 
     expect(Assignment.where(variant: "bar")).not_to be_present
   end
@@ -72,11 +72,11 @@ RSpec.describe BulkReassignment do
     end
 
     it "sets mixpanel_result to nil on affected rows" do
-      expect(assignment.mixpanel_result).to eq nil
+      expect(assignment.mixpanel_result).to be_nil
     end
 
     it "preserves individually_overridden" do
-      expect(assignment.individually_overridden).to eq true
+      expect(assignment.individually_overridden).to be true
     end
 
     it "uses bulk_assignment's created_at as updated_at" do
@@ -88,7 +88,7 @@ RSpec.describe BulkReassignment do
     end
 
     it "does not set a visitor supersession" do
-      expect(assignment.visitor_supersession).to eq nil
+      expect(assignment.visitor_supersession).to be_nil
     end
 
     it "creates a previous_assignment record" do
@@ -96,7 +96,7 @@ RSpec.describe BulkReassignment do
     end
 
     it "toggles force to false" do
-      expect(assignment.force).to eq(false)
+      expect(assignment.force).to be(false)
     end
 
     context "within the created previous_assignment record" do
@@ -119,7 +119,7 @@ RSpec.describe BulkReassignment do
       end
 
       it "preserves old individually_overridden" do
-        expect(previous_assignment.individually_overridden).to eq true
+        expect(previous_assignment.individually_overridden).to be true
       end
 
       it "preserves old context" do
@@ -131,7 +131,7 @@ RSpec.describe BulkReassignment do
       end
 
       it "preserves old force" do
-        expect(previous_assignment.force).to eq(true)
+        expect(previous_assignment.force).to be(true)
       end
     end
   end

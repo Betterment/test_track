@@ -4,7 +4,7 @@ class AppFeatureCompletion < ActiveRecord::Base
 
   attribute :version, :app_version
 
-  validates :app, :version, presence: true
+  validates :version, presence: true
   validates :feature_gate, uniqueness: { scope: :app }
   validate :feature_gate_must_be_a_feature_gate
 

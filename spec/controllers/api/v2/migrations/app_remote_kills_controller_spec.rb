@@ -60,7 +60,7 @@ RSpec.describe Api::V2::Migrations::AppRemoteKillsController do
 
       expect(response).to have_http_status(:no_content)
       result = app.remote_kills.first
-      expect(result.fixed_version).to eq(nil)
+      expect(result.fixed_version).to be_nil
     end
 
     it "nulls fixed_version via a URLENCODED request" do
@@ -75,7 +75,7 @@ RSpec.describe Api::V2::Migrations::AppRemoteKillsController do
 
       expect(response).to have_http_status(:no_content)
       result = app.remote_kills.first
-      expect(result.fixed_version).to eq(nil)
+      expect(result.fixed_version).to be_nil
     end
 
     it "is invalid with a bad reason" do

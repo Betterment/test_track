@@ -37,7 +37,7 @@ RSpec.describe VisitorSupersession do
       visitor_supersession = described_class.create!(superseded_visitor: visitor, superseding_visitor: existing_visitor)
 
       torque_split_assignment = existing_visitor.assignments.find_by!(split: torque_split, variant: "rear")
-      expect(torque_split_assignment.mixpanel_result).to eq nil
+      expect(torque_split_assignment.mixpanel_result).to be_nil
       expect(torque_split_assignment.visitor_supersession).to eq visitor_supersession
       expect(torque_split_assignment.context).to eq "visitor_supersession"
     end
@@ -77,7 +77,7 @@ RSpec.describe VisitorSupersession do
 
       banana_split_assignment = existing_visitor.assignments.find_by!(split: banana_split, variant: "squishy")
       expect(banana_split_assignment.mixpanel_result).to eq "success"
-      expect(banana_split_assignment.visitor_supersession).to eq nil
+      expect(banana_split_assignment.visitor_supersession).to be_nil
       expect(banana_split_assignment.context).to eq "context2"
     end
   end

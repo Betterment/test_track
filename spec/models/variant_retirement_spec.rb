@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe VariantRetirement do
-  let(:admin) { FactoryBot.create :admin }
-  let(:split) { FactoryBot.create :split, name: "color", registry: { red: 50, blue: 0, yellow: 50 } }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:split) { FactoryBot.create(:split, name: "color", registry: { red: 50, blue: 0, yellow: 50 }) }
 
   let(:params) do
     {

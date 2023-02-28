@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V2::Migrations::SplitRetirementsController do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
   let!(:split) { FactoryBot.create(:split, owner_app: default_app, name: "default_app.my_split", registry: { a: 100, b: 0 }) }
 
   describe '#create' do

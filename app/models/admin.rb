@@ -23,9 +23,9 @@ class Admin < ActiveRecord::Base
     def devise_args
       %i(trackable lockable timeoutable).tap do |a|
         if ENV['SAML_ISSUER'].present?
-          a.concat [:omniauthable, { omniauth_providers: [:saml] }]
+          a.push(:omniauthable, { omniauth_providers: [:saml] })
         else
-          a.concat [:database_authenticatable]
+          a.push(:database_authenticatable)
         end
       end
     end
