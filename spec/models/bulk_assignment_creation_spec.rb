@@ -138,8 +138,8 @@ RSpec.describe BulkAssignmentCreation do
 
       expect { subject.save }
         .to raise_error("too cool for school")
-        .and change { Assignment.count }.by(0)
-        .and change { BulkAssignment.count }.by(0)
+        .and not_change { Assignment.count }
+        .and not_change { BulkAssignment.count }
     end
 
     it "overrides previous assignments" do
@@ -249,7 +249,7 @@ RSpec.describe BulkAssignmentCreation do
 
     it "idempotently creates assignments" do
       expect { subject.save }.to change { Assignment.count }.by(2).and change { BulkAssignment.count }.by(1)
-      expect { subject.save }.to change { Assignment.count }.by(0).and change { BulkAssignment.count }.by(0)
+      expect { subject.save }.to not_change { Assignment.count }.and not_change { BulkAssignment.count }
     end
 
     it "creates assignments for new Visitors with 'bulk_assignment' context" do

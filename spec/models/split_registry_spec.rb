@@ -27,7 +27,7 @@ RSpec.describe SplitRegistry do
 
   describe "#splits" do
     it "doesn't cache the instance" do
-      expect(subject.splits).to eq(subject.splits)
+      expect(subject.splits).to eq(subject.splits) # rubocop:disable RSpec/IdenticalEqualityAssertion
       expect(subject.splits).not_to eql(subject.splits)
     end
 

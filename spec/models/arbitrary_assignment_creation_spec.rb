@@ -30,7 +30,7 @@ RSpec.describe ArbitraryAssignmentCreation do
       allow(Visitor).to receive(:find_or_create_by!).and_raise(error)
 
       expect { subject.save! }
-        .to change { Visitor.count }.by(0)
+        .to not_change { Visitor.count }
         .and change { Assignment.count }.by(1)
 
       assignment = Assignment.first
@@ -128,7 +128,7 @@ RSpec.describe ArbitraryAssignmentCreation do
 
       expect { subject.save! }
         .to change { Assignment.count }.by(1)
-        .and change { PreviousAssignment.count }.by(0)
+        .and not_change { PreviousAssignment.count }
 
       assignment = Assignment.first
       expect(assignment.mixpanel_result).to eq "success"

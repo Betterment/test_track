@@ -17,7 +17,7 @@ SimpleForm.setup do |config|
     end
     b.use :hint, wrap_with: { tag: :label, class: 'hint' }
 
-    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do
+    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do # rubocop:disable Lint/EmptyBlock
     end
   end
 
@@ -144,7 +144,7 @@ SimpleForm.setup do |config|
       component.use :symbol, wrap_with: { tag: :div, class: 'symbol' }
     end
 
-    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do
+    b.wrapper :loader, tag: :div, class: 'field-loader-img loader' do # rubocop:disable Lint/EmptyBlock
     end
   end
 

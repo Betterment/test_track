@@ -21,8 +21,8 @@ RSpec.describe VisitorLookup do
 
       it "does not create a new identifier or visitor" do
         expect { subject.visitor }
-          .to change { Visitor.count }.by(0)
-          .and change { Identifier.count }.by(0)
+          .to not_change { Visitor.count }
+          .and not_change { Identifier.count }
       end
 
       it "returns the visitor for the existing identifier" do
