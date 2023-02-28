@@ -1,7 +1,8 @@
 class AdminSplitIndexPage < SitePrism::Page
   set_url '/admin'
 
-  element :app_selector, 'select[data-testId="appSelector"]'
+  element :filter_select, 'select[data-testId="appSelector"]'
+  element :filter_submit, 'input[data-testId="filterFormSubmit"]'
 
   section :splits_table, 'body.AdminSplits--index table' do
     elements :split_row, 'tbody tr'

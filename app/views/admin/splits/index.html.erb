@@ -6,12 +6,15 @@
     <% end %>
   </h1>
   <% if App.by_name.any? %>
-    <select onchange="if (this.value) window.location.href=this.value" data-testId="appSelector">
-      <option value="">Filter by App</option>
-      <% App.by_name.each do |app| %>
-        <option value="<%= admin_root_path(app: app.name) %>"><%= app.name %></option>
-      <% end %>
-    </select>
+    <%= form_tag admin_root_path, method: :get do %>
+      <label for="app">Filter by App: </label>
+      <select name="app" data-testId="appSelector">
+        <% App.by_name.each do |app| %>
+          <option value="<%= app.name %>" <%= "selected" if params[:app] == app.name %>><%= app.name %></option>
+        <% end %>
+      </select>
+      <input type="submit" value="Go" class="u-button small" data-testId="filterFormSubmit" />
+    <% end %>
   <% end %>
 </div>
 
@@ -22,7 +25,7 @@
         <tr>
           <th><a href="?sort=name">Name</a></th>
           <th>Owner App</th>
-          <th><%= link_to('Date Migrated', path_for(sort: 'date')) %></th>
+          <th><%= link_to('Date Migrated', { sort: 'date' }) %></th>
           <th></th>
         </tr>
       </thead>

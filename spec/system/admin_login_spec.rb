@@ -14,11 +14,14 @@ RSpec.describe 'admin login' do
     expect(subject).to be_loaded
     expect(subject.splits_table.split_row.count).to eq(2)
 
-    subject.app_selector.select app_1.name
+    subject.filter_select.select app_1.name
+    subject.filter_submit.click
+
     expect(subject).to be_loaded
     expect(subject.splits_table.split_row.count).to eq(1)
 
-    subject.app_selector.select app_2.name
+    subject.filter_select.select app_2.name
+    subject.filter_submit.click
     expect(subject).to be_loaded
     expect(subject.splits_table.split_row.count).to eq(1)
 
