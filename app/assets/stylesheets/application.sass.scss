@@ -1,5 +1,6 @@
 $asset-pipeline: true; //pull font urls correctly
 @import "style-closet";
+@import "@primer/css/index.scss";
 
 @import "icon_font";
 
