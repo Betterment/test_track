@@ -5,7 +5,6 @@ gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
-gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -89,3 +88,5 @@ group :test do
 end
 
 gem "primer_view_components", "~> 0.1.0"
+
+gem "cssbundling-rails", "~> 1.1"
