@@ -1,3 +1,125 @@
+@mixin column-width($column, $width) {
+  #{$column} {
+    width: $width;
+  }
+}
+
+@mixin column-format($column, $format) {
+  @if $format == 'text' {
+    #{$column} {
+      text-align: left;
+    }
+  }
+
+  @if $format == 'action-links' or $format == 'number' {
+    #{$column} {
+      text-align: right;
+    }
+  }
+
+  @if $format == 'editable' {
+    #{$column} {
+      text-align: center;
+    }
+  }
+}
+
+/*
+mixin for generating a standard table
+*/
+@mixin standard-table($table-width, $widths...) {
+  margin-top: 35px;
+  width: $table-width;
+  border-collapse: separate;
+
+  td {
+    line-height: 1.3;
+  }
+
+  thead {
+    tr {
+      th {
+        @extend %column-header;
+        border-bottom: 1px solid var(--color-border-default);
+      }
+    }
+  }
+
+  tbody tr {
+    &.table-group-divider {
+      background: var(--color-scale-gray-0);
+      border-bottom: 0;
+    }
+
+    .blank-table-row-title {
+      color: var(--color-scale-gray-8);
+      font-size: $h3-size;
+      padding-top: 3rem;
+      padding-bottom: 2rem;
+      text-align: center;
+    }
+
+    .blank-table-row-body {
+      color: var(--color-scale-gray-7);
+      font-size: $h4-size;
+      text-align: center;
+      padding-bottom: 4.5rem;
+    }
+
+    td {
+      @extend %standard-row-section;
+      border-bottom: 1px solid var(--color-border-default);
+
+      .sub-text {
+        @extend %sub-text;
+      }
+
+      .emphasized {
+        color: var(--color-scale-gray-8);
+        font-weight: $font-weight-bold;
+      }
+
+      &.account {
+        div {
+          margin: 0 0 4px;
+        }
+
+        .name {
+          @extend %account-name;
+        }
+      }
+
+      &.table-group-label {
+        @extend %table-group-label;
+      }
+    }
+  }
+
+  tfoot tr td {
+    @extend %standard-row-section;
+    color: var(--color-scale-gray-8);
+    font-weight: $font-weight-bold;
+  }
+
+  // define header and row widths
+  @for $i from 1 through length($widths) {
+    $var: "th:nth-child(#{$i}), td:nth-child(#{$i})";
+    @include column-width($var, nth($widths, $i));
+  }
+}
+
+%column-header {
+  @include h5;
+  padding: 0 5px 5px;
+}
+
+%standard-row-section {
+  color: var(--color-scale-gray-7);
+  font-size: $h5-size;
+  padding: 15px 5px;
+  position: relative;
+}
+
 .BasicTable {
   @include standard-table(100%, 40%, 25%);
 }

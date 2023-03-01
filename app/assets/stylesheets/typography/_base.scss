@@ -1,16 +1,72 @@
+$primary-font-stack: 'MuseoSans', 'Lato', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+
 body {
-  @include sc-responsive-typography;
+  color: var(--color-scale-gray-6);
   font-family: $primary-font-stack;
-  min-width: $app-min-width;
+  font-size: $body-font-size;
+  line-height: $lh-default;
+  min-width: 320px;
+
+  @include sc-responsive-typography;
+
+  h1 {
+    @include h1-responsive;
+  }
+
+  h2 {
+    @include h2-responsive;
+  }
+
+  h3 {
+    @include h3-responsive;
+  }
+
+  h4 {
+    @include h4;
+  }
+
+  h5 {
+    @include h5;
+  }
+
+  p {
+    font-size: $body-font-size;
+    line-height: $lh-default;
+  }
+
+  em {
+    font-weight: italic;
+  }
+
+  strong {
+    font-weight: $font-weight-bold;
+  }
+
+  .pending {
+    color: var(--color-scale-gray-4);
+    font-size: $body-font-size;
+    font-style: italic;
+  }
+
+  .hint {
+    color: var(--color-scale-gray-4);
+    font-size: $font-size-small;
+  }
+
+  .title {
+    color: var(--color-scale-gray-8);
+    font-size: $font-size-small;
+    font-weight: $font-weight-bold;
+  }
 }
 
 .Body {
   &--nearWhite {
-    background: $near-white;
+    background: var(--color-scale-gray-0);
   }
   &--white {
-    background: $white;
+    background: var(--color-scale-white);
   }
 }
 
-$font-medium: 400;
+$font-medium: $font-weight-normal;

@@ -8,7 +8,7 @@
 <%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
   <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
   <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
-    <li>This split will be re-weighted so that all <span class="u-emphasis">future</span> assignments will be to the variant specified.</li>
+    <li>This split will be re-weighted so that all <span class="text-italic">future</span> assignments will be to the variant specified.</li>
     <li>All visitors currently assigned to any other variant in this split will have their assignments overridden by this decision. If they subsequently reassign themselves, newer assignments will take precedence.</li>
   </ol>
 
