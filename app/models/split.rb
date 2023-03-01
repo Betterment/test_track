@@ -170,7 +170,7 @@ class Split < ActiveRecord::Base
 
   def knock_out_weightings(registry_hash, to: "false")
     target_variant = to.to_s
-    knock_out_weightings_if_possible(registry_hash, to: target_variant) || log_knockout_error(target_variant) && registry_hash
+    knock_out_weightings_if_possible(registry_hash, to: target_variant) || (log_knockout_error(target_variant) && registry_hash)
   end
 
   def knock_out_weightings_if_possible(registry_hash, to:)
@@ -201,7 +201,7 @@ class Split < ActiveRecord::Base
   end
 
   def registry_must_have_winning_variant_if_decided
-    errors.add(:registry, "must have a winning variant if decided") if decided_at.present? && registry.values.none? { |v| v == 100 }
+    errors.add(:registry, "must have a winning variant if decided") if decided_at.present? && registry.values.none?(100)
   end
 
   def registry_weights_must_sum_to_100

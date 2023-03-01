@@ -37,7 +37,7 @@ RSpec.describe AppVersion do
     expect(described_class.new("1.2")).to be < described_class.new("2.1")
     expect(described_class.new("2.1")).to be > described_class.new("1.2")
 
-    expect(described_class.new("1.0.0")).to eq described_class.new("1.0.0")
+    expect(described_class.new("1.0.0")).to eq described_class.new("1.0.0") # rubocop:disable RSpec/IdenticalEqualityAssertion
 
     expect(described_class.new("1.0.0")).not_to eq described_class.new("1.0")
   end

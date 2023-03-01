@@ -15,14 +15,14 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     result = app.remote_kills.first
     expect(result.split).to eq(feature_gate)
     expect(result.reason).to eq("my_giant_bug_2019")
     expect(result.override_to).to eq("false")
     expect(result.first_bad_version).to eq(AppVersion.new("1.0"))
-    expect(result.fixed_version).to eq(nil)
+    expect(result.fixed_version).to be_nil
   end
 
   it "updates existing AppRemoteKills" do
@@ -44,7 +44,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: "1.0"
     )
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     remote_kill.reload
     expect(remote_kill.fixed_version).to eq(AppVersion.new("1.0"))
@@ -69,7 +69,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.remote_kills).to be_empty
   end
@@ -93,7 +93,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.remote_kills).to be_empty
   end
@@ -108,10 +108,10 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: ""
     )
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     result = app.remote_kills.first
-    expect(result.fixed_version).to eq(nil)
+    expect(result.fixed_version).to be_nil
   end
 
   it "is invalid with no split" do
@@ -125,7 +125,7 @@ RSpec.describe AppRemoteKillMigration do
     )
 
     expect(subject).to have(1).error_on(:split)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "is invalid with no split on delete" do
@@ -139,7 +139,7 @@ RSpec.describe AppRemoteKillMigration do
     )
 
     expect(subject).to have(1).error_on(:split)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "is invalid with no reason" do
@@ -153,7 +153,7 @@ RSpec.describe AppRemoteKillMigration do
     )
 
     expect(subject).to have(1).error_on(:reason)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "is invalid with no reason on delete" do
@@ -168,7 +168,7 @@ RSpec.describe AppRemoteKillMigration do
     )
 
     expect(subject).to have(1).error_on(:reason)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
     expect(app.remote_kills.count).to eq(1)
   end
 

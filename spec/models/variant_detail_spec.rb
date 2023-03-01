@@ -69,7 +69,7 @@ RSpec.describe VariantDetail do
       subject { FactoryBot.build(:variant_detail, split: split, variant: 'true') }
 
       it 'returns true' do
-        expect(subject.valid?).to eq true
+        expect(subject.valid?).to be true
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe VariantDetail do
       subject { FactoryBot.build(:variant_detail, split: split, variant: 'duck') }
 
       it 'returns false' do
-        expect(subject.valid?).to eq false
+        expect(subject.valid?).to be false
         expect(subject.errors[:base]).to include 'Variant does not exist: duck'
       end
     end

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Assignment, type: :model do
-  let(:split) { FactoryBot.create :split }
-  subject { FactoryBot.create :assignment, split: split }
+RSpec.describe Assignment do
+  let(:split) { FactoryBot.create(:split) }
+  subject { FactoryBot.create(:assignment, split: split) }
 
   describe "variant" do
     it "validates presence of variant" do
@@ -297,7 +297,7 @@ RSpec.describe Assignment, type: :model do
       previous_assignment = assignment.create_previous_assignment!(Time.zone.now)
 
       expect(previous_assignment).to be_a PreviousAssignment
-      expect(previous_assignment.force).to eq(true)
+      expect(previous_assignment.force).to be(true)
     end
 
     it "passes back a false force value" do
@@ -305,7 +305,7 @@ RSpec.describe Assignment, type: :model do
       previous_assignment = assignment.create_previous_assignment!(Time.zone.now)
 
       expect(previous_assignment).to be_a PreviousAssignment
-      expect(previous_assignment.force).to eq(false)
+      expect(previous_assignment.force).to be(false)
     end
   end
 end

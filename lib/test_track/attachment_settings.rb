@@ -52,10 +52,10 @@ module TestTrack
       {
         storage: :s3,
         s3_credentials: {
-          access_key_id: ENV['AWS_ACCESS_KEY_ID'],
-          secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+          access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID', nil),
+          secret_access_key: ENV.fetch('AWS_SECRET_ACCESS_KEY', nil)
         },
-        bucket: ENV['S3_ATTACHMENT_BUCKET'],
+        bucket: ENV.fetch('S3_ATTACHMENT_BUCKET', nil),
         s3_region: ENV['AWS_REGION'] || 'us-east-1',
         s3_permissions: ENV['S3_ATTACHMENT_PERMISSIONS'] || 'private',
         path: ENV['S3_ATTACHMENT_PATH'] || ':class/:attachment/:id_partition/:style/:filename'
@@ -71,7 +71,7 @@ module TestTrack
       if Rails.env.test?
         'local'
       else
-        ENV['ATTACHMENT_STORAGE']
+        ENV.fetch('ATTACHMENT_STORAGE', nil)
       end
     end
   end

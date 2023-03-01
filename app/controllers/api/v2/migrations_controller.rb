@@ -1,4 +1,8 @@
 class Api::V2::MigrationsController < AuthenticatedApiController
+  def index
+    @app_migrations = current_app.migrations.order(:version)
+  end
+
   def create
     app_migration = current_app.migrations.find_or_initialize_by(create_params)
     if app_migration.save
@@ -15,10 +19,6 @@ class Api::V2::MigrationsController < AuthenticatedApiController
     else
       render_errors app_migration
     end
-  end
-
-  def index
-    @app_migrations = current_app.migrations.order(:version)
   end
 
   private

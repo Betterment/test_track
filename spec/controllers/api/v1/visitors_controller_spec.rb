@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::VisitorsController, type: :controller do
+RSpec.describe Api::V1::VisitorsController do
   describe "#show" do
-    let(:visitor) { FactoryBot.create :visitor }
+    let(:visitor) { FactoryBot.create(:visitor) }
 
-    let(:split_1) { FactoryBot.create(:split, name: "one", registry: { "control": 50, "treatment": 50 }) }
-    let(:split_2) { FactoryBot.create(:split, name: "two", registry: { "control": 50, "treatment": 50 }) }
+    let(:split_1) { FactoryBot.create(:split, name: "one", registry: { control: 50, treatment: 50 }) }
+    let(:split_2) { FactoryBot.create(:split, name: "two", registry: { control: 50, treatment: 50 }) }
 
     let(:allow_signup) { FactoryBot.create(:split, name: "allow_signup", registry: { true: 50, false: 50 }) }
 

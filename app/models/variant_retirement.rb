@@ -25,7 +25,7 @@ class VariantRetirement
   end
 
   def _retiring_assignment_ids_by_active_variant
-    variant_map = Hash[sorted_active_variants.map { |v| [v, []] }]
+    variant_map = sorted_active_variants.index_with { |_v| [] }
     retiring_assignments.select(:id).find_each do |assignment|
       variant_map[random_active_variant] << assignment.id
     end

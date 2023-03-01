@@ -4,7 +4,7 @@ RSpec.describe SplitRetirementMigration do
   it "retires a split" do
     split = FactoryBot.create(:split, name: "my_split", registry: { a: 100, b: 0 })
 
-    expect(described_class.new(app: split.owner_app, split: "my_split", decision: "b").save).to eq true
+    expect(described_class.new(app: split.owner_app, split: "my_split", decision: "b").save).to be true
 
     split.reload
     expect(split.finished_at).to be_present

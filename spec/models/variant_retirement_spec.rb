@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe VariantRetirement do
-  let(:admin) { FactoryBot.create :admin }
-  let(:split) { FactoryBot.create :split, name: "color", registry: { red: 50, blue: 0, yellow: 50 } }
+  let(:admin) { FactoryBot.create(:admin) }
+  let(:split) { FactoryBot.create(:split, name: "color", registry: { red: 50, blue: 0, yellow: 50 }) }
 
   let(:params) do
     {
@@ -66,8 +66,8 @@ RSpec.describe VariantRetirement do
     context "no assignments exist to be retired" do
       it "no-ops" do
         expect { subject.save! }
-          .to change { BulkAssignment.count }.by(0)
-          .and change { PreviousAssignment.count }.by(0)
+          .to not_change { BulkAssignment.count }
+          .and not_change { PreviousAssignment.count }
       end
     end
   end

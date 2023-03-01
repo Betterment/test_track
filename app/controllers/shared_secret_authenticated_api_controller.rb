@@ -16,6 +16,6 @@ class SharedSecretAuthenticatedApiController < UnauthenticatedApiController
   end
 
   def shared_secret
-    ENV[SHARED_SECRET_ENV_VAR]
+    ENV.fetch(SHARED_SECRET_ENV_VAR, nil)
   end
 end

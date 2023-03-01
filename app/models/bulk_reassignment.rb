@@ -28,7 +28,7 @@ class BulkReassignment
   delegate :connection, :with_transactional_lock, to: BulkAssignment
 
   def insert_previous_assignments
-    connection.execute(<<-SQL)
+    connection.execute(<<-SQL.squish)
       INSERT INTO previous_assignments (
         variant,
         assignment_id,
@@ -58,7 +58,7 @@ class BulkReassignment
   end
 
   def update_assignments # rubocop:disable Metrics/AbcSize
-    connection.execute(<<-SQL)
+    connection.execute(<<-SQL.squish)
       UPDATE assignments SET
         variant = #{connection.quote(bulk_assignment.variant)},
         updated_at = #{connection.quote(now)},

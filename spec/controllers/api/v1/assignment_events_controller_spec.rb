@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
+RSpec.describe Api::V1::AssignmentEventsController do
   describe "#create" do
     let!(:visitor) { FactoryBot.create(:visitor, id: "7ab083a5-d532-4bd6-912f-aa7e887450da") }
     let(:split) { FactoryBot.create(:split, name: "my_split", registry: { control: 47, treatment: 1, zombie_apocalypse: 52 }) }
@@ -72,7 +72,7 @@ RSpec.describe Api::V1::AssignmentEventsController, type: :controller do
       expect(assignment.variant).to eq "treatment"
       expect(assignment.visitor).to eq visitor
       expect(assignment.split).to eq split
-      expect(assignment.mixpanel_result).to eq nil
+      expect(assignment.mixpanel_result).to be_nil
       expect(assignment.context).to eq "context"
     end
   end

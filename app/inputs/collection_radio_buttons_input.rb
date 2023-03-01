@@ -28,9 +28,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionSelectInput
   private
 
   def state(value)
-    if options.fetch(:selected, nil) == value
-      :selected
-    elsif selected?(value)
+    if options.fetch(:selected, nil) == value || selected?(value)
       :selected
     else
       :unselected

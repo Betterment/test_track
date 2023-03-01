@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
+RSpec.describe Api::V1::AssignmentOverridesController do
   describe "#create" do
-    let!(:visitor) { FactoryBot.create :visitor }
+    let!(:visitor) { FactoryBot.create(:visitor) }
     let(:split) { FactoryBot.create(:split, registry: { control: 50, treatment: 50 }) }
 
     let(:create_params) do
@@ -56,7 +56,7 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
           expect(assignment.split).to eq split
           expect(assignment.mixpanel_result).to eq "success"
           expect(assignment.context).to eq "context"
-          expect(assignment.force).to eq true
+          expect(assignment.force).to be true
         end
 
         it "overrides an assignment if one already exists" do
@@ -66,8 +66,8 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
             post :create, params: create_params
           }.to change { PreviousAssignment.count }.by(1)
 
-          expect(Assignment.last.force).to eq true
-          expect(PreviousAssignment.last.force).to eq false
+          expect(Assignment.last.force).to be true
+          expect(PreviousAssignment.last.force).to be false
           expect(response).to have_http_status :no_content
         end
 
@@ -80,7 +80,7 @@ RSpec.describe Api::V1::AssignmentOverridesController, type: :controller do
           expect(assignment.variant).to eq "treatment"
           expect(assignment.visitor).to eq visitor
           expect(assignment.split).to eq split
-          expect(assignment.mixpanel_result).to eq nil
+          expect(assignment.mixpanel_result).to be_nil
           expect(assignment.context).to eq "context"
         end
       end

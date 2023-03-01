@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe SplitUpsert do
-  let(:default_app) { FactoryBot.create :app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU" }
+  let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOU") }
 
   let(:bad_weather) { { rain: 20, snow: 20, hurricane: 60 }.stringify_keys }
   let(:bad_weather_create) { described_class.new(app: default_app, name: "weather", weighting_registry: bad_weather) }
@@ -56,7 +56,7 @@ RSpec.describe SplitUpsert do
 
   it 'delegates validation errors to split' do
     split_upsert = described_class.new(app: default_app, name: "bump.bad_extremely_bad", weighting_registry: { badBadBad: 100 })
-    expect(split_upsert.save).to eq false
+    expect(split_upsert.save).to be false
     expect(split_upsert.errors[:name].first).to include("prefixed")
     expect(split_upsert.errors[:weighting_registry].first).to include("snake_case")
   end

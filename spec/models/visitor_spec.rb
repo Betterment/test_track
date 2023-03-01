@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Visitor, type: :model do
+RSpec.describe Visitor do
   subject { FactoryBot.create(:visitor) }
 
   let(:banana_split) { FactoryBot.create(:split, name: :banana, registry: { green: 50, squishy: 50 }) }

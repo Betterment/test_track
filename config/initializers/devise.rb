@@ -237,9 +237,9 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :saml,
-    issuer: ENV['SAML_ISSUER'],
-    idp_sso_target_url: ENV['IDP_SSO_TARGET_URL'],
-    idp_cert_fingerprint: ENV['IDP_CERT_FINGERPRINT'],
+    issuer: ENV.fetch('SAML_ISSUER', nil),
+    idp_sso_target_url: ENV.fetch('IDP_SSO_TARGET_URL', nil),
+    idp_cert_fingerprint: ENV.fetch('IDP_CERT_FINGERPRINT', nil),
     name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
 
 

@@ -8,7 +8,7 @@ RSpec.describe AppFeatureCompletionMigration do
   it "creates AppFeatureCompletions" do
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: "1.0")
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.feature_completions.where(feature_gate: feature_gate, version: "1.0")).to be_present
   end
@@ -17,7 +17,7 @@ RSpec.describe AppFeatureCompletionMigration do
     feature_completion = FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "0.9")
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: "1.0")
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     feature_completion.reload
     expect(feature_completion.version).to eq(AppVersion.new("1.0"))
@@ -27,7 +27,7 @@ RSpec.describe AppFeatureCompletionMigration do
     FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: nil)
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.feature_completions.where(feature_gate: feature_gate, version: "1.0")).not_to be_present
   end
@@ -36,7 +36,7 @@ RSpec.describe AppFeatureCompletionMigration do
     FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: "")
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.feature_completions.where(feature_gate: feature_gate, version: "1.0")).not_to be_present
   end
@@ -46,20 +46,20 @@ RSpec.describe AppFeatureCompletionMigration do
 
     expect(subject).to have(1).error_on(:feature_gate)
     expect(subject).to have(0).errors_on(:version)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "is invalid with no feature gate" do
     subject = described_class.new(app: app, feature_gate: "nonexistent_enabled", version: "1.0")
 
     expect(subject).to have(1).error_on(:feature_gate)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "is valid when destroying an unpersisted feature completion for idempotency" do
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: nil)
 
-    expect(subject.save).to eq true
+    expect(subject.save).to be true
 
     expect(app.feature_completions.where(feature_gate: feature_gate, version: "1.0")).not_to be_present
   end
@@ -68,7 +68,7 @@ RSpec.describe AppFeatureCompletionMigration do
     subject = described_class.new(app: app, feature_gate: experiment, version: "1.0")
 
     expect(subject).to have(1).error_on(:feature_gate)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 
   it "blows up with no app" do
@@ -81,6 +81,6 @@ RSpec.describe AppFeatureCompletionMigration do
     subject = described_class.new(app: app, feature_gate: feature_gate.name, version: "01.0")
 
     expect(subject).to have(1).error_on(:version)
-    expect(subject.save).to eq false
+    expect(subject.save).to be false
   end
 end

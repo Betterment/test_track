@@ -68,7 +68,7 @@ RSpec.describe AppIdentifierClaim do
 
       claim = described_class.new create_params
 
-      expect(claim.save).to eq(true)
+      expect(claim.save).to be(true)
     end
   end
 
@@ -89,7 +89,7 @@ RSpec.describe AppIdentifierClaim do
       allow(IdentifierClaim).to receive(:new).and_return identifier_claim
 
       claim = described_class.new create_params
-      expect(claim.save).to eq(true)
+      expect(claim.save).to be(true)
 
       expect(claim.visitor).to eq(visitor)
     end
@@ -112,7 +112,7 @@ RSpec.describe AppIdentifierClaim do
       allow(IdentifierClaim).to receive(:new).and_return identifier_claim
 
       claim = described_class.new create_params
-      expect(claim.save).to eq(true)
+      expect(claim.save).to be(true)
 
       expect(claim.app_build).to eq(app_build)
     end

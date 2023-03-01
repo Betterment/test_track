@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Api::V1::IdentifiersController, type: :controller do
+RSpec.describe Api::V1::IdentifiersController do
   describe "#create" do
     let(:visitor) { FactoryBot.create(:visitor) }
     let(:identifier_type) { FactoryBot.create(:identifier_type) }
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
         expect(visitor_json['id']).to eq visitor.id
         expect(visitor_json['assignments'][0]['split_name']).to eq('banana')
         expect(visitor_json['assignments'][0]['variant']).to eq('green')
-        expect(visitor_json['assignments'][0]['unsynced']).to eq(false)
+        expect(visitor_json['assignments'][0]['unsynced']).to be(false)
         expect(visitor_json['assignments'][0]['context']).to eq('the_context')
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe Api::V1::IdentifiersController, type: :controller do
         expect(visitor_json['id']).to eq existing_visitor.id
         expect(visitor_json['assignments'][0]['split_name']).to eq('banana')
         expect(visitor_json['assignments'][0]['variant']).to eq('green')
-        expect(visitor_json['assignments'][0]['unsynced']).to eq(true)
+        expect(visitor_json['assignments'][0]['unsynced']).to be(true)
         expect(visitor_json['assignments'][0]['context']).to eq('visitor_supersession')
       end
     end

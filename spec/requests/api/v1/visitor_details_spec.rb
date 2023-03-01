@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Api::V1::VisitorDetailsController, type: :request do
+describe Api::V1::VisitorDetailsController do
   let(:default_app) { FactoryBot.create(:app, name: 'default_app', auth_secret: '6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOf') }
   let(:split) { FactoryBot.create(:split, name: 'excellent_feature', registry: { enabled: 50, disabled: 50 }, location: 'Home page') }
 

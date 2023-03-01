@@ -70,7 +70,7 @@ class Assignment < ActiveRecord::Base
   alias unsynced unsynced?
 
   def self.to_hash
-    Hash[all.includes(:split).map { |a| [a.split.name.to_sym, a.variant.to_sym] }]
+    all.includes(:split).to_h { |a| [a.split.name.to_sym, a.variant.to_sym] }
   end
 
   private
