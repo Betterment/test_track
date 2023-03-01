@@ -6,7 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=0">
   <%= favicon_link_tag '/favicon.ico' %>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': true %>
+  <link href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css" rel="stylesheet" />
   <%= javascript_include_tag 'application', 'data-turbolinks-track': true %>
+  <%= javascript_include_tag 'primer_view_components' %>
 </head>
 
 <body class="<%= site_layout_body_css_classes %>">

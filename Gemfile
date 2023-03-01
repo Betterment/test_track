@@ -87,3 +87,5 @@ group :test do
   gem 'timecop'
   gem 'db-query-matchers'
 end
+
+gem "primer_view_components", "~> 0.1.0"
