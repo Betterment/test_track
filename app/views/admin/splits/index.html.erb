@@ -6,14 +6,10 @@
     <% end %>
   </h1>
   <% if App.by_name.any? %>
-    <%= form_tag admin_root_path, method: :get do %>
-      <label for="app">Filter by App: </label>
-      <select name="app" data-testId="appSelector">
-        <% App.by_name.each do |app| %>
-          <option value="<%= app.name %>" <%= "selected" if params[:app] == app.name %>><%= app.name %></option>
-        <% end %>
-      </select>
-      <input type="submit" value="Go" class="u-button small" data-testId="filterFormSubmit" />
+    <%= form_with model: @app || App.new, url: admin_root_path, method: :get, local: true do |form| %>
+      <%= form.label :name, "Filter by App:" %>
+      <%= form.collection_select :name, App.by_name, :name, :name, prompt: true %>
+      <%= form.submit "Go", class: "u-button small" %>
     <% end %>
   <% end %>
 </div>
@@ -23,7 +19,7 @@
     <table class="BasicTable">
       <thead>
         <tr>
-          <th><a href="?sort=name">Name</a></th>
+          <th><%= link_to('Name', { sort: 'name' }) %></th>
           <th>Owner App</th>
           <th><%= link_to('Date Migrated', { sort: 'date' }) %></th>
           <th></th>

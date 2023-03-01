@@ -9,8 +9,8 @@
   </div>
   <% if signed_in? %>
     <div class="sc-TakeoverHeader-cta">
-      <%= form_tag admin_split_search_path, method: :post, style: 'display: inline;' do |form| %>
-        <%= text_field_tag "name", "", placeholder: 'Search by split name...', data: { testId: 'splitSearch' } %>
+      <%= form_with url: admin_split_search_path, local: true, html: { style: 'display: inline' } do |form| %>
+        <%= form.text_field :name, placeholder: "Search by split name...", 'aria-label': 'Search for splits by name' %>
       <% end %>
 
       <%= link_to 'Splits', admin_root_path, class: "sc-p--s u-white-link" %>
