@@ -4,7 +4,7 @@ class Admin::SplitSearchesController < AuthenticatedAdminController
 
     return redirect_to admin_split_path(split) if split
 
-    flash[:error] = "No split with that name could be found."
+    flash[:error] = t('split_searches.no_results')
     redirect_to admin_root_path
   end
 end
