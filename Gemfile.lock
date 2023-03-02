@@ -202,6 +202,9 @@ GEM
     libv8-node (16.10.0.0-x86_64-darwin)
     libv8-node (16.10.0.0-x86_64-darwin-19)
     libv8-node (16.10.0.0-x86_64-linux)
+    listen (3.8.0)
+      rb-fsevent (~> 0.10, >= 0.10.3)
+      rb-inotify (~> 0.9, >= 0.9.10)
     loofah (2.19.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -496,6 +499,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   kt-paperclip (~> 7.1)
+  listen
   mail (~> 2.7.1)
   mini_racer
   newrelic_rpm

@@ -78,6 +78,7 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '>= 3.3.0'
   gem 'travis', '~> 1.8.0'
+  gem 'listen'
 end
 
 group :test do
