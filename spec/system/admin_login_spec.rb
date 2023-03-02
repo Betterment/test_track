@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe 'admin login' do
   subject { app.admin_split_index_page }
 
-  let(:app_1) { FactoryBot.create :app }
-  let(:app_2) { FactoryBot.create :app }
+  let(:app_1) { FactoryBot.create(:app) }
+  let(:app_2) { FactoryBot.create(:app) }
 
-  let!(:split_1) { FactoryBot.create :split, owner_app: app_1 }
-  let!(:split_2) { FactoryBot.create :split, owner_app: app_2 }
+  let!(:split_1) { FactoryBot.create(:split, owner_app: app_1) }
+  let!(:split_2) { FactoryBot.create(:split, owner_app: app_2) }
 
   it 'displays active splits page to authenticated admin' do
     login
