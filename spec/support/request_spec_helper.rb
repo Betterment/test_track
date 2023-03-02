@@ -24,7 +24,7 @@ module RequestSpecHelper
     define_method(method) do |path, opts = {}|
       opts[:headers] ||= {}
       opts[:headers] = opts[:headers].merge(default_headers_or_env)
-      super(path, opts)
+      super(path, **opts)
     end
   end
 end

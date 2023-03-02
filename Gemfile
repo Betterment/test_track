@@ -41,8 +41,7 @@ gem 'omniauth-rails_csrf_protection'
 
 gem 'simple_form'
 
-gem 'paperclip', '~> 5.2'
-gem 'aws-sdk', '~> 2.3.0'
+gem 'kt-paperclip', '~> 7.1'
 
 gem 'attribute_normalizer', '~> 1.2.0'
 gem 'style_closet', path: 'vendor/gems/style-closet'
@@ -81,7 +80,6 @@ group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '>= 3.3.0'
   gem 'travis', '~> 1.8.0'
-  gem 'listen', '~> 3.1.5'
 end
 
 group :test do

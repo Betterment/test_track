@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe BatchArbitraryAssignmentCreation do
-  subject { BatchArbitraryAssignmentCreation.new params }
+  subject { BatchArbitraryAssignmentCreation.new(**params) }
 
   let(:visitor_id) { SecureRandom.uuid }
 

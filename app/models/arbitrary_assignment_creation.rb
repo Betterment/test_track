@@ -28,7 +28,7 @@ class ArbitraryAssignmentCreation
   end
 
   def self.create!(params)
-    new(params.to_h.symbolize_keys).tap(&:save!)
+    new(**params.to_h.symbolize_keys).tap(&:save!)
   end
 
   private

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe ArbitraryAssignmentCreation do
-  subject { ArbitraryAssignmentCreation.new params }
+  subject { ArbitraryAssignmentCreation.new(**params) }
 
   let(:params) do
     {
@@ -154,7 +154,7 @@ RSpec.describe ArbitraryAssignmentCreation do
     end
 
     context "mixpanel_result" do
-      let(:assignment_creation_without_mixpanel_result) { ArbitraryAssignmentCreation.new params.except(:mixpanel_result) }
+      let(:assignment_creation_without_mixpanel_result) { ArbitraryAssignmentCreation.new(**params.except(:mixpanel_result)) }
       let(:assignment_creation_with_mixpanel_result) { subject }
 
       it "sets the mixpanel_result to nil if it's not provided" do
