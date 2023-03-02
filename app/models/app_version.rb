@@ -9,8 +9,8 @@ class AppVersion
   # relative to one another, i.e. we can relax the validations and make the
   # comparable representation more flexible in the future, but not make them
   # more restrictive.
-  DECIMAL_INTEGER = /(?:0|[1-9]\d*)/.freeze
-  VERSION_REGEX = /\A(?:#{DECIMAL_INTEGER}\.){0,2}#{DECIMAL_INTEGER}\z/.freeze # iOS rules currently, but can be relaxed from here
+  DECIMAL_INTEGER = /(?:0|[1-9]\d*)/
+  VERSION_REGEX = /\A(?:#{DECIMAL_INTEGER}\.){0,2}#{DECIMAL_INTEGER}\z/ # iOS rules currently, but can be relaxed from here
   MAX_LENGTH = 18 # iOS rules
 
   attr_reader :version_number
