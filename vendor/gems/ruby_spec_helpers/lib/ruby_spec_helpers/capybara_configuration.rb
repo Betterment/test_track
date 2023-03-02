@@ -33,11 +33,10 @@ case driver
   when :selenium_chrome_headless
     Capybara.register_driver :selenium_chrome_headless do |app|
       args = %w(headless disable-gpu disable-dev-shm-usage no-sandbox window-size=1280,1024)
-      options_key = Selenium::WebDriver::VERSION >= '4' ? :capabilities : :options
 
       Capybara::Selenium::Driver.new app,
         browser: :chrome,
-        options_key => Selenium::WebDriver::Chrome::Options.new(args: args),
+        options: Selenium::WebDriver::Chrome::Options.new(args: args),
         http_client: Selenium::WebDriver::Remote::Http::Default.new(
           read_timeout: ENV.fetch('SELENIUM_READ_TIMEOUT', '60').to_i,
         )
