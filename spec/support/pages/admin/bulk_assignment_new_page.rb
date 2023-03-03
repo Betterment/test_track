@@ -1,7 +1,7 @@
 class AdminBulkAssignmentNewPage < SitePrism::Page
   set_url "/admin/splits/{split_id}/bulk_assignments/new"
 
-  element :error_box, ".error"
+  element :error_box, ".Banner--error"
 
   section :create_form, "form" do
     element :identifiers_listing, "textarea#bulk_assignment_creation_identifiers_listing"
@@ -10,19 +10,13 @@ class AdminBulkAssignmentNewPage < SitePrism::Page
     element :force_creation_checkbox, '[for=bulk_assignment_creation_force_identifier_creation]'
 
     section :identifier_type, '.IdentifierTypeSelection' do
-      element :current, '.display-selected'
-      element :select_element, '.select-options ul'
-
-      def select(text)
-        current.click
-        select_element.find('li', text: text).click
-      end
+      element :field, 'select#bulk_assignment_creation_identifier_type_id'
     end
 
     section :variant_options, ".fs-VariantOptions" do
       element :options, ' .radio-options'
-      def select(text)
-        options.find('li', text: text).click
+      def select(value)
+        options.find("input[value=#{value}]").click
       end
     end
     element :submit_button, "input[name=commit]"

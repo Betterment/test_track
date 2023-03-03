@@ -28,7 +28,7 @@ RSpec.describe 'bulk assign flow' do
 
     bulk_assignment_page.create_form.tap do |form|
       form.identifiers_listing.set identifiers_listing
-      form.identifier_type.select identifier_type
+      form.identifier_type.field.select identifier_type
       form.variant_options.select 'hammer_time'
       form.reason.set "this is a test. a what? a test. a what? a test. oh a test."
       form.submit_button.click
@@ -61,7 +61,7 @@ RSpec.describe 'bulk assign flow' do
       HTML
     )
 
-    bulk_assignment_page.create_form.identifier_type.select 'user_ids'
+    bulk_assignment_page.create_form.identifier_type.field.select 'user_ids'
     bulk_assignment_page.create_form.submit_button.click
 
     expect(split_page).to be_loaded

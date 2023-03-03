@@ -9,7 +9,7 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'text-normal', wrap_with: { tag: :div, class: 'form-group-header'}
+    b.use :label, class: 'text-normal', wrap_with: { tag: :div, class: 'form-group-header' }
     b.use :placeholder
     b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
