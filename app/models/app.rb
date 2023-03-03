@@ -13,7 +13,7 @@ class App < ActiveRecord::Base
   validate :auth_secret_must_be_sufficiently_strong
 
   def define_build(params = {})
-    ::App::Build.new(params.merge(app_id: id))
+    ::App::Build.new(**params.merge(app_id: id))
   end
 
   private
