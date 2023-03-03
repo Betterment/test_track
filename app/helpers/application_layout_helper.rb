@@ -4,8 +4,8 @@ module ApplicationLayoutHelper
   end
 
   def site_layout_header_classes
-    classes = ['sc-SiteLayout-header']
-    classes << "sc-SiteLayout-header--#{header_modifier}"
+    classes = ['Header']
+    classes << "color-bg-accent-emphasis"
     classes.join ' '
   end
 

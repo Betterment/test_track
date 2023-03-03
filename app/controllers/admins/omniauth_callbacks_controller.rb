@@ -19,7 +19,7 @@ class Admins::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       flash[:notice] = I18n.t "devise.omniauth_callbacks.success", kind: @admin.provider if @admin.active_for_authentication?
       sign_in_and_redirect @admin, event: :authentication
     else
-      flash[:error] = "Unable to sign in!"
+      flash[:danger] = "Unable to sign in!"
       redirect_to new_admin_session_path
     end
   end

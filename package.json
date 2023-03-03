@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "@primer/css": "^20.8.3",
+    "@primer/view-components": "^0.1.0",
     "sass": "^1.58.3"
   }
 }

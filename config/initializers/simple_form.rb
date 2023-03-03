@@ -9,11 +9,11 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'regular'
+    b.use :label, class: 'text-normal', wrap_with: { tag: :div, class: 'form-group-header'}
     b.use :placeholder
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :input
+      component.use :input, error_class: "color-border-danger-emphasis"
     end
     b.use :hint, wrap_with: { tag: :label, class: 'hint' }
 
@@ -137,10 +137,10 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
-    b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :input
+    b.use :label, class: 'text-normal'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
+    b.wrapper tag: :div, class: 'input-wrapper d-flex flex-items-center' do |component|
+      component.use :input, class: 'form-control'
       component.use :symbol, wrap_with: { tag: :div, class: 'symbol' }
     end
 
@@ -152,13 +152,11 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.use :label, class: 'text-normal'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
 
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
-      component.use :selected, wrap_with: { tag: :div, class: 'display-selected' }
-      component.use :display_dropdown, wrap_with: { tag: :div, class: 'select-options', html: { tabindex: 0 } }
-      component.use :input
+      component.use :input, error_class: 'color-border-danger-emphasis'
     end
     b.use :hint, wrap_with: { tag: :label, class: 'hint' }
   }
@@ -167,7 +165,7 @@ SimpleForm.setup do |config|
     dropdown.call(b)
   end
 
-  config.wrappers :grouped_dropdown, tag: :div, class: 'grouped-input-select', error_class: 'not-valid', html: { data: { behavior: 'dropdown' } } do |b|
+  config.wrappers :grouped_dropdown, tag: :div, class: 'grouped-input-select', error_class: 'not-valid' do |b|
     dropdown.call(b)
   end
 
@@ -175,8 +173,8 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.use :label, class: 'text-normal'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
 
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
       component.use :input
@@ -192,8 +190,8 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :label, class: 'regular'
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.use :label, class: 'text-normal'
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
 
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
       component.use :input
@@ -204,10 +202,10 @@ SimpleForm.setup do |config|
     b.use :html5
     b.optional :readonly
 
-    b.use :full_error, wrap_with: { tag: :label, class: 'validation' }
+    b.use :full_error, wrap_with: { tag: :label, class: 'validation d-block color-fg-danger' }
     b.wrapper tag: :div, class: 'input-wrapper' do |component|
       component.use :input
-      component.use :label, class: 'regular'
+      component.use :label, class: 'text-normal'
     end
   end
 

@@ -1,0 +1,30 @@
+.input-wrapper {
+  margin-bottom: $spacer-3;
+
+  .radio-options {
+    list-style: none;
+  }
+
+  .radio-option {
+    align-items: center;
+    display: flex;
+    gap: $spacer-2;
+    margin: $spacer-2 0;
+  }
+
+  input[type="text"], input[type="email"], input[type="password"], textarea {
+    @extend .form-control;
+  }
+
+  select {
+    @extend .form-select;
+  }
+}
+
+.input-text, .input-radio, .input-select {
+  @extend .form-group;
+}
+
+.input-check {
+  @extend .form-checkbox;
+}

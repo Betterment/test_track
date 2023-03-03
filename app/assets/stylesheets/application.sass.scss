@@ -1,6 +1,7 @@
 $asset-pipeline: true; //pull font urls correctly
-@import "style-closet";
+@use "@primer/view-components/app/assets/styles/primer_view_components.css";
 @import "@primer/css/index.scss";
+@import "theme";
 
 $app_width: $container-xl;
 
@@ -14,3 +15,4 @@ $app_width: $container-xl;
 @import "components/inputs";
 @import "components/card";
 @import "components/explanation_list";
+@import "components/forms";

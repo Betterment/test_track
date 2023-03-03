@@ -18,7 +18,7 @@ class Admin::BulkAssignmentsController < AuthenticatedAdminController
       flash[:success] = success_message
       redirect_to admin_split_path(@split)
     else
-      flash[:error] = "Please address the errors below."
+      flash[:danger] = "Please address the errors below."
       render :new
     end
   end

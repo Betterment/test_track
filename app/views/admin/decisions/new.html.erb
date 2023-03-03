@@ -1,20 +1,19 @@
 <% content_for :body_layout_body_color, 'white' %>
 <% content_for :page_title, "Split Details: #{@split.name}" %>
 
-<div class="TakeoverText">
-  <h1 class="TakeoverText-title sc-m-v--l">Decide '<%= @split.name %>'</h1>
-</div>
+<h1 class="my-5">Decide '<%= @split.name %>'</h1>
 
 <%= simple_form_for(@decision, url: admin_split_decisions_path) do |f| %>
   <p class="title">Deciding this split in favor of a variant will have two immediate consequences:</p>
-  <ol class="ExplanationList sc-m-l--s sc-p-l--xs">
+  <ol class="ExplanationList ml-3 pl-2">
     <li>This split will be re-weighted so that all <span class="text-italic">future</span> assignments will be to the variant specified.</li>
     <li>All visitors currently assigned to any other variant in this split will have their assignments overridden by this decision. If they subsequently reassign themselves, newer assignments will take precedence.</li>
   </ol>
 
-  <div class="sc-m-t--m">
+  <div class="mt-4">
     <strong>Current Population: <%= @split.assignments.count %></strong>
   </div>
+
   <div class="fs-VariantOptions">
     <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
   </div>

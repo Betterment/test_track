@@ -111,6 +111,7 @@ mixin for generating a standard table
 %column-header {
   @include h5;
   padding: 0 5px 5px;
+  text-align: left;
 }
 
 %standard-row-section {

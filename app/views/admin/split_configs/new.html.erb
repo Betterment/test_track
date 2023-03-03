@@ -1,9 +1,7 @@
 <% content_for :body_layout_body_color, 'white' %>
 <% content_for :page_title, "Split Details: #{@split.name}" %>
 
-<div class="TakeoverText">
-  <h1 class="TakeoverText-title sc-m-v--l">Split: <%= @split.name %></h1>
-</div>
+<h1 class="my-5">Split: <%= @split.name %></h1>
 
 <% if @split.feature_gate? %>
   <p>
@@ -25,9 +23,9 @@
   <% f.simple_fields_for :weighting_registry do |ff| %>
 
     <% if @split_config.errors.include? :weighting_registry %>
-      <div class="sc-flash sc-m-b--s error">
+      <%= render Primer::Beta::Flash.new scheme: :danger, mb: 3 do %>
         <%= @split_config.errors.full_messages_for(:weighting_registry).join(', ') %>
-      </div>
+      <% end %>
     <% end %>
 
     <% @split_config.weighting_registry.each do |variant, weight| %>

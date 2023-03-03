@@ -1,17 +1,17 @@
-<article class="InfoCard fs-SplitOverview sc-m-v--l">
+<article class="InfoCard fs-SplitOverview my-5">
   <div class="InfoCard-header">
     <h4>Split Overview</h4>
 
     <% if split.has_details? %>
       <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-details-link' %>
     <% else %>
-      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'add-details-link button sc-m-r--s' %>
+      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'add-details-link btn btn-primary btn-large mr-3' %>
     <% end %>
   </div>
 
   <hr class="InfoCard-divider">
   <% if split.has_details? %>
-    <table class="DescriptionTable borderless bottom">
+    <table class="DescriptionTable">
       <tr>
         <td>Owner</td>
         <td><%= split.owner %></td>
@@ -38,7 +38,7 @@
       </tr>
     </table>
   <% else %>
-    <div class="EmptyTable EmptyTable--centered sc-p--l">
+    <div class="EmptyTable EmptyTable--centered p-5">
       <p>
         <strong>Is this split a test? Add metadata about it.</strong>
         <br>

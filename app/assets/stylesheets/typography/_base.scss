@@ -7,8 +7,6 @@ body {
   line-height: $lh-default;
   min-width: 320px;
 
-  @include sc-responsive-typography;
-
   h1 {
     @include h1-responsive;
   }
@@ -70,3 +68,24 @@ body {
 }
 
 $font-medium: $font-weight-normal;
+
+%sub-text {
+  color: var(--color-scale-gray-6);
+  font-size: 0.875em;
+  padding-top: 5px;
+}
+
+%account-name {
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 240px;
+}
+
+%table-group-label {
+  color: var(--color-scale-gray-7);
+  font-size: $font-size-small;
+  font-weight: $font-weight-bold;
+  padding: 6px 5px 2px;
+  text-transform: uppercase;
+}

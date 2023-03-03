@@ -61,6 +61,11 @@
   resolved "https://registry.yarnpkg.com/@github/tab-container-element/-/tab-container-element-3.2.0.tgz#d2d33da09ee3d7f4245a9f77479fe4969b137ae5"
   integrity sha512-to5ZJuywKK3KX53X1ifOcWjvUTQcBGdQ6Qkhm8L97xQ3ovICag1048M3YMpc+QSdr8xWeCBMnLeMnENqotB0Og==
 
+"@oddbird/popover-polyfill@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@oddbird/popover-polyfill/-/popover-polyfill-0.0.8.tgz#9abd07f46306550356113556a9a05302c3785226"
+  integrity sha512-d5DhYFRlcF5O/lUL8mB2h2R60XV71qCWKwXGKKQZNhShPb1gpX4HfPCnpjv6BL/cbQSVUQyafAoO55/rATbfpg==
+
 "@primer/behaviors@^1.2.0":
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/@primer/behaviors/-/behaviors-1.3.3.tgz#eddaec0d8d6056c7730ace74250fecd7533017a0"
@@ -93,6 +98,23 @@
     "@github/mini-throttle" "^2.1.0"
     "@github/relative-time-element" "^4.0.0"
     "@github/tab-container-element" "^3.1.2"
+    "@primer/behaviors" "^1.2.0"
+
+"@primer/view-components@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@primer/view-components/-/view-components-0.1.0.tgz#6e2ed1e0acad6e7e805da1369ca7ed5ce40588f3"
+  integrity sha512-wunGnMDsuEmilPj2A05+kwhOsy49mTmLLq4sgzZ6Do5qh6eIDSvZXIv8HcgjvDk33JcBgEtLgnPu/GTLz910aA==
+  dependencies:
+    "@github/auto-check-element" "^5.2.0"
+    "@github/auto-complete-element" "^3.3.4"
+    "@github/catalyst" "^1.6.0"
+    "@github/clipboard-copy-element" "^1.1.2"
+    "@github/details-menu-element" "^1.0.12"
+    "@github/image-crop-element" "^5.0.0"
+    "@github/mini-throttle" "^2.1.0"
+    "@github/relative-time-element" "^4.0.0"
+    "@github/tab-container-element" "^3.1.2"
+    "@oddbird/popover-polyfill" "^0.0.8"
     "@primer/behaviors" "^1.2.0"
 
 anymatch@~3.1.2:

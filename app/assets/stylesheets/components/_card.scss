@@ -1,5 +1,6 @@
 .InfoCard {
   background: var(--color-scale-white);
+  padding: $spacer-4;
 
   &-divider {
     background-color: var(--color-scale-black);
@@ -10,6 +11,12 @@
     align-items: center;
     display: flex;
     justify-content: space-between;
+  }
+
+  &-titleContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 
   &--constrained {
