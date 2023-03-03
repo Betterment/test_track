@@ -31,6 +31,7 @@ The TestTrack system consists of the following components:
 The list of requirements to configure a TestTrack server are:
   * Ruby 2.2.3+
   * Postgresql 9.4+
+  * NodeJS 14.19.1+
 
 ### Installation
 
@@ -42,8 +43,9 @@ The list of requirements to configure a TestTrack server are:
 
 1. `git clone https://github.com/Betterment/test_track`
 1. `bundle install`
+1. `yarn install`
 1. `bundle exec rake db:setup`
-1. `bundle exec rails server`
+1. `bin/dev`
 
 #### Either way:
 
