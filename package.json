@@ -2,7 +2,7 @@
   "name": "app",
   "private": "true",
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --load-path=vendor/gems/style-closet/app/assets/stylesheets --load-path=vendor/assets/stylesheets"
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --load-path=vendor/assets/stylesheets"
   },
   "dependencies": {
     "@primer/css": "^20.8.3",
