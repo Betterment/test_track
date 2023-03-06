@@ -1,7 +1,0 @@
-<% %w(danger success).map do |type| %>
-  <% if flash[type.to_sym].present? %>
-    <%= render Primer::Alpha::Banner.new scheme: type.to_sym, dismissable: true, full: true, mt: 5 do %>
-      <%= flash[type.to_sym] %>
-    <% end %>
-  <% end %>
-<% end %>

@@ -22,7 +22,7 @@
 
   <section class="d-flex flex-justify-center p-responsive">
     <div class="width-full pl-6">
-      <%= render 'shared/flash' unless flash.empty? %>
+      <%= render FlashComponent.new flash: flash %>
       <div class="py-5">
         <%= yield %>
       </div>

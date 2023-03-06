@@ -1,0 +1,5 @@
+<% flash_types.map do |type| %>
+  <% if flash[type].present? %>
+    <%= render Primer::Alpha::Banner.new(**banner_args(type)).with_content(flash[type])  %>
+  <% end %>
+<% end %>
