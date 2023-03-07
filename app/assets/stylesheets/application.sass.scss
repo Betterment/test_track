@@ -1,0 +1,18 @@
+$asset-pipeline: true; //pull font urls correctly
+@use "@primer/view-components/app/assets/styles/primer_view_components.css";
+@import "@primer/css/index.scss";
+@import "theme";
+
+$app_width: $container-xl;
+
+@import "icon_font";
+
+@import "typography/base";
+@import "typography/utilities";
+
+@import "components/flash";
+@import "components/tables";
+@import "components/inputs";
+@import "components/card";
+@import "components/explanation_list";
+@import "components/forms";

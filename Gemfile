@@ -5,7 +5,6 @@ gem 'rails', '~> 6.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
-gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -17,6 +16,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
+
+gem "cssbundling-rails", "~> 1.1"
+gem "primer_view_components", "~> 0.1.0"
 
 gem 'puma', '~> 5.6'
 gem 'nokogiri'
@@ -43,7 +45,6 @@ gem 'kt-paperclip', '~> 7.1'
 gem 'aws-sdk-s3'
 
 gem 'attribute_normalizer', '~> 1.2.0'
-gem 'style_closet', path: 'vendor/gems/style-closet'
 
 gem 'foreman'
 gem 'delayed_job'

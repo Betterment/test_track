@@ -9,10 +9,9 @@ class AdminSplitDetailsPage < SitePrism::Page
     element :location, "input[name='split_detail[location]']"
 
     element :current_platform, '.split_detail_platform .display-selected'
-    element :platform_dropdown, '.split_detail_platform .select-options ul'
+    element :platform_dropdown, '.split_detail_platform select'
     def select_platform(text)
-      current_platform.click
-      platform_dropdown.find('li', text: text).click
+      platform_dropdown.select text
     end
 
     element :submit_button, 'input[type=submit]'

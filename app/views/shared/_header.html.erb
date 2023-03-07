@@ -1,16 +1,16 @@
-<header class="sc-TakeoverHeader">
-  <div class="sc-TakeoverHeader-content">
-    <figure class="sc-TakeoverHeader-logoContainer sc-p--xs">
+<header class="d-flex flex-justify-between width-full">
+  <div class="d-flex flex-items-center">
+    <figure class="p-2 color-bg-overlay">
       <%= link_to(image_tag('ttlogo.png', size: "47x47"), admin_root_url) %>
     </figure>
-    <div class="sc-TakeoverHeader-title">
+    <p class="color-fg-on-emphasis h3 m-0">
       <%= page_title %>
-    </div>
+    </p>
   </div>
   <% if signed_in? %>
-    <div class="sc-TakeoverHeader-cta">
-      <%= link_to 'Splits', admin_root_path, class: "sc-p--s u-white-link" %>
-      <%= link_to 'Log out', destroy_admin_session_path, method: :delete, class: "sc-p--s u-white-link" %>
-    </div>
+    <nav class="d-flex flex-items-center flex-justify-end">
+      <%= link_to 'Splits', admin_root_path, class: "p-3 u-white-link" %>
+      <%= link_to 'Log out', destroy_admin_session_path, method: :delete, class: "p-3 u-white-link" %>
+    </nav>
   <% end %>
 </header>

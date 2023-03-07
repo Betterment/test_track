@@ -1,23 +1,16 @@
-.u-emphasis {
-  font-style: italic;
-}
-
 .u-status {
   &--active {
-    color: $green !important;
+    color: var(--color-scale-green-4) !important;
   }
 }
 
-.u-center {
-  text-align: center;
-}
-
 .u-white-link {
-  font-size: 1.4rem;
+  color: var(--color-scale-white);
+  font-size: $body-font-size;
+  font-weight: $font-weight-bold;
   text-transform: uppercase;
-  font-weight: $font-heavy;
-  color: $white;
+
   &:hover {
-    color: $light-blue;
+    color: var(--color-scale-blue-3);
   }
 }

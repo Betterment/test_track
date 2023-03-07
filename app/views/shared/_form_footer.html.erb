@@ -3,16 +3,16 @@
 <% submit_text ||= 'Submit' %>
 <% submit_disable_with_text ||= 'Submitting...' %>
 
-<footer class="sc-TakeoverFooter">
-  <div class="sc-TakeoverFooter-content">
+<footer class="mt-6">
+  <div class="d-flex flex-justify-end flex-items-center border-top pt-4">
     <% if local_assigns.has_key? :back_path %>
-      <%= link_to back_text, back_path, class: 'sc-TakeoverFooter-ctaBack sc-Link sc-Link--arrowLeft ft-backButton', event_data: back_track_params.merge(name: 'BackButton') %>
+      <%= link_to back_text, back_path, class: 'text-bold text-uppercase link ft-backButton flex-1 f4 ft-backButton', event_data: back_track_params.merge(name: 'BackButton') %>
     <% end %>
     <% if local_assigns.has_key? :f %>
       <% if local_assigns.has_key? :confirm_text %>
-        <%= f.submit submit_text, data: { disable_with: submit_disable_with_text, confirm: confirm_text }, class: 'u-button ft-confirmButton' %>
+        <%= f.submit submit_text, data: { disable_with: submit_disable_with_text, confirm: confirm_text }, class: 'btn btn-primary btn-large f4 ft-confirmButton' %>
       <% else %>
-        <%= f.submit submit_text, data: { disable_with: submit_disable_with_text }, class: 'u-button ft-confirmButton' %>
+        <%= f.submit submit_text, data: { disable_with: submit_disable_with_text }, class: 'btn btn-primary btn-large f4 ft-confirmButton' %>
       <% end %>
     <% end %>
   </div>

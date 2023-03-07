@@ -1,7 +1,7 @@
-<article class="InfoCard InfoCard--constrained sc-m-v--l">
+<article class="InfoCard InfoCard--constrained my-5">
   <div class="InfoCard-header">
     <h4>Split Details</h4>
-    <%= link_to "Decide Split", new_admin_split_decision_path(@split), class: 'decide-split-link button' %>
+    <%= link_to "Decide Split", new_admin_split_decision_path(@split), class: 'decide-split-link btn btn-primary btn-large' %>
   </div>
   <hr class="InfoCard-divider">
   <div class="InfoCard-description">
@@ -24,7 +24,7 @@
             <% if @split.decided? %>
               (decision: <%= @split.decided_variant %>)
            <% end %>
-           <span class="sc-p--s">🏁</span></td>
+           <span class="p-3">🏁</span></td>
         <% elsif @split.decided? %>
           <td class="u-status--decided">Decided (decision: <%= @split.decided_variant %>)</td>
         <% else %>

@@ -4,8 +4,8 @@ class AdminSplitDecisionNewPage < SitePrism::Page
   section :create_form, "form" do
     section :variant_options, ".fs-VariantOptions" do
       element :options, ' .radio-options'
-      def select(text)
-        options.find('li', text: text).click
+      def select(value)
+        options.find("input[value=#{value}]").click
       end
     end
     element :submit_button, "input[name=commit]"
