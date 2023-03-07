@@ -17,6 +17,9 @@ gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 
+gem "cssbundling-rails", "~> 1.1"
+gem "primer_view_components", "~> 0.1.0"
+
 gem 'puma', '~> 5.6'
 gem 'nokogiri'
 
@@ -85,7 +88,3 @@ group :test do
   gem 'timecop'
   gem 'db-query-matchers'
 end
-
-gem "primer_view_components", "~> 0.1.0"
-
-gem "cssbundling-rails", "~> 1.1"
