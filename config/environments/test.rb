@@ -8,7 +8,7 @@ Rails.application.configure do
   config.cache_classes = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('CACHE_CLASSES', '1'))
   config.eager_load = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('EAGER_LOAD', '0'))
   config.assets.compile = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('COMPILE_ASSETS', '1'))
-  config.assets.js_compressor = Uglifier.new(harmony: true)
+  config.assets.js_compressor = :terser
 
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
