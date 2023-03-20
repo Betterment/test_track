@@ -1,5 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['CAPYBARA_DRIVER'] ||= ENV['CI'] ? 'selenium_remote_chrome' : 'selenium_chrome_headless'
+ENV['DATADOG_ENABLED'] = '1'
 
 require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -15,6 +16,10 @@ require 'fileutils'
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+
+Datadog.configure do |c|
+  c.tracing.enabled = false
+end
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
