@@ -124,6 +124,7 @@ GEM
     crass (1.0.6)
     cssbundling-rails (1.1.2)
       railties (>= 6.0.0)
+    date (3.3.3)
     db-query-matchers (0.11.0)
       activesupport (>= 4.0, < 7.1)
       rspec (>= 3.0)
@@ -236,6 +237,9 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     net-http-pipeline (1.0.1)
+    net-imap (0.3.4)
+      date
+      net-protocol
     net-pop (0.1.2)
       net-protocol
     net-protocol (0.2.1)
@@ -512,6 +516,7 @@ DEPENDENCIES
   listen
   mail (~> 2.7.1)
   mini_racer
+  net-imap
   net-pop
   net-smtp
   newrelic_rpm

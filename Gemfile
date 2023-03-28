@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '~> 6.0.0'
 gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-pop', require: false # required on Rails 6 for Ruby 3.1+ support
+gem 'net-imap', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'psych', '< 4' # required on Rails 6 for Ruby 3.1+ support
 
 # Use postgresql as the database for Active Record
