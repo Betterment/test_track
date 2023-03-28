@@ -236,6 +236,10 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     net-http-pipeline (1.0.1)
+    net-protocol (0.2.1)
+      timeout
+    net-smtp (0.3.3)
+      net-protocol
     newrelic_rpm (9.0.0)
     nio4r (2.5.8)
     nokogiri (1.14.2)
@@ -276,6 +280,7 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
+    psych (3.3.4)
     public_suffix (5.0.1)
     puma (5.6.5)
       nio4r (~> 2.0)
@@ -426,6 +431,7 @@ GEM
     thor (1.2.1)
     thread_safe (0.3.6)
     timecop (0.9.6)
+    timeout (0.3.2)
     travis (1.8.13)
       backports
       faraday (~> 0.9)
@@ -504,6 +510,7 @@ DEPENDENCIES
   listen
   mail (~> 2.7.1)
   mini_racer
+  net-smtp
   newrelic_rpm
   nokogiri
   omniauth-rails_csrf_protection
@@ -512,6 +519,7 @@ DEPENDENCIES
   primer_view_components (~> 0.1.0)
   pry-rails
   pry-remote
+  psych (< 4)
   puma (~> 5.6)
   rack-timeout
   rails (~> 6.0.0)
