@@ -45,7 +45,11 @@ jobs:
           bundler-cache: true
       - name: Prepare DB
         run: bundle exec rake db:test:prepare
+      - name: Prepare DB
+        run: bundle exec rake assets:precompile
       - name: Run tests
         run: bundle exec rake
         env:
           CAPYBARA_DRIVER: selenium_chrome_headless
+          COMPILE_ASSETS: 0
+          EAGER_LOAD: 1
