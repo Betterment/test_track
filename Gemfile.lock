@@ -236,6 +236,8 @@ GEM
     net-http-persistent (4.0.1)
       connection_pool (~> 2.2)
     net-http-pipeline (1.0.1)
+    net-pop (0.1.2)
+      net-protocol
     net-protocol (0.2.1)
       timeout
     net-smtp (0.3.3)
@@ -510,6 +512,7 @@ DEPENDENCIES
   listen
   mail (~> 2.7.1)
   mini_racer
+  net-pop
   net-smtp
   newrelic_rpm
   nokogiri
