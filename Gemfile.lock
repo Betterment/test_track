@@ -246,7 +246,6 @@ GEM
       timeout
     net-smtp (0.3.3)
       net-protocol
-    newrelic_rpm (9.0.0)
     nio4r (2.5.8)
     nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
@@ -519,7 +518,6 @@ DEPENDENCIES
   net-imap
   net-pop
   net-smtp
-  newrelic_rpm
   nokogiri
   omniauth-rails_csrf_protection
   omniauth-saml
