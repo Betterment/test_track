@@ -35,7 +35,7 @@ RSpec.describe Api::V2::Migrations::SplitsController do
         expect {
           post :create, params: { name: 'default_app.foobar', weighting_registry: { foo: 10, bar: 90 } }
           expect(response).to have_http_status(:no_content)
-        }.to not_change{ split.owner }.from('test-owner')
+        }.to not_change { split.owner }.from('test-owner')
       end
 
       it 'returns errors when invalid' do
