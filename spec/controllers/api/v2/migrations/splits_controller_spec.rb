@@ -19,12 +19,23 @@ RSpec.describe Api::V2::Migrations::SplitsController do
 
     describe '#create' do
       it "creates a new split with desired weightings" do
-        post :create, params: { name: 'default_app.foobar', weighting_registry: { foo: 10, bar: 90 } }
+        post :create, params: { name: 'default_app.foobar', owner: 'test-owner', weighting_registry: { foo: 10, bar: 90 } }
 
         expect(response).to have_http_status(:no_content)
         split = Split.find_by(name: 'default_app.foobar', owner_app: default_app)
         expect(split).to be_truthy
         expect(split.registry).to eq 'foo' => 10, 'bar' => 90
+        expect(split.owner).to eq 'test-owner'
+      end
+
+      it "does not remove ownership from an existing split if the variable is missing" do
+        split = Split.create(name: 'default_app.foobar', owner: 'test-owner', owner_app: default_app)
+        expect(split.owner).to eq 'test-owner'
+
+        expect {
+          post :create, params: { name: 'default_app.foobar', weighting_registry: { foo: 10, bar: 90 } }
+          expect(response).to have_http_status(:no_content)
+        }.to not_change { split.owner }.from('test-owner')
       end
 
       it 'returns errors when invalid' do

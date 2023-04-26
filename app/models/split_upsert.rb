@@ -1,13 +1,14 @@
 class SplitUpsert
   include ActiveModel::Model
 
-  attr_accessor :app, :name, :decided_at, :finished_at, :require_app_name_prefix
+  attr_accessor :app, :name, :owner, :decided_at, :finished_at, :require_app_name_prefix
   attr_reader :weighting_registry
 
   validate :split_must_be_valid
 
   def save # rubocop:disable Metrics/AbcSize
     split.assign_attributes(finished_at: finished_at, decided_at: decided_at, require_app_name_prefix: require_app_name_prefix)
+    split.assign_attributes(owner: owner) unless owner.nil?
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?
 
