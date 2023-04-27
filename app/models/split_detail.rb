@@ -7,8 +7,14 @@ class SplitDetail
   delegate :name, :variants, to: :split
   delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
 
-  validates :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, presence: true
-  validates :platform, inclusion: { in: %w(mobile desktop) }
+  validates :hypothesis, presence: true, if: -> { hypothesis.present? }
+  validates :assignment_criteria, presence: true, if: -> { assignment_criteria.present? }
+  validates :description, presence: true, if: -> { description.present? }
+  validates :owner, presence: true, if: -> { owner.present? }
+  validates :location, presence: true, if: -> { location.present? }
+  validates :platform, presence: true, if: -> { platform.present? }
+
+  validates :platform, inclusion: { in: %w(mobile desktop) }, allow_blank: true
 
   def initialize(params)
     raise 'A split is required to create split details' if params[:split].blank?
