@@ -30,6 +30,7 @@ RSpec.describe 'admin can add details to a split' do
     form.hypothesis.set hypothesis
     form.select_platform platform
     form.location.set location
+    form.description.set description
     form.assignment_criteria.set assignment_criteria
     form.submit
 
