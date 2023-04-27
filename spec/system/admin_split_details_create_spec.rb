@@ -45,4 +45,29 @@ RSpec.describe 'admin can add details to a split' do
     expect(split_page.test_overview.table).to have_content hypothesis
     expect(split_page.test_overview.table).to have_content assignment_criteria
   end
+
+  it 'allows permits blank values and forces a value if one exists' do
+    split_page.load split_id: split.id
+    expect(split_page).to be_loaded
+    expect(split_page.test_overview).to have_content "Is this split a test? Add metadata about it."
+
+    split_page.add_details.click
+    expect(split_details_page).to be_loaded
+
+    form = split_details_page.form
+    form.owner.set owner_name
+    form.submit
+
+    expect(split_page).to be_loaded
+    expect(split_page.test_overview.table).to have_content owner_name
+
+    split_page.edit_details.click
+    expect(split_details_page).to be_loaded
+
+    form = split_details_page.form
+    form.owner.set ''
+    form.submit
+
+    expect(page).to have_content "can't be blank"
+  end
 end
