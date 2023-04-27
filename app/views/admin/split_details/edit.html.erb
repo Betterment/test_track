@@ -7,15 +7,15 @@
 
 <%= simple_form_for @split_detail, url: admin_split_details_path, method: :put do |f| %>
   <%= f.error :base %>
-  <%= f.input :owner, label: "Owner", required: @split_detail.owner.present? %>
-  <%= f.input :platform, collection: Split.platforms.keys, required: @split_detail.platform.present? %>
-  <%= f.input :location, label: "Location", hint: "Example: Sign Up", required: @split_detail.location.present? %>
+  <%= f.input :owner, label: "Owner" %>
+  <%= f.input :platform, collection: Split.platforms.keys %>
+  <%= f.input :location, label: "Location", hint: "Example: Sign Up" %>
 
-  <%= f.input :description, as: :text, required: @split_detail.description.present?, hint: "Example: Users often get confused during the account creation process when reaching step 2, 'Personal Details'. We are testing two different versions of this page that aim to clear up that confusion." %>
+  <%= f.input :description, as: :text, hint: "Example: Users often get confused during the account creation process when reaching step 2, 'Personal Details'. We are testing two different versions of this page that aim to clear up that confusion." %>
 
-  <%= f.input :hypothesis, as: :text, required: @split_detail.hypothesis.present?, hint: "Example: By rearranging some of the fields and adding helper text we can improve sign up completion rates and decrease the amount of support tickets we receive." %>
+  <%= f.input :hypothesis, as: :text, hint: "Example: By rearranging some of the fields and adding helper text we can improve sign up completion rates and decrease the amount of support tickets we receive." %>
 
-  <%= f.input :assignment_criteria, as: :text, required: @split_detail.assignment_criteria.present?, hint: "Example: Assigned when any user enters the first step of the signup flow. Mobile users are not affected." %>
+  <%= f.input :assignment_criteria, as: :text, hint: "Example: Assigned when any user enters the first step of the signup flow. Mobile users are not affected." %>
 
   <%= render "shared/form_footer", f: f, back_path: admin_split_path(@split_detail.split.id), submit_text: "Update Details", submit_disable_with_text: "Updating Split..." %>
 <% end %>
