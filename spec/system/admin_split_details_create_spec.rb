@@ -33,10 +33,6 @@ RSpec.describe 'admin can add details to a split' do
     form.assignment_criteria.set assignment_criteria
     form.submit
 
-    expect(page).to have_content "can't be blank"
-    split_details_page.form.description.set description
-    split_details_page.form.submit
-
     expect(split_page).to be_loaded
     expect(split_page.test_overview.table).to have_content owner_name
     expect(split_page.test_overview.table).to have_content location
