@@ -30,7 +30,7 @@ module TestTrack
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    config.load_defaults 6.0
+    config.load_defaults 6.1
 
     config.log_tags = [:host, :uuid]
 
