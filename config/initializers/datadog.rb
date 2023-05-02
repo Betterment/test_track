@@ -1,7 +1,7 @@
 if ENV['DATADOG_ENABLED']
   require 'ddtrace'
 
-  service_name = Rails.application.class.parent_name.underscore
+  service_name = Rails.application.class.module_parent_name.underscore
 
   Datadog.configure do |c|
     c.agent.host = ENV.fetch('DD_AGENT_HOST', 'localhost')
