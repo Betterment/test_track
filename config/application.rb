@@ -41,7 +41,7 @@ module TestTrack
     if ENV["SEMANTIC_LOGGER_ENABLED"].present?
       require 'rails_semantic_logger'
 
-      SemanticLogger.application = Rails.application.class.parent_name
+      SemanticLogger.application = Rails.application.class.module_parent_name
 
       config.rails_semantic_logger.add_file_appender = false
       config.semantic_logger.add_appender(io: $stdout, formatter: :json)
