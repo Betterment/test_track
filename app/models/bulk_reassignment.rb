@@ -63,7 +63,7 @@ class BulkReassignment
         variant = #{connection.quote(bulk_assignment.variant)},
         updated_at = #{connection.quote(now)},
         mixpanel_result = NULL,
-        bulk_assignment_id = #{connection.quote(bulk_assignment)},
+        bulk_assignment_id = #{connection.quote(bulk_assignment.id)},
         visitor_supersession_id = NULL,
         context = 'bulk_assignment',
         force = #{connection.quote(bulk_assignment.force)}
