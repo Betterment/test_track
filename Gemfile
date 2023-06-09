@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.0.0'
 gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-pop', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-imap', require: false # required on Rails 6 for Ruby 3.1+ support
@@ -52,12 +52,16 @@ gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
-gem 'with_transactional_lock'
+source "https://rubygems.pkg.github.com/betterment" do
+  gem "with_transactional_lock"
+end
 
 gem 'bootsnap', '>= 1.3.0', require: false
 
 # Avoid deprecation notices by pinning mail to Ruby 2.7.5 compatible version
 gem 'mail', '~> 2.7.1'
+
+gem 'sprockets-rails'
 
 group :development, :test do
   gem 'simplecov', require: false
