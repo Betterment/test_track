@@ -52,7 +52,7 @@ gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
-gem "with_transactional_lock"
+gem 'with_transactional_lock'
 
 gem 'bootsnap', '>= 1.3.0', require: false
 
