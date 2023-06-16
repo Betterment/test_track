@@ -7,12 +7,12 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Turn false under Spring and add config.action_view.cache_template_loading = true.
-  config.cache_classes = true
+  config.cache_classes = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('CACHE_CLASSES', '0'))
 
   # Eager loading loads your whole application. When running a single test locally,
   # this probably isn't necessary. It's a good idea to do in a continuous integration
   # system, or in some way before deploying your code.
-  config.eager_load = ENV["CI"].present?
+  config.eager_load = ENV["CI"].present? || ActiveRecord::Type::Boolean.new.cast(ENV.fetch('EAGER_LOAD', '0'))
 
   config.assets.compile = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('COMPILE_ASSETS', '1'))
   config.assets.js_compressor = :terser
