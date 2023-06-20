@@ -1,7 +1,6 @@
 module KeyGeneratorMixin
   def generate_key(salt, key_size = 64)
-    unless caller.to_s.include?('global_id/railtie.rb:28') ||
-           caller.to_s.include?('action_dispatch/middleware/cookies.rb')
+    unless caller.to_s.include?('global_id/railtie.rb:28') || caller.to_s.include?('action_dispatch/middleware/cookies.rb')
       raise 'called ActiveSupport::KeyGenerator#generate_key'
     end
 
@@ -10,19 +9,19 @@ module KeyGeneratorMixin
 end
 
 module MessageVerifierMixin
-  def valid_message?(signed_message)
+  def valid_message?(*)
     raise 'called ActiveSupport::MessageVerifier#valid_message?'
   end
 
-  def verify(*args, **options)
+  def verify(*)
     raise 'called ActiveSupport::MessageVerifier#verify'
   end
 
-  def verified(signed_message, purpose: nil, **)
+  def verified(*)
     raise 'called ActiveSupport::MessageVerifier#verified'
   end
 
-  def generate(value, expires_at: nil, expires_in: nil, purpose: nil)
+  def generate(*)
     raise 'called ActiveSupport::MessageVerifier#generate'
   end
 end
