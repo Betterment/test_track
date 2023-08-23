@@ -33,7 +33,9 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - uses: nanasess/setup-chromedriver@v1
+      - uses: nanasess/setup-chromedriver@v2.1.1
+        with:
+          chromedriver-version: '115.0.5790.102'
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
