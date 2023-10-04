@@ -4,6 +4,7 @@ class SplitDetail
   include DelegateAttribute
 
   attr_accessor :split
+
   delegate :name, :variants, to: :split
   delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
 
