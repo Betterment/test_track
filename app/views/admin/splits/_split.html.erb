@@ -6,7 +6,7 @@
     <%= split.owner_app.name.capitalize %>
   </td>
   <td>
-    <%= split.created_at.to_s(:slashed_full_date) %>
+    <%= split.created_at.to_fs(:slashed_full_date) %>
   </td>
   <td>
     <%= link_to "View", admin_split_path(split) %>

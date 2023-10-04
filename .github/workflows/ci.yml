@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby: ['3.0', '3.1']
+        ruby: ['3.0', '3.1', '3.2']
     services:
       postgres:
         image: postgres:11.0
@@ -33,9 +33,9 @@ jobs:
           --health-retries 5
     steps:
       - uses: actions/checkout@v2
-      - uses: nanasess/setup-chromedriver@v2.1.1
+      - uses: nanasess/setup-chromedriver@v2.2.0
         with:
-          chromedriver-version: '115.0.5790.102'
+          chromedriver-version: '117.0.5938.92'
       - run: |
           export DISPLAY=:99
           chromedriver --url-base=/wd/hub &
