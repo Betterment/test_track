@@ -3,6 +3,3 @@ inherit_from: .rubocop_todo.yml
 inherit_gem:
   betterlint:
     - config/default.yml
-
-AllCops:
-  TargetRubyVersion: 3.0

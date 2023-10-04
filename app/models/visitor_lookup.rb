@@ -19,10 +19,10 @@ class VisitorLookup
 
   def _identifier
     Identifier.create_with(visitor: Visitor.new).find_or_create_by!(
-      identifier_type: identifier_type,
+      identifier_type:,
       value: identifier_value
     )
   rescue ActiveRecord::RecordNotUnique
-    Identifier.find_by!(identifier_type: identifier_type, value: identifier_value)
+    Identifier.find_by!(identifier_type:, value: identifier_value)
   end
 end

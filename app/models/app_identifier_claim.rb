@@ -22,17 +22,17 @@ class AppIdentifierClaim
 
   def build_path
     @build_path ||= AppVersionBuildPath.new(
-      app_name: app_name,
-      version_number: version_number,
-      build_timestamp: build_timestamp
+      app_name:,
+      version_number:,
+      build_timestamp:
     )
   end
 
   def identifier_claim
     @identifier_claim ||= IdentifierClaim.new(
-      identifier_type: identifier_type,
-      value: value,
-      visitor_id: visitor_id
+      identifier_type:,
+      value:,
+      visitor_id:
     )
   end
 

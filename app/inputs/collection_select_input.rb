@@ -9,7 +9,7 @@ class CollectionSelectInput < SimpleForm::Inputs::CollectionSelectInput
       dropdown_options = collection.map do |option|
         label, value = option_label_value option
 
-        @builder.template.content_tag(:li, label, class: 'selectable', data: { value: value })
+        @builder.template.content_tag(:li, label, class: 'selectable', data: { value: })
       end
 
       dropdown_options.unshift(blank_option_tag) if blank_option_label

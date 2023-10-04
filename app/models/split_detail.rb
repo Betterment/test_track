@@ -25,7 +25,7 @@ class SplitDetail
 
   def variant_details
     @variant_details ||= variants.map do |variant|
-      VariantDetail.find_or_initialize_by(split: split, variant: variant)
+      VariantDetail.find_or_initialize_by(split:, variant:)
     end
   end
 

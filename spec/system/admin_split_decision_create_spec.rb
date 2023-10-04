@@ -12,7 +12,7 @@ RSpec.describe 'split decision flow' do
   end
   let!(:existing_assignments) do
     existing_identifiers.map do |identifier|
-      FactoryBot.create(:assignment, visitor: identifier.visitor, split: split, variant: "hammer_time")
+      FactoryBot.create(:assignment, visitor: identifier.visitor, split:, variant: "hammer_time")
     end
   end
 

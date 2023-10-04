@@ -20,7 +20,7 @@ RSpec.describe SplitRetirementMigration do
 
   it "is invalid with a missing split" do
     app = FactoryBot.create(:app)
-    subject = described_class.new(app: app, split: "my_split", decision: "b")
+    subject = described_class.new(app:, split: "my_split", decision: "b")
     expect(subject).to have(1).error_on(:split)
     expect(subject).to have(0).errors_on(:decision)
   end

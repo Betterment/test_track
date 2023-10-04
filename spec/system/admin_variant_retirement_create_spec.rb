@@ -6,10 +6,10 @@ RSpec.describe 'admin can retire a variant for a split' do
   let!(:split) { FactoryBot.create(:split, registry: { red: 25, blue: 0, green: 25, yellow: 25, orange: 25 }) }
 
   before do
-    FactoryBot.create(:assignment, split: split, variant: :red)
-    FactoryBot.create(:assignment, split: split, variant: :green)
-    FactoryBot.create(:assignment, split: split, variant: :yellow)
-    FactoryBot.create_list(:assignment, 8, split: split, variant: :blue)
+    FactoryBot.create(:assignment, split:, variant: :red)
+    FactoryBot.create(:assignment, split:, variant: :green)
+    FactoryBot.create(:assignment, split:, variant: :yellow)
+    FactoryBot.create_list(:assignment, 8, split:, variant: :blue)
 
     login
   end

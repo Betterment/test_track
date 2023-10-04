@@ -14,8 +14,8 @@ if ENV['DATADOG_ENABLED']
     c.tracing.enabled = Rails.env.production? || ENV['DD_AGENT_HOST'].present?
     c.tracing.analytics.enabled = true
 
-    c.tracing.instrument :rails, service_name: service_name, distributed_tracing: true
-    c.tracing.instrument :rack, service_name: service_name, distributed_tracing: true, analytics_enabled: true
+    c.tracing.instrument :rails, service_name:, distributed_tracing: true
+    c.tracing.instrument :rack, service_name:, distributed_tracing: true, analytics_enabled: true
     c.tracing.instrument :active_record, service_name: "#{service_name}-active_record"
     c.tracing.instrument :delayed_job, service_name: "#{service_name}-delayed_job"
     c.tracing.instrument :http, service_name: "#{service_name}-http", distributed_tracing: true, analytics_enabled: true

@@ -7,19 +7,19 @@ RSpec.describe AppFeatureCompletion do
     let(:different_app) { FactoryBot.create(:app) }
 
     it "returns a record for an app_build with the same app_id and version" do
-      fc = FactoryBot.create(:app_feature_completion, app: app, version: "1.0")
+      fc = FactoryBot.create(:app_feature_completion, app:, version: "1.0")
 
       expect(described_class.satisfied_by(app_build)).to include(fc)
     end
 
     it "returns a record for an app_build with a greater version" do
-      fc = FactoryBot.create(:app_feature_completion, app: app, version: "0.9")
+      fc = FactoryBot.create(:app_feature_completion, app:, version: "0.9")
 
       expect(described_class.satisfied_by(app_build)).to include(fc)
     end
 
     it "doesn't return a record for an app_build with a lower version" do
-      fc = FactoryBot.create(:app_feature_completion, app: app, version: "1.1")
+      fc = FactoryBot.create(:app_feature_completion, app:, version: "1.1")
 
       expect(described_class.satisfied_by(app_build)).not_to include(fc)
     end

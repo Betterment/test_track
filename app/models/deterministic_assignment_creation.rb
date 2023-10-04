@@ -18,22 +18,22 @@ class DeterministicAssignmentCreation
 
     if existing_assignment.present?
       if existing_assignment.unsynced?
-        existing_assignment.assign_attributes(mixpanel_result: mixpanel_result)
+        existing_assignment.assign_attributes(mixpanel_result:)
         existing_assignment.save!(touch: false)
       end
     else
       ArbitraryAssignmentCreation.create!(
-        visitor_id: visitor_id,
-        split_name: split_name,
+        visitor_id:,
+        split_name:,
         variant: variant_calculator.variant,
-        mixpanel_result: mixpanel_result,
-        context: context
+        mixpanel_result:,
+        context:
       )
     end
   end
 
   def variant_calculator
-    @variant_calculator ||= VariantCalculator.new(visitor_id: visitor_id, split: split)
+    @variant_calculator ||= VariantCalculator.new(visitor_id:, split:)
   end
 
   def split
@@ -41,7 +41,7 @@ class DeterministicAssignmentCreation
   end
 
   def existing_assignment
-    @existing_assignment ||= Assignment.find_by visitor: visitor, split: split
+    @existing_assignment ||= Assignment.find_by visitor:, split:
   end
 
   def visitor

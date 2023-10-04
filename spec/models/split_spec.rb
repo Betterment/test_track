@@ -262,7 +262,7 @@ RSpec.describe Split do
 
     it "isn't feature_incomplete for feature gates with a feature completion" do
       split = FactoryBot.create(:feature_gate)
-      FactoryBot.create(:app_feature_completion, app: app, version: "1.0", feature_gate: split)
+      FactoryBot.create(:app_feature_completion, app:, version: "1.0", feature_gate: split)
       expect(Split.with_feature_incomplete_knockouts_for(app_build).find(split.id)).not_to be_feature_incomplete
     end
 
@@ -291,7 +291,7 @@ RSpec.describe Split do
 
     it "includes feature gates with a feature completion" do
       split = FactoryBot.create(:feature_gate)
-      FactoryBot.create(:app_feature_completion, app: app, version: "1.0", feature_gate: split)
+      FactoryBot.create(:app_feature_completion, app:, version: "1.0", feature_gate: split)
       expect(Split.where(Split.arel_excluding_incomplete_features_for(app_build))).to include(split)
     end
 
@@ -337,14 +337,14 @@ RSpec.describe Split do
 
     it "has a nil override for a remote kill that doesn't overlap" do
       split = FactoryBot.create(:split)
-      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: "1.2", override_to: :touch_this)
+      FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "1.1", fixed_version: "1.2", override_to: :touch_this)
 
       expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to be_nil
     end
 
     it "has an override for a remote kill that overlaps" do
       split = FactoryBot.create(:split)
-      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "0.9", fixed_version: "1.1", override_to: :touch_this)
+      FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "0.9", fixed_version: "1.1", override_to: :touch_this)
       expect(Split.with_remote_kill_knockouts_for(app_build).find(split.id).remote_kill_override_to).to eq("touch_this")
     end
 
@@ -369,21 +369,21 @@ RSpec.describe Split do
     it "includes a split when there's a remote kill for another split" do
       split = FactoryBot.create(:split)
       other_split = FactoryBot.create(:split)
-      FactoryBot.create(:app_remote_kill, split: other_split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
+      FactoryBot.create(:app_remote_kill, split: other_split, app:, first_bad_version: "0.8", fixed_version: "2.0")
 
       expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
     end
 
     it "includes a split with a remote kill not conflicting with version" do
       split = FactoryBot.create(:split)
-      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "2.0", fixed_version: "2.1")
+      FactoryBot.create(:app_remote_kill, split:, app:, first_bad_version: "2.0", fixed_version: "2.1")
 
       expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).to include(split)
     end
 
     it "doesn't include a split with a remote kill spanning version" do
       split = FactoryBot.create(:split)
-      FactoryBot.create(:app_remote_kill, split: split, app: app, first_bad_version: "0.8", fixed_version: "2.0")
+      FactoryBot.create(:app_remote_kill, split:, app:, first_bad_version: "0.8", fixed_version: "2.0")
 
       expect(Split.where(Split.arel_excluding_remote_kills_for(app_build))).not_to include(split)
     end
@@ -515,7 +515,7 @@ RSpec.describe Split do
       allow(Split).to receive(:for_app_build).and_call_original
       app_build = FactoryBot.build_stubbed(:app).define_build(built_at: Time.zone.now, version: "1.0")
 
-      expect(Split.for_presentation(app_build: app_build)).to be_a(ActiveRecord::Relation)
+      expect(Split.for_presentation(app_build:)).to be_a(ActiveRecord::Relation)
 
       expect(Split).to have_received(:for_app_build).with(app_build)
     end

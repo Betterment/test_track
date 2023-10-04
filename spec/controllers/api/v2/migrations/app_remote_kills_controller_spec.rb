@@ -31,7 +31,7 @@ RSpec.describe Api::V2::Migrations::AppRemoteKillsController do
     end
 
     it "updates an existing feature completion with a well-formed request" do
-      remote_kill = FactoryBot.create(:app_remote_kill, app: app, split: feature_gate, first_bad_version: "1.0", fixed_version: nil)
+      remote_kill = FactoryBot.create(:app_remote_kill, app:, split: feature_gate, first_bad_version: "1.0", fixed_version: nil)
 
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: {

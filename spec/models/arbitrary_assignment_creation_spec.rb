@@ -57,14 +57,14 @@ RSpec.describe ArbitraryAssignmentCreation do
       let(:visitor) { FactoryBot.create(:visitor, id: params[:visitor_id]) }
 
       context "bulk assigned assignment" do
-        let(:bulk_assignment) { FactoryBot.create(:bulk_assignment, split: split, variant: "variant1") }
+        let(:bulk_assignment) { FactoryBot.create(:bulk_assignment, split:, variant: "variant1") }
         let!(:existing_assignment) do
           FactoryBot.create(
             :assignment,
-            visitor: visitor,
-            split: split,
+            visitor:,
+            split:,
             variant: "variant1",
-            bulk_assignment: bulk_assignment,
+            bulk_assignment:,
             context: "bulk_assignment",
             mixpanel_result: "success",
             updated_at: Time.zone.parse('2019-01-01 00:00:00')
@@ -88,8 +88,8 @@ RSpec.describe ArbitraryAssignmentCreation do
         let!(:existing_assignment) do
           FactoryBot.create(
             :assignment,
-            visitor: visitor,
-            split: split,
+            visitor:,
+            split:,
             variant: "variant1",
             context: "context",
             mixpanel_result: "success",
@@ -117,11 +117,11 @@ RSpec.describe ArbitraryAssignmentCreation do
 
     it "saves again and overwrites nil mixpanel result when there is a race condition with the same variant" do
       visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
-      assignment = Assignment.new(visitor: visitor, split: split)
+      assignment = Assignment.new(visitor:, split:)
       allow(Assignment).to receive(:find_or_initialize_by).and_return(assignment)
       allow(assignment).to receive(:save!) do
         # simulate race condition
-        FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant1", mixpanel_result: nil)
+        FactoryBot.create(:assignment, visitor:, split:, variant: "variant1", mixpanel_result: nil)
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
         raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
@@ -136,11 +136,11 @@ RSpec.describe ArbitraryAssignmentCreation do
 
     it "supersedes when there is a race condition with a different variant" do
       visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
-      assignment = Assignment.new(visitor: visitor, split: split)
+      assignment = Assignment.new(visitor:, split:)
       allow(Assignment).to receive(:find_or_initialize_by).and_return(assignment)
       allow(assignment).to receive(:save!) do
         # simulate race condition
-        FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "variant2")
+        FactoryBot.create(:assignment, visitor:, split:, variant: "variant2")
         allow(Assignment).to receive(:find_or_initialize_by).and_call_original
         raise ActiveRecord::RecordNotUnique, "duplicate key value violates unique constraint"
       end
@@ -168,8 +168,8 @@ RSpec.describe ArbitraryAssignmentCreation do
         visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
         existing_assignment = FactoryBot.create(
           :assignment,
-          visitor: visitor,
-          split: split,
+          visitor:,
+          split:,
           variant: "variant1",
           mixpanel_result: "success"
         )
@@ -184,8 +184,8 @@ RSpec.describe ArbitraryAssignmentCreation do
         visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
         existing_assignment = FactoryBot.create(
           :assignment,
-          visitor: visitor,
-          split: split,
+          visitor:,
+          split:,
           variant: "variant1",
           mixpanel_result: nil
         )
@@ -200,8 +200,8 @@ RSpec.describe ArbitraryAssignmentCreation do
         visitor = FactoryBot.create(:visitor, id: params[:visitor_id])
         existing_assignment = FactoryBot.create(
           :assignment,
-          visitor: visitor,
-          split: split,
+          visitor:,
+          split:,
           variant: "variant2",
           mixpanel_result: nil
         )
@@ -215,7 +215,7 @@ RSpec.describe ArbitraryAssignmentCreation do
 
     context "individually_overridden" do
       let(:visitor) { FactoryBot.create(:visitor, id: params[:visitor_id]) }
-      let(:existing_assignment_params) { { visitor: visitor, split: split, variant: "variant2", individually_overridden: false } }
+      let(:existing_assignment_params) { { visitor:, split:, variant: "variant2", individually_overridden: false } }
 
       it "is true if an assignment already exists" do
         existing_assignment = FactoryBot.create(:assignment, existing_assignment_params)

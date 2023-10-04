@@ -11,13 +11,13 @@ RSpec.describe VisitorLookup do
     end
 
     it "returns an existing identifier in the case of a race condition" do
-      FactoryBot.create(:identifier, identifier_type: identifier_type, value: "1234")
+      FactoryBot.create(:identifier, identifier_type:, value: "1234")
       allow(Identifier).to receive(:find_or_create_by!).and_raise ActiveRecord::RecordNotUnique
       expect { subject.visitor }.not_to change { Identifier.count }
     end
 
     context "existing identifier" do
-      let!(:identifier) { FactoryBot.create(:identifier, identifier_type: identifier_type, value: "1234") }
+      let!(:identifier) { FactoryBot.create(:identifier, identifier_type:, value: "1234") }
 
       it "does not create a new identifier or visitor" do
         expect { subject.visitor }
@@ -39,7 +39,7 @@ RSpec.describe VisitorLookup do
 
       it "returns a new visitor connected to a new identifier for the given identifier_type" do
         visitor = subject.visitor
-        identifier = visitor.identifiers.find_by!(value: "1234", identifier_type: identifier_type)
+        identifier = visitor.identifiers.find_by!(value: "1234", identifier_type:)
 
         expect(visitor).to eq(Visitor.first)
         expect(identifier).to eq(Identifier.first)

@@ -17,7 +17,7 @@ class Admin < ActiveRecord::Base
     end
 
     def admin_by_email(email)
-      find_or_initialize_by(email: email)
+      find_or_initialize_by(email:)
     end
 
     def devise_args

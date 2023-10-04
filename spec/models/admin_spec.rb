@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Admin do
   describe ".from_saml" do
     let(:info) { { email: "herman@example.com", name: "Herman Miller" } }
-    let(:auth) { OmniAuth::AuthHash.new(uid: "herman@example.com", info: info) }
+    let(:auth) { OmniAuth::AuthHash.new(uid: "herman@example.com", info:) }
 
     it "creates a user if one does not exist" do
       expect {

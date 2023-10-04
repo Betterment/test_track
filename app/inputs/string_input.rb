@@ -1,6 +1,6 @@
 class StringInput < SimpleForm::Inputs::StringInput
   def input(wrapper_options)
-    super(wrapper_options.merge(value: value))
+    super(wrapper_options.merge(value:))
   end
 
   private

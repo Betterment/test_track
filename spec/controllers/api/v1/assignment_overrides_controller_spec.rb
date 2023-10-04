@@ -60,7 +60,7 @@ RSpec.describe Api::V1::AssignmentOverridesController do
         end
 
         it "overrides an assignment if one already exists" do
-          FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "control")
+          FactoryBot.create(:assignment, visitor:, split:, variant: "control")
 
           expect {
             post :create, params: create_params
