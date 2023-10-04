@@ -105,7 +105,6 @@ Rails.application.routes.draw do
     devise_for :admins
   end
 
-
   namespace :admin do
     root 'splits#index'
     resources :splits, only: [:show] do

@@ -242,7 +242,6 @@ Devise.setup do |config|
     idp_cert_fingerprint: ENV.fetch('IDP_CERT_FINGERPRINT', nil),
     name_identifier_format: 'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress'
 
-
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
