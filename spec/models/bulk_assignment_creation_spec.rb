@@ -10,7 +10,7 @@ RSpec.describe BulkAssignmentCreation do
 
   let(:admin) { FactoryBot.create(:admin) }
 
-  let(:ids_csv) { ["22", "5092", "1bc12fa6-6c5b-47a4-b500-82b4e271520f"].join(',') }
+  let(:ids_csv) { %w(22 5092 1bc12fa6-6c5b-47a4-b500-82b4e271520f).join(',') }
 
   let(:create_params) do
     {
