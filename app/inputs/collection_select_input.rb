@@ -1,7 +1,7 @@
 class CollectionSelectInput < SimpleForm::Inputs::CollectionSelectInput
   include ActionView::Helpers::OutputSafetyHelper
 
-  def display_dropdown(_wrapper_options) # rubocop:disable Metrics/AbcSize
+  def display_dropdown(_wrapper_options)
     # unclear what the desired behavior would be if both of these options are set
     raise 'You can only use one of :include_blank/:prompt' if options[:include_blank] && options[:prompt]
 

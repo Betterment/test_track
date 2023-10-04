@@ -13,7 +13,7 @@ class DeterministicAssignmentCreation
     new(params).tap(&:save!)
   end
 
-  def save! # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def save! # rubocop:disable Metrics/AbcSize
     return if split.feature_gate?
 
     if existing_assignment.present?

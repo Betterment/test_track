@@ -15,7 +15,7 @@ module RadioButton
 
   private
 
-  def build_completed_button(value, label, options) # rubocop:disable Metrics/AbcSize
+  def build_completed_button(value, label, options)
     description = options[:description]
     completed_css_class = description ? 'with-description completed' : 'completed'
 

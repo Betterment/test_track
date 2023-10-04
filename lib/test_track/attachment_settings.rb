@@ -47,7 +47,6 @@ module TestTrack
       }
     end
 
-    # rubocop:disable Metrics/MethodLength
     def s3_settings
       {
         storage: :s3,

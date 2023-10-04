@@ -2,7 +2,7 @@ class CollectionRadioButtonsInput < SimpleForm::Inputs::CollectionSelectInput
   include ActionView::Helpers::OutputSafetyHelper
   include RadioButton
 
-  def input(wrapper_options) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def input(wrapper_options) # rubocop:disable Metrics/AbcSize
     merged_input_options = merge_wrapper_options(input_html_options, wrapper_options)
     template.content_tag :ul, merged_input_options.merge(class: 'radio-options') do
       radio_options = collection.map do |option|

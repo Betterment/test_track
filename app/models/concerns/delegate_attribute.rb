@@ -7,7 +7,7 @@ module DelegateAttribute
   end
 
   module ClassMethods
-    def delegate_attribute(*getters) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    def delegate_attribute(*getters) # rubocop:disable Metrics/AbcSize
       opts = getters.extract_options!
       to = opts.delete(:to)
       raise 'You must specify what method/association to delegate to' unless to

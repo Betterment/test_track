@@ -53,22 +53,6 @@ Layout/LineLength:
     - 'config/initializers/devise.rb'
     - 'config/initializers/simple_form.rb'
 
-# Offense count: 11
-# This cop supports safe autocorrection (--autocorrect).
-Lint/RedundantCopDisableDirective:
-  Exclude:
-    - 'app/controllers/api/v4/app_identifiers_controller.rb'
-    - 'app/controllers/api/v4/app_visitor_configs_controller.rb'
-    - 'app/inputs/collection_radio_buttons_input.rb'
-    - 'app/inputs/collection_select_input.rb'
-    - 'app/inputs/radio_button.rb'
-    - 'app/models/arbitrary_assignment_creation.rb'
-    - 'app/models/concerns/delegate_attribute.rb'
-    - 'app/models/deterministic_assignment_creation.rb'
-    - 'app/models/split_upsert.rb'
-    - 'app/models/visitor_supersession.rb'
-    - 'lib/test_track/attachment_settings.rb'
-
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
