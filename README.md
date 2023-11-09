@@ -67,6 +67,21 @@ export WHITELIST_CORS_HOSTS=yoursite.example.org,othersite.example.org
 #### Configuration for Chrome extension
 In order to use the TestTrack Chrome extension, you will need to set up the `BROWSER_EXTENSION_SHARED_SECRET` environment variable. [Details.](https://github.com/Betterment/test_track_chrome_extension#building-the-extension)
 
+#### Running specs
+
+To run all specs:
+```bash
+bundle exec rspec
+```
+
+If you are interested in hitting a `binding.pry` somewhere while playing around with your development environment, you can use `binding.pry_remote` in your code.  When reloading the page you expect to have the breakpoint, the browser should freeze and you should be able to connect to your console via running in your terminal `pry-remote`.  Pry away as normal!
+
+If you are curious to see your integration tests running in a non-headless manner, run your test this way:
+
+```
+$ CAPYBARA_DEBUG=1 bundle exec rspec <path to file>/<file>s
+```
+
 ## Managing your installation
 There are a few things that you will need to do in the TestTrack application:
 * Create `App`s -- client applications that will manage splits on your TestTrack server

@@ -73,8 +73,6 @@ group :development, :test do
   gem 'dotenv-rails'
 
   gem 'site_prism'
-  gem 'selenium-webdriver'
-
   gem 'factory_bot_rails'
 
   gem 'ruby_spec_helpers', path: 'vendor/gems/ruby_spec_helpers'

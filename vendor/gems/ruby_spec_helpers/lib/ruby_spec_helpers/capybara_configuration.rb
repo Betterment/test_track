@@ -1,11 +1,37 @@
 require 'capybara/rails'
 require 'capybara/rspec'
 require 'selenium-webdriver'
+require 'capybara/cuprite'
 require 'fileutils'
 
 driver = ENV.fetch("CAPYBARA_DRIVER", "selenium_chrome_headless").to_sym
 
 case driver
+  when :better_cuprite
+    # NOTE: The name :cuprite is already registered by Rails,
+    # See https://github.com/rubycdp/cuprite/issues/180
+    Capybara.register_driver(:better_cuprite) do |app|
+      browser_options = {
+        'disable-smooth-scrolling': true,
+      }.tap do |opts|
+        opts['no-sandbox'] = nil if ENV['CI']
+      end
+
+      options = {
+        window_size: [1280, 1024],
+        timeout: ENV.fetch('CUPRITE_TIMEOUT', 15),
+        process_timeout: ENV.fetch('CUPRITE_TIMEOUT', 15),
+        js_errors: false,
+        browser_options: browser_options,
+      }
+
+      if ENV['CAPYBARA_DEBUG']
+        options[:headless] = false
+        options[:slowmo] = 0.1
+      end
+
+      Capybara::Cuprite::Driver.new(app, **options)
+    end
   when :webkit
     Capybara.register_driver :webkit do |app|
       browser = Capybara::Webkit::Browser.new(Capybara::Webkit::Connection.new).tap do |browser|

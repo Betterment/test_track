@@ -1,5 +1,5 @@
 ENV['RAILS_ENV'] ||= 'test'
-ENV['CAPYBARA_DRIVER'] ||= ENV['CI'] ? 'selenium_remote_chrome' : 'selenium_chrome_headless'
+ENV['CAPYBARA_DRIVER'] ||= 'better_cuprite'
 ENV['DATADOG_ENABLED'] = '1'
 
 require File.expand_path('../config/environment', __dir__)
