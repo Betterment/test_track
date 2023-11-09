@@ -15,10 +15,11 @@ Gem::Specification.new do |s|
   s.files = Dir["lib/**/*", "README.md"]
 
   s.add_dependency 'capybara'
+  s.add_dependency 'cuprite'
+  s.add_dependency 'rspec_junit_formatter'
   s.add_dependency 'rspec-collection_matchers'
   s.add_dependency 'rspec-rails'
   s.add_dependency 'rspec-retry', '~> 0.4.5'
-  s.add_dependency 'rspec_junit_formatter'
   s.add_dependency 'selenium-webdriver'
   s.add_dependency 'site_prism'
   s.add_dependency 'webmock'

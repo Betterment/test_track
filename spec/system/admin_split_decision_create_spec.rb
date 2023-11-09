@@ -30,10 +30,11 @@ RSpec.describe 'split decision flow' do
     split_page.decide_split.click
     expect(split_decision_page).to be_loaded
 
-    split_decision_page.create_form.tap do |form|
-      form.variant_options.select 'touch_this'
-      form.submit_button.click
-      accept_alert(/You are deciding/)
+    accept_alert(/You are deciding/) do
+      split_decision_page.create_form.tap do |form|
+        form.variant_options.select 'touch_this'
+        form.submit_button.click
+      end
     end
 
     expect(split_page).to be_loaded
