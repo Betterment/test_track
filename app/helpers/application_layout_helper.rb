@@ -3,6 +3,10 @@ module ApplicationLayoutHelper
     content_for(:page_title) || 'Test Track Admin'
   end
 
+  def deployment_env_label
+    ENV.fetch('DEPLOYMENT_ENV_LABEL', nil)
+  end
+
   def site_layout_header_classes
     classes = ['Header']
     classes << "color-bg-accent-emphasis"
