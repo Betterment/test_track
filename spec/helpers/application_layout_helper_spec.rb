@@ -12,6 +12,18 @@ RSpec.describe ApplicationLayoutHelper do
     end
   end
 
+  describe '#deployment_env_label' do
+    it 'returns the value of the DEPLOYMENT_ENV_LABEL environment variable' do
+      with_env DEPLOYMENT_ENV_LABEL: 'stage' do
+        expect(helper.deployment_env_label).to eq 'stage'
+      end
+    end
+
+    it 'returns nil when no DEPLOYMENT_ENV_LABEL environment variable is set' do
+      expect(helper.deployment_env_label).to be_nil
+    end
+  end
+
   describe '#header_modifier' do
     context 'when the header_modifier content_for has been provided' do
       before do
