@@ -4,7 +4,6 @@ RSpec.describe Admin::SplitsController do
   include Warden::Test::Helpers
 
   describe 'GET /admin' do
-    let(:default_app) { FactoryBot.create(:app, name: "default_app", auth_secret: "6Sd6T7T6Q8hKcoo0t8CTzV0IdN1EEHqXB2Ig4raZsOf") }
     let(:admin) { FactoryBot.create(:admin) }
     let(:deployment_env_label) { 'Stage Environment' }
     let(:banner_tag) { "<p class=\"banner-text\">" }
