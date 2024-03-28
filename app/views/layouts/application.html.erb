@@ -12,6 +12,11 @@
 </head>
 
 <body class="<%= site_layout_body_css_classes %>">
+  <% if deployment_env_label.present? %>
+    <div class="banner">
+      <p class="banner-text"><%= deployment_env_label %></p>
+    </div>
+  <% end %>
   <div class="<%= site_layout_header_classes %>">
     <% if content_for?(:header) %>
       <%= yield(:header) %>
