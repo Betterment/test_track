@@ -266,14 +266,14 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.7.0)
-    nokogiri (1.16.2)
+    nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.2-arm64-darwin)
+    nokogiri (1.16.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-darwin)
+    nokogiri (1.16.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-linux)
+    nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
     octicons (19.8.0)
     omniauth (2.1.1)
@@ -311,7 +311,7 @@ GEM
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
-    racc (1.8.0)
+    racc (1.8.1)
     rack (2.2.9)
     rack-protection (3.0.5)
       rack
