@@ -139,7 +139,7 @@ GEM
     cuprite (0.15)
       capybara (~> 3.0)
       ferrum (~> 0.14.0)
-    date (3.3.3)
+    date (3.3.4)
     db-query-matchers (0.11.0)
       activesupport (>= 4.0, < 7.1)
       rspec (>= 3.0)
@@ -262,7 +262,7 @@ GEM
       net-protocol
     net-pop (0.1.2)
       net-protocol
-    net-protocol (0.2.1)
+    net-protocol (0.2.2)
       timeout
     net-smtp (0.3.3)
       net-protocol
@@ -458,7 +458,7 @@ GEM
       execjs (>= 0.3.0, < 3)
     thor (1.2.2)
     timecop (0.9.6)
-    timeout (0.4.0)
+    timeout (0.4.1)
     travis (1.8.13)
       backports
       faraday (~> 0.9)
