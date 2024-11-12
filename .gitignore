@@ -25,6 +25,7 @@
 /.powenv
 /.env.local
 /db/seed_apps.yml
+/spec/fixtures
 
 /app/assets/builds/*
 !/app/assets/builds/.keep

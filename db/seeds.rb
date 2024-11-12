@@ -8,6 +8,12 @@ if Rails.env.development?
       puts "Ensured #{app_name} app"
     end
   end
+
+  require 'active_record/fixtures'
+  fixtures_dir = File.join(Rails.root, 'spec/fixtures')
+  fixture_files = Dir.glob('spec/fixtures/*.yml').map { |f| File.basename(f, '.yml') }
+
+  ActiveRecord::FixtureSet.create_fixtures(fixtures_dir, fixture_files)
 end
 
 test_track_app = App.find_or_create_by!(name: 'TestTrack') do |app|
