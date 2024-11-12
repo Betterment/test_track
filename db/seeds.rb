@@ -23,3 +23,8 @@ end
 IdentifierType.find_or_create_by!(name: 'app_id') do |identifier_type|
   identifier_type.owner_app = test_track_app
 end
+
+Admin.find_or_create_by!(email: 'admin@example.org') do |user|
+  user.password = 'password'
+  user.password_confirmation = 'password'
+end
