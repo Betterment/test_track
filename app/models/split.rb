@@ -1,8 +1,9 @@
 class Split < ActiveRecord::Base
-  DETAILS_ATTRIBUTES = %i(hypothesis assignment_criteria description takeaways owner location platform).freeze
+  DETAILS_ATTRIBUTES = %i(description owner location platform).freeze
 
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
+  has_one :experiment_detail, dependent: :nullify
   has_many :previous_split_registries, dependent: :nullify
   has_many :assignments, -> { for_presentation }, dependent: :nullify, inverse_of: :split
   has_many :bulk_assignments, dependent: :nullify
@@ -16,6 +17,7 @@ class Split < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
   validates :registry, presence: true
+  validates :experiment_detail, absence: true, if: :feature_gate?
 
   validate :name_must_be_snake_case
   validate :name_must_only_be_prefixed_with_app_name
@@ -25,6 +27,7 @@ class Split < ActiveRecord::Base
   validate :registry_must_have_winning_variant_if_decided
 
   enum platform: %i(mobile desktop)
+  delegate :hypothesis, :assignment_criteria, :takeaways, to: :experiment_detail, allow_nil: true
 
   before_validation :cast_registry
 
