@@ -10,8 +10,8 @@ if Rails.env.development?
   end
 
   require 'active_record/fixtures'
-  fixtures_dir = File.join(Rails.root, 'spec/fixtures')
-  fixture_files = Dir.glob('spec/fixtures/*.yml').map { |f| File.basename(f, '.yml') }
+  fixtures_dir = File.join(Rails.root, 'db/seeds')
+  fixture_files = Dir.glob('db/seeds/*.yml').map { |f| File.basename(f, '.yml') }
 
   ActiveRecord::FixtureSet.create_fixtures(fixtures_dir, fixture_files)
 end
