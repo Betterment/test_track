@@ -15,5 +15,9 @@
 
   <%= f.input :assignment_criteria, as: :text, hint: "Example: Assigned when any user enters the first step of the signup flow. Mobile users are not affected." %>
 
+  <% if @split_detail.split.decided? %>
+    <%= f.input :takeaways, as: :text, hint: "Example: We decided to keep the changes, as it increased conversion rates by 3% (plus or minus 2%)" %>
+  <% end %>
+
   <%= render "shared/form_footer", f: f, back_path: admin_split_path(@split_detail.split.id), submit_text: "Update Details", submit_disable_with_text: "Updating Split..." %>
 <% end %>

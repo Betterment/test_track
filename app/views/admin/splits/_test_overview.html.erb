@@ -36,6 +36,12 @@
         <td>Assignment Criteria</td>
         <td><%= split.assignment_criteria %></td>
       </tr>
+      <% if split.decided? %>
+        <tr>
+          <td>Takeaways</td>
+          <td><%= split.takeaways %></td>
+        </tr>
+      <% end %>
     </table>
   <% else %>
     <div class="EmptyTable EmptyTable--centered p-5">

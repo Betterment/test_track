@@ -5,7 +5,7 @@ class SplitDetail
 
   attr_accessor :split
   delegate :name, :variants, to: :split
-  delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
+  delegate_attribute(*Split::DETAILS_ATTRIBUTES, to: :split)
 
   validates :hypothesis, presence: true, if: -> { split.hypothesis_was.present? }
   validates :assignment_criteria, presence: true, if: -> { split.assignment_criteria_was.present? }
@@ -13,6 +13,7 @@ class SplitDetail
   validates :owner, presence: true, if: -> { split.owner_was.present? }
   validates :location, presence: true, if: -> { split.location_was.present? }
   validates :platform, presence: true, if: -> { split.platform_was.present? }
+  validates :takeaways, absence: true, unless: -> { split.decided? }
 
   validates :platform, inclusion: { in: %w(mobile desktop) }, allow_blank: true
 

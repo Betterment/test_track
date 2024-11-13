@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_13_181341) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -180,6 +180,7 @@ ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
     t.integer "platform"
     t.boolean "feature_gate", default: false, null: false
     t.datetime "decided_at"
+    t.text "takeaways"
     t.index ["name"], name: "index_splits_on_name", unique: true
     t.index ["owner_app_id"], name: "index_splits_on_owner_app_id"
   end

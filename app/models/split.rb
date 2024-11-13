@@ -1,4 +1,6 @@
 class Split < ActiveRecord::Base
+  DETAILS_ATTRIBUTES = %i(hypothesis assignment_criteria description takeaways owner location platform).freeze
+
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
   has_many :previous_split_registries, dependent: :nullify
@@ -88,7 +90,7 @@ class Split < ActiveRecord::Base
   end
 
   def has_details?
-    %w(hypothesis assignment_criteria description owner location platform).any? { |attr| public_send(attr).present? }
+    DETAILS_ATTRIBUTES.any? { |attr| public_send(attr).present? }
   end
 
   def has_variant?(variant)

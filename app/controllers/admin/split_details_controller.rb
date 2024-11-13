@@ -18,6 +18,14 @@ class Admin::SplitDetailsController < AuthenticatedAdminController
   private
 
   def split_detail_params
-    params.fetch(:split_detail, {}).permit(:hypothesis, :assignment_criteria, :description, :owner, :location, :platform)
+    params.fetch(:split_detail, {}).permit(
+      :hypothesis,
+      :assignment_criteria,
+      :description,
+      :takeaways,
+      :owner,
+      :location,
+      :platform,
+    )
   end
 end
