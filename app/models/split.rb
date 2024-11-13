@@ -1,6 +1,4 @@
 class Split < ActiveRecord::Base
-  DETAILS_ATTRIBUTES = %i(description owner location platform).freeze
-
   belongs_to :owner_app, required: true, class_name: "App", inverse_of: :splits
 
   has_one :experiment_detail, dependent: :nullify
