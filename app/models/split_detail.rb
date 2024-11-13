@@ -36,6 +36,7 @@ class SplitDetail
   def save
     if valid?
       split.save!
+      split.experiment_detail.save!
       true
     else
       false
