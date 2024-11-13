@@ -27,7 +27,8 @@ class Split < ActiveRecord::Base
   validate :registry_must_have_winning_variant_if_decided
 
   enum platform: %i(mobile desktop)
-  delegate :hypothesis, :assignment_criteria, :takeaways, to: :experiment_detail, allow_nil: true
+
+  delegate :description, :hypothesis, :assignment_criteria, :takeaways, to: :experiment_detail, allow_nil: true
 
   before_validation :cast_registry
 
@@ -90,10 +91,6 @@ class Split < ActiveRecord::Base
 
   def detail
     @detail ||= SplitDetail.new(split: self)
-  end
-
-  def has_details?
-    DETAILS_ATTRIBUTES.any? { |attr| public_send(attr).present? }
   end
 
   def has_variant?(variant)

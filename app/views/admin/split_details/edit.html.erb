@@ -10,12 +10,15 @@
   <%= f.input :location, label: "Location", hint: "Example: Sign Up" %>
 
   <% unless @split_detail.split.feature_gate? %>
+    <%= f.input :control_variant, as: :select, collection: @split_detail.split.registry.keys, include_blank: true %>
+    <%= f.input :start_date, as: :date, hint: "" %>
+    <%= f.input :end_date, as: :date, include_blank: true, hint: "" %>
     <%= f.input :description, as: :text, hint: "Example: Users often get confused during the account creation process when reaching step 2, 'Personal Details'. We are testing two different versions of this page that aim to clear up that confusion." %>
     <%= f.input :hypothesis, as: :text, hint: "Example: By rearranging some of the fields and adding helper text we can improve sign up completion rates and decrease the amount of support tickets we receive." %>
     <%= f.input :assignment_criteria, as: :text, hint: "Example: Assigned when any user enters the first step of the signup flow. Mobile users are not affected." %>
-    <% if @split_detail.split.decided? %>
-      <%= f.input :takeaways, as: :text, hint: "Example: We decided to keep the changes, as it increased conversion rates by 3% (plus or minus 2%)" %>
-    <% end %>
+    <%= f.input :takeaways, as: :text, disabled: !@split_detail.split.decided?, hint: "Example: We decided to keep the changes, as it increased conversion rates by 3% (plus or minus 2%)" %>
+    <%= f.input :tests, as: :check_boxes, collection: ExperimentDetail.available_tests.keys | @split_detail.tests, hint: "" %>
+    <%= f.input :segments, as: :check_boxes, collection: ExperimentDetail.available_segments.keys | @split_detail.segments, hint: "" %>
   <% end %>
 
   <%= render "shared/form_footer", f: f, back_path: admin_split_path(@split_detail.split.id), submit_text: "Update Details", submit_disable_with_text: "Updating Split..." %>
