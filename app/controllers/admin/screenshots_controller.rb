@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Admin::ScreenshotsController < ApplicationController
   def show
     split = Split.find(params[:split_id])
