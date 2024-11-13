@@ -9,7 +9,7 @@
   <%= f.input :description, label: 'Short description', hint: 'For example: There are FAQ links in a sidebar on the Activity Tab' %>
 
   <% if TestTrack::AttachmentSettings.attachments_enabled? %>
-    <%= f.input :screenshot, as: :file, hint: (safe_join(['Current: ', link_to(@variant_detail.filename, variant_screenshot_path(@variant_detail), target: '_blank')]) if @variant_detail.screenshot_file_name?) %>
+    <%= f.input :screenshot, as: :file, hint: (safe_join(['Current: ', link_to(@variant_detail.screenshot_file_name, variant_screenshot_path(@variant_detail), target: '_blank')]) if @variant_detail.screenshot_file_name?) %>
   <% end %>
 
   <div class="mt-6">
