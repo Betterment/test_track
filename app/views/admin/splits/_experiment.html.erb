@@ -3,9 +3,9 @@
     <h4>Experiment<%= " (decision: #{split.decided_variant})" if split.decided?%></h4>
 
     <% if split.experiment_detail %>
-      <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-details-link' %>
+      <%= link_to "Edit", edit_admin_split_details_path(split), class: 'edit-experiment-details-link' %>
     <% else %>
-      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'edit-details-link' %>
+      <%= link_to "Add Details", edit_admin_split_details_path(split), class: 'add-experiment-details-link' %>
     <% end %>
   </div>
 
