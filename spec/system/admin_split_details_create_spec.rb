@@ -4,7 +4,7 @@ RSpec.describe 'admin can add details to a split' do
   let(:split_page) { app.admin_split_show_page }
   let(:split_details_page) { app.admin_split_details_page }
 
-  let!(:feature_gate) { FactoryBot.create(:split, name: 'my_feature_enabled' ) }
+  let!(:feature_gate) { FactoryBot.create(:split, name: 'my_feature_enabled') }
   let!(:experiment) { FactoryBot.create(:split, name: 'my_experiment') }
 
   let(:owner_name) { "Go Getters" }
