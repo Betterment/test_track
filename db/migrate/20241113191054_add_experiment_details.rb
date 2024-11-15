@@ -12,7 +12,7 @@ class AddExperimentDetails < ActiveRecord::Migration[7.0]
   end
 
   def change
-    create_table :experiment_details, id: :uuid do |t|
+    create_table :experiment_details, id: :uuid, default: -> { 'uuid_generate_v4()' } do |t|
       t.references :split, null: false, foreign_key: true, type: :uuid
       t.string :control_variant
       t.date :start_date

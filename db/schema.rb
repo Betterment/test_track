@@ -119,7 +119,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_13_191054) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
-  create_table "experiment_details", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "experiment_details", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.uuid "split_id", null: false
     t.string "control_variant"
     t.date "start_date"
