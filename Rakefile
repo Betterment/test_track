@@ -9,6 +9,15 @@ if %w(development test).include? Rails.env
   require 'rubocop/rake_task'
   RuboCop::RakeTask.new
 
+  namespace :knapsack_pro do
+    namespace :queue do
+      desc "Run specs"
+      task rspec: :environment do
+        Rake::Task["spec"].invoke
+      end
+    end
+  end
+
   task(:default).clear
   task default: %i(rubocop spec)
 end
