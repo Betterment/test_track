@@ -1,0 +1,55 @@
+<article class="InfoCard InfoCard--constrained my-5">
+  <div class="InfoCard-header">
+    <h4>Split Details</h4>
+    <%= link_to "Decide Split", new_admin_split_decision_path(@split), class: 'decide-split-link btn btn-primary btn-large' %>
+  </div>
+  <hr class="InfoCard-divider">
+  <div class="InfoCard-description">
+    <table class="BasicTable">
+      <tr class="population-row">
+        <td>Population Size</td>
+        <td>
+          <span class='population'>
+            <%= @split.assignments.count %><% if @split.feature_gate? %>* [<a href="#gate_population">feature gate</a>]<% end %>
+          </span>
+        </td>
+        <td>
+          <span><%= link_to "Edit", new_admin_split_bulk_assignment_path(@split), class: 'upload-new-assignments-link' %></span>
+        </td>
+      </tr>
+      <tr>
+        <td>Status</td>
+        <% if @split.finished? %>
+          <td class="u-status--finished">Finished (Retired)
+            <% if @split.decided? %>
+              (decision: <%= @split.decided_variant %>)
+           <% end %>
+           <span class="p-3">🏁</span></td>
+        <% elsif @split.decided? %>
+          <td class="u-status--decided">Decided (decision: <%= @split.decided_variant %>)</td>
+        <% else %>
+          <td class="u-status--active">Active</td>
+        <% end %>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>App</td>
+        <td><%= @split.owner_app.name.capitalize %></td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td>Creation</td>
+        <td>
+          <span><%= @split.created_at %></span>
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+    <% if @split.feature_gate? %>
+      <p>
+      <a id="gate_population"></a>
+      * Feature gates no longer track assignment events and population reflects only visitors assigned to specific variants via the chrome extension or admin tool.
+      </p>
+    <% end %>
+  </div>
+</article>

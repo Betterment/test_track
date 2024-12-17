@@ -18,5 +18,9 @@
     <%= f.input :variant, label: 'Target Variant', collection: @split.variants, as: :radio_buttons, include_blank: false %>
   </div>
 
+  <% unless @split.feature_gate? %>
+    <%= f.input :takeaways, as: :text, hint: "Example: We decided to keep the changes, as it increased conversion rates by 3% (plus or minus 2%)" %>
+  <% end %>
+
   <%= render "shared/form_footer", f: f, submit_text: "Decide Split", submit_disable_with_text: "Saving your Split Decision...", confirm_text: "\nYou are deciding '#{@split.name}'.\nDo you wish to proceed?" %>
 <% end %>

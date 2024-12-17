@@ -5,11 +5,11 @@ class SplitDetail
 
   attr_accessor :split
   delegate :name, :variants, to: :split
-  delegate_attribute :hypothesis, :assignment_criteria, :description, :owner, :location, :platform, to: :split
+  delegate_attribute :owner, :platform, :location, to: :split
+  delegate_attribute :control_variant, :start_date, :end_date, :description,
+                     :hypothesis, :assignment_criteria, :takeaways, :tests, :segments,
+                     to: :experiment_detail
 
-  validates :hypothesis, presence: true, if: -> { split.hypothesis_was.present? }
-  validates :assignment_criteria, presence: true, if: -> { split.assignment_criteria_was.present? }
-  validates :description, presence: true, if: -> { split.description_was.present? }
   validates :owner, presence: true, if: -> { split.owner_was.present? }
   validates :location, presence: true, if: -> { split.location_was.present? }
   validates :platform, presence: true, if: -> { split.platform_was.present? }
@@ -29,9 +29,14 @@ class SplitDetail
     end
   end
 
+  def experiment_detail
+    split.experiment_detail || split.build_experiment_detail
+  end
+
   def save
     if valid?
       split.save!
+      split.experiment_detail.save!
       true
     else
       false
