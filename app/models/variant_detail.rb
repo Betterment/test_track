@@ -24,6 +24,10 @@ class VariantDetail < ActiveRecord::Base
     weight.zero? && assignment_count.positive?
   end
 
+  def filename
+    "#{variant}.#{screenshot_file_name.split('.').last}" if screenshot_file_name?
+  end
+
   private
 
   def variant_must_exist
