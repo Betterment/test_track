@@ -570,4 +570,4 @@ DEPENDENCIES
   with_transactional_lock
 
 BUNDLED WITH
-   2.4.20
+   2.6.3
