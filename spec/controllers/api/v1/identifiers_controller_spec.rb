@@ -9,7 +9,7 @@ RSpec.describe Api::V1::IdentifiersController do
 
     it "responds with assigned variants for the visitor" do
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: banana_split,
         variant: "green",
         context: "the_context",
@@ -28,9 +28,9 @@ RSpec.describe Api::V1::IdentifiersController do
 
     it "responds with mixpanel_failure_assignments for copied assignments" do
       existing_visitor = FactoryBot.create(:visitor)
-      FactoryBot.create(:identifier, identifier_type: identifier_type, value: "123", visitor: existing_visitor)
+      FactoryBot.create(:identifier, identifier_type:, value: "123", visitor: existing_visitor)
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: banana_split,
         variant: "green",
         context: "the_context",

@@ -35,13 +35,13 @@ class IdentifierClaim
   end
 
   def find_identifier
-    Identifier.find_by(identifier_type: actual_identifier_type, value: value)
+    Identifier.find_by(identifier_type: actual_identifier_type, value:)
   end
 
   def create_identifier
-    Identifier.create!(visitor: non_conflicting_visitor, identifier_type: actual_identifier_type, value: value)
+    Identifier.create!(visitor: non_conflicting_visitor, identifier_type: actual_identifier_type, value:)
   rescue ActiveRecord::RecordNotUnique
-    Identifier.find_by!(identifier_type: actual_identifier_type, value: value)
+    Identifier.find_by!(identifier_type: actual_identifier_type, value:)
   end
 
   def non_conflicting_visitor
@@ -49,7 +49,7 @@ class IdentifierClaim
   end
 
   def _non_conflicting_visitor
-    if visitor.identifiers.where(identifier_type: actual_identifier_type).where.not(value: value).present?
+    if visitor.identifiers.where(identifier_type: actual_identifier_type).where.not(value:).present?
       Visitor.create!
     else
       visitor

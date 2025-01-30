@@ -57,7 +57,7 @@ class ArbitraryAssignmentCreation
   end
 
   def assignment
-    @assignment ||= Assignment.find_or_initialize_by visitor: visitor, split: split
+    @assignment ||= Assignment.find_or_initialize_by visitor:, split:
   end
 
   def changed_variant?
@@ -86,12 +86,12 @@ class ArbitraryAssignmentCreation
 
   def assignment_attrs
     {
-      variant: variant,
-      mixpanel_result: mixpanel_result,
+      variant:,
+      mixpanel_result:,
       bulk_assignment_id: bulk_assignment_id_for_save,
       context: context_for_save,
       updated_at: now,
-      force: force
+      force:
     }
   end
 

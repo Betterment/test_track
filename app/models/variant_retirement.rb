@@ -8,7 +8,7 @@ class VariantRetirement
       retiring_assignment_ids_by_active_variant.each do |variant, assignment_ids|
         unless assignment_ids.empty?
           bulk_assignment = create_bulk_assignment_for_variant(variant)
-          BulkReassignment.create!(assignments: assignment_ids, bulk_assignment: bulk_assignment)
+          BulkReassignment.create!(assignments: assignment_ids, bulk_assignment:)
         end
       end
     end
@@ -33,7 +33,7 @@ class VariantRetirement
   end
 
   def create_bulk_assignment_for_variant(variant)
-    admin.bulk_assignments.create(reason: "Retiring #{retiring_variant}", split: split, variant: variant)
+    admin.bulk_assignments.create(reason: "Retiring #{retiring_variant}", split:, variant:)
   end
 
   def retiring_assignments

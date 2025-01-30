@@ -6,12 +6,12 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
     let(:identifier_type) { FactoryBot.create(:identifier_type, name: "clown_id") }
     let(:feature_gate) { FactoryBot.create(:feature_gate, name: "blab_enabled", registry: { false: 50, true: 50 }) }
     let(:visitor) { FactoryBot.create(:visitor) }
-    let(:identifier) { FactoryBot.create(:identifier, visitor: visitor) }
+    let(:identifier) { FactoryBot.create(:identifier, visitor:) }
 
     it "has knocked-out weightings and it doesn't include a non-force assignment for a feature gate that isn't feature complete" do
       FactoryBot.create(
         :assignment,
-        visitor: visitor,
+        visitor:,
         split: feature_gate,
         variant: "true",
         context: "the_context",
@@ -34,7 +34,7 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
     it "has real weightings and it includes a non-force assignment for a feature gate that is feature complete" do
       FactoryBot.create(
         :assignment,
-        visitor: visitor,
+        visitor:,
         split: feature_gate,
         variant: "true",
         context: "the_context",
@@ -43,8 +43,8 @@ RSpec.describe Api::V1::AppIdentifierVisitorConfigsController do
 
       FactoryBot.create(
         :app_feature_completion,
-        feature_gate: feature_gate,
-        app: app,
+        feature_gate:,
+        app:,
         version: "0.1"
       )
 

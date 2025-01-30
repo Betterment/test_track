@@ -113,13 +113,13 @@ class Split < ActiveRecord::Base
 
   def reassign_weight(weighting_registry)
     now = Time.zone.now
-    previous_split_registries.build(registry: registry, created_at: updated_at, updated_at: now, superseded_at: now)
+    previous_split_registries.build(registry:, created_at: updated_at, updated_at: now, superseded_at: now)
     self.registry = weighting_registry
     self.updated_at = now
   end
 
   def build_config(params = {})
-    SplitUpsert.new({ weighting_registry: registry }.merge(params).merge(name: name, app: owner_app))
+    SplitUpsert.new({ weighting_registry: registry }.merge(params).merge(name:, app: owner_app))
   end
 
   def reconfigure!(params = {})
@@ -129,11 +129,11 @@ class Split < ActiveRecord::Base
   end
 
   def reweight!(weighting_registry)
-    reconfigure!(weighting_registry: weighting_registry)
+    reconfigure!(weighting_registry:)
   end
 
   def assignment_count_for_variant(variant)
-    assignments.where(variant: variant).count(:id)
+    assignments.where(variant:).count(:id)
   end
 
   def build_decision(params = {})

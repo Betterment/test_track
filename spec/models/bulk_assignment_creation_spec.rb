@@ -5,8 +5,8 @@ RSpec.describe BulkAssignmentCreation do
   let!(:identifier_type) { FactoryBot.create(:identifier_type) }
 
   let!(:visitor) { FactoryBot.create(:visitor) }
-  let!(:identifier) { FactoryBot.create(:identifier, visitor: visitor, identifier_type_id: identifier_type.id, value: "22") }
-  let!(:assignment) { FactoryBot.create(:assignment, visitor: visitor, split: split, variant: "yes", context: "original_context") }
+  let!(:identifier) { FactoryBot.create(:identifier, visitor:, identifier_type_id: identifier_type.id, value: "22") }
+  let!(:assignment) { FactoryBot.create(:assignment, visitor:, split:, variant: "yes", context: "original_context") }
 
   let(:admin) { FactoryBot.create(:admin) }
 
@@ -18,8 +18,8 @@ RSpec.describe BulkAssignmentCreation do
       identifier_type_id: identifier_type.id,
       variant: "no",
       reason: "because i felt like it",
-      split: split,
-      admin: admin,
+      split:,
+      admin:,
       force_identifier_creation: '1'
     }
   end
@@ -82,7 +82,7 @@ RSpec.describe BulkAssignmentCreation do
     end
 
     def subject_with_reason(reason)
-      described_class.new(create_params.merge(identifiers_listing: "1", reason: reason))
+      described_class.new(create_params.merge(identifiers_listing: "1", reason:))
     end
 
     specify "reason is long enough and not blank" do
@@ -100,7 +100,7 @@ RSpec.describe BulkAssignmentCreation do
   end
 
   describe "#save" do
-    let(:current_assignment) { Assignment.find_by!(visitor: visitor, split: split) }
+    let(:current_assignment) { Assignment.find_by!(visitor:, split:) }
 
     it "saves the bulk assignment correctly" do
       subject.save
@@ -121,7 +121,7 @@ RSpec.describe BulkAssignmentCreation do
 
       expect(Assignment.where(bulk_assignment: subject.bulk_assignment).count).to eq 3
 
-      current_assignment = Assignment.find_by(visitor: visitor)
+      current_assignment = Assignment.find_by(visitor:)
       previous_assignment = PreviousAssignment.find_by(assignment: current_assignment)
 
       expect(subject.bulk_assignment.variant).to eq current_assignment.variant
@@ -148,7 +148,7 @@ RSpec.describe BulkAssignmentCreation do
         .and change { PreviousAssignment.count }.by(1)
         .and change { BulkAssignment.count }.by(1)
 
-      current_assignment = Assignment.find_by(visitor: visitor)
+      current_assignment = Assignment.find_by(visitor:)
       previous_assignment = PreviousAssignment.find_by(assignment: current_assignment)
 
       expect(current_assignment.variant).to eq "no"
@@ -164,7 +164,7 @@ RSpec.describe BulkAssignmentCreation do
       no_bulk_assign = described_class.create(create_params.merge(identifiers_listing: "22", variant: "no")).bulk_assignment
       yes_bulk_assign = described_class.create(create_params.merge(identifiers_listing: "22", variant: "yes")).bulk_assignment
 
-      current_assignment = Assignment.find_by(visitor: visitor)
+      current_assignment = Assignment.find_by(visitor:)
       previous_assignments = PreviousAssignment.where(assignment: current_assignment).order(:created_at)
 
       expect(previous_assignments.count).to eq 2
@@ -190,8 +190,8 @@ RSpec.describe BulkAssignmentCreation do
           identifier_type_id: identifier_type.id,
           variant: "no",
           reason: "because i felt like it",
-          split: split,
-          admin: admin,
+          split:,
+          admin:,
           force_identifier_creation: '1',
           force: true
         }
@@ -214,8 +214,8 @@ RSpec.describe BulkAssignmentCreation do
           identifier_type_id: identifier_type.id,
           variant: "yes",
           reason: "because i felt like it",
-          split: split,
-          admin: admin,
+          split:,
+          admin:,
           force_identifier_creation: '1',
           force: true
         }
@@ -282,7 +282,7 @@ RSpec.describe BulkAssignmentCreation do
     specify "bulk override without a dirty flag doesn't set it" do
       subject.save
 
-      current_assignment = Assignment.find_by(visitor: visitor)
+      current_assignment = Assignment.find_by(visitor:)
       previous_assignment = current_assignment.previous_assignments.first
 
       expect(current_assignment.individually_overridden).to be false
@@ -294,7 +294,7 @@ RSpec.describe BulkAssignmentCreation do
 
       subject.save
 
-      current_assignment = Assignment.find_by(visitor: visitor)
+      current_assignment = Assignment.find_by(visitor:)
       previous_assignment = current_assignment.previous_assignments.first
 
       expect(current_assignment.individually_overridden).to be true

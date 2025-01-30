@@ -38,47 +38,47 @@ RSpec.describe AppRemoteKill do
     let(:app) { FactoryBot.create(:app) }
     let(:split) { FactoryBot.create(:split) }
     let!(:existing_remote_kill) do
-      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: nil)
+      FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "1.0", fixed_version: nil)
     end
 
     it "is valid if it is fixed before the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "0.9")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "0.9")
 
       expect(subject).to be_valid
     end
 
     it "is valid if it is fixed at the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "1.0")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "1.0")
 
       expect(subject).to be_valid
     end
 
     it "is invalid if it is fixed after the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "1.1")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "1.1")
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it is open-ended and starts before the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: nil)
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it is open-ended and starts after the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.1", fixed_version: nil)
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is valid if it's for a different app" do
-      subject = FactoryBot.build(:app_remote_kill, app: FactoryBot.create(:app), split: split, first_bad_version: "1.1", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app: FactoryBot.create(:app), split:, first_bad_version: "1.1", fixed_version: nil)
 
       expect(subject).to be_valid
     end
 
     it "is valid if it's for a different split" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: FactoryBot.create(:split), first_bad_version: "1.1", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split: FactoryBot.create(:split), first_bad_version: "1.1", fixed_version: nil)
 
       expect(subject).to be_valid
     end
@@ -88,77 +88,77 @@ RSpec.describe AppRemoteKill do
     let(:app) { FactoryBot.create(:app) }
     let(:split) { FactoryBot.create(:split) }
     let!(:existing_remote_kill) do
-      FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: "1.2")
+      FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "1.0", fixed_version: "1.2")
     end
 
     it "is valid if it is fixed before the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "0.9")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "0.9")
 
       expect(subject).to be_valid
     end
 
     it "is valid if it is fixed at the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "1.0")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "1.0")
 
       expect(subject).to be_valid
     end
 
     it "is invalid if it starts before and is fixed after the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: "1.1")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: "1.1")
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it is open-ended and starts before the existing first_bad_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.8", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.8", fixed_version: nil)
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it is open-ended and starts before the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.1", fixed_version: nil)
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is valid if it is open-ended and starts at the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.2", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.2", fixed_version: nil)
 
       expect(subject).to be_valid
     end
 
     it "is valid if it is open-ended and starts after the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.3", fixed_version: nil)
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.3", fixed_version: nil)
 
       expect(subject).to be_valid
     end
 
     it "is invalid if it starts before the existing first_bad_version and is fixed after the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "0.9", fixed_version: "1.3")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "0.9", fixed_version: "1.3")
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it starts after the existing first_bad_version and is fixed before the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: "1.1.1")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.1", fixed_version: "1.1.1")
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is invalid if it starts after the existing first_bad_version and is fixed after the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.1", fixed_version: "1.3")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.1", fixed_version: "1.3")
 
       expect(subject).to have(1).error_on(:base)
     end
 
     it "is valid if it starts at the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.2", fixed_version: "1.3")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.2", fixed_version: "1.3")
 
       expect(subject).to be_valid
     end
 
     it "is valid if it starts after the existing fixed_version" do
-      subject = FactoryBot.build(:app_remote_kill, app: app, split: split, first_bad_version: "1.3", fixed_version: "1.4")
+      subject = FactoryBot.build(:app_remote_kill, app:, split:, first_bad_version: "1.3", fixed_version: "1.4")
 
       expect(subject).to be_valid
     end
@@ -173,7 +173,7 @@ RSpec.describe AppRemoteKill do
       let(:app) { FactoryBot.create(:app) }
       let(:split) { FactoryBot.create(:split) }
       let!(:existing_remote_kill) do
-        FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: nil)
+        FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "1.0", fixed_version: nil)
       end
 
       it "returns remote_kills starting before app version" do
@@ -205,7 +205,7 @@ RSpec.describe AppRemoteKill do
       let(:app) { FactoryBot.create(:app) }
       let(:split) { FactoryBot.create(:split) }
       let!(:existing_remote_kill) do
-        FactoryBot.create(:app_remote_kill, app: app, split: split, first_bad_version: "1.0", fixed_version: "1.2")
+        FactoryBot.create(:app_remote_kill, app:, split:, first_bad_version: "1.0", fixed_version: "1.2")
       end
 
       it "doesn't return remote kills ending before app version" do

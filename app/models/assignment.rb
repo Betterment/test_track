@@ -33,7 +33,7 @@ class Assignment < ActiveRecord::Base
   end
 
   scope :for_active_splits, ->(as_of: nil) do
-    joins(:split).merge(Split.active(as_of: as_of))
+    joins(:split).merge(Split.active(as_of:))
   end
 
   scope :excluding_incomplete_features_for, ->(app_build) do
@@ -56,7 +56,7 @@ class Assignment < ActiveRecord::Base
   def variant_detail
     @variant_detail ||= begin
       detail = variant_details.select { |d| d.variant == variant }.first
-      detail || VariantDetail.new(split: split, variant: variant)
+      detail || VariantDetail.new(split:, variant:)
     end
   end
 
@@ -77,13 +77,13 @@ class Assignment < ActiveRecord::Base
 
   def previous_assignment_params
     {
-      variant: variant,
+      variant:,
       created_at: updated_at,
-      bulk_assignment_id: bulk_assignment_id,
-      individually_overridden: individually_overridden,
-      visitor_supersession_id: visitor_supersession_id,
-      context: context,
-      force: force
+      bulk_assignment_id:,
+      individually_overridden:,
+      visitor_supersession_id:,
+      context:,
+      force:
     }
   end
 

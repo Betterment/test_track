@@ -6,7 +6,7 @@ class Api::V4::AppIdentifiersController < UnauthenticatedApiController
     if app_identifier_claim.save
       visitor = app_identifier_claim.visitor
       app_build = app_identifier_claim.app_build
-      @active_splits = Split.for_presentation(app_build: app_build)
+      @active_splits = Split.for_presentation(app_build:)
       @visitor_id = visitor.id
       @assignments = visitor.assignments_for(app_build).includes(:split).order(:updated_at)
       @experience_sampling_weight = Rails.configuration.experience_sampling_weight

@@ -6,12 +6,12 @@ RSpec.describe BulkReassignment do
   let(:split) { FactoryBot.create(:split, registry: { foo: 50, bar: 50 }) }
   let(:assignment_attrs) do
     {
-      split: split,
+      split:,
       variant: :foo,
       mixpanel_result: "success",
       context: "original_context",
       individually_overridden: true,
-      visitor_supersession: visitor_supersession,
+      visitor_supersession:,
       bulk_assignment: old_bulk_assignment,
       created_at: 7.minutes.ago,
       updated_at: 7.minutes.ago,
@@ -21,11 +21,11 @@ RSpec.describe BulkReassignment do
   let!(:assignments) { FactoryBot.create_list(:assignment, 2, assignment_attrs) }
   let(:assignment) { assignments.first }
   let!(:other_assignment) { FactoryBot.create(:assignment, assignment_attrs) }
-  let(:bulk_assignment) { FactoryBot.create(:bulk_assignment, split: split, variant: :bar, created_at: 5.minutes.ago) }
+  let(:bulk_assignment) { FactoryBot.create(:bulk_assignment, split:, variant: :bar, created_at: 5.minutes.ago) }
   let!(:old_updated_at) { assignment.updated_at }
 
   it "reassigns multiple chosen assignments based on relation" do
-    bulk_reassignment = described_class.new(assignments: Assignment.where(id: assignments.map(&:id)), bulk_assignment: bulk_assignment)
+    bulk_reassignment = described_class.new(assignments: Assignment.where(id: assignments.map(&:id)), bulk_assignment:)
 
     expect(bulk_reassignment.save).to be true
 
@@ -39,7 +39,7 @@ RSpec.describe BulkReassignment do
   end
 
   it "reassigns multiple chosen assignments to bar based on array" do
-    bulk_reassignment = described_class.new(assignments: assignments, bulk_assignment: bulk_assignment)
+    bulk_reassignment = described_class.new(assignments:, bulk_assignment:)
 
     expect(bulk_reassignment.save).to be true
 
@@ -53,7 +53,7 @@ RSpec.describe BulkReassignment do
   end
 
   it "reassigns nothing with an empty array" do
-    bulk_reassignment = described_class.new(assignments: [], bulk_assignment: bulk_assignment)
+    bulk_reassignment = described_class.new(assignments: [], bulk_assignment:)
 
     expect(bulk_reassignment.save).to be true
 
@@ -61,7 +61,7 @@ RSpec.describe BulkReassignment do
   end
 
   context "when updating one assignment" do
-    subject! { described_class.create!(assignments: [assignment], bulk_assignment: bulk_assignment) }
+    subject! { described_class.create!(assignments: [assignment], bulk_assignment:) }
 
     before do
       assignment.reload

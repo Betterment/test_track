@@ -16,7 +16,7 @@ class SplitRegistry
   end
 
   def splits
-    Split.active(as_of: as_of)
+    Split.active(as_of:)
   end
 
   def experience_sampling_weight

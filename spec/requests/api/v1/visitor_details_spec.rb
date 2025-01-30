@@ -7,7 +7,7 @@ describe Api::V1::VisitorDetailsController do
   let!(:variant_detail) do
     FactoryBot.create(
       :variant_detail,
-      split: split,
+      split:,
       variant: 'enabled',
       display_name: 'Awesome feature is on',
       description: 'This awesome feature makes cool stuff happen.'
@@ -16,13 +16,13 @@ describe Api::V1::VisitorDetailsController do
 
   let(:identifier_type) { FactoryBot.create(:identifier_type, name: 'crazy_id') }
   let(:visitor) { FactoryBot.create(:visitor) }
-  let!(:identifier) { FactoryBot.create(:identifier, visitor: visitor, identifier_type: identifier_type, value: '3') }
+  let!(:identifier) { FactoryBot.create(:identifier, visitor:, identifier_type:, value: '3') }
 
   let!(:assignment) do
     FactoryBot.create(
       :assignment,
-      visitor: visitor,
-      split: split,
+      visitor:,
+      split:,
       variant: 'enabled',
       updated_at: Time.zone.parse('2017-04-05 14:00:00')
     )

@@ -23,7 +23,7 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
     end
 
     it "updates an existing feature completion with a well-formed request" do
-      feature_completion = FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "0.9")
+      feature_completion = FactoryBot.create(:app_feature_completion, app:, feature_gate:, version: "0.9")
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: { feature_gate: feature_gate.name, version: "1.0" }, as: :json
 
@@ -34,7 +34,7 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
     end
 
     it "destroys feature completions with null version via JSON request" do
-      FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
+      FactoryBot.create(:app_feature_completion, app:, feature_gate:, version: "1.0")
 
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: { feature_gate: feature_gate.name, version: nil }, as: :json
@@ -45,7 +45,7 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
     end
 
     it "destroys idempotently" do
-      FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
+      FactoryBot.create(:app_feature_completion, app:, feature_gate:, version: "1.0")
 
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: { feature_gate: feature_gate.name, version: nil }, as: :json
@@ -60,7 +60,7 @@ RSpec.describe Api::V2::Migrations::AppFeatureCompletionsController do
     end
 
     it "destroys feature completions with null version via URLENCODED request" do
-      FactoryBot.create(:app_feature_completion, app: app, feature_gate: feature_gate, version: "1.0")
+      FactoryBot.create(:app_feature_completion, app:, feature_gate:, version: "1.0")
 
       http_authenticate username: app.name, auth_secret: app.auth_secret
       post :create, params: { feature_gate: feature_gate.name, version: nil }

@@ -10,7 +10,7 @@ RSpec.describe 'admin can edit variant details' do
   let(:variant_screenshot) { Rails.root.join('spec', 'support', 'uploads', 'ttlogo.png') }
 
   before do
-    FactoryBot.create_list(:assignment, 2, split: split, variant: variant_to_retire)
+    FactoryBot.create_list(:assignment, 2, split:, variant: variant_to_retire)
     login
   end
 

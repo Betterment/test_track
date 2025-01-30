@@ -9,7 +9,7 @@ RSpec.describe Api::V1::AppVisitorConfigsController do
     it "has knocked-out weightings and it doesn't include a non-force assignment for a feature gate that isn't feature complete" do
       FactoryBot.create(
         :assignment,
-        visitor: visitor,
+        visitor:,
         split: feature_gate,
         variant: "true",
         context: "the_context",
@@ -31,7 +31,7 @@ RSpec.describe Api::V1::AppVisitorConfigsController do
     it "has real weightings and it includes a non-force assignment for a feature gate that is feature complete" do
       FactoryBot.create(
         :assignment,
-        visitor: visitor,
+        visitor:,
         split: feature_gate,
         variant: "true",
         context: "the_context",
@@ -40,8 +40,8 @@ RSpec.describe Api::V1::AppVisitorConfigsController do
 
       FactoryBot.create(
         :app_feature_completion,
-        feature_gate: feature_gate,
-        app: app,
+        feature_gate:,
+        app:,
         version: "0.1"
       )
 

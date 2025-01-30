@@ -19,7 +19,7 @@ class BulkAssignmentCreation
 
     Assignment.transaction do
       bulk_assignment.save!
-      BulkReassignment.create!(assignments: existing_assignments, bulk_assignment: bulk_assignment)
+      BulkReassignment.create!(assignments: existing_assignments, bulk_assignment:)
       assignment_creations.each(&:save!)
     end
     true
@@ -34,7 +34,7 @@ class BulkAssignmentCreation
   end
 
   def bulk_assignment
-    @bulk_assignment ||= admin.bulk_assignments.build(reason: reason, split: split, variant: variant, force: force)
+    @bulk_assignment ||= admin.bulk_assignments.build(reason:, split:, variant:, force:)
   end
 
   def new_identifier_creation_ratio
@@ -80,9 +80,9 @@ class BulkAssignmentCreation
       ArbitraryAssignmentCreation.new(
         visitor_id: identifier.visitor_id,
         split_name: split.name,
-        variant: variant,
+        variant:,
         bulk_assignment_id: bulk_assignment.id,
-        force: force
+        force:
       )
     end
   end
@@ -93,7 +93,7 @@ class BulkAssignmentCreation
 
   def existing_assignments
     ensure_identifiers
-    Assignment.where(visitor_id: existing_visitor_ids, split: split).where.not(
+    Assignment.where(visitor_id: existing_visitor_ids, split:).where.not(
       Assignment.arel_table[:variant].eq(variant)
       .and(Assignment.arel_table[:force].eq(force))
     )
@@ -116,7 +116,7 @@ class BulkAssignmentCreation
 
     @identifiers_fetched = true
     ids_to_assign.each do |i|
-      identifier = Identifier.find_or_initialize_by(identifier_type_id: identifier_type_id, value: i)
+      identifier = Identifier.find_or_initialize_by(identifier_type_id:, value: i)
       identifier.persisted? ? record_existing_visitor!(identifier) : persist_new_identifier!(identifier)
       identifier_ids << identifier.id
     end
@@ -149,7 +149,7 @@ class BulkAssignmentCreation
   end
 
   def existing_identifiers_count
-    Identifier.where(identifier_type: identifier_type).where(value: ids_to_assign).count
+    Identifier.where(identifier_type:).where(value: ids_to_assign).count
   end
 
   def most_identifiers_must_exist

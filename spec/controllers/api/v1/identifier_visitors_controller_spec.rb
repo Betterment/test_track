@@ -5,9 +5,9 @@ RSpec.describe Api::V1::IdentifierVisitorsController do
     let(:identifier_type) { FactoryBot.create(:identifier_type, name: "clown_id") }
     let(:split) { FactoryBot.create(:split, name: "what_time_is_it") }
     let(:assignment) do
-      FactoryBot.create(:assignment, split: split, variant: :hammer_time, context: "the_context", mixpanel_result: "success")
+      FactoryBot.create(:assignment, split:, variant: :hammer_time, context: "the_context", mixpanel_result: "success")
     end
-    let!(:identifier) { FactoryBot.create(:identifier, identifier_type: identifier_type, value: "1234", visitor: assignment.visitor) }
+    let!(:identifier) { FactoryBot.create(:identifier, identifier_type:, value: "1234", visitor: assignment.visitor) }
 
     it "responds with a visitor" do
       get :show, params: { identifier_type_name: "clown_id", identifier_value: "1234" }
@@ -21,7 +21,7 @@ RSpec.describe Api::V1::IdentifierVisitorsController do
     end
 
     it "responds with an empty assignments list for visitor with no assignments" do
-      identifier = FactoryBot.create(:identifier, identifier_type: identifier_type, value: "5678")
+      identifier = FactoryBot.create(:identifier, identifier_type:, value: "5678")
 
       get :show, params: { identifier_type_name: "clown_id", identifier_value: "5678" }
 
