@@ -12,19 +12,19 @@ RSpec.describe Api::V1::VisitorsController do
     context "with multiple assignments" do
       before do
         FactoryBot.create(:assignment,
-          visitor: visitor,
+          visitor:,
           split: split_1,
           variant: "control",
           context: "context_a",
           mixpanel_result: "success")
         FactoryBot.create(:assignment,
-          visitor: visitor,
+          visitor:,
           split: split_2,
           variant: "treatment",
           context: "context_b",
           mixpanel_result: "success")
         FactoryBot.create(:assignment,
-          visitor: visitor,
+          visitor:,
           split: allow_signup,
           variant: :true,
           context: "context_c",
@@ -79,7 +79,7 @@ RSpec.describe Api::V1::VisitorsController do
 
       it "includes an assignment when updated since decision" do
         split_1.create_decision!(variant: "treatment")
-        Assignment.find_by(visitor: visitor, split: split_1).update!(updated_at: Time.zone.now)
+        Assignment.find_by(visitor:, split: split_1).update!(updated_at: Time.zone.now)
 
         get :show, params: { id: visitor.id }
 

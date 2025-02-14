@@ -8,7 +8,7 @@ RSpec.describe VariantRetirement do
     {
       retiring_variant: "blue",
       split_id: split.id,
-      admin: admin
+      admin:
     }
   end
 
@@ -17,21 +17,21 @@ RSpec.describe VariantRetirement do
   describe "#save!" do
     before do
       allow(SecureRandom).to receive(:random_number).and_return(25, 75, 25, 75)
-      FactoryBot.create(:assignment, split: split, variant: :red)
-      FactoryBot.create(:assignment, split: split, variant: :yellow)
+      FactoryBot.create(:assignment, split:, variant: :red)
+      FactoryBot.create(:assignment, split:, variant: :yellow)
     end
 
     context "assignments exist to be retired" do
       before do
-        FactoryBot.create_list(:assignment, 4, split: split, variant: :blue)
+        FactoryBot.create_list(:assignment, 4, split:, variant: :blue)
       end
 
       it "creates one bulk assignment per active variant" do
         expect { subject.save! }
           .to change { BulkAssignment.count }.by(2)
 
-        red_bulk_assignment = BulkAssignment.find_by!(split: split, variant: :red)
-        yellow_bulk_assignment = BulkAssignment.find_by!(split: split, variant: :yellow)
+        red_bulk_assignment = BulkAssignment.find_by!(split:, variant: :red)
+        yellow_bulk_assignment = BulkAssignment.find_by!(split:, variant: :yellow)
 
         expect(red_bulk_assignment.reason).to eq "Retiring blue"
         expect(yellow_bulk_assignment.reason).to eq "Retiring blue"
@@ -49,9 +49,9 @@ RSpec.describe VariantRetirement do
       it "distributes the retiring assignments according to the active variant's weights" do
         subject.save!
 
-        expect(Assignment.where(split: split, variant: :red).count).to eq 3
-        expect(Assignment.where(split: split, variant: :yellow).count).to eq 3
-        expect(Assignment.where(split: split, variant: :blue).count).to eq 0
+        expect(Assignment.where(split:, variant: :red).count).to eq 3
+        expect(Assignment.where(split:, variant: :yellow).count).to eq 3
+        expect(Assignment.where(split:, variant: :blue).count).to eq 0
       end
 
       it "does not create bulk assignments for active variants that receive no new assignments" do

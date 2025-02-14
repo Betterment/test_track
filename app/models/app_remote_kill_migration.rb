@@ -57,7 +57,7 @@ class AppRemoteKillMigration
   private
 
   def app_remote_kill
-    @app_remote_kill ||= app.remote_kills.find_or_initialize_by(split: split_model, reason: reason)
+    @app_remote_kill ||= app.remote_kills.find_or_initialize_by(split: split_model, reason:)
   end
 
   def split_model

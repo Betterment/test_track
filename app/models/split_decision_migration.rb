@@ -16,7 +16,7 @@ class SplitDecisionMigration
 
   def save
     if valid?
-      split_model.create_decision!(variant: variant)
+      split_model.create_decision!(variant:)
       true
     else
       false

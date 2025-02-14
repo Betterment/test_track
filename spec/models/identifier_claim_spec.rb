@@ -5,7 +5,7 @@ RSpec.describe IdentifierClaim do
     let(:identifier_type) { FactoryBot.create(:identifier_type) }
     let(:visitor) { FactoryBot.create(:visitor) }
 
-    let(:existing_identifier) { FactoryBot.create(:identifier, identifier_type: identifier_type, value: "foobar") }
+    let(:existing_identifier) { FactoryBot.create(:identifier, identifier_type:, value: "foobar") }
     let(:existing_visitor) { existing_identifier.visitor }
 
     let(:unknown_uuid) { "ed33a00a-e10a-4c3f-b235-c529dfd8be8b" }
@@ -70,7 +70,7 @@ RSpec.describe IdentifierClaim do
     end
 
     it "doesn't create a new visitor when the incoming is identified and the target identity is claimed by another visitor" do
-      FactoryBot.create(:identifier, visitor: visitor, identifier_type: identifier_type, value: "987")
+      FactoryBot.create(:identifier, visitor:, identifier_type:, value: "987")
       existing_visitor
       allow(Visitor).to receive(:new).and_call_original
 
@@ -135,7 +135,7 @@ RSpec.describe IdentifierClaim do
     end
 
     it "finds an existing identifier when there is an identifier creation race condition" do
-      FactoryBot.create(:identifier, visitor: visitor, identifier_type: identifier_type, value: "123")
+      FactoryBot.create(:identifier, visitor:, identifier_type:, value: "123")
       allow(Identifier).to receive(:find_by).and_return nil
       allow(Identifier).to receive(:create!) do
         allow(Identifier).to receive(:find_by).and_call_original

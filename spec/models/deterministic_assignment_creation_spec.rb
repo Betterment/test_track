@@ -10,7 +10,7 @@ RSpec.describe DeterministicAssignmentCreation do
     {
       visitor_id: "bc8833fd-1bdc-4751-a13c-8aba0ef95a3b",
       split_name: "split",
-      mixpanel_result: mixpanel_result,
+      mixpanel_result:,
       context: "the_context"
     }
   end
@@ -69,10 +69,10 @@ RSpec.describe DeterministicAssignmentCreation do
 
       let!(:existing_assignment) do
         assignment = FactoryBot.create(:assignment,
-          split: split, variant: "variant3",
+          split:, variant: "variant3",
           visitor: Visitor.from_id("bc8833fd-1bdc-4751-a13c-8aba0ef95a3b"),
           mixpanel_result: original_mixpanel_result,
-          updated_at: updated_at)
+          updated_at:)
 
         assignment.reload
       end

@@ -21,6 +21,6 @@ class AdminSplitShowPage < SitePrism::Page
     element :edit_link, 'td:nth-of-type(4) a'
   end
   def edit_variant(text)
-    variants_table.find('tr', text: text).find('a').click
+    variants_table.find('tr', text:).find('a').click
   end
 end

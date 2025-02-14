@@ -7,7 +7,7 @@ RSpec.describe BatchArbitraryAssignmentCreation do
 
   let(:params) do
     {
-      visitor_id: visitor_id,
+      visitor_id:,
       assignments: [
         {
           split_name: "split",
@@ -36,7 +36,7 @@ RSpec.describe BatchArbitraryAssignmentCreation do
 
       expect(ArbitraryAssignmentCreation).to have_received(:create!).with(
         hash_including(
-          visitor_id: visitor_id,
+          visitor_id:,
           split_name: "split",
           variant: "variant1",
           context: "the_context"
@@ -45,7 +45,7 @@ RSpec.describe BatchArbitraryAssignmentCreation do
 
       expect(ArbitraryAssignmentCreation).to have_received(:create!).with(
         hash_including(
-          visitor_id: visitor_id,
+          visitor_id:,
           split_name: "split2",
           variant: "variant2",
           context: "the_context"
@@ -66,7 +66,7 @@ RSpec.describe BatchArbitraryAssignmentCreation do
     context "with force option" do
       let(:params) do
         {
-          visitor_id: visitor_id,
+          visitor_id:,
           assignments: [
             {
               split_name: "split",

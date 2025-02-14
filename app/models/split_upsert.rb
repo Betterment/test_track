@@ -7,8 +7,8 @@ class SplitUpsert
   validate :split_must_be_valid
 
   def save # rubocop:disable Metrics/AbcSize
-    split.assign_attributes(finished_at: finished_at, decided_at: decided_at, require_app_name_prefix: require_app_name_prefix)
-    split.assign_attributes(owner: owner) unless owner.nil?
+    split.assign_attributes(finished_at:, decided_at:, require_app_name_prefix:)
+    split.assign_attributes(owner:) unless owner.nil?
     split.reassign_weight(merged_registry) unless split.registry == merged_registry
     return false unless valid?
 
@@ -28,7 +28,7 @@ class SplitUpsert
   end
 
   def split
-    @split ||= app.splits.create_with(registry: merged_registry, feature_gate: feature_gate?).find_or_initialize_by(name: name)
+    @split ||= app.splits.create_with(registry: merged_registry, feature_gate: feature_gate?).find_or_initialize_by(name:)
   end
 
   def feature_gate?
@@ -46,7 +46,7 @@ class SplitUpsert
   end
 
   def found_split
-    @found_split ||= app.splits.find_by(name: name)
+    @found_split ||= app.splits.find_by(name:)
   end
 
   def split_must_be_valid

@@ -58,12 +58,12 @@ RSpec.describe AppIdentifierClaim do
 
     it "returns true when the IdentifierClaim saves successfully" do
       app_build = instance_double(App::Build)
-      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build: app_build)
+      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build:)
       allow(AppVersionBuildPath).to receive(:new).and_return app_version_build_path
 
       visitor = instance_double(Visitor)
-      identifier = instance_double(Identifier, visitor: visitor)
-      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier: identifier)
+      identifier = instance_double(Identifier, visitor:)
+      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier:)
       allow(IdentifierClaim).to receive(:new).and_return identifier_claim
 
       claim = described_class.new create_params
@@ -80,12 +80,12 @@ RSpec.describe AppIdentifierClaim do
 
     it "returns the identifier claim's identifier visitor after save" do
       app_build = instance_double(App::Build)
-      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build: app_build)
+      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build:)
       allow(AppVersionBuildPath).to receive(:new).and_return app_version_build_path
 
       visitor = instance_double(Visitor)
-      identifier = instance_double(Identifier, visitor: visitor)
-      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier: identifier)
+      identifier = instance_double(Identifier, visitor:)
+      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier:)
       allow(IdentifierClaim).to receive(:new).and_return identifier_claim
 
       claim = described_class.new create_params
@@ -103,12 +103,12 @@ RSpec.describe AppIdentifierClaim do
 
     it "returns the app version build path's app build after save" do
       app_build = instance_double(App::Build)
-      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build: app_build)
+      app_version_build_path = instance_double(AppVersionBuildPath, valid?: true, app_build:)
       allow(AppVersionBuildPath).to receive(:new).and_return app_version_build_path
 
       visitor = instance_double(Visitor)
-      identifier = instance_double(Identifier, visitor: visitor)
-      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier: identifier)
+      identifier = instance_double(Identifier, visitor:)
+      identifier_claim = instance_double(IdentifierClaim, valid?: true, save!: true, identifier:)
       allow(IdentifierClaim).to receive(:new).and_return identifier_claim
 
       claim = described_class.new create_params

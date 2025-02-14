@@ -7,7 +7,7 @@ RSpec.describe AppRemoteKillMigration do
 
   it "creates AppRemoteKills" do
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -28,7 +28,7 @@ RSpec.describe AppRemoteKillMigration do
   it "updates existing AppRemoteKills" do
     remote_kill = FactoryBot.create(
       :app_remote_kill,
-      app: app,
+      app:,
       split: feature_gate,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -36,7 +36,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -53,7 +53,7 @@ RSpec.describe AppRemoteKillMigration do
   it "destroys remote kills with null first_bad_version" do
     FactoryBot.create(
       :app_remote_kill,
-      app: app,
+      app:,
       split: feature_gate,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -61,7 +61,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -77,7 +77,7 @@ RSpec.describe AppRemoteKillMigration do
   it "destroys remote kills with empty string first_bad_version" do
     FactoryBot.create(
       :app_remote_kill,
-      app: app,
+      app:,
       split: feature_gate,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -85,7 +85,7 @@ RSpec.describe AppRemoteKillMigration do
       fixed_version: nil
     )
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -100,7 +100,7 @@ RSpec.describe AppRemoteKillMigration do
 
   it "nullifies fixed_version with an empty string for URLEncoded compatibility" do
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -116,7 +116,7 @@ RSpec.describe AppRemoteKillMigration do
 
   it "is invalid with no split" do
     subject = described_class.new(
-      app: app,
+      app:,
       split: "nonexistant_split",
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -130,7 +130,7 @@ RSpec.describe AppRemoteKillMigration do
 
   it "is invalid with no split on delete" do
     subject = described_class.new(
-      app: app,
+      app:,
       split: "nonexistant_split",
       reason: "my_giant_bug_2019",
       override_to: "false",
@@ -144,7 +144,7 @@ RSpec.describe AppRemoteKillMigration do
 
   it "is invalid with no reason" do
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "",
       override_to: "false",
@@ -157,9 +157,9 @@ RSpec.describe AppRemoteKillMigration do
   end
 
   it "is invalid with no reason on delete" do
-    FactoryBot.create(:app_remote_kill, app: app, split: feature_gate)
+    FactoryBot.create(:app_remote_kill, app:, split: feature_gate)
     subject = described_class.new(
-      app: app,
+      app:,
       split: feature_gate.name,
       reason: "",
       override_to: "false",

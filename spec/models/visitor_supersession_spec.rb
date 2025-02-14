@@ -14,7 +14,7 @@ RSpec.describe VisitorSupersession do
   describe "#save!" do
     it "doesn't merge feature gate assignments to ensure nobody piggybacks on a privileged identity to get into a closed feature gate" do
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: feature_gate,
         variant: "true",
         mixpanel_result: "success",
@@ -22,13 +22,13 @@ RSpec.describe VisitorSupersession do
 
       described_class.create!(superseded_visitor: visitor, superseding_visitor: existing_visitor)
 
-      expect(Assignment.where(visitor: visitor, split: feature_gate)).to be_present
+      expect(Assignment.where(visitor:, split: feature_gate)).to be_present
       expect(Assignment.where(visitor: existing_visitor, split: feature_gate)).not_to be_present
     end
 
     it "merges non-decided non-feature-gates to attempt to preserve user experience of experiments that span signup/auth" do
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: torque_split,
         variant: "rear",
         mixpanel_result: "success",
@@ -44,7 +44,7 @@ RSpec.describe VisitorSupersession do
 
     it "doesn't merge decided non-feature-gates in a way that overrides the decision" do
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: decided_split,
         variant: "bad_thing",
         mixpanel_result: "success",
@@ -53,8 +53,8 @@ RSpec.describe VisitorSupersession do
 
       described_class.create!(superseded_visitor: visitor, superseding_visitor: existing_visitor)
 
-      expect(Assignment.for_presentation.where(visitor: visitor, split: decided_split)).not_to be_present
-      expect(Assignment.where(visitor: visitor, split: decided_split)).to be_present
+      expect(Assignment.for_presentation.where(visitor:, split: decided_split)).not_to be_present
+      expect(Assignment.where(visitor:, split: decided_split)).to be_present
 
       expect(Assignment.for_presentation.where(visitor: existing_visitor, split: decided_split)).not_to be_present
       # expect(Assignment.where(visitor: existing_visitor, split: decided_split)).to HAVE_AS_YET_UNDEFINED_BEHAVIOR
@@ -62,7 +62,7 @@ RSpec.describe VisitorSupersession do
 
     it "doesn't merge assignments that already exist on the target visitor" do
       FactoryBot.create(:assignment,
-        visitor: visitor,
+        visitor:,
         split: banana_split,
         variant: "green",
         context: "context1")

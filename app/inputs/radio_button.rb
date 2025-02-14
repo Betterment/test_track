@@ -19,7 +19,7 @@ module RadioButton
     description = options[:description]
     completed_css_class = description ? 'with-description completed' : 'completed'
 
-    @builder.template.content_tag item_wrapper_tag, class: completed_css_class, data: { value: value } do
+    @builder.template.content_tag item_wrapper_tag, class: completed_css_class, data: { value: } do
       html = @builder.template.content_tag :div, class: "completed-radio-button" do
         template.content_tag :div, class: "radio-check" do
           @builder.template.content_tag(:img, nil, src: ActionController::Base.helpers.image_path('icons/checked_radio_button.svg'))
@@ -35,9 +35,9 @@ module RadioButton
     description = options[:description]
     css_class = css_class(selected, disabled)
 
-    @builder.template.content_tag item_wrapper_tag, class: css_class, data: { value: value } do
+    @builder.template.content_tag item_wrapper_tag, class: css_class, data: { value: } do
       html = @builder.template.content_tag :div, class: "radio-button #{value}" do
-        template.radio_button(object_name, attribute_name, value, checked: selected, disabled: disabled)
+        template.radio_button(object_name, attribute_name, value, checked: selected, disabled:)
       end
       html << add_label(label) << add_description(description, disabled)
     end

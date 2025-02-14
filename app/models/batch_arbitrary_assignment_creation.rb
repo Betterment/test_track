@@ -15,7 +15,7 @@ class BatchArbitraryAssignmentCreation
     ActiveRecord::Base.transaction do
       assignments.each do |assignment|
         ArbitraryAssignmentCreation.create!(
-          assignment.merge(visitor_id: visitor_id, force: force, mixpanel_result: 'success')
+          assignment.merge(visitor_id:, force:, mixpanel_result: 'success')
         )
       end
     end

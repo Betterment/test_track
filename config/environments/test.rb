@@ -29,7 +29,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = false
+  config.action_dispatch.show_exceptions = :none
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
@@ -62,7 +62,7 @@ ENV['PUMA_WORKER_COUNT'] ||= '0'
 ENV['PUMA_THREAD_COUNT'] ||= '5'
 
 ENV['SAML_ISSUER'] = 'something'
-ENV['IDP_SSO_TARGET_URL'] = 'http://example.org/my_sso_url'
+ENV['IDP_SSO_SERVICE_URL'] = 'http://example.org/my_sso_url'
 ENV['IDP_CERT_FINGERPRINT'] = '00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00:00'
 
 ENV['LOCAL_UPLOAD_PATH'] = ':rails_root/tmp/test_uploads/:class/:attachment/:id_partition/:style/:filename'
