@@ -1,7 +1,8 @@
 <h1 class="my-5">Split: <%= @split.name %></h1>
 
+<%= render partial: "info", locals: { split: @split } %>
 <%= render partial: "details", locals: { split: @split } %>
-<%= render partial: "test_overview", locals: { split: @split } %>
+<%= render partial: "experiment", locals: { split: @split } unless @split.feature_gate? %>
 <%= render partial: "variants", locals: { split: @split } %>
 <%= render partial: "feature_completions", locals: { split: @split } %>
 <%= render partial: "remote_kills", locals: { split: @split } %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_13_191054) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -119,6 +119,20 @@ ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "experiment_details", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
+    t.uuid "split_id", null: false
+    t.string "control_variant"
+    t.date "start_date"
+    t.date "end_date"
+    t.text "description"
+    t.text "hypothesis"
+    t.text "assignment_criteria"
+    t.text "takeaways"
+    t.json "tests", default: []
+    t.json "segments", default: []
+    t.index ["split_id"], name: "index_experiment_details_on_split_id"
+  end
+
   create_table "identifier_types", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
     t.string "name"
     t.uuid "owner_app_id"
@@ -172,9 +186,6 @@ ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
     t.datetime "updated_at"
     t.datetime "finished_at"
     t.json "registry", null: false
-    t.text "hypothesis"
-    t.text "assignment_criteria"
-    t.text "description"
     t.string "owner"
     t.string "location"
     t.integer "platform"
@@ -224,6 +235,7 @@ ActiveRecord::Schema[7.0].define(version: 2019_04_13_210327) do
   add_foreign_key "assignments", "visitors"
   add_foreign_key "bulk_assignments", "admins"
   add_foreign_key "bulk_assignments", "splits"
+  add_foreign_key "experiment_details", "splits"
   add_foreign_key "identifier_types", "apps", column: "owner_app_id"
   add_foreign_key "identifiers", "identifier_types"
   add_foreign_key "identifiers", "visitors"
