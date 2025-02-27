@@ -17,8 +17,9 @@ class AdminSplitShowPage < SitePrism::Page
   sections :variants, ".fs-VariantsTable tbody tr" do
     element :name, 'td:nth-of-type(1)'
     element :description, 'td:nth-of-type(2)'
-    element :weight, 'td:nth-of-type(3)'
-    element :edit_link, 'td:nth-of-type(4) a'
+    element :screenshot, 'td:nth-of-type(3)'
+    element :weight, 'td:nth-of-type(4)'
+    element :edit_link, 'td:nth-of-type(5) a'
   end
   def edit_variant(text)
     variants_table.find('tr', text:).find('a').click

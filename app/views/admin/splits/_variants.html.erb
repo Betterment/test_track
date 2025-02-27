@@ -9,6 +9,9 @@
       <thead>
         <th>Name</th>
         <th>Description</th>
+        <% if TestTrack::AttachmentSettings.attachments_enabled? %>
+          <th>Screenshot</th>
+        <% end %>
         <th>Weight (Assignee Count)</th>
         <th></th>
       </thead>
@@ -17,6 +20,9 @@
           <tr>
             <td><%= variant_detail.display_name %></td>
             <td><%= variant_detail.description %></td>
+            <% if TestTrack::AttachmentSettings.attachments_enabled? %>
+              <td><%= link_to(variant_detail.filename, variant_screenshot_path(variant_detail), target: '_blank') if variant_detail.screenshot_file_name? %></td>
+            <% end %>
             <td><%= variant_detail.weight %>%(<%= variant_detail.assignment_count %>)</td>
             <td><%= link_to 'edit', edit_admin_split_variant_detail_path(split, variant_detail.variant) %></td>
           </tr>

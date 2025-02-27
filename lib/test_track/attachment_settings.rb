@@ -19,7 +19,7 @@ module TestTrack
     end
 
     def max_size
-      ENV['ATTACHMENT_MAX_SIZE'] || 512.kilobytes
+      ENV['ATTACHMENT_MAX_SIZE']&.to_i || 1.megabyte
     end
 
     private
