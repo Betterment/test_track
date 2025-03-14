@@ -37,7 +37,7 @@ RSpec.describe Api::V1::SplitDetailsController do
     end
 
     context 'with split details' do
-      let(:split_with_details) { FactoryBot.create(:split, registry: { enabled: 99, disabled: 1 }, name: "fantastic_split_with_information", platform: 'mobile', description: 'Greatest Split', assignment_criteria: "Must love problem solvers", hypothesis: 'Will solve all problems', location: 'Everywhere', owner: 'Me') } # rubocop:disable Metrics/LineLength
+      let(:split_with_details) { FactoryBot.create(:split, registry: { enabled: 99, disabled: 1 }, name: "fantastic_split_with_information", platform: 'mobile', location: 'Everywhere', owner: 'Me') } # rubocop:disable Metrics/LineLength
 
       let!(:variant_detail_a) do
         FactoryBot.create(
@@ -64,12 +64,11 @@ RSpec.describe Api::V1::SplitDetailsController do
 
         expect(response_json).to include(
           "name" => split_with_details.name,
-          "hypothesis" => split_with_details.hypothesis,
-          "location" => split_with_details.location,
-          "assignment_criteria" => split_with_details.assignment_criteria,
           "platform" => split_with_details.platform,
-          "description" => split_with_details.description,
-          "owner" => split_with_details.owner
+          "owner" => split_with_details.owner,
+          "description" => nil,
+          "hypothesis" => nil,
+          "assignment_criteria" => nil,
         )
 
         expect(response_json['variant_details'][0]).to eq(
@@ -83,6 +82,27 @@ RSpec.describe Api::V1::SplitDetailsController do
         )
 
         expect(response_json['variant_details'][1]['screenshot_url']).to include 'ttlogo.png'
+      end
+
+      context 'when an experiment detail is present' do
+        let!(:experiment_detail) do
+          ExperimentDetail.create!(
+            split: split_with_details,
+            description: 'Greatest Split',
+            assignment_criteria: "Must love problem solvers",
+            hypothesis: 'Will solve all problems',
+          )
+        end
+
+        it 'responds with the experiment details' do
+          get "/api/v1/split_details/#{split_with_details.name}"
+
+          expect(response_json).to include(
+            "description" => split_with_details.description,
+            "hypothesis" => experiment_detail.hypothesis,
+            "assignment_criteria" => experiment_detail.assignment_criteria,
+          )
+        end
       end
     end
 

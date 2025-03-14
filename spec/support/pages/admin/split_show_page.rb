@@ -4,12 +4,16 @@ class AdminSplitShowPage < SitePrism::Page
   element :population_count, "tr.population-row span.population"
 
   element :change_weights, ".change-weights-link"
-  element :add_details, ".add-details-link"
   element :edit_details, ".edit-details-link"
+  element :add_experiment_details, ".add-experiment-details-link"
   element :decide_split, ".decide-split-link"
   element :upload_new_assignments, ".upload-new-assignments-link"
 
-  section :test_overview, ".fs-SplitOverview" do
+  section :split_overview, ".fs-SplitOverview" do
+    element :table, ".DescriptionTable"
+  end
+
+  section :experiment_details, ".fs-SplitExperiment" do
     element :table, ".DescriptionTable"
   end
 

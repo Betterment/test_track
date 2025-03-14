@@ -14,6 +14,6 @@ class Admin::DecisionsController < AuthenticatedAdminController
   private
 
   def decision_params
-    params.require(:decision).permit(:variant)
+    params.require(:decision).permit(:variant, :takeaways)
   end
 end
