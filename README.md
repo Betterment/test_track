@@ -31,7 +31,7 @@ The TestTrack system consists of the following components:
 The list of requirements to configure a TestTrack server are:
   * Ruby 2.2.3+
   * Postgresql 9.4+
-  * NodeJS 14.19.1+
+  * NodeJS 22.14.0+
 
 ### Installation
 
