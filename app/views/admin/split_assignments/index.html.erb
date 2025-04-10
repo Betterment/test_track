@@ -1,0 +1,27 @@
+<article class="InfoCard py-5">
+  <div class="InfoCard-titleContainer">
+    <h1> <%= @split_name %> Assignments</h1>
+  </div>
+  <hr class="InfoCard-divider">
+  <div class="InfoCard-description">
+    <table class="FormulaTable">
+      <thead>
+        <tr><th colspan=2>Match visitor by</th><th>Set split to</th></tr>
+        <tr><th>attribute</th><th>value</th><th>variant</th></tr>
+      </thead>
+      <tbody>
+        <% @assignments.group_by(&:variant).each do |variant, assignments| %>
+          <% assignments.map(&:visitor).flat_map(&:identifiers).group_by { |identifier| identifier.identifier_type }.each do |type, identifiers| %>
+            <% identifiers.each do |identifier| %>
+              <tr>
+              <td ><%= type.name%></td>
+              <td ><%= identifier.value%></td>
+              <td><%= variant %></td>
+              </tr>
+              <%end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</article>
