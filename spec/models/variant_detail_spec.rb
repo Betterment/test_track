@@ -64,6 +64,26 @@ RSpec.describe VariantDetail do
     end
   end
 
+  describe '#filename' do
+    subject { described_class.new(split: split, variant: 'my_treatment') }
+
+    it 'returns null' do
+      expect(subject.filename).to be_nil
+    end
+
+    context 'when a screenshot is attached' do
+      before do
+        subject.screenshot_file_name = 'screenshot.png'
+        subject.screenshot_content_type = 'image/png'
+        subject.screenshot_file_size = 1_234
+      end
+
+      it 'returns the variant name and the file extension' do
+        expect(subject.filename).to eq 'my_treatment.png'
+      end
+    end
+  end
+
   describe '#valid?' do
     context 'with a variant that exists' do
       subject { FactoryBot.build(:variant_detail, split:, variant: 'true') }

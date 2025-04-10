@@ -105,7 +105,6 @@ Rails.application.routes.draw do
     devise_for :admins
   end
 
-
   namespace :admin do
     root 'splits#index'
     resources :splits, only: [:show] do
@@ -117,6 +116,7 @@ Rails.application.routes.draw do
         resource :retirement, only: [:create], controller: 'variant_retirements'
       end
       resources :variant_details, only: [:edit, :update]
+      resources :screenshots, only: [:show]
     end
   end
 end
