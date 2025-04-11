@@ -14,9 +14,9 @@
           <% assignments.map(&:visitor).flat_map(&:identifiers).group_by { |identifier| identifier.identifier_type }.each do |type, identifiers| %>
             <% identifiers.each do |identifier| %>
               <tr>
-              <td ><%= type.name%></td>
-              <td ><%= identifier.value%></td>
-              <td><%= variant %></td>
+                <td><%= type.name %></td>
+                <td><%= identifier.value %></td>
+                <td><%= variant %></td>
               </tr>
               <%end %>
           <% end %>
