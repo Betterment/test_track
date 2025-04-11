@@ -10,7 +10,8 @@
         <td>Population Size</td>
         <td>
           <span class='population'>
-            <%= @split.assignments.count %><% if @split.feature_gate? %>* [<a href="#gate_population">feature gate</a>]<% end %>
+            <%= link_to @split.assignments.count, admin_split_assignments_path(@split) %>
+            <% if @split.feature_gate? %>* [<a href="#gate_population">feature gate</a>]<% end %>
           </span>
         </td>
         <td>

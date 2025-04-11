@@ -111,6 +111,7 @@ Rails.application.routes.draw do
     resources :splits, only: [:show] do
       resource :details, only: [:edit, :update], controller: 'split_details'
       resource :split_config, only: [:new, :create]
+      resources :assignments, only: [:index], controller: 'split_assignments'
       resources :bulk_assignments, only: [:new, :create]
       resources :decisions, only: [:new, :create]
       resources :variants, only: [] do
