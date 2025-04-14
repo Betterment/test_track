@@ -129,6 +129,16 @@ mixin for generating a standard table
   @include standard-table(100%, 15%, 45%);
 }
 
+.FormulaTable {
+  @include standard-table(100%, 15%, 45%);
+  thead tr:first-child:not(tr:last-child) th {
+    border-bottom: none
+  }
+  tr td:last-child, th:last-child {
+    border-left: 4px double var(--color-border-default);
+  }
+}
+
 .EmptyTable {
   &--centered {
     text-align: center;

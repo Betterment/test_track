@@ -23,7 +23,7 @@ class FlashComponent < ViewComponent::Base
   end
 
   def flash_types
-    %i(error success)
+    %i(error success warning)
   end
 
   def scheme_types
