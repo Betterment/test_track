@@ -43,7 +43,7 @@ The list of requirements to configure a TestTrack server are:
 
 1. `git clone https://github.com/Betterment/test_track`
 1. `bundle install`
-1. `yarn install`
+1. `pnpm install`
 1. `bundle exec rake db:setup`
 1. `bin/dev`
 

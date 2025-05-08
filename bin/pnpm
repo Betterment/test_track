@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+APP_ROOT = File.expand_path('..', __dir__)
+Dir.chdir(APP_ROOT) do
+  begin
+    exec "pnpm", *ARGV
+  rescue Errno::ENOENT
+    $stderr.puts "pnpm executable was not detected in the system."
+    $stderr.puts "Install pnpm with: npm install -g pnpm"
+    exit 1
+  end
+end
