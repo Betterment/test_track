@@ -9,8 +9,11 @@ importers:
   .:
     dependencies:
       '@primer/css':
-        specifier: ^20.8.3
-        version: 20.8.3
+        specifier: ^21.5.1
+        version: 21.5.1(@primer/primitives@10.6.0)
+      '@primer/primitives':
+        specifier: ^10.6.0
+        version: 10.6.0
       '@primer/view-components':
         specifier: ^0.1.0
         version: 0.1.0
@@ -59,15 +62,14 @@ packages:
   '@primer/behaviors@1.3.3':
     resolution: {integrity: sha512-iHMRuu8YWDJIdqCi1krx0cyFNeqszNKTOb0dXFu2wQ5BeIqxqPJLD7rjZ2Vjf/+YaPSbWuIQE1H6TaGMMsDfdA==}
 
-  '@primer/css@20.8.3':
-    resolution: {integrity: sha512-jXF6l3Cjks6PkWTKbSkrg2h/pE+w/HVXZCpDkLcZB3P1d1cAaK8LXeVVBVWSjnKWIMfiNzyHcx1CTUtj5T4Ivg==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
+  '@primer/css@21.5.1':
+    resolution: {integrity: sha512-/dw7P2eHbLEq77E6WVhVPud/HtyzAzlQgX6f8HQ/i0l1r5EZeh9r7/THgMUt0MgdSlJb7t+WT+V+zN8EDkU9mw==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      '@primer/primitives': 9.x || 10.x
 
-  '@primer/primitives@7.11.1':
-    resolution: {integrity: sha512-Sdss4XG96nqBqrTAyg+RuFOj+U5wkICK8n2hafcyT+lpSlZoIwcbmhyFjmDy9f88FkhHe2q0uCpQ8PjKd8ILTQ==}
-
-  '@primer/view-components@0.0.120':
-    resolution: {integrity: sha512-C90cNtB3Zl8B+nLPkztYYMBNTaGxUWLrVroG3a8dIEcpGdEZOhsOPOfeptpyPMolX7DWag/hfzBXBp0i7TawDg==}
+  '@primer/primitives@10.6.0':
+    resolution: {integrity: sha512-W5fyBRS/Q0TVSkhaOQ5W4psAXfXhPoWzdgzDQz0lTyNFZTUM8+LbW6xEAigYusiFl15aMPZCLJ/fZlUDOUvvyg==}
 
   '@primer/view-components@0.1.0':
     resolution: {integrity: sha512-wunGnMDsuEmilPj2A05+kwhOsy49mTmLLq4sgzZ6Do5qh6eIDSvZXIv8HcgjvDk33JcBgEtLgnPu/GTLz910aA==}
@@ -177,25 +179,11 @@ snapshots:
 
   '@primer/behaviors@1.3.3': {}
 
-  '@primer/css@20.8.3':
+  '@primer/css@21.5.1(@primer/primitives@10.6.0)':
     dependencies:
-      '@primer/primitives': 7.11.1
-      '@primer/view-components': 0.0.120
+      '@primer/primitives': 10.6.0
 
-  '@primer/primitives@7.11.1': {}
-
-  '@primer/view-components@0.0.120':
-    dependencies:
-      '@github/auto-check-element': 5.2.0
-      '@github/auto-complete-element': 3.3.4
-      '@github/catalyst': 1.6.0
-      '@github/clipboard-copy-element': 1.1.2
-      '@github/details-menu-element': 1.0.13
-      '@github/image-crop-element': 5.0.0
-      '@github/mini-throttle': 2.1.0
-      '@github/relative-time-element': 4.2.1
-      '@github/tab-container-element': 3.2.0
-      '@primer/behaviors': 1.3.3
+  '@primer/primitives@10.6.0': {}
 
   '@primer/view-components@0.1.0':
     dependencies:
