@@ -5,9 +5,14 @@ require "rails"
 require "active_model/railtie"
 require "active_job/railtie"
 require "active_record/railtie"
+# require "active_storage/engine"
 require "action_controller/railtie"
 require "action_mailer/railtie"
+# require "action_mailbox/engine"
+# require "action_text/engine"
 require "action_view/railtie"
+# require "action_cable/engine"
+# require "rails/test_unit/railtie"
 require "sprockets/railtie"
 require 'view_component'
 require 'primer/view_components/engine'
@@ -18,23 +23,15 @@ Bundler.require(*Rails.groups)
 
 module TestTrack
   class Application < Rails::Application
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
-
-    config.load_defaults 7.0
+    # Initialize configuration defaults for originally generated Rails version.
+    config.load_defaults 7.1
 
     config.log_tags = [:host, :uuid]
 
     config.cache_store = :memory_store
+
+    # Don't generate system test files.
+    config.generators.system_tests = nil
 
     config.active_job.queue_adapter = :delayed_job
 
@@ -52,5 +49,15 @@ module TestTrack
         EXPERIENCE_SAMPLING_WEIGHT, if specified, must be greater than or equal to 0. Use 0 to disable experience events.
       TEXT
     end
+
+    ###
+    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
+    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
+    #
+    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
+    # of the bootsnap cache if you use it.
+    config.add_autoload_paths_to_load_path = false
+
+    config.active_support.cache_format_version = 7.1
   end
 end
