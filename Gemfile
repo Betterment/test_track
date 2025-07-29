@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-pop', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-imap', require: false # required on Rails 6 for Ruby 3.1+ support
@@ -56,8 +56,7 @@ gem 'with_transactional_lock'
 
 gem 'bootsnap', '>= 1.3.0', require: false
 
-# Avoid deprecation notices by pinning mail to Ruby 2.7.5 compatible version
-gem 'mail', '~> 2.7.1'
+gem 'mail'
 
 gem 'sprockets-rails'
 
