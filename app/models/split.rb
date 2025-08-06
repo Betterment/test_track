@@ -22,7 +22,7 @@ class Split < ActiveRecord::Base
   validate :registry_weights_must_be_integers
   validate :registry_must_have_winning_variant_if_decided
 
-  enum platform: %i(mobile desktop)
+  enum :platform, %i(mobile desktop)
 
   before_validation :cast_registry
 
