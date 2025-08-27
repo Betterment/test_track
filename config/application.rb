@@ -24,7 +24,7 @@ Bundler.require(*Rails.groups)
 module TestTrack
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.1
+    config.load_defaults 7.2
 
     config.log_tags = [:host, :uuid]
 
@@ -59,5 +59,17 @@ module TestTrack
     config.add_autoload_paths_to_load_path = false
 
     config.active_support.cache_format_version = 7.1
+
+    # Rails 7.2 Default overrides
+    #
+    # TODO: We can get rid of this line once test_track is on Rails 8 (see: https://github.com/rails/rails/pull/53375)
+    config.active_job.enqueue_after_transaction_commit = :never
+
+    ###
+    # Enables YJIT as of Ruby 3.3, to bring sizeable performance improvements. If you are
+    # deploying to a memory constrained environment you may want to set this to `false`.
+    #++
+    # TODO: Setting this `false`, so this can be tested and opted into later.
+    config.yjit = false
   end
 end
