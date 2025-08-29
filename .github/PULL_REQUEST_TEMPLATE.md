@@ -12,5 +12,3 @@ request, mention that information here. This could include
 benchmarks, or other information.
 
 > Thanks for contributing to TestTrack!
-
-/domain @Betterment/test_track_core 
