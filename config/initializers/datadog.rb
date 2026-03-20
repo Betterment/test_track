@@ -1,5 +1,5 @@
 if ENV['DATADOG_ENABLED']
-  require 'ddtrace'
+  require 'datadog'
 
   service_name = Rails.application.class.module_parent_name.underscore
 

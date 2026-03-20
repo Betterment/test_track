@@ -6,6 +6,8 @@ gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-pop', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'net-imap', require: false # required on Rails 6 for Ruby 3.1+ support
 gem 'psych', '< 4' # required on Rails 6 for Ruby 3.1+ support
+gem 'observer', require: false # required for Ruby 3.4+ (removed from default gems)
+gem 'ostruct' # required for Ruby 3.4+ (removed from default gems)
 
 # Use postgresql as the database for Active Record
 gem 'pg'
@@ -33,7 +35,7 @@ gem 'rack-timeout'
 gem 'airbrake', '~> 7.3.5', require: false
 gem 'sentry-raven', require: false
 
-gem 'ddtrace', require: false
+gem 'datadog', require: false
 
 gem 'rails_semantic_logger', require: false
 
