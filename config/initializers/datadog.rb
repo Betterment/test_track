@@ -11,7 +11,7 @@ if ENV['DATADOG_ENABLED']
     c.version = ENV['GIT_COMMIT'] if ENV['GIT_COMMIT']
 
     c.service = service_name
-    c.tracing.enabled = Rails.env.production? || ENV['DD_AGENT_HOST'].present?
+    c.tracing.enabled = Rails.env.production? || ENV['DD_TRACE_AGENT_URL'].present?
     c.tracing.analytics.enabled = true
 
     c.tracing.instrument :rails, service_name:, distributed_tracing: true
