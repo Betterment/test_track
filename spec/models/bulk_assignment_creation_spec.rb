@@ -289,7 +289,7 @@ RSpec.describe BulkAssignmentCreation do
       expect(previous_assignment.individually_overridden).to be false
     end
 
-    it "maintains the individually_overridden dirty flag across bulk assignments" do
+    it "clears the individually_overridden flag across bulk assignments" do
       assignment.update(individually_overridden: true, context: "individually_overridden")
 
       subject.save
@@ -297,7 +297,7 @@ RSpec.describe BulkAssignmentCreation do
       current_assignment = Assignment.find_by(visitor:)
       previous_assignment = current_assignment.previous_assignments.first
 
-      expect(current_assignment.individually_overridden).to be true
+      expect(current_assignment.individually_overridden).to be false
       expect(current_assignment.context).to eq "bulk_assignment"
       expect(previous_assignment.individually_overridden).to be true
       expect(previous_assignment.context).to eq "individually_overridden"
