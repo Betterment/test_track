@@ -21,8 +21,8 @@ jobs:
         image: postgres:18
         env:
           POSTGRES_USER: runner
-          POSTGRES_PASSWORD: "password"
           POSTGRES_DB: test_track_test
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         options: >-
