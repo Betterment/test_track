@@ -18,15 +18,15 @@ jobs:
         ruby: ['3.2', '3.3', '3.4']
     services:
       postgres:
-        image: postgres:11.0
+        image: postgres:18
         env:
           POSTGRES_USER: runner
-          POSTGRES_PASSWORD: ""
           POSTGRES_DB: test_track_test
+          POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
         options: >-
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
+          --mount type=tmpfs,destination=/var/lib/postgresql/18/docker
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
