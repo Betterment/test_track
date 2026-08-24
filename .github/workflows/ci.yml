@@ -18,7 +18,7 @@ jobs:
         ruby: ['3.2', '3.3', '3.4']
     services:
       postgres:
-        image: postgres:11.0
+        image: postgres:18
         env:
           POSTGRES_USER: runner
           POSTGRES_PASSWORD: ""
