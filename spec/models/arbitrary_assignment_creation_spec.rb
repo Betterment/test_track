@@ -233,15 +233,15 @@ RSpec.describe ArbitraryAssignmentCreation do
         end
       end
 
-      it "remains during a bulk assignment" do
+      it "is cleared during a bulk assignment" do
         existing_assignment = FactoryBot.create(:assignment, existing_assignment_params.merge(individually_overridden: true))
         bulk_assignment = FactoryBot.create(:bulk_assignment, split: existing_assignment_params[:split])
 
         ArbitraryAssignmentCreation.create!(params.merge(bulk_assignment_id: bulk_assignment.id))
 
         expect(existing_assignment.reload.bulk_assignment).to eq bulk_assignment
-        expect(existing_assignment).to be_individually_overridden
-        expect(existing_assignment.context).to eq "individually_overridden"
+        expect(existing_assignment).not_to be_individually_overridden
+        expect(existing_assignment.context).to eq "bulk_assignment"
       end
 
       it "makes a previous bulk_assignment nil" do

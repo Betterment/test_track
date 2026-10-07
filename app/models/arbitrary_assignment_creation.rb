@@ -73,7 +73,7 @@ class ArbitraryAssignmentCreation
   end
 
   def individual_override?
-    superseding? && (assignment.individually_overridden || !bulk_assignment?)
+    superseding? && !bulk_assignment?
   end
 
   def bulk_assignment?

@@ -75,8 +75,8 @@ RSpec.describe BulkReassignment do
       expect(assignment.mixpanel_result).to be_nil
     end
 
-    it "preserves individually_overridden" do
-      expect(assignment.individually_overridden).to be true
+    it "clears individually_overridden" do
+      expect(assignment.individually_overridden).to be false
     end
 
     it "uses bulk_assignment's created_at as updated_at" do
