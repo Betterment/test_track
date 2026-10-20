@@ -64,12 +64,5 @@ module TestTrack
     #
     # TODO: We can get rid of this line once test_track is on Rails 8 (see: https://github.com/rails/rails/pull/53375)
     config.active_job.enqueue_after_transaction_commit = :never
-
-    ###
-    # Enables YJIT as of Ruby 3.3, to bring sizeable performance improvements. If you are
-    # deploying to a memory constrained environment you may want to set this to `false`.
-    #++
-    # TODO: Setting this `false`, so this can be tested and opted into later.
-    config.yjit = false
   end
 end
