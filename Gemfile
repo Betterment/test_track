@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
+# Deployment-specific gems can go in Gemfile.local
+local_gemfile = File.expand_path('Gemfile.local', __dir__)
+eval_gemfile local_gemfile if File.exist?(local_gemfile)
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.2.0'
 gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
@@ -33,7 +37,6 @@ gem 'responders'
 gem 'rack-timeout'
 
 gem 'airbrake', '~> 7.3.5', require: false
-gem 'sentry-raven', require: false
 
 gem 'datadog', require: false
 
