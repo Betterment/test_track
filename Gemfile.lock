@@ -472,8 +472,6 @@ GEM
       websocket (~> 1.0)
     semantic_logger (4.16.1)
       concurrent-ruby (~> 1.0)
-    sentry-raven (2.13.0)
-      faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (5.3.0)
       activesupport (>= 5.2.0)
     simple_form (5.2.0)
@@ -608,7 +606,6 @@ DEPENDENCIES
   responders
   rspec-rails
   ruby_spec_helpers!
-  sentry-raven
   shoulda-matchers
   simple_form
   simplecov
