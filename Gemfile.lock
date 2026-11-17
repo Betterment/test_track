@@ -339,7 +339,6 @@ GEM
     pry-remote (0.1.8)
       pry (~> 0.9)
       slop (~> 3.0)
-    psych (3.3.4)
     public_suffix (5.0.1)
     puma (5.6.9)
       nio4r (~> 2.0)
@@ -586,9 +585,6 @@ DEPENDENCIES
   listen
   mail
   mini_racer
-  net-imap
-  net-pop
-  net-smtp
   nokogiri
   observer
   omniauth-rails_csrf_protection
@@ -598,7 +594,6 @@ DEPENDENCIES
   primer_view_components (~> 0.14.0)
   pry-rails
   pry-remote
-  psych (< 4)
   puma (~> 5.6)
   rack-timeout
   rails (~> 7.2.0)

@@ -6,10 +6,6 @@ eval_gemfile local_gemfile if File.exist?(local_gemfile)
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.2.0'
-gem 'net-smtp', require: false # required on Rails 6 for Ruby 3.1+ support
-gem 'net-pop', require: false # required on Rails 6 for Ruby 3.1+ support
-gem 'net-imap', require: false # required on Rails 6 for Ruby 3.1+ support
-gem 'psych', '< 4' # required on Rails 6 for Ruby 3.1+ support
 gem 'observer', require: false # required for Ruby 3.4+ (removed from default gems)
 gem 'ostruct' # required for Ruby 3.4+ (removed from default gems)
 
