@@ -24,13 +24,8 @@ gem "cssbundling-rails", "~> 1.4"
 gem "primer_view_components", "~> 0.14.0"
 
 gem 'puma', '~> 5.6'
-gem 'nokogiri'
-
-gem 'responders'
 
 gem 'rack-timeout'
-
-gem 'airbrake', '~> 7.3.5', require: false
 
 gem 'datadog', require: false
 
@@ -53,8 +48,6 @@ gem 'delayed_job_active_record'
 gem 'with_transactional_lock'
 
 gem 'bootsnap', '>= 1.3.0', require: false
-
-gem 'mail'
 
 gem 'sprockets-rails'
 
