@@ -91,9 +91,6 @@ GEM
       tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.1)
       public_suffix (>= 2.0.2, < 6.0)
-    airbrake (7.3.5)
-      airbrake-ruby (~> 2.10)
-    airbrake-ruby (2.12.0)
     ast (2.4.2)
     attribute_normalizer (1.2.0)
     aws-eventstream (1.4.0)
@@ -519,7 +516,6 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  airbrake (~> 7.3.5)
   attribute_normalizer (~> 1.2.0)
   aws-sdk-s3
   betterlint
@@ -536,8 +532,6 @@ DEPENDENCIES
   jquery-rails
   kt-paperclip (~> 7.1)
   listen
-  mail
-  nokogiri
   observer
   omniauth-rails_csrf_protection
   omniauth-saml
@@ -550,7 +544,6 @@ DEPENDENCIES
   rack-timeout
   rails (~> 7.2.0)
   rails_semantic_logger
-  responders
   rspec-rails
   ruby_spec_helpers!
   shoulda-matchers

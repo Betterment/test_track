@@ -204,24 +204,16 @@ Rake/DuplicateTask:
     - 'Rakefile'
 
 # Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/ColonMethodCall:
-  Exclude:
-    - 'config/initializers/airbrake.rb'
-
-# Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/GlobalStdStream:
   Exclude:
     - 'config/environments/production.rb'
-    - 'config/environments/stage.rb'
 
-# Offense count: 2
+# Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
 Style/IfUnlessModifier:
   Exclude:
     - 'config/environments/production.rb'
-    - 'config/environments/stage.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
