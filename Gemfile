@@ -27,8 +27,6 @@ gem 'puma', '~> 5.6'
 
 gem 'rack-timeout'
 
-gem 'datadog', require: false
-
 gem 'rails_semantic_logger', require: false
 
 gem 'devise'

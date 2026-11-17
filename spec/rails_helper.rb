@@ -1,6 +1,5 @@
 ENV['RAILS_ENV'] ||= 'test'
 ENV['CAPYBARA_DRIVER'] ||= 'better_cuprite'
-ENV['DATADOG_ENABLED'] = '1'
 
 require File.expand_path('../config/environment', __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
