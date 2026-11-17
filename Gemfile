@@ -12,8 +12,6 @@ gem 'ostruct' # required for Ruby 3.4+ (removed from default gems)
 # Use postgresql as the database for Active Record
 gem 'pg'
 gem 'terser'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-gem 'mini_racer', platforms: :ruby
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -49,7 +47,6 @@ gem 'aws-sdk-s3'
 
 gem 'attribute_normalizer', '~> 1.2.0'
 
-gem 'foreman'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
 
@@ -79,7 +76,6 @@ end
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '>= 3.3.0'
-  gem 'travis', '~> 1.8.0'
   gem 'listen'
 end
 
