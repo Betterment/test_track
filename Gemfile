@@ -27,8 +27,6 @@ gem 'puma', '~> 5.6'
 
 gem 'rack-timeout'
 
-gem 'rails_semantic_logger', require: false
-
 gem 'devise'
 gem 'omniauth-saml'
 gem 'omniauth-rails_csrf_protection'

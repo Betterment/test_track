@@ -41,9 +41,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Log to STDOUT by default
-  if ENV["SEMANTIC_LOGGER_ENABLED"].blank?
-    config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
-  end
+  config.logger = ActiveSupport::TaggedLogging.new(Logger.new(STDOUT))
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = Logger::Formatter.new

@@ -18,5 +18,4 @@ environment rails_env
 
 on_worker_boot do
   ActiveRecord::Base.establish_connection
-  SemanticLogger.reopen if defined?(SemanticLogger)
 end

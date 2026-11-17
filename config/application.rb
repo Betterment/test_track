@@ -35,15 +35,6 @@ module TestTrack
 
     config.active_job.queue_adapter = :delayed_job
 
-    if ENV["SEMANTIC_LOGGER_ENABLED"].present?
-      require 'rails_semantic_logger'
-
-      SemanticLogger.application = Rails.application.class.module_parent_name
-
-      config.rails_semantic_logger.add_file_appender = false
-      config.semantic_logger.add_appender(io: $stdout, formatter: :json)
-    end
-
     config.experience_sampling_weight = Integer(ENV.fetch('EXPERIENCE_SAMPLING_WEIGHT', '1')).tap do |weight|
       raise <<~TEXT if weight.negative?
         EXPERIENCE_SAMPLING_WEIGHT, if specified, must be greater than or equal to 0. Use 0 to disable experience events.
