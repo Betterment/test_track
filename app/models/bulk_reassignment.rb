@@ -65,6 +65,7 @@ class BulkReassignment
         mixpanel_result = NULL,
         bulk_assignment_id = #{connection.quote(bulk_assignment.id)},
         visitor_supersession_id = NULL,
+        individually_overridden = false,
         context = 'bulk_assignment',
         force = #{connection.quote(bulk_assignment.force)}
       WHERE id #{assignment_id_clause}
